@@ -1,0 +1,23 @@
+{
+    "namespace": "com.swarmize",
+    "type": "record",
+    "name": "VotingIntent",
+    "fields": [
+        {
+            "name": "userid",
+            "type": "string"
+        },
+        {
+            "name": "voting_intention",
+            "type": {
+                "type": "enum",
+                "name": "Party",
+                "symbols": ["CON", "LAB", "LIBDEM", "UKIP"]
+            }
+        },
+        {
+            "name": "winning_person",
+            "type": "string"
+        }
+    ]
+}
