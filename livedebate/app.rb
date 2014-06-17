@@ -2,12 +2,14 @@ require 'bundler/setup'
 require 'sinatra/base'
 
 class SwarmApi
-  attr_reader :swarmkey
-  def initialize(swarmkey)
+  attr_reader :swarmkey, :hostname
+  def initialize(swarmkey, hostname)
     @swarmkey = swarmkey
+    @hostname = hostname
   end
 
   def send(data)
+    # TODO: post this to hostname/swarm/key
     puts data.inspect
   end
 end
