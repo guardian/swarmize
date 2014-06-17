@@ -36,7 +36,7 @@ object Swarm extends Controller {
     config.map { c =>
       try {
         val doc = buildAvroDocFromJson(text, c.submissionSchema)
-        val msg = s"submitted to ${c.name}:\n$doc\n"
+        val msg = s"submitted to ${c.name}:\n${doc.toString}\n"
         Logger.info(msg)
         Ok(msg)
       } catch {

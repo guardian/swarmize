@@ -14,7 +14,7 @@ case class SwarmConfig
 object SwarmConfig {
 
   def findByToken(token: String): Option[SwarmConfig] = token match {
-    case "banana" => Some(SwarmConfig("Voting Intentions", VotingIntent.getClassSchema))
+    case "voting" => Some(SwarmConfig("Voting Intentions", VotingIntent.getClassSchema))
     case _ => None
   }
 
