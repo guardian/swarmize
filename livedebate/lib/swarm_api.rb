@@ -1,7 +1,7 @@
-class SwarmApi
-  require 'json'
-  require 'net/http'
+require 'json'
+require 'net/http'
 
+class SwarmApi
   attr_reader :swarmkey, :hostname, :port
 
   def initialize(swarmkey, hostname, port)
@@ -18,7 +18,10 @@ class SwarmApi
     req = Net::HTTP::Post.new(path, {'Content-Type' =>'application/json'})
     req.body = payload
 
-    response = Net::HTTP.new(hostname, port).start {|http| http.request(req) }
+    response = Net::HTTP.new(hostname, port).start do |http| 
+      http.request(req)
+    end
+
     puts "Response #{response.code} #{response.message}:
     #{response.body}"
   end
