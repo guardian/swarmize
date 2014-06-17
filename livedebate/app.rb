@@ -16,7 +16,7 @@ class LiveDebate < Sinatra::Base
   enable :sessions
   set :sessions, :expire_after => 2592000
 
-  swarm = SwarmApi.new("key")
+  swarm = SwarmApi.new("banana")
 
   get '/' do
     unless session[:unique_key]
