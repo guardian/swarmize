@@ -1,0 +1,29 @@
+%p Unique key is #{key}
+
+%h1 Livedebate
+
+%form{:action => "/endpoint", :method => "post", :id => "debate"}
+  .setup
+    .form-el
+      %label How do you plan to vote?
+      %select{:name => "intent"}
+        %option{} - 
+        %option{:value => "labour"} Labour
+        %option{:value => "conservative"} Conservative
+        %option{:value => "libdem"} Liberal Democrats
+        %option{:value => "green"} Green
+        %option{:value => "ukip"} UKIP
+        %option{:value => "other"} Other
+
+    .form-el
+      %label What is your postcode?
+      %input{:name => "postcode"}
+
+    %a.next-button{:href => "#"} GO!
+
+
+  .feedback-buttons
+    %input{:type => "hidden", :name => "feedback", :id => "feedback"}
+    %a.feedback-button{:id => "lab", :href => "#"} Labour
+    %a.feedback-button{:id => "con", :href => "#"} Conservative
+    %a.feedback-button{:id => "ld", :href => "#"} Libdem
