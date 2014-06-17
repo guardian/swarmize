@@ -8,9 +8,9 @@ Summary: on a mac, just `brew install sbt`.
 
 Then in this directory:
 
-`
+```
   $ sbt
   > test:run
-`
+```
 
 The first time you run, the internet will download. It shouldn't happen again.
