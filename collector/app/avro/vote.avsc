@@ -4,19 +4,31 @@
     "name": "VotingIntent",
     "fields": [
         {
-            "name": "userid",
-            "type": "string"
+            "name": "user_key",
+            "type": "long"
         },
         {
-            "name": "voting_intention",
+            "name": "timestamp",
+            "type": "long"
+        },
+        {
+            "name": "intent",
             "type": {
                 "type": "enum",
                 "name": "Party",
-                "symbols": ["CON", "LAB", "LIBDEM", "UKIP"]
+                "symbols": ["labour", "conservative", "libdem", "green", "ukip", "other"]
             }
         },
         {
-            "name": "winning_person",
+            "name": "feedback",
+            "type": "string"
+        },
+        {
+            "name": "postcode",
+            "type": "string"
+        },
+        {
+            "name": "ip",
             "type": "string"
         }
     ]
