@@ -1,5 +1,3 @@
-seq( sbtavro.SbtAvro.avroSettings: _*)
-
 name := "swarmize-collector"
 
 version := "1.0-SNAPSHOT"
@@ -11,11 +9,8 @@ scalaVersion := "2.11.1"
 libraryDependencies ++= Seq(
   cache,
   ws,
-  "org.apache.avro" % "avro" % "1.7.6"
+  "org.apache.avro" % "avro" % "1.7.6",
+  "org.scalatest" %% "scalatest" % "2.2.0" % "test"
 )
-
-stringType in avroConfig := "String"
-
-version in avroConfig := "1.7.6"
 
 
