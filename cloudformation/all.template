@@ -1,14 +1,17 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
 
-    "Description" : "Master Template for all of Swarmize",
+    "Description" : "swarmize: master template",
 
     "Parameters": {
         "TemplateBucketPath" : {
             "Description" : "URL path to the S3 bucket containing the sub-templates",
             "Type" : "String"
+        },
+        "KeyName" : {
+            "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+            "Type" : "String"
         }
-
     },
 
     "Resources" : {
@@ -16,13 +19,22 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
               "TemplateURL": {
-                  "Fn::Join": [
-                      "/",
-                      [ { "Ref": "TemplateBucketPath" }, "base.template" ]
-                   ]
+                  "Fn::Join": [ "/", [ { "Ref": "TemplateBucketPath" }, "base.template" ] ]
               }
             }
+        },
+        "Collector": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+                    "Fn::Join": [ "/", [ { "Ref": "TemplateBucketPath" }, "collector.template" ] ]
+                },
+                "Parameters": {
+                    "KeyName": { "Ref": "KeyName" }
+                }
+            }
         }
+
 
     }
 }

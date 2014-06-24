@@ -1,7 +1,7 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
 
-    "Description" : "basic infrastructure to run swarmize",
+    "Description" : "swamize: basic infrastructure",
 
     "Mappings" : {
         "SubnetConfig" : {
