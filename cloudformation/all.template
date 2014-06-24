@@ -1,0 +1,28 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "Master Template for all of Swarmize",
+
+    "Parameters": {
+        "TemplateBucketPath" : {
+            "Description" : "URL path to the S3 bucket containing the sub-templates",
+            "Type" : "String"
+        }
+
+    },
+
+    "Resources" : {
+        "Base": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "TemplateURL": {
+                  "Fn::Join": [
+                      "/",
+                      [ { "Ref": "TemplateBucketPath" }, "base.template" ]
+                   ]
+              }
+            }
+        }
+
+    }
+}
