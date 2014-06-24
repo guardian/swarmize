@@ -9,14 +9,8 @@
             "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
             "Type" : "String"
         },
-
-        "Subnet": {
-            "Description": "Subnet to run the load balancer within",
-            "Type": "String"
-        },
-
-        "VPC": {
-            "Description": "VPC to run instances within",
+        "DistPath" : {
+            "Description": "Root name of the path to download published binaries from",
             "Type": "String"
         }
 
@@ -27,131 +21,80 @@
         "CollectorELB" : {
             "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties" : {
-                "SecurityGroups" : [ { "Ref" : "PublicLoadBalancerSecurityGroup" } ],
-                "Subnets" : [ { "Ref" : "Subnet" } ],
-                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "9000", "Protocol" : "HTTP" } ],
-                "HealthCheck" : {
-                    "Target" : "HTTP:80/",
-                    "HealthyThreshold" : "3",
-                    "UnhealthyThreshold" : "5",
-                    "Interval" : "90",
-                    "Timeout" : "60"
-                }
+                "AvailabilityZones": { "Fn::GetAZs" : "" },
+                "CrossZone": true,
+                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "9000", "Protocol" : "HTTP" } ]
             }
         },
 
-        "PublicLoadBalancerSecurityGroup" : {
-            "Type" : "AWS::EC2::SecurityGroup",
-            "Properties" : {
-                "GroupDescription" : "Public ELB Security Group with HTTP access on port 80 from the internet",
-                "VpcId" : { "Ref" : "VPC" },
-                "SecurityGroupIngress" : [ { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"} ],
-                "SecurityGroupEgress" : [ { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"} ]
-            }
-        },
-
-        "WebServerFleet" : {
+        "CollectorASG" : {
             "Type" : "AWS::AutoScaling::AutoScalingGroup",
-            "DependsOn" : "PublicRoute",
             "Properties" : {
-                "AvailabilityZones" : [{ "Fn::GetAtt" : [ "PublicSubnet", "AvailabilityZone" ] }],
-                "VPCZoneIdentifier" : [{ "Ref" : "PublicSubnet" }],
-                "LaunchConfigurationName" : { "Ref" : "WebServerServerLaunchConfig"  },
+                "AvailabilityZones" : { "Fn::GetAZs" : "" },
+                "LaunchConfigurationName" : { "Ref" : "CollectorLaunchConfig"  },
                 "MinSize" : "1",
-                "MaxSize" : "10",
-                "DesiredCapacity" : { "Ref" : "WebServerCount" },
-                "LoadBalancerNames" : [ { "Ref" : "PublicElasticLoadBalancer" } ],
-                "Tags" : [ { "Key" : "Network", "Value" : "Public", "PropagateAtLaunch" : "true" } ]
+                "MaxSize" : "1",
+                "LoadBalancerNames" : [ { "Ref" : "CollectorELB" } ],
+                "HealthCheckType" : "EC2",
+                "HealthCheckGracePeriod" : 300,
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Role", "Value" : "swamize-collector", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
+                    { "Key" : "App", "Value" : "collector", "PropagateAtLaunch" : "true" },
+                    { "Key" : "Management", "Value" : "port=9000", "PropagateAtLaunch" : "true" }
+                ]
             }
         },
 
-        "WebServerServerLaunchConfig"  : {
+        "CollectorLaunchConfig"  : {
             "Type" : "AWS::AutoScaling::LaunchConfiguration",
-            "Metadata" : {
-                "AWS::CloudFormation::Init" : {
-                    "config" : {
-                        "packages" : {
-                            "yum" : {
-                                "httpd" : []
-                            }
-                        },
-
-                        "files" : {
-                            "/var/www/html/index.html" : {
-                                "content" : { "Fn::Join" : ["\n", [
-                                    "<img src=\"https://s3.amazonaws.com/cloudformation-examples/cloudformation_graphic.png\" alt=\"AWS CloudFormation Logo\"/>",
-                                    "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>"
-                                ]]},
-                                "mode"    : "000644",
-                                "owner"   : "root",
-                                "group"   : "root"
-                            }
-                        },
-
-                        "services" : {
-                            "sysvinit" : {
-                                "httpd" : {
-                                    "enabled"       : "true",
-                                    "ensureRunning" : "true",
-                                    "files"         : [ "/etc/httpd/conf.d/maptobackend.conf", "/var/www/html/index.html" ]
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "Properties" : {
-                "ImageId"        : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" }, { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "WebServerInstanceType" }, "Arch" ] } ] },
-                "SecurityGroups" : [ { "Ref" : "WebServerSecurityGroup" } ],
-                "InstanceType"   : { "Ref" : "WebServerInstanceType" },
+                "ImageId"        : "ami-018c9568",
+                "SecurityGroups" : [ { "Ref" : "CollectorSecurityGroup" } ],
+                "InstanceType"   : "t1.micro",
                 "KeyName"        : { "Ref" : "KeyName" },
-                "AssociatePublicIpAddress" : "true",
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
-                    "#!/bin/bash -v\n",
-                    "yum update -y aws-cfn-bootstrap\n",
+                    "#!/bin/bash -ev\n",
+                    "apt-get -y update\n",
+                    "locale-gen en_GB.UTF-8\n",
+                    "apt-get -y install openjdk-7-jre-headless ntp\n",
 
-                    "# Install the sample application\n",
-                    "/opt/aws/bin/cfn-init ",
-                    "    --stack ", { "Ref" : "AWS::StackId" },
-                    "    --resource WebServerServerLaunchConfig ",
-                    "    --region ", { "Ref" : "AWS::Region" }, "\n",
+                    "adduser --system --home /swarmize --disabled-password swarmize\n",
 
-                    "# Signal completion\n",
-                    "/opt/aws/bin/cfn-signal -e $? -r \"WebServer setup done\" '", { "Ref" : "WebServerWaitHandle" }, "'\n"
+
+                    "wget ", { "Ref": "DistPath" }, "/collector.conf",
+                    " --directory-prefix=/etc/init\n",
+
+                    "wget ", { "Ref": "DistPath" }, "/collector.tar.gz",
+                    " --directory-prefix=/swarmize\n",
+
+                    "chown swarmize /swarmize/*\n",
+
+                    "start collector\n"
+
                 ]]}}
             }
         },
 
-        "WebServerSecurityGroup" : {
+        "CollectorSecurityGroup" : {
             "Type" : "AWS::EC2::SecurityGroup",
             "Properties" : {
-                "GroupDescription" : "Allow access from load balancer and bastion as well as outbound HTTP and HTTPS traffic",
-                "VpcId" : { "Ref" : "VPC" },
+                "GroupDescription" : "Allow access from load balancer and SSH from the Guardian offices",
                 "SecurityGroupIngress" : [
-                    { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "SourceSecurityGroupId" : { "Ref" : "PublicLoadBalancerSecurityGroup" } } ,
-                    { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation" } } ]
-            }
-        },
-
-        "WebServerWaitHandle" : {
-            "Type" : "AWS::CloudFormation::WaitConditionHandle"
-        },
-
-        "WebServerWaitCondition" : {
-            "Type" : "AWS::CloudFormation::WaitCondition",
-            "DependsOn" : "WebServerFleet",
-            "Properties" : {
-                "Handle"  : { "Ref" : "WebServerWaitHandle" },
-                "Timeout" : "3600",
-                "Count"   : { "Ref" : "WebServerCount" }
+                    { "IpProtocol" : "tcp", "FromPort" : "9000", "ToPort" : "9000",
+                        "SourceSecurityGroupName": "amazon-elb-sg", "SourceSecurityGroupOwnerId": "amazon-elb" } ,
+                    { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22",
+                        "CidrIp" : "77.91.248.0/21" } ]
             }
         }
+
     },
 
     "Outputs" : {
         "WebSite" : {
             "Description" : "URL of the website",
-            "Value" :  { "Fn::Join" : [ "", [ "http://", { "Fn::GetAtt" : [ "PublicElasticLoadBalancer", "DNSName" ]}]]}
+            "Value" :  { "Fn::Join" : [ "", [ "http://", { "Fn::GetAtt" : [ "CollectorELB", "DNSName" ]}]]}
         }
     }
 }

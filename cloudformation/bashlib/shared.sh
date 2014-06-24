@@ -2,6 +2,7 @@
 
 S3_CFN_PATH="s3://$BUCKET_NAME/cfn/"
 S3_CFN_URL="https://s3.amazonaws.com/$BUCKET_NAME/cfn"
+S3_DIST_URL="https://s3.amazonaws.com/$BUCKET_NAME"
 AWS_CMD="aws --region $REGION"
 
 echo "Region: $REGION"

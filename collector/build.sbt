@@ -1,6 +1,9 @@
+import com.typesafe.sbt.SbtNativePackager._
+import NativePackagerHelper._
+
 name := "swarmize-collector"
 
-version := "1.0-SNAPSHOT"
+version := "0.1"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -12,5 +15,10 @@ libraryDependencies ++= Seq(
   "org.apache.avro" % "avro" % "1.7.6",
   "org.scalatest" %% "scalatest" % "2.2.0" % "test"
 )
+
+// deployment stuff
+name in Universal := "swarmize-collector"
+
+
 
 
