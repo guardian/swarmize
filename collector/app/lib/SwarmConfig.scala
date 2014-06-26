@@ -1,22 +1,27 @@
 package lib
 
 import org.apache.avro.Schema
-import com.swarmize.VotingIntent
+
+import scala.io.Source
 
 
 case class SwarmConfig
 (
-  name: String,
+  token: String,
   submissionSchema: Schema
-)
+) {
+  def name = submissionSchema.getDoc
+}
 
 // This is just a placeholder for something that will probably be a real service
 object SwarmConfig {
 
-  def findByToken(token: String): Option[SwarmConfig] = token match {
-    case "voting" => Some(SwarmConfig("Voting Intentions", VotingIntent.getClassSchema))
-    case _ => None
-  }
+  def findByToken(token: String): Option[SwarmConfig] = {
+    val parser = new Schema.Parser
 
+    Option(getClass.getResourceAsStream(s"/swarms/$token.avsc"))
+      .map(parser.parse)
+      .map(SwarmConfig(token, _))
+  }
 
 }

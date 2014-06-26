@@ -17,5 +17,3 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.0.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.0.0")
 
-// Avro plugin
-addSbtPlugin("com.cavorite" % "sbt-avro" % "0.3.2")

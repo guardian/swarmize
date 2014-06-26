@@ -1,0 +1,100 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "swarmize: collectors",
+
+    "Parameters" : {
+
+        "KeyName" : {
+            "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+            "Type" : "String"
+        },
+        "DistPath" : {
+            "Description": "Root name of the path to download published binaries from",
+            "Type": "String"
+        }
+
+    },
+
+    "Resources" : {
+
+        "CollectorELB" : {
+            "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties" : {
+                "AvailabilityZones": { "Fn::GetAZs" : "" },
+                "CrossZone": true,
+                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "9000", "Protocol" : "HTTP" } ]
+            }
+        },
+
+        "CollectorASG" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "Properties" : {
+                "AvailabilityZones" : { "Fn::GetAZs" : "" },
+                "LaunchConfigurationName" : { "Ref" : "CollectorLaunchConfig"  },
+                "MinSize" : "1",
+                "MaxSize" : "1",
+                "LoadBalancerNames" : [ { "Ref" : "CollectorELB" } ],
+                "HealthCheckType" : "EC2",
+                "HealthCheckGracePeriod" : 300,
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Role", "Value" : "swamize-collector", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
+                    { "Key" : "App", "Value" : "collector", "PropagateAtLaunch" : "true" },
+                    { "Key" : "Management", "Value" : "port=9000", "PropagateAtLaunch" : "true" }
+                ]
+            }
+        },
+
+        "CollectorLaunchConfig"  : {
+            "Type" : "AWS::AutoScaling::LaunchConfiguration",
+            "Properties" : {
+                "ImageId"        : "ami-018c9568",
+                "SecurityGroups" : [ { "Ref" : "CollectorSecurityGroup" } ],
+                "InstanceType"   : "t1.micro",
+                "KeyName"        : { "Ref" : "KeyName" },
+                "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+                    "#!/bin/bash -ev\n",
+                    "apt-get -y update\n",
+                    "locale-gen en_GB.UTF-8\n",
+                    "apt-get -y install openjdk-7-jre-headless ntp\n",
+
+                    "adduser --system --home /swarmize --disabled-password swarmize\n",
+
+
+                    "wget ", { "Ref": "DistPath" }, "/collector.conf",
+                    " --directory-prefix=/etc/init\n",
+
+                    "wget ", { "Ref": "DistPath" }, "/collector.tar.gz",
+                    " --directory-prefix=/swarmize\n",
+
+                    "chown swarmize /swarmize/*\n",
+
+                    "start collector\n"
+
+                ]]}}
+            }
+        },
+
+        "CollectorSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Allow access from load balancer and SSH from the Guardian offices",
+                "SecurityGroupIngress" : [
+                    { "IpProtocol" : "tcp", "FromPort" : "9000", "ToPort" : "9000",
+                        "SourceSecurityGroupName": "amazon-elb-sg", "SourceSecurityGroupOwnerId": "amazon-elb" } ,
+                    { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22",
+                        "CidrIp" : "77.91.248.0/21" } ]
+            }
+        }
+
+    },
+
+    "Outputs" : {
+        "WebSite" : {
+            "Description" : "URL of the website",
+            "Value" :  { "Fn::Join" : [ "", [ "http://", { "Fn::GetAtt" : [ "CollectorELB", "DNSName" ]}]]}
+        }
+    }
+}

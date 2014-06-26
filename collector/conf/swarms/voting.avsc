@@ -2,6 +2,7 @@
     "namespace": "com.swarmize",
     "type": "record",
     "name": "VotingIntent",
+    "doc": "Voting Intentions",
     "fields": [
         {
             "name": "user_key",

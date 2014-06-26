@@ -1,0 +1,237 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "basic infrastructure to run swarmize",
+
+    "Parameters" : {
+
+        "KeyName" : {
+            "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+            "Type" : "String",
+            "MinLength": "1",
+            "MaxLength": "64",
+            "AllowedPattern" : "[-_ a-zA-Z0-9]*",
+            "ConstraintDescription" : "can contain only alphanumeric characters, spaces, dashes and underscores."
+        }
+
+    },
+
+    "Mappings" : {
+        "SubnetConfig" : {
+            "VPC"     : { "CIDR" : "10.0.0.0/16" },
+            "Public"  : { "CIDR" : "10.0.0.0/24" }
+        }
+    },
+
+    "Resources" : {
+
+        "VPC" : {
+            "Type" : "AWS::EC2::VPC",
+            "Properties" : {
+                "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "VPC", "CIDR" ]},
+                "EnableDnsSupport" : "true",
+                "EnableDnsHostnames" : "true",
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD" },
+                    { "Key" : "Stack", "Value" : "swarmize"},
+                    { "Key" : "Application", "Value" : { "Ref" : "AWS::StackId" } },
+                    { "Key" : "Network", "Value" : "Public" }
+                ]
+            }
+        },
+
+        "PublicSubnet" : {
+            "Type" : "AWS::EC2::Subnet",
+            "Properties" : {
+                "VpcId" : { "Ref" : "VPC" },
+                "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "Public", "CIDR" ]},
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD" },
+                    { "Key" : "Stack", "Value" : "swarmize"},
+                    { "Key" : "Application", "Value" : { "Ref" : "AWS::StackId" } },
+                    { "Key" : "Network", "Value" : "Public" }
+                ]
+            }
+        },
+
+        "InternetGateway" : {
+            "Type" : "AWS::EC2::InternetGateway",
+            "Properties" : {
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD" },
+                    { "Key" : "Stack", "Value" : "swarmize"},
+                    { "Key" : "Application", "Value" : { "Ref" : "AWS::StackId" } },
+                    { "Key" : "Network", "Value" : "Public" }
+                ]
+            }
+        },
+
+        "GatewayToInternet" : {
+            "Type" : "AWS::EC2::VPCGatewayAttachment",
+            "Properties" : {
+                "VpcId" : { "Ref" : "VPC" },
+                "InternetGatewayId" : { "Ref" : "InternetGateway" }
+            }
+        },
+
+        "PublicRouteTable" : {
+            "Type" : "AWS::EC2::RouteTable",
+            "Properties" : {
+                "VpcId" : { "Ref" : "VPC" },
+                "Tags" : [
+                    { "Key" : "Application", "Value" : { "Ref" : "AWS::StackId" } },
+                    { "Key" : "Network", "Value" : "Public" }
+                ]
+            }
+        },
+
+        "PublicRoute" : {
+            "Type" : "AWS::EC2::Route",
+            "DependsOn" : "GatewayToInternet",
+            "Properties" : {
+                "RouteTableId" : { "Ref" : "PublicRouteTable" },
+                "DestinationCidrBlock" : "0.0.0.0/0",
+                "GatewayId" : { "Ref" : "InternetGateway" }
+            }
+        },
+
+        "PublicSubnetRouteTableAssociation" : {
+            "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties" : {
+                "SubnetId" : { "Ref" : "PublicSubnet" },
+                "RouteTableId" : { "Ref" : "PublicRouteTable" }
+            }
+        },
+
+
+        "PublicElasticLoadBalancer" : {
+            "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties" : {
+                "SecurityGroups" : [ { "Ref" : "PublicLoadBalancerSecurityGroup" } ],
+                "Subnets" : [ { "Ref" : "PublicSubnet" } ],
+                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "80", "Protocol" : "HTTP" } ],
+                "HealthCheck" : {
+                    "Target" : "HTTP:80/",
+                    "HealthyThreshold" : "3",
+                    "UnhealthyThreshold" : "5",
+                    "Interval" : "90",
+                    "Timeout" : "60"
+                }
+            }
+        },
+
+        "PublicLoadBalancerSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Public ELB Security Group with HTTP access on port 80 from the internet",
+                "VpcId" : { "Ref" : "VPC" },
+                "SecurityGroupIngress" : [ { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"} ],
+                "SecurityGroupEgress" : [ { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"} ]
+            }
+        },
+
+        "WebServerFleet" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "DependsOn" : "PublicRoute",
+            "Properties" : {
+                "AvailabilityZones" : [{ "Fn::GetAtt" : [ "PublicSubnet", "AvailabilityZone" ] }],
+                "VPCZoneIdentifier" : [{ "Ref" : "PublicSubnet" }],
+                "LaunchConfigurationName" : { "Ref" : "WebServerServerLaunchConfig"  },
+                "MinSize" : "1",
+                "MaxSize" : "10",
+                "DesiredCapacity" : { "Ref" : "WebServerCount" },
+                "LoadBalancerNames" : [ { "Ref" : "PublicElasticLoadBalancer" } ],
+                "Tags" : [ { "Key" : "Network", "Value" : "Public", "PropagateAtLaunch" : "true" } ]
+            }
+        },
+
+        "WebServerServerLaunchConfig"  : {
+            "Type" : "AWS::AutoScaling::LaunchConfiguration",
+            "Metadata" : {
+                "AWS::CloudFormation::Init" : {
+                    "config" : {
+                        "packages" : {
+                            "yum" : {
+                                "httpd" : []
+                            }
+                        },
+
+                        "files" : {
+                            "/var/www/html/index.html" : {
+                                "content" : { "Fn::Join" : ["\n", [
+                                    "<img src=\"https://s3.amazonaws.com/cloudformation-examples/cloudformation_graphic.png\" alt=\"AWS CloudFormation Logo\"/>",
+                                    "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>"
+                                ]]},
+                                "mode"    : "000644",
+                                "owner"   : "root",
+                                "group"   : "root"
+                            }
+                        },
+
+                        "services" : {
+                            "sysvinit" : {
+                                "httpd" : {
+                                    "enabled"       : "true",
+                                    "ensureRunning" : "true",
+                                    "files"         : [ "/etc/httpd/conf.d/maptobackend.conf", "/var/www/html/index.html" ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "Properties" : {
+                "ImageId"        : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" }, { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "WebServerInstanceType" }, "Arch" ] } ] },
+                "SecurityGroups" : [ { "Ref" : "WebServerSecurityGroup" } ],
+                "InstanceType"   : { "Ref" : "WebServerInstanceType" },
+                "KeyName"        : { "Ref" : "KeyName" },
+                "AssociatePublicIpAddress" : "true",
+                "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+                    "#!/bin/bash -v\n",
+                    "yum update -y aws-cfn-bootstrap\n",
+
+                    "# Install the sample application\n",
+                    "/opt/aws/bin/cfn-init ",
+                    "    --stack ", { "Ref" : "AWS::StackId" },
+                    "    --resource WebServerServerLaunchConfig ",
+                    "    --region ", { "Ref" : "AWS::Region" }, "\n",
+
+                    "# Signal completion\n",
+                    "/opt/aws/bin/cfn-signal -e $? -r \"WebServer setup done\" '", { "Ref" : "WebServerWaitHandle" }, "'\n"
+                ]]}}
+            }
+        },
+
+        "WebServerSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Allow access from load balancer and bastion as well as outbound HTTP and HTTPS traffic",
+                "VpcId" : { "Ref" : "VPC" },
+                "SecurityGroupIngress" : [
+                    { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "SourceSecurityGroupId" : { "Ref" : "PublicLoadBalancerSecurityGroup" } } ,
+                    { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation" } } ]
+            }
+        },
+
+        "WebServerWaitHandle" : {
+            "Type" : "AWS::CloudFormation::WaitConditionHandle"
+        },
+
+        "WebServerWaitCondition" : {
+            "Type" : "AWS::CloudFormation::WaitCondition",
+            "DependsOn" : "WebServerFleet",
+            "Properties" : {
+                "Handle"  : { "Ref" : "WebServerWaitHandle" },
+                "Timeout" : "3600",
+                "Count"   : { "Ref" : "WebServerCount" }
+            }
+        }
+    },
+
+    "Outputs" : {
+        "WebSite" : {
+            "Description" : "URL of the website",
+            "Value" :  { "Fn::Join" : [ "", [ "http://", { "Fn::GetAtt" : [ "PublicElasticLoadBalancer", "DNSName" ]}]]}
+        }
+    }
+}
