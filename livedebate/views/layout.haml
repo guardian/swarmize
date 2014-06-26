@@ -3,9 +3,10 @@
   %head
     %meta{:'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
     %meta{:name => "lang", :content => "en"}
-    %title Sinatra Bootstrap
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
+    %title Live Debate
     %link{:href=>'/stylesheets/application.css', :media => "screen", :rel => 'stylesheet', :type => "text/css"}
-    %script{:type => "text/javascript", :src => "//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"}
+    %script{:type => "text/javascript", :src => "/javascripts/jquery.min.js"}
     %script{:type => "text/javascript", :src => "/javascripts/application.js"}
   %body
     = yield

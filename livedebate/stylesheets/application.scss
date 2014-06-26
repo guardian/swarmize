@@ -4,12 +4,113 @@
 body {
   font: 85% Arial, Helvetica, sans-serif;
   background: #fff;
+  background: #f0f0f0;
   color: #0d0d0d;
-  padding: 50px;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em;
   font-weight: bold;
   text-align: center;
+  background: #eee;
+  margin: 0 0 20px;
+}
+
+form#debate {
+  .setup {
+    padding: 10px;
+    height: 100%;
+
+    font-size: 150%;
+
+    label {
+      font-weight:bold;
+      display: block;
+    }
+
+    .form-el {
+      margin: 0 0 20px;
+      input {
+        font-size: 150%;
+        font-family: "Helvetica", sans-serif;
+        padding: 10px;
+        width: 90%;
+      }
+    }
+  }
+}
+
+.next-button {
+  display: block;
+  text-align: center;
+  border: 1px solid #eee;
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 120%;
+
+  &:link, &:visited {
+    text-decoration: none;
+    background: #888;
+    color: white;
+  }
+
+  &:hover, &:active {
+    text-decoration: none;
+    background: darkred;
+    color: white;
+  }
+}
+
+.feedback-buttons {
+  height: 100%;
+  overflow: hidden;
+  h2 {
+    font-weight: bold;
+    padding: 5px;
+    background: #eee;
+  }
+  .feedback-button {
+    display: block;
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 60px 0 0;
+    font-weight: bold;
+    font-size: 120%;
+    height: 80px;
+
+    span {
+      display: none;
+    }
+
+    &#con {
+      &:link, &:visited {
+        text-decoration: none;
+        color: white;
+        background-image: url('/images/dc.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+
+    &#lab {
+      &:link, &:visited {
+        text-decoration: none;
+        color: white;
+        background-image: url('/images/em.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+
+    &#ld {
+      &:link, &:visited {
+        text-decoration: none;
+        color: white;
+        background-image: url('/images/nc.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+
+  }
 }

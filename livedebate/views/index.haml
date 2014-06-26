@@ -1,9 +1,9 @@
-%h1 Livedebate
+%h1 theguardian.com Prime Ministerial Debate Feedback Machine
 
 %form{:action => "/endpoint", :method => "post", :id => "debate"}
   .setup
     .form-el
-      %label How do you plan to vote?
+      %label How do you plan to vote in the general election?
       %select{:name => "intent"}
         %option{} - 
         %option{:value => "labour"} Labour
@@ -21,7 +21,13 @@
 
 
   .feedback-buttons
+    %h2 Tap their face when they say something you agree with
+
     %input{:type => "hidden", :name => "feedback", :id => "feedback"}
-    %a.feedback-button{:id => "lab", :href => "#"} Labour
-    %a.feedback-button{:id => "con", :href => "#"} Conservative
-    %a.feedback-button{:id => "ld", :href => "#"} Libdem
+    %a.feedback-button{:id => "con", :href => "#"} 
+      %span Conservative
+    %a.feedback-button{:id => "lab", :href => "#"} 
+      %span Labour
+    %a.feedback-button{:id => "ld", :href => "#"} 
+      %span Libdem
+
