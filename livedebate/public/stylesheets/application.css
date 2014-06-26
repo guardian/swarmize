@@ -127,6 +127,8 @@ form#debate .setup .form-el input {
 }
 .feedback-buttons .feedback-button span {
   display: none;
+  font-size: 48px;
+  text-shadow: 2px 2px 1px #000;
 }
 .feedback-buttons .feedback-button#con:link, .feedback-buttons .feedback-button#con:visited {
   text-decoration: none;
@@ -134,6 +136,7 @@ form#debate .setup .form-el input {
   background-image: url("/images/dc.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center right;
 }
 .feedback-buttons .feedback-button#lab:link, .feedback-buttons .feedback-button#lab:visited {
   text-decoration: none;
@@ -148,4 +151,14 @@ form#debate .setup .form-el input {
   background-image: url("/images/nc.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.tick {
+  position: absolute;
+  font-size: 72px;
+  text-shadow: 2px 2px 1px #000;
+  color: white;
+  display: none;
+  text-align: center;
+  width: 100%;
 }

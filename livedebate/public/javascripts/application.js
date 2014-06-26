@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   $(".feedback-button").click(function(e) {
     if(!$(this).hasClass('disabled')) {
-      fadeOutLinks();
+      clickVisuals(this);
       $("input#feedback").val(this.id);
       $.post( $("form#debate").attr('action'),
              $("form#debate").serialize());
@@ -22,13 +22,22 @@ $(document).ready(function() {
 
 });
 
-function fadeOutLinks() {
-  $(".feedback-button").animate({'opacity': 0.3},500);
+function clickVisuals(el) {
+  $(".feedback-button").animate({'opacity': 0.5},500);
+
+  var top = $(el).offset().top + 20
+  //var left = ($(el).width() / 2) - 20;
+  var left = 0;
+
+  $("body").append("<div class='tick'>&#10003;</div>")
+  $(".tick").css('top', top+"px").css('left', left + 'px').fadeIn();
+
   $(".feedback-button").addClass('disabled');
   setTimeout(fadeUpLinks, 3000);
 }
 
-function fadeUpLinks() {
+function fadeUpLinks(el) {
+  $(".tick").fadeOut(function() { $(this).remove(); } );
   $(".feedback-button").animate({'opacity': 1},500);
   $(".feedback-button").fadeTo(1);
   $(".feedback-button").removeClass('disabled');
