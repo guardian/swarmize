@@ -1,1 +1,24 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Epoch demo</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/epoch.0.5.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/epoch.0.5.2.min.css">
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        var data = [
+                    { label: 'Layer 1', values: [ {x: 0, y: 0}, {x: 1, y: 1}, {x: 2, y: 2} ] },
+                    { label: 'Layer 2', values: [ {x: 0, y: 0}, {x: 1, y: 1}, {x: 2, y: 4} ] }
+                    ];
+        var areaChartInstance = $('#area').epoch({ type: 'area', data: data });
+      });
+                  
+    </script>
+  </head>
+  <body>
+    <div id="area" class="epoch category10" style="height: 200px;"></div>
+  </body>
+</html>
