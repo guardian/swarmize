@@ -34,8 +34,6 @@ app.get("/initial_data", function(req,res) {
 
   var ts = ((new Date()).getTime() / 1000)|0;
 
-
-
   for (var i = 0; i < entries; i++) {
     for (var j = 0; j < layers; j++) {
       history[j].values.push({time: ts, y: (parseInt(Math.random() * 100) + 50)});

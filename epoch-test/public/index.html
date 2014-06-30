@@ -28,6 +28,7 @@
           var barChartInstance = $('#bar').epoch({ type: 'time.bar', data: d});
 
           var gauge = $("#gauge").epoch({type: 'time.gauge', value: 0.5});
+
           setInterval(function() {getNewData(areaChartInstance)},1000);
           setInterval(function() {getNewData(lineChartInstance)},1000);
           setInterval(function() {getNewData(barChartInstance)},1000);
