@@ -6,6 +6,8 @@ app.get("/sentiment", function(req,res) {
   res.json(sentiment(req.query.input));
 });
 
-var server = app.listen(3000, function() {
-  console.log("Sentiment analysis running on port 3000");
+var port = Number(process.env.PORT || 5000);
+
+var server = app.listen(port, function() {
+  console.log("Sentiment analysis running on port " + port);
 });
