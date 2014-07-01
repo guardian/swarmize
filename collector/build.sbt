@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   "org.apache.avro" % "avro" % "1.7.6",
+  "com.amazonaws" % "aws-java-sdk" % "1.8.0",
   "org.scalatest" %% "scalatest" % "2.2.0" % "test"
 )
 

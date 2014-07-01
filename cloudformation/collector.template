@@ -18,12 +18,71 @@
 
     "Resources" : {
 
+        "SubmissionStream": {
+            "Type": "AWS::Kinesis::Stream",
+            "Properties": {
+               "ShardCount": "1"
+            }
+        },
+
+        "CollectorRole" : {
+            "Type" : "AWS::IAM::Role",
+            "Properties":{
+                "Path":"/",
+                "AssumeRolePolicyDocument": {
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Principal": { "Service": [ "ec2.amazonaws.com" ] },
+                        "Action": [ "sts:AssumeRole" ]
+                    } ]
+                }
+            }
+        },
+        "CollectorPolicy" : {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "CollectorPolicy",
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": ["kinesis:*"],
+                            "Effect": "Allow",
+                            "Resource":"*"
+                        },
+                        {
+                            "Action": ["dynamodb:*"],
+                            "Effect": "Allow",
+                            "Resource":"*"
+                        }
+                    ]
+                },
+                "Roles": [ { "Ref": "CollectorRole" } ]
+            }
+        },
+        "CollectorInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [ {
+                    "Ref": "CollectorRole"
+                } ]
+            }
+        },
+
+
         "CollectorELB" : {
             "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties" : {
                 "AvailabilityZones": { "Fn::GetAZs" : "" },
                 "CrossZone": true,
-                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "9000", "Protocol" : "HTTP" } ]
+                "Listeners" : [ { "LoadBalancerPort" : "80", "InstancePort" : "9000", "Protocol" : "HTTP" } ],
+                "HealthCheck" : {
+                    "Target" : "HTTP:9000/health-check",
+                    "HealthyThreshold" : "2",
+                    "UnhealthyThreshold" : "2",
+                    "Interval" : "10",
+                    "Timeout" : "5"
+                }
             }
         },
 
@@ -35,7 +94,7 @@
                 "MinSize" : "1",
                 "MaxSize" : "1",
                 "LoadBalancerNames" : [ { "Ref" : "CollectorELB" } ],
-                "HealthCheckType" : "EC2",
+                "HealthCheckType" : "ELB",
                 "HealthCheckGracePeriod" : 300,
                 "Tags" : [
                     { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
@@ -53,6 +112,7 @@
                 "ImageId"        : "ami-018c9568",
                 "SecurityGroups" : [ { "Ref" : "CollectorSecurityGroup" } ],
                 "InstanceType"   : "t1.micro",
+                "IamInstanceProfile": { "Ref": "CollectorInstanceProfile" },
                 "KeyName"        : { "Ref" : "KeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
                     "#!/bin/bash -ev\n",
