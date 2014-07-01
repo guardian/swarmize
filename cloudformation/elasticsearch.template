@@ -1,0 +1,150 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+
+    "Description": "swarmize: elasticsearch",
+
+    "Parameters": {
+
+        "KeyName" : {
+            "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+            "Type" : "String"
+        },
+        "DistPath" : {
+            "Description": "Root name of the path to download published binaries from",
+            "Type": "String"
+        }
+
+    },
+
+    "Resources": {
+
+        "ElasticsearchRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "Path": "/",
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [ "ec2.amazonaws.com" ]
+                            }
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName":"LoggerServerPolicy",
+                        "PolicyDocument": {
+                            "Version" : "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Action": "ec2:DescribeInstances",
+                                    "Effect": "Allow",
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "ElasticsearchInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [ { "Ref": "ElasticsearchRole" } ]
+            }
+        },
+
+        "ElasticsearchAutoscalingGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "AvailabilityZones": { "Fn::GetAZs": "" },
+                "LaunchConfigurationName": { "Ref": "ElasticsearchLaunchConfig" },
+                "MinSize": "2",
+                "MaxSize": "2",
+                "HealthCheckType": "EC2",
+                "HealthCheckGracePeriod": 300,
+                "Tags" : [
+                    { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Role", "Value" : "swarmize-elasticsearch", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
+                    { "Key" : "App", "Value" : "elasticsearch", "PropagateAtLaunch" : "true" },
+                    { "Key" : "Management", "Value" : "port=9200,format=elasticsearch", "PropagateAtLaunch" : "true" }
+                ]
+            }
+        },
+
+        "ElasticsearchLaunchConfig": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {
+                "ImageId": "ami-018c9568",
+                "SecurityGroups": [ { "Ref": "ElasticsearchSecurityGroup" } ],
+                "InstanceType": "t1.micro",
+                "KeyName": { "Ref": "KeyName" },
+                "IamInstanceProfile": { "Ref": "ElasticsearchInstanceProfile" },
+
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [ "", [
+                            "#!/bin/bash -v\n",
+
+                            "wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -\n",
+                            "echo \"deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main\" > /etc/apt/sources.list.d/elasticsearch.list\n",
+
+                            "apt-get -y update\n",
+                            "apt-get -y install language-pack-en openjdk-7-jre-headless elasticsearch\n",
+
+                            "/usr/share/elasticsearch/bin/plugin --install elasticsearch/elasticsearch-cloud-aws/2.2.0\n",
+                            "/usr/share/elasticsearch/bin/plugin --install elasticsearch/marvel/latest\n",
+
+                            "wget -O /etc/elasticsearch/elasticsearch.yml ",  { "Ref": "DistPath" }, "/elasticsearch.yml\n",
+
+                            "echo \"ES_HEAP_SIZE=500m\" > /etc/default/elasticsearch\n",
+
+                            "service elasticsearch start\n"
+                        ] ]
+                    }
+                }
+            }
+        },
+
+        "ElasticsearchSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "SSH and Elasticsearch",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9200",
+                        "ToPort": "9300",
+                        "CidrIp": "77.91.248.0/21"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "77.91.248.0/21"
+                    }
+                ]
+            }
+        },
+
+        "ElasticsearchSecurityGroupCanTalkToItself": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+            "Properties": {
+                "GroupName": { "Ref": "ElasticsearchSecurityGroup" },
+                "IpProtocol": "tcp",
+                "FromPort": "9300",
+                "ToPort": "9300",
+                "SourceSecurityGroupName": { "Ref": "ElasticsearchSecurityGroup" }
+            }
+        }
+
+    }
+
+
+}
