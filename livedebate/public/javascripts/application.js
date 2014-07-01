@@ -23,7 +23,7 @@ $(document).ready(function() {
 });
 
 function clickVisuals(el) {
-  $(".feedback-button").animate({'opacity': 0.5},500);
+  $(".feedback-button").animate({'opacity': 0.5},200);
 
   var top = $(el).offset().top + 20
   //var left = ($(el).width() / 2) - 20;
@@ -33,12 +33,12 @@ function clickVisuals(el) {
   $(".tick").css('top', top+"px").css('left', left + 'px').fadeIn();
 
   $(".feedback-button").addClass('disabled');
-  setTimeout(fadeUpLinks, 3000);
+  setTimeout(fadeUpLinks, 200);
 }
 
 function fadeUpLinks(el) {
   $(".tick").fadeOut(function() { $(this).remove(); } );
-  $(".feedback-button").animate({'opacity': 1},500);
+  $(".feedback-button").animate({'opacity': 1},200);
   $(".feedback-button").fadeTo(1);
   $(".feedback-button").removeClass('disabled');
 }
