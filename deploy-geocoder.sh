@@ -1,1 +1,1 @@
-git subtree push --prefix geocoder heroku master
+git subtree push --prefix geocoder geocoder master
