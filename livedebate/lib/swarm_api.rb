@@ -4,7 +4,7 @@ require 'net/http'
 class SwarmApi
   attr_reader :swarmkey, :hostname, :port
 
-  def initialize(swarmkey, hostname, port)
+  def initialize(swarmkey, hostname, port=80)
     @swarmkey = swarmkey
     @hostname = hostname
     @port = port
