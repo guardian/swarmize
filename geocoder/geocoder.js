@@ -13,6 +13,8 @@ app.get("/geocode", function(req,res) {
   })
 });
 
-var server = app.listen(3000, function() {
-  console.log("Geocoder running on port 3000");
+var port = Number(process.env.PORT || 5000);
+
+var server = app.listen(port, function() {
+  console.log("Geocoder running on port " + port);
 });
