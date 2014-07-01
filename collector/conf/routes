@@ -8,5 +8,8 @@ GET        /                    controllers.Application.index
 GET        /swarm/:token        controllers.Swarm.show(token)
 POST       /swarm/:token        controllers.Swarm.submit(token)
 
+GET         /health-check       controllers.Management.healthCheck
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file        controllers.Assets.at(path="/public", file)

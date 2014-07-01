@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc._
-import lib.SwarmConfig
+import lib.{Kinesis, AWS, SwarmConfig}
 import play.api.libs.json.{JsValue, Json}
 import org.apache.avro.Schema
 import org.apache.avro.generic.{GenericDatumReader, GenericDatumWriter, GenericRecord}
@@ -37,6 +37,7 @@ object Swarm extends Controller {
       try {
         val doc = buildAvroDocFromJson(text, c.submissionSchema)
         val msg = s"submitted to ${c.name}:\n${doc.toString}\n"
+        Kinesis.submit(token, doc)
         Logger.info(msg)
         Ok(msg)
       } catch {
