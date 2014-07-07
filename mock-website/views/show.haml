@@ -1,0 +1,12 @@
+%h1= swarm.name
+
+%p Stick a paragrarph of text about this Swarm here.
+
+%ul.nav.nav-tabs
+  %li.active
+    %a{:href => "/swarms/#{swarm.key}"} Live
+  %li
+    %a{:href => "/swarms/#{swarm.key}/data"} Data
+
+
+%p Stick an epoch here.
