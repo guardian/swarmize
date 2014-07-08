@@ -19,12 +19,6 @@ class MockSwarmizeWebsite < Sinatra::Base
   end
 
   get '/swarms/:key' do
-    # live results page
-
-    haml :show, :locals => {:swarm => swarm}
-  end
-
-  get '/swarms/:key/data' do
     if params[:page]
       page = params[:page].to_i
     else
@@ -33,7 +27,7 @@ class MockSwarmizeWebsite < Sinatra::Base
 
     rows, total_pages = SwarmizeSearch.all(page)
 
-    haml :data, :locals => {:swarm => swarm, rows: rows, current_page: page, total_pages: total_pages}
+    haml :show, :locals => {:swarm => swarm, rows: rows, current_page: page, total_pages: total_pages}
   end
 
   get '/graphs/all_feedback' do
