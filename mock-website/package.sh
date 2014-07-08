@@ -9,6 +9,10 @@ echo "Archiving website to package-$CURRENTREV.zip"
 git archive -o mock-website/package-$CURRENTREV.zip master:mock-website
 popd > /dev/null
 
-#aws s3 cp target/universal/swarmize-collector.tgz s3://swarmize-dist/collector.tar.gz --acl public-read
-#aws s3 cp collector.conf s3://swarmize-dist/collector.conf --acl public-read
+echo "Uploading to S3."
 
+aws s3 cp package-$CURRENTREV.zip s3://swarmize-demo/package-$CURRENTREV.zip
+
+echo "Deploying new application version"
+
+aws elasticbeanstalk create-application-version --application-name "My First Elastic Beanstalk Application" --version-label package-$CURRENTREV --source-bundle S3Bucket=swarmize-demo,S3Key=package-$CURRENTREV.zip
