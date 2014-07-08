@@ -25,7 +25,7 @@ class SwarmizeSearch
         
       end.merge! feedback_filter
       json.sort do
-        json.timestamp "asc"
+        json.timestamp "desc"
       end
     end
   end
