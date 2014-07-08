@@ -9,8 +9,8 @@ class SwarmizeSearch
 
   def self.all(page=1, per_page=10)
     query = Jbuilder.encode do |json|
-      json.size 10
-      json.from 10 * (page-1)
+      json.size per_page
+      json.from per_page * (page-1)
       json.query do
         json.filtered do
           json.filter do
