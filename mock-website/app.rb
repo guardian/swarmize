@@ -1,17 +1,11 @@
 require 'bundler/setup'
 require 'sinatra/base'
-require 'elasticsearch'
-require 'jbuilder'
-require 'hashie'
+require './lib/swarmize_search'
 
 class MockSwarmizeWebsite < Sinatra::Base
 
   Swarm = Struct.new(:key, :name)
   swarm = Swarm.new("abc123", "Live Debate Swarm")
-
-  # eg
-  client = Elasticsearch::Client.new log: true, host: 'ec2-54-83-167-14.compute-1.amazonaws.com:9200'
-
 
   get '/' do
     haml :index, :locals => {:swarms => [swarm]}
@@ -30,32 +24,7 @@ class MockSwarmizeWebsite < Sinatra::Base
       page = 1
     end
 
-    query = Jbuilder.encode do |json|
-      json.size 10
-      json.from 10 * (page-1)
-      json.query do
-        json.filtered do
-          json.filter do
-            json.terms do
-              json.feedback %w{lab con ld}
-            end
-          end
-        end
-      end
-      json.sort do
-        json.timestamp "asc"
-      end
-    end
-
-    search_results = client.search(index: 'voting', body: query)
-
-    search_results_hash = Hashie::Mash.new(search_results)
-
-    total_hits = search_results_hash.hits.total
-    per_page = 10
-    total_pages = (total_hits/per_page) + 1
-
-    rows = search_results_hash.hits.hits.map {|h| h._source}
+    rows, total_pages = SwarmizeSearch.all(page)
 
     haml :data, :locals => {:swarm => swarm, rows: rows, current_page: page, total_pages: total_pages}
   end
