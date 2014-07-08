@@ -3,7 +3,7 @@
 CURRENTREV=$(git log --pretty=format:'%h' -n 1)
 pushd . > /dev/null
 cd ..
-echo "Archiving website."
+echo "Archiving website to package-$CURRENTREV.zip"
 git archive -o mock-website/package-$CURRENTREV.zip master:mock-website
 popd > /dev/null
 
