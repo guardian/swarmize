@@ -5,7 +5,7 @@ gem 'sinatra'
 gem 'shotgun'
 gem 'haml'
 gem 'thin'
-gem 'elasticsearch'
+#gem 'elasticsearch'
 
 gem 'compass'
 gem 'sass'
