@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "Removing old packages."
+rm package*.zip
 CURRENTREV=$(git log --pretty=format:'%h' -n 1)
 pushd . > /dev/null
 cd ..
