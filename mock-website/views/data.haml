@@ -21,7 +21,7 @@
   %tbody
     - for row in rows
       %tr
-        %td= row.timestamp
+        %td= format_timestamp(row.timestamp)
         %td= row.postcode
         %td= row.intent
         %td= row.feedback

@@ -7,6 +7,13 @@ class MockSwarmizeWebsite < Sinatra::Base
   Swarm = Struct.new(:key, :name)
   swarm = Swarm.new("abc123", "Live Debate Swarm")
 
+  helpers do
+    def format_timestamp(ts)
+      t = Time.at(ts / 1000 / 1000)
+      t.strftime("%d %B %Y %H:%M")
+    end
+  end
+
   get '/' do
     haml :index, :locals => {:swarms => [swarm]}
   end
