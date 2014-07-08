@@ -1,6 +1,6 @@
 require 'bundler/setup'
 require 'sinatra/base'
-#require 'elasticsearch'
+require 'elasticsearch'
 
 class MockSwarmizeWebsite < Sinatra::Base
 
@@ -8,8 +8,8 @@ class MockSwarmizeWebsite < Sinatra::Base
   swarm = Swarm.new("abc123", "Live Debate Swarm")
 
   # eg
-  #client = Elasticsearch::Client.new log: true, host: 'hostname.com:9200'
-  #client = Elasticsearch::Client.new log: true
+  client = Elasticsearch::Client.new log: true, host: 'hostname.com:9200'
+  client = Elasticsearch::Client.new log: true
   
   get '/' do
     haml :index, :locals => {:swarms => [swarm]}
@@ -28,6 +28,6 @@ class MockSwarmizeWebsite < Sinatra::Base
   end
 
   # start the server if ruby file executed directly
-  #run! if app_file == $0
+  run! if app_file == $0
 end
 
