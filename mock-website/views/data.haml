@@ -2,6 +2,24 @@
 
 %p Stick a paragrarph of text about this Swarm here.
 
+:javascript
+  $(document).ready(function() {
+    $.getJSON('/graphs/all_feedback', function(data) {
+      var feedbackChart = $('#feedback_pie').epoch({ type: 'pie', data: data });
+    });
+    $.getJSON('/graphs/all_intent', function(data) {
+      var feedbackChart = $('#intent_pie').epoch({ type: 'pie', data: data });
+    });
+  });
+
+.row
+  .col-md-6
+    %h2 Aggregate feedback
+    #feedback_pie{:class => "epoch", :style => "width:200px; height: 200px;"}
+  .col-md-6
+    %h2 Aggregate voting intent
+    #intent_pie{:class => "epoch", :style => "width:200px; height: 200px;"}
+
 %ul.nav.nav-tabs
   %li
     %a{:href => "/swarms/#{swarm.key}"} Live

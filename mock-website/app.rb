@@ -36,6 +36,23 @@ class MockSwarmizeWebsite < Sinatra::Base
     haml :data, :locals => {:swarm => swarm, rows: rows, current_page: page, total_pages: total_pages}
   end
 
+  get '/graphs/all_feedback' do
+    SwarmizeSearch.aggregate_feedback.map do |hash|
+      { label: hash.keys.first,
+        value: hash.values.first
+      }
+    end.to_json
+  end
+
+  get '/graphs/all_intent' do
+    SwarmizeSearch.aggregate_intent.map do |hash|
+      {
+        label: hash.keys.first,
+        value: hash.values.first
+      }
+    end.to_json
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end
