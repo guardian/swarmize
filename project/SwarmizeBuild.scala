@@ -6,10 +6,12 @@ import com.typesafe.sbt.SbtNativePackager._
 
 object SwarmizeBuild extends Build {
   lazy val root = sbt.Project("root", file("."))
-    .aggregate(collector, stasher, submissionListener)
+    .aggregate(collector, stasher, submissionListener, swarmConfig)
     .settings(scalaVersion := scalaLibraryVersion)
 
   val scalaLibraryVersion = "2.11.1"
+
+  val avro = "org.apache.avro" % "avro" % "1.7.6"
 
   val standardSettings = Seq[Setting[_]](
     scalaVersion := scalaLibraryVersion,
@@ -26,13 +28,22 @@ object SwarmizeBuild extends Build {
     )
   )
 
+  lazy val swarmConfig = sbt.Project("swarm-config", file("swarm-config"))
+    .settings(standardSettings: _*)
+    .settings(
+      libraryDependencies ++= Seq(
+        avro
+      )
+    )
+
   lazy val collector = Project("collector", file("collector")).enablePlugins(play.PlayScala)
+    .dependsOn(swarmConfig)
     .settings(standardSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
         cache,
         ws,
-        "org.apache.avro" % "avro" % "1.7.6",
+        avro,
         "com.amazonaws" % "aws-java-sdk" % "1.8.0"
       ),
 
@@ -47,7 +58,7 @@ object SwarmizeBuild extends Build {
       libraryDependencies ++= Seq(
         cache,
         ws,
-        "org.apache.avro" % "avro" % "1.7.6",
+        avro,
         "com.amazonaws" % "aws-java-sdk" % "1.8.0",
         "com.amazonaws" % "amazon-kinesis-client" % "1.0.0",
         "org.elasticsearch" % "elasticsearch" % "1.2.1"
@@ -63,7 +74,7 @@ object SwarmizeBuild extends Build {
       libraryDependencies ++= Seq(
         "com.amazonaws" % "aws-java-sdk" % "1.8.0",
         "com.amazonaws" % "amazon-kinesis-client" % "1.0.0",
-        "org.apache.avro" % "avro" % "1.7.6"
+        avro
       )
     )
 }

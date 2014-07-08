@@ -1,0 +1,21 @@
+{
+    "namespace": "com.swarmize",
+    "type": "record",
+    "name": "Metadata",
+    "doc": "Metadata about a swarm while it's running though the processing pipeline",
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "token",
+            "type": "string"
+        },
+        {
+            "name": "steps",
+            "type": { "type": "array", "items": "string" },
+            "doc": "The post-processing steps that need to occur on this swarm"
+        }
+    ]
+}

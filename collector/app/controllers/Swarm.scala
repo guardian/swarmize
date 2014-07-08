@@ -1,11 +1,12 @@
 package controllers
 
 import play.api.mvc._
-import lib.{Kinesis, AWS, SwarmConfig}
+import lib.{Kinesis, AWS}
 import play.api.libs.json.{JsValue, Json}
 import org.apache.avro.Schema
 import org.apache.avro.generic.{GenericDatumReader, GenericDatumWriter, GenericRecord}
 import org.apache.avro.io.DecoderFactory
+import swarmize.SwarmConfig
 import scala.util.control.NonFatal
 import play.api.Logger
 

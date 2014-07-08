@@ -1,4 +1,4 @@
-package lib
+package swarmize
 
 import org.scalatest._
 

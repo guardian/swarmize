@@ -1,8 +1,7 @@
-package lib
+package swarmize
 
 import org.apache.avro.Schema
 
-import scala.io.Source
 
 
 case class SwarmConfig
