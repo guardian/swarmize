@@ -1,11 +1,16 @@
 require 'bundler/setup'
 require 'sinatra/base'
+require 'elasticsearch'
 
 class MockSwarmizeWebsite < Sinatra::Base
 
   Swarm = Struct.new(:key, :name)
   swarm = Swarm.new("abc123", "Live Debate Swarm")
 
+  # eg
+  #client = Elasticsearch::Client.new log: true, host: 'hostname.com:9200'
+  client = Elasticsearch::Client.new log: true
+  
   get '/' do
     haml :index, :locals => {:swarms => [swarm]}
   end
