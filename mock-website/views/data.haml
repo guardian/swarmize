@@ -8,5 +8,38 @@
   %li.active
     %a{:href => "/swarms/#{swarm.key}/data"} Data
 
+%table.table
+  %thead
+    %tr
+      %th Timestamp
+      %th Postcode
+      %th Intent
+      %th Feedback
+      %th IP
+      %th User Key
 
-%p Stick a table here.
+  %tbody
+    - for row in rows
+      %tr
+        %td= row.timestamp
+        %td= row.postcode
+        %td= row.intent
+        %td= row.feedback
+        %td= row.ip
+        %td= row.user_key
+
+%ul.pagination
+  %li
+    %a{:href => "#"} &laquo;
+
+  - total_pages.times do |i|
+    - if i+1 == current_page
+      %li.active
+        %span
+          = i+1
+          %span.sr-only (current)
+    - else
+      %li
+        %a{:href => "?page=#{i+1}"}= i+1
+  %li
+    %a{:href => "#"} &raquo;

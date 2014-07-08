@@ -6,6 +6,8 @@ gem 'shotgun'
 gem 'haml'
 gem 'thin'
 gem 'elasticsearch'
+gem 'jbuilder'
+gem 'hashie'
 
 gem 'compass'
 gem 'sass'
