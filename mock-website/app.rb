@@ -5,12 +5,12 @@ require './lib/swarmize_search'
 class MockSwarmizeWebsite < Sinatra::Base
 
   Swarm = Struct.new(:key, :name)
-  swarm = Swarm.new("abc123", "Live Debate Swarm")
+  swarm = Swarm.new("voting", "Live Debate Swarm")
 
   helpers do
     def format_timestamp(ts)
       t = Time.at(ts / 1000 / 1000)
-      t.strftime("%d %B %Y %H:%M")
+      t.strftime("%d %B %Y %H:%M:%S")
     end
   end
 
