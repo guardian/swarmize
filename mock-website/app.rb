@@ -1,11 +1,12 @@
 require 'bundler/setup'
 require 'sinatra/base'
+require './lib/swarm'
 require './lib/swarmize_search'
 
 class MockSwarmizeWebsite < Sinatra::Base
 
-  Swarm = Struct.new(:key, :name)
-  swarm = Swarm.new("voting", "Live Debate Swarm")
+  swarm1 = Swarm.new("voting", "Live Debate Swarm")
+  swarms = [swarm1]
 
   helpers do
     def format_timestamp(ts)
@@ -15,10 +16,11 @@ class MockSwarmizeWebsite < Sinatra::Base
   end
 
   get '/' do
-    haml :index, :locals => {:swarms => [swarm]}
+    haml :index, :locals => {:swarms => swarms}
   end
 
   get '/swarms/:key' do
+    swarm = swarms.find {|s| s.key == params[:key]}
     if params[:page]
       page = params[:page].to_i
     else
