@@ -14,7 +14,7 @@ module SwarmizeSearchQuery
   def aggregate_count_query(field)
     Jbuilder.encode do |json|
       json.aggs do
-        json.feedback_count do
+        json.field_count do
           json.terms do
             json.field field
           end
@@ -30,7 +30,7 @@ module SwarmizeSearchQuery
     Jbuilder.encode do |json|
       json.size 0
       json.aggs do
-        json.count do
+        json.field_count do
           json.terms do
             json.field field
           end

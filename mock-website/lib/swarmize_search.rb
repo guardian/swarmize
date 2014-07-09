@@ -1,7 +1,7 @@
 require 'elasticsearch'
 require 'jbuilder'
 require 'hashie'
-require './swarmize_search_query'
+require './lib/swarmize_search_query'
 
 class SwarmizeSearch
   include SwarmizeSearchQuery
@@ -38,7 +38,7 @@ class SwarmizeSearch
 
     search_results_hash = Hashie::Mash.new(search_results)
 
-    buckets = search_results_hash.aggregations.count.buckets
+    buckets = search_results_hash.aggregations.field_count.buckets
     buckets.map {|b| {b['key'] => b.doc_count} }
   end
 
@@ -49,7 +49,7 @@ class SwarmizeSearch
 
     search_results_hash = Hashie::Mash.new(search_results)
 
-    buckets = search_results_hash.aggregations.count.buckets
+    buckets = search_results_hash.aggregations.field_count.buckets
     buckets.map {|b| {b['key'] => b.unique_field.value} }
   end
 
