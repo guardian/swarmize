@@ -27,21 +27,24 @@ class MockSwarmizeWebsite < Sinatra::Base
       page = 1
     end
 
-    rows, total_pages = SwarmizeSearch.all(page)
+    rows, total_pages = swarm.search.all(page)
 
     haml :show, :locals => {:swarm => swarm, rows: rows, current_page: page, total_pages: total_pages}
   end
 
-  get '/graphs/all_feedback' do
-    SwarmizeSearch.aggregate_feedback.map do |hash|
+  get '/swarms/:key/graphs/count/:count_field' do
+    swarm = swarms.find {|s| s.key == params[:key]}
+
+    swarm.search.aggregate_count(params[:count_field]).map do |hash|
       { label: hash.keys.first,
         value: hash.values.first
       }
     end.to_json
   end
 
-  get '/graphs/all_intent' do
-    SwarmizeSearch.aggregate_intent.map do |hash|
+  get '/swarms/:key/graphs/count/:count_field/:unique_field' do
+    swarm = swarms.find {|s| s.key == params[:key]}
+    swarm.search.cardinal_count(params[:count_field], params[:unique_field]).map do |hash|
       {
         label: hash.keys.first,
         value: hash.values.first

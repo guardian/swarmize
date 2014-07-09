@@ -4,10 +4,10 @@
 
 :javascript
   $(document).ready(function() {
-    $.getJSON('/graphs/all_feedback', function(data) {
+    $.getJSON(window.location.href+'/graphs/count/feedback', function(data) {
       var feedbackChart = $('#feedback_pie').epoch({ type: 'pie', data: data });
     });
-    $.getJSON('/graphs/all_intent', function(data) {
+    $.getJSON(window.location.href+'/graphs/count/intent/user_key', function(data) {
       var feedbackChart = $('#intent_pie').epoch({ type: 'pie', data: data });
     });
   });
