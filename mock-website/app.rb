@@ -1,11 +1,24 @@
 require 'bundler/setup'
 require 'sinatra/base'
 require './lib/swarm'
+require './lib/display_field'
 require './lib/swarmize_search'
 
 class MockSwarmizeWebsite < Sinatra::Base
 
-  swarm1 = Swarm.new("voting", "Live Debate Swarm")
+  swarm1 = Swarm.new(
+    "voting", 
+    "Live Debate Swarm",
+     [
+      ["timestamp", "Timestamp", 'timestamp'],
+      ["postcode", "Postcode"],
+      ["intent", "Intent"],
+      ["feedback", "Feedback"],
+      ["ip", "IP"],
+      ["user_key", "User Key"]
+    ]
+  )
+
   swarms = [swarm1]
 
   helpers do

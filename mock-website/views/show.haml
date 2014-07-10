@@ -8,7 +8,7 @@
       var feedbackChart = $('#feedback_pie').epoch({ type: 'pie', data: data });
     });
     $.getJSON(window.location.href+'/graphs/count/intent/user_key', function(data) {
-      var feedbackChart = $('#intent_pie').epoch({ type: 'pie', data: data });
+     var feedbackChart = $('#intent_pie').epoch({ type: 'pie', data: data });
     });
   });
 
@@ -29,22 +29,17 @@
 %table.table
   %thead
     %tr
-      %th Timestamp
-      %th Postcode
-      %th Intent
-      %th Feedback
-      %th IP
-      %th User Key
+      - for display_field in swarm.display_fields
+        %th= display_field.display_name
 
   %tbody
     - for row in rows
       %tr
-        %td= format_timestamp(row.timestamp)
-        %td= row.postcode
-        %td= row.intent
-        %td= row.feedback
-        %td= row.ip
-        %td= row.user_key
+        - for display_field in swarm.display_fields
+          - if display_field.formatter
+            %td= send("format_#{display_field.formatter}", row.send(display_field.name))
+          - else
+            %td= row.send(display_field.name)
 
 %ul.pagination
   %li
