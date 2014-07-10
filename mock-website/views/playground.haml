@@ -1,0 +1,81 @@
+%h1 Playground
+
+%p In which Tom works out how various elements work.
+
+:css
+  .object {
+    background: #eee;
+    border: 2px solid #888;
+    padding: 10px;
+    margin: 0 0 20px;
+  }
+
+  .droptarget {
+    border: 2px solid #888;
+    background: #ddd;
+    padding: 20px;
+   } 
+
+  .hover {
+    background: pink;
+  }
+
+  .dropped-object {
+    border: 1px solid #888;
+    background: #aaa;
+    margin: 0 0 20px;
+    padding: 10px;
+  }
+  .temp {
+    opacity: 0.5;
+  }
+
+:javascript
+  function getIndexForEvent(event) {
+    var tops = _.map($(".dropped-object"), function(o) { return $(o).offset().top })
+    var data = event.dataTransfer.getData("text/plain");
+
+    var index = 0;
+    _.each(tops, function(t) {
+      if(event.clientY > t) {
+        index++;
+      }
+    });
+    return index;
+  }
+
+  function onDrop(event) {
+    index = getIndexForEvent(event);
+    var data = event.dataTransfer.getData("text/plain");
+    var newElement = "<div class='dropped-object'>" + data + "</div>";
+    $(".temp").remove();
+    $(".dropped-object:eq(" + (index-1) + ")").after(newElement);
+    event.preventDefault();
+  }
+
+  function onDragOver(event) {
+    event.preventDefault(); 
+    var index = getIndexForEvent(event);
+    var newElement = "<div class='dropped-object temp'>INSERT ELEMENT HERE</div>";
+    $(".temp").remove();
+    $(".dropped-object:eq(" + (index-1) + ")").after(newElement);
+    $(this).addClass('hover');
+  }
+
+  function onDragLeave(event) {
+    $(this).removeClass('hover')
+    $(".temp").remove();
+  }
+
+.row
+  .col-md-3
+    .object{:draggable => 'true', :ondragstart => "event.dataTransfer.setData('text/plain', $(this).text());", :ondragend => "$('.hover').removeClass('hover');"} I am an object
+    .object{:draggable => 'true', :ondragstart => "event.dataTransfer.setData('text/plain', $(this).text());", :ondragend => "$('.hover').removeClass('hover');"} So Am I
+    .object{:draggable => 'true', :ondragstart => "event.dataTransfer.setData('text/plain', $(this).text());", :ondragend => "$('.hover').removeClass('hover');"} Me Three
+  .col-md-9
+    .droptarget{ :ondragover => "onDragOver(event)", :ondragleave => "onDragLeave(event)", :ondragend => "$(this).removeClass('hover')", :ondrop => "onDrop(event)"}
+      .dropped-object Object 1
+      .dropped-object Object 2
+      .dropped-object Object 3 
+      .dropped-object Object 4 
+      .dropped-object Object 5 
