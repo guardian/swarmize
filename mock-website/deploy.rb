@@ -35,7 +35,7 @@ beanstalk = Fog::AWS::ElasticBeanstalk.new({
 beanstalk_applications = beanstalk.applications
 application = beanstalk_applications.find {|a| a.name == APPNAME}
 
-verison = nil
+version = nil
 
 if application.version_names.include? package_version
   puts "Version already exists, not packaging code."
