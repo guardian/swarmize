@@ -99,11 +99,10 @@ object SimpleWorkflow {
 
   def submit(bundle: GenericRecord) {
     val bytes = Avro.toBytes(bundle)
-    val base64 = Base64.encodeAsString(bytes: _*)
     AWS.swf.startWorkflowExecution(
       new StartWorkflowExecutionRequest()
         .withDomain(domain)
-        .withInput(base64)
+        .withInput(Base64.encodeAsString(bytes: _*))
         .withWorkflowId(UUID.randomUUID().toString)
         .withWorkflowType(workflowType)
     )
