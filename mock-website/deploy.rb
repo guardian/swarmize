@@ -10,9 +10,9 @@ creds = CSV.read('../credentials.csv', :headers => true)[0]
 KEY = creds['Access Key Id']
 SECRET = creds['Secret Access Key']
 
-APPNAME = "My First Elastic Beanstalk Application"
-LIVE_ENV = "Swarmize-E2E-Llive"
-S3_BUCKET = "swarmize-demo"
+APPNAME = "Swarmize-Mock"
+LIVE_ENV = "Swarmize-Mock-Live"
+S3_BUCKET = "swarmize-mock"
 
 currentrev = `git log --pretty=format:'%h' -n 1`
 package_filename = "package-#{currentrev}.zip"
@@ -23,12 +23,13 @@ s3 = Fog::Storage.new({
   :aws_access_key_id        => KEY,
   :aws_secret_access_key    => SECRET,
   :path_style => true,
+  :region => "eu-west-1"
 })
 
 beanstalk = Fog::AWS::ElasticBeanstalk.new({
   :aws_access_key_id        => KEY,
   :aws_secret_access_key    => SECRET,
-  :region => "us-west-2",
+  :region => "eu-west-1",
 })
 
 beanstalk_applications = beanstalk.applications
@@ -71,10 +72,10 @@ end
 live_environment = application.environments.find {|e| e.name == LIVE_ENV }
 
 if live_environment.version_label != package_version
-  puts "Creating new application version #{package_version} on environment."
+  puts "Creating new application version #{package_version} on environment #{LIVE_ENV}."
 
   live_environment.version = version
 else
-  puts "Live environment already running #{package_version}."
+  puts "Environment #{LIVE_ENV} already running #{package_version}."
 end
 
