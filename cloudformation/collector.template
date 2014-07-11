@@ -91,7 +91,7 @@
                 "HealthCheckGracePeriod" : 300,
                 "Tags" : [
                     { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
-                    { "Key" : "Name", "Value" : "swamize-collector", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Name", "Value" : "swarmize-collector", "PropagateAtLaunch" : "true"  },
                     { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
                     { "Key" : "App", "Value" : "collector", "PropagateAtLaunch" : "true" },
                     { "Key" : "Management", "Value" : "port=9000", "PropagateAtLaunch" : "true" }
