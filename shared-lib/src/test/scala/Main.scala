@@ -16,9 +16,6 @@ object Main extends App {
     reader.read(null, jsonDecoder)
   }
 
-
-  println("yo")
-
   val config = SwarmConfig.findByToken("voting").get
 
   import scala.collection.convert.wrapAll._
@@ -31,31 +28,7 @@ object Main extends App {
 
   obj.put("timestamp", DateTime.now().getMillis)
 
-
-  val metaObj = Metadata.newBuilder()
-    .setName(config.name)
-    .setToken("voting")
-    .setSteps(List("geocode", "es_store"))
-    .build()
-
-  println(metaObj)
-
-  // now make a schema with the meta data and the data
-
-  val bundle = SchemaBuilder.builder()
-     .record("Submission").namespace("com.swarmize")
-     .fields()
-       .name("data").`type`(config.submissionSchema).noDefault()
-       .name("metadata").`type`(Metadata.getClassSchema).noDefault()
-     .endRecord
-
-
-  println(bundle.toString(true))
-
-  val rec = new GenericRecordBuilder(bundle)
-    .set("data", obj)
-    .set("metadata", metaObj)
-    .build()
+  val rec = config.makeBundle(obj)
 
   println(rec)
 

@@ -6,12 +6,13 @@ import com.typesafe.sbt.SbtNativePackager._
 
 object SwarmizeBuild extends Build {
   lazy val root = sbt.Project("root", file("."))
-    .aggregate(collector, stasher, submissionListener, swarmConfig)
+    .aggregate(collector, stasher, sharedLib)
     .settings(scalaVersion := scalaLibraryVersion)
 
   val scalaLibraryVersion = "2.11.1"
 
   val avro = "org.apache.avro" % "avro" % "1.7.6"
+  val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.0"
 
   val standardSettings = Seq[Setting[_]](
     scalaVersion := scalaLibraryVersion,
@@ -28,23 +29,24 @@ object SwarmizeBuild extends Build {
     )
   )
 
-  lazy val swarmConfig = sbt.Project("swarm-config", file("swarm-config"))
+  lazy val sharedLib = sbt.Project("shared-lib", file("shared-lib"))
     .settings(standardSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
-        avro
+        avro,
+        aws
       )
     )
 
   lazy val collector = Project("collector", file("collector")).enablePlugins(play.PlayScala)
-    .dependsOn(swarmConfig)
+    .dependsOn(sharedLib)
     .settings(standardSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
         cache,
         ws,
         avro,
-        "com.amazonaws" % "aws-java-sdk" % "1.8.0"
+        aws
       ),
 
       // deployment stuff
@@ -52,6 +54,7 @@ object SwarmizeBuild extends Build {
     )
 
   lazy val stasher = Project("stasher", file("stasher")).enablePlugins(play.PlayScala)
+    .dependsOn(sharedLib)
     .settings(standardSettings: _*)
     .settings(
 
@@ -59,22 +62,11 @@ object SwarmizeBuild extends Build {
         cache,
         ws,
         avro,
-        "com.amazonaws" % "aws-java-sdk" % "1.8.0",
+        aws,
         "com.amazonaws" % "amazon-kinesis-client" % "1.0.0",
         "org.elasticsearch" % "elasticsearch" % "1.2.1"
       ),
 
       name in Universal := "swarmize-stasher"
-    )
-
-
-  lazy val submissionListener = Project("submission-listener", file("submission-listener"))
-    .settings(standardSettings: _*)
-    .settings(
-      libraryDependencies ++= Seq(
-        "com.amazonaws" % "aws-java-sdk" % "1.8.0",
-        "com.amazonaws" % "amazon-kinesis-client" % "1.0.0",
-        avro
-      )
     )
 }
