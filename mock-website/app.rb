@@ -1,4 +1,7 @@
 require 'bundler/setup'
+require 'dotenv'
+Dotenv.load
+
 require 'sinatra/base'
 require './lib/swarm'
 require './lib/display_field'

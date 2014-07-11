@@ -13,7 +13,7 @@ class SwarmizeSearch
   end
 
   def self.client
-    Elasticsearch::Client.new log: true, host: 'ec2-54-83-167-14.compute-1.amazonaws.com:9200'
+    Elasticsearch::Client.new log: true, host: ENV['ELASTICSEARCH_HOST']
   end
 
   def all(page=1, per_page=10)
