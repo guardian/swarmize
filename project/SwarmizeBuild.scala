@@ -6,7 +6,7 @@ import com.typesafe.sbt.SbtNativePackager._
 
 object SwarmizeBuild extends Build {
   lazy val root = sbt.Project("root", file("."))
-    .aggregate(collector, stasher, sharedLib)
+    .aggregate(collector, processor, sharedLib)
     .settings(scalaVersion := scalaLibraryVersion)
 
   val scalaLibraryVersion = "2.11.1"
@@ -17,6 +17,8 @@ object SwarmizeBuild extends Build {
   val standardSettings = Seq[Setting[_]](
     scalaVersion := scalaLibraryVersion,
     scalacOptions := List("-feature", "-deprecation"),
+
+    emojiLogs,
 
     // generally putting dependencies in here is a bad idea, but
     // test dependencies is ok in my opion :)
@@ -33,6 +35,7 @@ object SwarmizeBuild extends Build {
     .settings(standardSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
+        "com.typesafe.play" %% "play" % play.core.PlayVersion.current,
         avro,
         aws
       )
@@ -53,7 +56,7 @@ object SwarmizeBuild extends Build {
       name in Universal := "swarmize-collector"
     )
 
-  lazy val stasher = Project("stasher", file("stasher")).enablePlugins(play.PlayScala)
+  lazy val processor = Project("processor", file("processor")).enablePlugins(play.PlayScala)
     .dependsOn(sharedLib)
     .settings(standardSettings: _*)
     .settings(
@@ -63,10 +66,9 @@ object SwarmizeBuild extends Build {
         ws,
         avro,
         aws,
-        "com.amazonaws" % "amazon-kinesis-client" % "1.0.0",
         "org.elasticsearch" % "elasticsearch" % "1.2.1"
       ),
 
-      name in Universal := "swarmize-stasher"
+      name in Universal := "swarmize-processor"
     )
 }

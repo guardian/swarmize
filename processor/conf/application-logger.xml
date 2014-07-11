@@ -1,0 +1,35 @@
+<configuration>
+
+    <contextName>processor</contextName>
+
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
+
+    <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/processor.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/processor.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+		<encoder>
+			<pattern>%date [%thread{10}] %-5level %logger{20} - %msg%n%xException{3}</pattern>
+		</encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="org.elasticsearch.discovery" level="TRACE" />
+    <logger name="org.elasticsearch.client.transport" level="TRACE" />
+
+    <root level="INFO">
+        <appender-ref ref="LOGFILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

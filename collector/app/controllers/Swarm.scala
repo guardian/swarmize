@@ -1,14 +1,14 @@
 package controllers
 
-import play.api.mvc._
-import lib.{SimpleWorkflow, Kinesis, AWS}
-import play.api.libs.json.{JsValue, Json}
 import org.apache.avro.Schema
-import org.apache.avro.generic.{GenericDatumReader, GenericDatumWriter, GenericRecord}
+import org.apache.avro.generic.{GenericDatumReader, GenericRecord}
 import org.apache.avro.io.DecoderFactory
-import swarmize.SwarmConfig
-import scala.util.control.NonFatal
 import play.api.Logger
+import play.api.mvc._
+import swarmize.SwarmConfig
+import swarmize.aws.SimpleWorkflow
+
+import scala.util.control.NonFatal
 
 object Swarm extends Controller {
 

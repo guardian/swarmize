@@ -5,6 +5,7 @@ import org.elasticsearch.client.transport.TransportClient
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.transport.InetSocketTransportAddress
 import play.api.Logger
+import swarmize.aws.AWS
 
 import scala.util.Random
 
@@ -14,7 +15,7 @@ object Elasticsearch {
     import scala.collection.JavaConversions._
     val possibleHosts = AWS.EC2.describeInstances(
       new DescribeInstancesRequest().withFilters(
-        new Filter("tag:Role", List("swarmize-elasticsearch"))
+        new Filter("tag:Name", List("swarmize-elasticsearch"))
       ))
     Random.shuffle(possibleHosts.getReservations.flatMap(_.getInstances)).headOption.map(_.getPublicDnsName)
   }

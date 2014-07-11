@@ -1,4 +1,4 @@
-package lib
+package swarmize
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, InputStream}
 

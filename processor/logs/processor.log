@@ -1,0 +1,301 @@
+2014-07-11 16:29:01,517 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:29:19,067 [main] INFO  application - hello?
+2014-07-11 16:29:19,071 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:29:52,137 [main] INFO  application - hello?
+2014-07-11 16:29:52,141 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:29:58,794 [main] INFO  application - hello?
+2014-07-11 16:29:58,798 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:29:59,467 [main] INFO  lib.Decider - polling...
+2014-07-11 16:29:59,558 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:29:59,562 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:29:59,564 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:30:00,198 [main] INFO  application - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:30:00,448 [main] INFO  application - Activity already exists: {ActivityType: {Name: geocode,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:30:00,512 [main] INFO  application - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:30:08,402 [main] INFO  lib.Decider - done: {TaskToken: AAAAKgAAAAIAAAAAAAAAA6YJR4O4tfDsK33Kw/RRkTy8xtg3BtkHKZFFavcvKK9lU9drtTaM1cbOcDeHu3XNr+Qm0mboPQ3PrK7lAPbkTh01PFdT3yKXFdr0xmU/0kEFaRPCJhGqiemZrCT0Ghd9rnWmySFm4VVGxrdtDiSq9VU2FUtY6DSXNdZD+1bKBsvj2YESiks8E2qc5BWrZu1LFMCQesm10XwdD91U1pan4jltxjV6qLQZt3wCVoLqezJqVD8jSKxJzA1soGZe94TUlRkiZwE+0Dc8P4mlNemEh7rtkrZUq3bpFG4D5b88dAoGvrjiXLoMC0rxVre7dOczrQ==,StartedEventId: 3,WorkflowExecution: {WorkflowId: 77c5d4c6-685a-4a66-bd47-130a2efe8baa,RunId: 22J1T6cQBNAkvC6pHWmZ2ksO7gmLRdlcGlkq6b/YtHeUc=},WorkflowType: {Name: swarm,Version: 2},Events: [{EventTimestamp: Fri Jul 11 15:31:18 BST 2014,EventType: WorkflowExecutionStarted,EventId: 1,WorkflowExecutionStartedEventAttributes: {Input: T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19ALcvAZcQjALv0zwHDVSh5CYCoAFNbPLAAejU/7sKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUApFkB+LcvAZcQjALv0zwHDVSh5CY=,ExecutionStartToCloseTimeout: 43200,TaskStartToCloseTimeout: 600,ChildPolicy: ABANDON,TaskList: {Name: main},WorkflowType: {Name: swarm,Version: 2},TagList: [],ParentInitiatedEventId: 0},}, {EventTimestamp: Fri Jul 11 15:31:18 BST 2014,EventType: DecisionTaskScheduled,EventId: 2,DecisionTaskScheduledEventAttributes: {TaskList: {Name: main},StartToCloseTimeout: 600},}, {EventTimestamp: Fri Jul 11 16:30:08 BST 2014,EventType: DecisionTaskStarted,EventId: 3,DecisionTaskStartedEventAttributes: {Identity: Grahams-MacBook-Pro.local,ScheduledEventId: 2},}],PreviousStartedEventId: 0}
+2014-07-11 16:30:08,473 [main] INFO  lib.Decider - lastEvent was WorkflowExecutionStarted {
+        EventTimestamp = Fri Jul 11 15:31:18 BST 2014;
+        EventType = WorkflowExecutionStarted;
+        EventId = 1;
+        WorkflowExecutionStartedEventAttributes =  {
+            ParentInitiatedEventId = 0;
+            Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19ALcvAZcQjALv0zwHDVSh5CYCoAFNbPLAAejU/7sKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUApFkB+LcvAZcQjALv0zwHDVSh5CY=;
+            TaskList =  {
+                Name = main
+            };
+            WorkflowType =  {
+                Name = swarm;
+                Version = 2
+            };
+            ExecutionStartToCloseTimeout = 43200;
+            TaskStartToCloseTimeout = 600;
+            ChildPolicy = ABANDON
+        }
+    }
+2014-07-11 16:30:08,482 [main] INFO  lib.Decider - decision = ScheduleActivityTask {
+        Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19ALcvAZcQjALv0zwHDVSh5CYCoAFNbPLAAejU/7sKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUApFkB+LcvAZcQjALv0zwHDVSh5CY=;
+        TaskList =  {
+            Name = swarmize
+        };
+        ActivityType =  {
+            Name = lookup_postcode;
+            Version = 1.0
+        };
+        ActivityId = blah
+    }
+2014-07-11 16:31:01,537 [main] INFO  application - hello?
+2014-07-11 16:31:01,541 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:31:02,187 [main] INFO  lib.Decider - polling...
+2014-07-11 16:31:02,290 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:31:02,291 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:31:02,292 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:31:02,978 [main] INFO  application - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:31:03,042 [main] INFO  application - Activity already exists: {ActivityType: {Name: geocode,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:31:03,103 [main] INFO  application - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:31:09,042 [main] INFO  lib.Decider - lastEvent was ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:15:22 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Name = lookup_postcode;
+                Version = 1.0
+            };
+            Cause = ACTIVITY_TYPE_DOES_NOT_EXIST;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    }
+2014-07-11 16:31:09,046 [main] INFO  lib.Decider - don't know how to respond to a ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:15:22 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Name = lookup_postcode;
+                Version = 1.0
+            };
+            Cause = ACTIVITY_TYPE_DOES_NOT_EXIST;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    } yet
+2014-07-11 16:31:09,053 [main] INFO  lib.Decider - decision = FailWorkflowExecution {
+        Reason = decider can't respond to event type of ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:15:22 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Name = lookup_postcode;
+                Version = 1.0
+            };
+            Cause = ACTIVITY_TYPE_DOES_NOT_EXIST;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    }
+    }
+2014-07-11 16:32:11,083 [main] INFO  application - hello?
+2014-07-11 16:32:11,088 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:32:11,754 [main] INFO  lib.Decider - polling...
+2014-07-11 16:32:11,847 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:32:11,847 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:32:11,848 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:32:12,835 [main] INFO  application - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:32:12,904 [main] INFO  application - Activity already exists: {ActivityType: {Name: geocode,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:32:12,951 [main] INFO  application - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:32:20,862 [main] INFO  lib.Decider - lastEvent was ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:30:08 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Name = lookup_postcode;
+                Version = 1.0
+            };
+            Cause = ACTIVITY_TYPE_DOES_NOT_EXIST;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    }
+2014-07-11 16:32:20,865 [main] INFO  lib.Decider - don't know how to respond to a ScheduleActivityTaskFailed yet
+2014-07-11 16:32:20,874 [main] INFO  lib.Decider - decision = FailWorkflowExecution {
+        Reason = decider can't respond to event type of ScheduleActivityTaskFailed
+    }
+2014-07-11 16:32:26,586 [main] INFO  application - hello?
+2014-07-11 16:32:26,593 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:32:27,282 [main] INFO  lib.Decider - polling...
+2014-07-11 16:32:27,383 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:32:27,383 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:32:27,384 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:32:27,964 [main] INFO  application - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:32:28,022 [main] INFO  application - Activity already exists: {ActivityType: {Name: geocode,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:32:28,083 [main] INFO  application - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:34:58,309 [main] INFO  application - hello?
+2014-07-11 16:34:58,315 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:34:58,960 [main] INFO  lib.Decider - polling...
+2014-07-11 16:34:59,050 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:34:59,050 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:34:59,051 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:34:59,703 [main] INFO  application - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:34:59,768 [main] INFO  application - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:37:52,578 [main] INFO  application - hello?
+2014-07-11 16:37:52,582 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:37:53,213 [main] INFO  lib.Decider - polling...
+2014-07-11 16:37:53,323 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:37:53,324 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:37:53,325 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:37:53,951 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:37:54,028 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 1},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:41 BST 2014,}
+2014-07-11 16:38:29,368 [main] INFO  lib.Decider - lastEvent was WorkflowExecutionStarted {
+        EventTimestamp = Fri Jul 11 16:38:29 BST 2014;
+        EventType = WorkflowExecutionStarted;
+        EventId = 1;
+        WorkflowExecutionStartedEventAttributes =  {
+            Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AOIu/b+3iAne+a9CJ/zY2eoCoAFNbPLAAeiTgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUADx4yD+Iu/b+3iAne+a9CJ/zY2eo=;
+            TaskList =  {
+                Name = main
+            };
+            WorkflowType =  {
+                Name = swarm;
+                Version = 2
+            };
+            ExecutionStartToCloseTimeout = 43200;
+            TaskStartToCloseTimeout = 600;
+            ChildPolicy = ABANDON;
+            ParentInitiatedEventId = 0
+        }
+    }
+2014-07-11 16:38:29,378 [main] INFO  lib.Decider - decision = ScheduleActivityTask {
+        Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AOIu/b+3iAne+a9CJ/zY2eoCoAFNbPLAAeiTgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUADx4yD+Iu/b+3iAne+a9CJ/zY2eo=;
+        TaskList =  {
+            Name = main
+        };
+        ActivityType =  {
+            Name = es_store;
+            Version = 1
+        };
+        ActivityId = blah
+    }
+2014-07-11 16:39:43,959 [main] INFO  application - hello?
+2014-07-11 16:39:43,965 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:39:44,614 [main] INFO  lib.Decider - polling...
+2014-07-11 16:39:44,699 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:39:44,700 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:39:44,701 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:39:45,351 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:39:45,414 [main] INFO  s.a.SimpleWorkflow$ - Creating activity {Name: es_store,Version: 2}
+2014-07-11 16:39:51,510 [main] INFO  lib.Decider - lastEvent was ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:38:29 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Version = 1;
+                Name = es_store
+            };
+            Cause = DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    }
+2014-07-11 16:39:51,512 [main] INFO  lib.Decider - don't know how to respond to a ScheduleActivityTaskFailed yet
+2014-07-11 16:39:51,518 [main] INFO  lib.Decider - decision = FailWorkflowExecution {
+        Reason = decider can't respond to event type of ScheduleActivityTaskFailed
+    }
+2014-07-11 16:39:57,391 [main] INFO  application - hello?
+2014-07-11 16:39:57,398 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:39:58,150 [main] INFO  lib.Decider - polling...
+2014-07-11 16:39:58,242 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:39:58,242 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:39:58,244 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:39:58,811 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:39:58,873 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}
+2014-07-11 16:40:21,255 [main] INFO  lib.Decider - lastEvent was WorkflowExecutionStarted {
+        EventTimestamp = Fri Jul 11 16:40:20 BST 2014;
+        EventType = WorkflowExecutionStarted;
+        EventId = 1;
+        WorkflowExecutionStartedEventAttributes =  {
+            ParentInitiatedEventId = 0;
+            TaskList =  {
+                Name = main
+            };
+            Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AIC5vn202akg4ptPgVc+Gc0CoAFNbPLAAciVgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUA17m52YC5vn202akg4ptPgVc+Gc0=;
+            WorkflowType =  {
+                Name = swarm;
+                Version = 2
+            };
+            ExecutionStartToCloseTimeout = 43200;
+            TaskStartToCloseTimeout = 600;
+            ChildPolicy = ABANDON
+        }
+    }
+2014-07-11 16:40:21,267 [main] INFO  lib.Decider - decision = ScheduleActivityTask {
+        ActivityId = blah;
+        TaskList =  {
+            Name = main
+        };
+        Input = T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AIC5vn202akg4ptPgVc+Gc0CoAFNbPLAAciVgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUA17m52YC5vn202akg4ptPgVc+Gc0=;
+        ActivityType =  {
+            Name = es_store;
+            Version = 2
+        }
+    }
+2014-07-11 16:40:26,887 [main] INFO  application - hello?
+2014-07-11 16:40:26,891 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:40:27,620 [main] INFO  lib.Decider - polling...
+2014-07-11 16:40:27,730 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:40:27,731 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:40:27,732 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:40:28,324 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:40:28,385 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}
+2014-07-11 16:41:09,125 [main] INFO  lib.Decider - lastEvent was ScheduleActivityTaskFailed {
+        EventTimestamp = Fri Jul 11 16:15:22 BST 2014;
+        EventType = ScheduleActivityTaskFailed;
+        EventId = 5;
+        ScheduleActivityTaskFailedEventAttributes =  {
+            ActivityType =  {
+                Version = 1.0;
+                Name = lookup_postcode
+            };
+            Cause = ACTIVITY_TYPE_DOES_NOT_EXIST;
+            ActivityId = blah;
+            DecisionTaskCompletedEventId = 4
+        }
+    }
+2014-07-11 16:41:09,129 [main] INFO  lib.Decider - don't know how to respond to a ScheduleActivityTaskFailed yet
+2014-07-11 16:41:09,136 [main] INFO  lib.Decider - decision = FailWorkflowExecution {
+        Reason = decider can't respond to event type of ScheduleActivityTaskFailed
+    }
+2014-07-11 16:41:25,771 [main] INFO  application - hello?
+2014-07-11 16:41:25,775 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:41:26,433 [main] INFO  lib.Decider - polling...
+2014-07-11 16:41:26,526 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:41:26,527 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:41:26,528 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:41:27,189 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:41:27,258 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}
+2014-07-11 16:42:40,771 [main] INFO  application - hello?
+2014-07-11 16:42:40,775 [main] INFO  RunOnceMain$ - hmm
+2014-07-11 16:42:41,616 [main] INFO  lib.Decider - polling...
+2014-07-11 16:42:41,702 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:42:41,702 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:42:41,703 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:42:42,855 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:42:42,908 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}
+2014-07-11 16:48:56,240 [main] INFO  l.ActivityDispatcher - polling...
+2014-07-11 16:48:56,944 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 16:48:56,944 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 16:48:56,949 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 16:48:57,566 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 16:48:57,626 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}
+2014-07-11 16:49:03,470 [main] INFO  l.ActivityDispatcher - poll returned: {TaskToken: AAAAKgAAAAIAAAAAAAAAAxcHHDjVsvbxuFoHowk3GtVp4rmTpnlo6e9PxkguwlyZfkEsTQ4ksXbnOSzBuvbUJDrBth3YKdJ47H/0h45eelk22eopeXUgWE/3geHS9ySCOQylNABzLxKxTGmzpoCxDG/oML/XJVfRdT69cF3BIBtupQkVdfywnC+fZSoETmBwzFmRSHM8If1ARy3S3kfh/7RyXNLWbhpM135H/MnTCkVDdTwatg1MAMLgoFZdz2nd9kCyEH3H2fCgnhXYQN8Fl+NsfI58kG14xY6hUj4PfS+MfqptK8mY/tr+ABikuDkJcFtlvcAVln4c9z842X2QMg==,ActivityId: blah,StartedEventId: 6,WorkflowExecution: {WorkflowId: 689f932a-57be-4c30-b705-b0d1e35b83cc,RunId: 22+zkO0Z7zAe1NYMVYuDaG1wPNi+OSJxvEZnat0zTz5OY=},ActivityType: {Name: es_store,Version: 2},Input: T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AIC5vn202akg4ptPgVc+Gc0CoAFNbPLAAciVgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUA17m52YC5vn202akg4ptPgVc+Gc0=}
+2014-07-11 16:49:03,470 [main] INFO  l.ActivityDispatcher - now should run {Name: es_store,Version: 2} with input:
+T2JqAQQUYXZyby5jb2RlYwxzbmFwcHkWYXZyby5zY2hlbWG8DnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJTdWJtaXNzaW9uIiwibmFtZXNwYWNlIjoiY29tLnN3YXJtaXplIiwiZmllbGRzIjpbeyJuYW1lIjoiZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJWb3RpbmdJbnRlbnQiLCJkb2MiOiJWb3RpbmcgSW50ZW50aW9ucyIsImZpZWxkcyI6W3sibmFtZSI6InVzZXJfa2V5IiwidHlwZSI6ImxvbmcifSx7Im5hbWUiOiJ0aW1lc3RhbXAiLCJ0eXBlIjoibG9uZyJ9LHsibmFtZSI6ImludGVudCIsInR5cGUiOnsidHlwZSI6ImVudW0iLCJuYW1lIjoiUGFydHkiLCJzeW1ib2xzIjpbImxhYm91ciIsImNvbnNlcnZhdGl2ZSIsImxpYmRlbSIsImdyZWVuIiwidWtpcCIsIm90aGVyIl19fSx7Im5hbWUiOiJmZWVkYmFjayIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJwb3N0Y29kZSIsInR5cGUiOiJzdHJpbmcifSx7Im5hbWUiOiJpcCIsInR5cGUiOiJzdHJpbmcifV19fSx7Im5hbWUiOiJtZXRhZGF0YSIsInR5cGUiOnsidHlwZSI6InJlY29yZCIsIm5hbWUiOiJNZXRhZGF0YSIsImRvYyI6Ik1ldGFkYXRhIGFib3V0IGEgc3dhcm0gd2hpbGUgaXQncyBydW5uaW5nIHRob3VnaCB0aGUgcHJvY2Vzc2luZyBwaXBlbGluZSIsImZpZWxkcyI6W3sibmFtZSI6Im5hbWUiLCJ0eXBlIjp7InR5cGUiOiJzdHJpbmciLCJhdnJvLmphdmEuc3RyaW5nIjoiU3RyaW5nIn19LHsibmFtZSI6InRva2VuIiwidHlwZSI6eyJ0eXBlIjoic3RyaW5nIiwiYXZyby5qYXZhLnN0cmluZyI6IlN0cmluZyJ9fSx7Im5hbWUiOiJzdGVwcyIsInR5cGUiOnsidHlwZSI6ImFycmF5IiwiaXRlbXMiOnsidHlwZSI6InN0cmluZyIsImF2cm8uamF2YS5zdHJpbmciOiJTdHJpbmcifX0sImRvYyI6IlRoZSBwb3N0LXByb2Nlc3Npbmcgc3RlcHMgdGhhdCBuZWVkIHRvIG9jY3VyIG9uIHRoaXMgc3dhcm0ifV19fV19AIC5vn202akg4ptPgVc+Gc0CoAFNbPLAAciVgLwKBg5NciBLaW5nDE4xIDlHVRAxMC4BAlAxIlZvdGluZyBJbnRlbnRpb25zDHYFEkgEDmdlb2NvZGUQZXNfc3RvcmUA17m52YC5vn202akg4ptPgVc+Gc0=
+2014-07-11 17:04:04,231 [main] INFO  l.ActivityDispatcher - polling...
+2014-07-11 17:04:05,017 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [default].
+2014-07-11 17:04:05,017 [main] INFO  c.a.a.p.i.ProfilesConfigFileLoader - Skip unsupported property name region in profile [profile swarmize].
+2014-07-11 17:04:05,022 [main] WARN  c.a.a.p.i.ProfilesConfigFileLoader - The legacy profile format requires the 'profile ' prefix before the profile name. The latest code does not require such prefix, and will consider it as part of the profile name. Please remove the prefix if you are seeing this warning.
+2014-07-11 17:04:05,626 [main] INFO  s.a.SimpleWorkflow$ - Workflow already exists: {WorkflowType: {Name: swarm,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 15:22:40 BST 2014,}
+2014-07-11 17:04:05,687 [main] INFO  s.a.SimpleWorkflow$ - Activity already exists: {ActivityType: {Name: es_store,Version: 2},Status: REGISTERED,CreationDate: Fri Jul 11 16:39:45 BST 2014,}

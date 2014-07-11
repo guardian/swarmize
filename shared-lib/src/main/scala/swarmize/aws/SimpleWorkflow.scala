@@ -1,32 +1,36 @@
-package lib
+package swarmize.aws
 
 import java.util.UUID
 
 import com.amazonaws.services.simpleworkflow.model._
-import com.amazonaws.util.Base64
+import com.amazonaws.util.{AwsHostNameUtils, EC2MetadataUtils, Base64}
 import org.apache.avro.generic.GenericRecord
 import org.joda.time.Duration
+
 import play.api.Logger
+import swarmize.{ClassLogger, Avro}
 
 import scala.collection.convert.wrapAll._
 
-object SimpleWorkflow {
+object SimpleWorkflow extends ClassLogger {
+
   val domain = "swarmize"
 
   val workflowType = new WorkflowType().withName("swarm").withVersion("2")
 
-  val acivities = List("geocode", "es_store")
-
-  val taskList = new TaskList().withName("main")
+  val defaultTaskList = new TaskList().withName("main")
 
   val oneHourInSeconds = Duration.standardHours(1).getStandardSeconds
   val twelveHoursInSeconds = Duration.standardHours(12).getStandardSeconds
   val tenMinutesInSeconds = Duration.standardMinutes(10).getStandardSeconds
 
+  lazy val serverIdentity = Option(EC2MetadataUtils.getInstanceId) getOrElse AwsHostNameUtils.localHostName
+
+
   def registerWorkflowType(workflowType: WorkflowType) {
     AWS.swf.registerWorkflowType(
       new RegisterWorkflowTypeRequest()
-        .withDefaultTaskList(taskList)
+        .withDefaultTaskList(defaultTaskList)
         .withDomain(domain)
         .withName(workflowType.getName)
         .withVersion(workflowType.getVersion)
@@ -48,10 +52,11 @@ object SimpleWorkflow {
     val workflow = listWorkflowTypes().find(_.getWorkflowType == workflowType)
 
     workflow map { w =>
-      Logger.info(s"Workflow already exists: $w")
+      log.info(s"Workflow already exists: $w")
     } getOrElse {
-      Logger.info(s"Creating workflow $workflowType")
-      registerWorkflowType(workflowType)
+      logAround(s"Creating workflow $workflowType") {
+        registerWorkflowType(workflowType)
+      }
     }
   }
 
@@ -65,37 +70,34 @@ object SimpleWorkflow {
     ).getTypeInfos.toList
   }
 
-  def registerActivityType(name: String, version: String) {
+  def registerActivityType(activityType: ActivityType) {
     AWS.swf.registerActivityType(
       new RegisterActivityTypeRequest()
         .withDomain(domain)
-        .withDefaultTaskList(taskList)
-        .withName(name)
-        .withVersion(version)
+        .withDefaultTaskList(defaultTaskList)
+        .withName(activityType.getName)
+        .withVersion(activityType.getVersion)
         .withDefaultTaskScheduleToCloseTimeout(oneHourInSeconds.toString)
         .withDefaultTaskScheduleToStartTimeout(tenMinutesInSeconds.toString)
         .withDefaultTaskStartToCloseTimeout(tenMinutesInSeconds.toString)
+        .withDefaultTaskHeartbeatTimeout(tenMinutesInSeconds.toString)
     )
   }
 
-  def createActivityIfNeeded(name: String, version: String) {
-    val activityType = new ActivityType().withName(name).withVersion(version)
+  def createActivityIfNeeded(activityType: ActivityType) {
     val activity = listActivityTypes().find(_.getActivityType == activityType)
 
     activity map { a =>
-      Logger.info(s"Activity already exists: $a")
+      log.info(s"Activity already exists: $a")
     } getOrElse {
-      Logger.info(s"Creating activity $activityType")
-      registerActivityType(name, version)
+      log.info(s"Creating activity $activityType")
+      registerActivityType(activityType)
     }
   }
 
-  def createConfigStuff() = {
+  def registerWorkflow() {
     createWorkflowIfNeeded(workflowType)
-    acivities foreach (createActivityIfNeeded(_, "1"))
   }
-
-  createConfigStuff()
 
   def submit(bundle: GenericRecord) {
     val bytes = Avro.toBytes(bundle)
