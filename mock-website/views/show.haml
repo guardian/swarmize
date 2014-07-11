@@ -2,23 +2,19 @@
 
 %p Stick a paragrarph of text about this Swarm here.
 
-:javascript
-  $(document).ready(function() {
-    $.getJSON(window.location.href+'/graphs/count/feedback', function(data) {
-      var feedbackChart = $('#feedback_pie').epoch({ type: 'pie', data: data });
+- swarm.graphs.each_with_index do |graph, i|
+  :javascript
+    $(document).ready(function() {
+      $.getJSON(window.location.href+'#{graph.url_fragment}', function(data) {
+          var graph#{i+1} = $('#graph#{i+1}').epoch({ type: '#{graph.viz_type}', data: data });
+        });
     });
-    $.getJSON(window.location.href+'/graphs/count/intent/user_key', function(data) {
-     var feedbackChart = $('#intent_pie').epoch({ type: 'pie', data: data });
-    });
-  });
 
 .row
-  .col-md-6
-    %h2 Aggregate feedback
-    #feedback_pie{:class => "epoch", :style => "width:200px; height: 200px;"}
-  .col-md-6
-    %h2 Aggregate voting intent
-    #intent_pie{:class => "epoch", :style => "width:200px; height: 200px;"}
+  - swarm.graphs.each_with_index do |graph, i|
+    .col-md-6
+      %h2= graph.title
+      %div{:id => "graph#{i+1}", :class => "epoch", :style => "width:200px; height: 200px;"}
 
 -#%ul.nav.nav-tabs
   -#%li

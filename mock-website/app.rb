@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'sinatra/base'
 require './lib/swarm'
 require './lib/display_field'
+require './lib/graph'
 require './lib/swarmize_search'
 
 class MockSwarmizeWebsite < Sinatra::Base
@@ -16,7 +17,20 @@ class MockSwarmizeWebsite < Sinatra::Base
       ["feedback", "Feedback"],
       ["ip", "IP"],
       ["user_key", "User Key"]
-    ]
+    ],
+    [
+      {:title => "Aggregate Feedback",
+       :graph_type => "count",
+       :graph_field => "feedback",
+       :viz_type => "pie"
+      },
+      {:title => "Aggregate Voting Intent",
+       :graph_type => "cardinal_count",
+       :viz_type => "pie",
+       :graph_field => "intent",
+       :filter_field => "user_key"
+      }
+     ]
   )
 
   swarms = [swarm1]
