@@ -2,7 +2,7 @@ cluster.name: swarmize
 
 plugin.mandatory: cloud-aws
 
-cloud.aws.region: us-east-1
+cloud.aws.region: eu-west-1
 cloud.node.auto_attributes: true
 
 gateway.recover_after_nodes: 2
@@ -13,7 +13,7 @@ discovery.zen.ping.multicast.enabled: false
 discovery.zen.minimum_master_nodes: 1
 
 discovery.type: ec2
-discovery.ec2.tag.Role: swarmize-elasticsearch
+discovery.ec2.tag.Name: swarmize-elasticsearch
 
 index.number_of_shards: 3
 index.number_of_replicas: 0

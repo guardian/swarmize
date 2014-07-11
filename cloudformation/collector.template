@@ -18,13 +18,6 @@
 
     "Resources" : {
 
-        "SubmissionStream": {
-            "Type": "AWS::Kinesis::Stream",
-            "Properties": {
-               "ShardCount": "1"
-            }
-        },
-
         "CollectorRole" : {
             "Type" : "AWS::IAM::Role",
             "Properties":{
@@ -45,7 +38,7 @@
                 "PolicyDocument": {
                     "Statement": [
                         {
-                            "Action": ["kinesis:*"],
+                            "Action": ["swf:*"],
                             "Effect": "Allow",
                             "Resource":"*"
                         },
@@ -98,7 +91,7 @@
                 "HealthCheckGracePeriod" : 300,
                 "Tags" : [
                     { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
-                    { "Key" : "Role", "Value" : "swamize-collector", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Name", "Value" : "swamize-collector", "PropagateAtLaunch" : "true"  },
                     { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
                     { "Key" : "App", "Value" : "collector", "PropagateAtLaunch" : "true" },
                     { "Key" : "Management", "Value" : "port=9000", "PropagateAtLaunch" : "true" }
@@ -109,9 +102,9 @@
         "CollectorLaunchConfig"  : {
             "Type" : "AWS::AutoScaling::LaunchConfiguration",
             "Properties" : {
-                "ImageId"        : "ami-018c9568",
+                "ImageId"        : "ami-bd0cc5ca",
                 "SecurityGroups" : [ { "Ref" : "CollectorSecurityGroup" } ],
-                "InstanceType"   : "t1.micro",
+                "InstanceType"   : "t2.micro",
                 "IamInstanceProfile": { "Ref": "CollectorInstanceProfile" },
                 "KeyName"        : { "Ref" : "KeyName" },
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
@@ -142,8 +135,10 @@
             "Properties" : {
                 "GroupDescription" : "Allow access from load balancer and SSH from the Guardian offices",
                 "SecurityGroupIngress" : [
+
                     { "IpProtocol" : "tcp", "FromPort" : "9000", "ToPort" : "9000",
-                        "SourceSecurityGroupName": "amazon-elb-sg", "SourceSecurityGroupOwnerId": "amazon-elb" } ,
+                        "SourceSecurityGroupOwnerId" : {"Fn::GetAtt" : ["CollectorELB", "SourceSecurityGroup.OwnerAlias"]},
+                        "SourceSecurityGroupName" : {"Fn::GetAtt" : ["CollectorELB", "SourceSecurityGroup.GroupName"]} },
                     { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22",
                         "CidrIp" : "77.91.248.0/21" } ]
             }

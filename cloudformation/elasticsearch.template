@@ -70,7 +70,7 @@
                 "HealthCheckGracePeriod": 300,
                 "Tags" : [
                     { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
-                    { "Key" : "Role", "Value" : "swarmize-elasticsearch", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Name", "Value" : "swarmize-elasticsearch", "PropagateAtLaunch" : "true"  },
                     { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
                     { "Key" : "App", "Value" : "elasticsearch", "PropagateAtLaunch" : "true" },
                     { "Key" : "Management", "Value" : "port=9200,format=elasticsearch", "PropagateAtLaunch" : "true" }
@@ -81,9 +81,9 @@
         "ElasticsearchLaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": "ami-018c9568",
+                "ImageId": "ami-bd0cc5ca",
                 "SecurityGroups": [ { "Ref": "ElasticsearchSecurityGroup" } ],
-                "InstanceType": "t1.micro",
+                "InstanceType": "t2.micro",
                 "KeyName": { "Ref": "KeyName" },
                 "IamInstanceProfile": { "Ref": "ElasticsearchInstanceProfile" },
 

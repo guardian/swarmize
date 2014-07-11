@@ -1,12 +1,12 @@
 #!/bin/sh
 
 S3_CFN_PATH="s3://$BUCKET_NAME/cfn/"
-S3_CFN_URL="https://s3.amazonaws.com/$BUCKET_NAME/cfn"
+S3_CFN_URL="https://s3-$REGION.amazonaws.com/$BUCKET_NAME/cfn"
 S3_DIST_PATH="s3://$BUCKET_NAME/"
-S3_DIST_URL="https://s3.amazonaws.com/$BUCKET_NAME"
-AWS_CMD="aws --region $REGION"
+S3_DIST_URL="https://s3-$REGION.amazonaws.com/$BUCKET_NAME"
+AWS_CMD="aws --region $REGION --profile $PROFILE"
 
-echo "Region: $REGION"
+echo "Region: $REGION Profile: $PROFILE"
 
 
 uploadTemplates()
