@@ -1,0 +1,17 @@
+.form-element.yesno
+  .header
+    %h2 Yes / No
+    .controls
+      %span{:class => 'glyphicon glyphicon-move'}
+      %a{:href => "#"}
+        %span{:class => 'glyphicon glyphicon-remove'}
+
+  .form-group
+    %label.col-sm-3.control-label Field name
+    .col-sm-9
+      = text_field_tag :field_name, nil, :class => 'form-control'
+
+  .form-group
+    %label.col-sm-3.control-label Compulsory?
+    .col-sm-9
+      = check_box_tag :field_name, nil, :class => 'form-control'

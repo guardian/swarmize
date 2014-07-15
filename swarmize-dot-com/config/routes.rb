@@ -1,5 +1,9 @@
 Swarmize::Application.routes.draw do
-  resources :swarms
+  resources :swarms do
+    member do
+      get 'fields'
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

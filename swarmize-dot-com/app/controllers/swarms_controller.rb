@@ -7,6 +7,10 @@ class SwarmsController < ApplicationController
     @swarm = Swarm.find(params[:id])
   end
 
+  def fields
+    @swarm = Swarm.find(params[:id])
+  end
+
   def new
     @swarm = Swarm.new
   end

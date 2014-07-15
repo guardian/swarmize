@@ -7,10 +7,15 @@
     %tr
       %th Name
       %th Description
+      %th Actions
   %tbody
     - for swarm in @swarms
       %tr
-        %td= link_to swarm.name, swarm
+        %td= swarm.name
         %td= swarm.description
+        %td
+          = link_to "View", swarm
+          |
+          = link_to "Fields", fields_swarm_path(swarm)
 
 %p= link_to "New swarm", new_swarm_path

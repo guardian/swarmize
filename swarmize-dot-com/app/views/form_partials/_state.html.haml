@@ -1,0 +1,18 @@
+.form-element.state
+  .header
+    %h2 State
+
+  .form-group
+    %label.col-sm-3.control-label Field name
+    .col-sm-9
+      = text_field_tag :field_name, nil, :class => 'form-control'
+
+  .form-group
+    %label.col-sm-3.control-label Sample value
+    .col-sm-9
+      = text_field_tag :field_name, nil, :class => 'form-control'
+
+  .form-group
+    %label.col-sm-3.control-label Compulsory?
+    .col-sm-9
+      = check_box_tag :field_name, nil, :class => 'form-control'

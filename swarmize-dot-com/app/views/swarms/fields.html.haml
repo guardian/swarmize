@@ -1,0 +1,18 @@
+%h1 Fields for #{@swarm.name}
+
+:javascript
+  $(document).ready(function() {
+    $('.fields-palette .field').attr('draggable', 'true');
+  });
+
+.row
+  .col-sm-3
+    .fields-palette
+      %h3 Field Palette
+      - %w{text bigtext address city state county country email number pick_one pick_several rating yesno checkbox}.each do |field|
+        .field= field.capitalize
+
+  .col-sm-9
+    = form_tag "/", :class => "form-horizontal" do |f|
+      - %w{text bigtext address city state county country email number pick_one pick_several rating yesno checkbox}.each do |field|
+        = render partial: "form_partials/#{field}"
