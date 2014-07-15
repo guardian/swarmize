@@ -29,6 +29,15 @@
 
 }
 
+#workspace {
+  background: #f0f0f0;
+  min-height: 400px;
+
+  &.hover {
+    border: 2px dashed #888;
+  }
+}
+
 form {
   .form-element {
     background: #fafafa;
