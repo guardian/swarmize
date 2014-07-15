@@ -8,5 +8,17 @@ class SwarmsController < ApplicationController
   end
 
   def new
+    @swarm = Swarm.new
+  end
+
+  def create
+    Swarm.create(swarm_params)
+    redirect_to swarms_path
+  end
+
+  private
+
+  def swarm_params
+    params.require(:swarm).permit(:name, :description)
   end
 end

@@ -1,0 +1,14 @@
+%h1 Create Swarm
+
+This is the new swarm page.
+
+= form_for @swarm do |f|
+  .form-group
+    %label Swarm name
+    = f.text_field :name, :class => 'form-control'
+
+  .form-group
+    %label Swarm description
+    = f.text_area :description, :class => 'form-control'
+
+  = f.submit :class => "btn btn-default"
