@@ -15,6 +15,7 @@
     $('#workspace').attr('ondrop', 'onDropWorkspace(event)');
 
     bindLinks();
+    reindexFormElements();
   });
 
   function onDragPaletteStart(event) {
@@ -66,6 +67,7 @@
       $('#workspace form').append(template);
     }
     bindLinks();
+    reindexFormElements();
     event.preventDefault();
   }
 
@@ -90,7 +92,14 @@
     $("#workspace form a.close-this-element").unbind();
     $("#workspace form a.close-this-element").click(function(e) {
       $(this).parents(".form-element").remove();
+      reindexFormElements();
       return false;
+    });
+  }
+
+  function reindexFormElements() {
+    $("#workspace .form-element").each(function(i, el) {
+      $(el).find("input[name=index]").val(i);
     });
   }
 
