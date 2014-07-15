@@ -1,10 +1,7 @@
 .form-element.checkbox
   .header
     %h2 Single checkbox
-    .controls
-      %span{:class => 'glyphicon glyphicon-move'}
-      %a{:href => "#"}
-        %span{:class => 'glyphicon glyphicon-remove'}
+    = render :partial => "form_partials/element_controls"
 
   .form-group
     %label.col-sm-3.control-label Field name
