@@ -6,32 +6,36 @@
   .form-group
     %label.col-sm-3.control-label Field name
     .col-sm-9
-      = text_field_tag "fields[][field_name]", nil, :class => 'form-control'
+      = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Possible values
     .col-sm-9
       .option-list
-        %p
-          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
-        %p
-          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
-        %p.input-group
-          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
-          %span{:class => "input-group-addon"}
-            %a.remove-option{:href => "#"}
-              %span{:class => 'glyphicon glyphicon-remove'}
+        - if field.possible_values
+          - field.possible_values.each_with_index do |value, i|
+            %p{:class => ('input-group' if i > 1)}
+              = text_field_tag "fields[]possible_values[]", value, :class => 'form-control'
+              - if i > 1
+                %span{:class => "input-group-addon"}
+                  %a.remove-option{:href => "#"}
+                    %span{:class => 'glyphicon glyphicon-remove'}
+        - else
+          %p
+            = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
+          %p
+            = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
       %p= link_to "Add another", "#", :class => "add-option"
 
   .form-group
     %label.col-sm-3.control-label Compulsory?
     .col-sm-9
-      = check_box_tag "fields[][compulsory]", nil, :class => 'form-control'
+      = check_box_tag "fields[][compulsory]", field.compulsory, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Index
     .col-sm-9
-      = text_field_tag "fields[][index]", nil, :class => 'form-control', :id => "index"
+      = text_field_tag "fields[][index]", field['index'], :class => 'form-control', :id => "index"
 
   .form-group
     %label.col-sm-3.control-label Field type

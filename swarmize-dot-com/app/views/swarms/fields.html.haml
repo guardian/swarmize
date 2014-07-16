@@ -30,8 +30,9 @@
   .col-sm-9
     = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do
       #workspace
-        - @swarm.fields.each do |field|
-          = render "form_partials/#{field['field_type']}", field: Field.from_hash(field)
+        - if @swarm.fields
+          - @swarm.fields.each do |field|
+            = render "form_partials/#{field['field_type']}", field: Field.from_hash(field)
       = submit_tag "Save fields", :class => "btn btn-default"
 
 

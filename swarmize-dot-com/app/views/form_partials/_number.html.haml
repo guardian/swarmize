@@ -6,22 +6,22 @@
   .form-group
     %label.col-sm-3.control-label Field name
     .col-sm-9
-      = text_field_tag "fields[][field_name]", nil, :class => 'form-control'
+      = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Sample value
     .col-sm-9
-      = number_field_tag "fields[][sample_value]", nil, :class => 'form-control'
+      = number_field_tag "fields[][sample_value]", field.sample_value, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Compulsory?
     .col-sm-9
-      = check_box_tag "fields[][compulsory]", nil, :class => 'form-control'
+      = check_box_tag "fields[][compulsory]", field.compulsory, :class => 'form-control'
   
   .form-group
     %label.col-sm-3.control-label Index
     .col-sm-9
-      = text_field_tag "fields[][index]", nil, :class => 'form-control', :id => 'index'
+      = text_field_tag "fields[][index]", field['index'], :class => 'form-control', :id => 'index'
 
   .form-group
     %label.col-sm-3.control-label Field type
