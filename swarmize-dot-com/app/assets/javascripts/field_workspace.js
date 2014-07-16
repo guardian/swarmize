@@ -15,6 +15,7 @@ var FieldWorkspace = {
       console.log("currentDropIndex is " + window.currentDropIndex + " but actual index is " + index);
       $(".temp").remove();
     }
+    console.log("Setting drop index to" + index);
     window.currentDropIndex = index;
     
     if($(".temp").length < 1) {
@@ -33,9 +34,11 @@ var FieldWorkspace = {
   },
 
   onDragLeaveWorkspace: function(event) {
-    $("#workspace").removeClass('hover')
-    $(".temp").remove();
-    FieldWorkspace.resetDragCount(event);
+    if(window.dragCount < 1) {
+      $("#workspace").removeClass('hover')
+      $(".temp").remove();
+    }
+    FieldWorkspace.updateDragCount(event);
   },
 
   onDragEndWorkspace: function(event) {
@@ -46,8 +49,21 @@ var FieldWorkspace = {
   onDropWorkspace: function(event) {
     var type = event.dataTransfer.getData('text/plain');
     var template = _.template( $('#' + type + '_template').html(), {} );
+    var index = FieldWorkspace.getIndexForEvent(event);
+
     $('.temp').remove();
-    $('#workspace form').append(template);
+
+    if($(".form-element").length > 0) {
+      if(index == 0) {
+        console.log("Appending before");
+        $(".form-element:eq(0)").before(template);
+      } else {
+        $(".form-element:eq(" + (index-1) + ")").after(template);
+      }
+    } else {
+      $("#workspace form").append(template);
+    }
+
     FieldWorkspace.bindLinks();
     FieldWorkspace.reindexFormElements();
     FieldWorkspace.resetDragCount(event);
@@ -57,8 +73,7 @@ var FieldWorkspace = {
   getIndexForEvent: function(event) {
     var middles = _.map($(".form-element"), function(o) { 
       var top = $(o).offset().top;
-      var mid = top + ($(o).height() / 2);
-      return mid;
+      return top;
     });
 
     var index = 0;
