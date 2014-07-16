@@ -38,3 +38,4 @@ end
 
 gem 'rspec-rails'
 
+gem 'hashie'
