@@ -20,34 +20,46 @@
 
   function onDragPaletteStart(event) {
     var type = $(event.toElement).attr('id').replace("_dragger", "");
+    var text = $(event.toElement).text();
     event.dataTransfer.setData('text/plain', type);
-    window.beingDragged = type;
+    window.beingDraggedType = type;
+    window.beingDraggedText = text;
   }
 
   function onDragPaletteEnd(event) {
     $('.hover').removeClass('hover');
-    window.beingDragged = null;
+    window.beingDraggedType = null;
+    window.beingDraggedText = null;
   }
 
   function onDragOverWorkspace(event) {
-    var type = window.beingDragged;
+    console.log('Dragged over workspace');
+    var type = window.beingDraggedType;
+    var text = window.beingDraggedText;
     var index = getIndexForEvent(event);
-    var newElement = "<div class='form-element temp'>" + type + "</div>";
-    $(".temp").remove();
-    if($('.form-element').length > 0) {
-      if(index == 0) {
-        $(".form-element:eq(0)").before(newElement);
+    var newElement = '<div class="form-element temp">' + text + '</div>';
+    var tempOuterHtml = $('.temp').clone().wrap('<p>').parent().html();
+    if(tempOuterHtml != newElement) {
+      console.log("Oh, this element is different.");
+      console.log(tempOuterHtml);
+      console.log(newElement);
+      $(".temp").remove();
+      if($('.form-element').length > 0) {
+        if(index == 0) {
+          $(".form-element:eq(0)").before(newElement);
+        } else {
+          $(".form-element:eq(" + (index-1) + ")").after(newElement);
+        }
       } else {
-        $(".form-element:eq(" + (index-1) + ")").after(newElement);
+        $("#workspace form").append(newElement);
       }
-    } else {
-      $("#workspace form").append(newElement);
     }
     $("#workspace").addClass('hover');
     event.preventDefault(); 
   }
 
   function onDragLeaveWorkspace(event) {
+    console.log('Drag left workspace');
     $("#workspace").removeClass('hover')
     $(".temp").remove();
   }
@@ -107,16 +119,15 @@
   .col-sm-3
     .fields-palette
       %h3 Field Palette
-      - %w{text bigtext address city state county country email number pick_one pick_several rating yesno checkbox}.each do |field|
-        .field{id: "#{field}_dragger"}= field.capitalize
+      - FormBuilderField::ALL.each do |field,text|
+        .field{id: "#{field}_dragger"}= text
 
   .col-sm-9#workspace
-    = form_tag "/", :class => "form-horizontal" do |f|
-      -#- %w{text bigtext address city state county country email number pick_one pick_several rating yesno checkbox}.each do |field|
-        -#= render partial: "form_partials/#{field}"
+    = form_tag "/", :class => "form-horizontal"
+
 
 -#This just sets up our templates
-- %w{text bigtext address city state county country email number pick_one pick_several rating yesno checkbox}.each do |field|
+- FormBuilderField::ALL.each do |field,text|
   %script{type: 'text/template', id: "#{field}_template"}
     = render partial: "form_partials/#{field}"
 
