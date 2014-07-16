@@ -20,6 +20,11 @@ class SwarmsController < ApplicationController
     redirect_to swarms_path
   end
 
+  def update_fields
+    render :text => params.inspect
+
+  end
+
   private
 
   def swarm_params

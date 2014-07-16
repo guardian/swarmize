@@ -26,7 +26,7 @@ var FieldWorkspace = {
           $(".form-element:eq(" + (index-1) + ")").after(tempElement);
         }
       } else {
-        $("#workspace form").append(tempElement);
+        $("#workspace").append(tempElement);
       }
     }
     $("#workspace").addClass('hover');
@@ -61,7 +61,7 @@ var FieldWorkspace = {
         $(".form-element:eq(" + (index-1) + ")").after(template);
       }
     } else {
-      $("#workspace form").append(template);
+      $("#workspace").append(template);
     }
 
     FieldWorkspace.bindLinks();
@@ -86,17 +86,32 @@ var FieldWorkspace = {
   },
 
   bindLinks: function() {
-    $("#workspace form a.close-this-element").unbind();
-    $("#workspace form a.close-this-element").click(function(e) {
+    $("#workspace a.close-this-element").unbind();
+    $("#workspace a.close-this-element").click(function(e) {
       $(this).parents(".form-element").remove();
       FieldWorkspace.reindexFormElements();
-      return false;
+      e.preventDefault();
+    });
+
+
+    $("#workspace .pick_one .add-option, #workspace .pick_several .add-option").unbind();
+    $("#workspace .pick_one .add-option, #workspace .pick_several .add-option").click(function(e) {
+      var newElement = "<p class='input-group'><input name='fields[]possible_values[]' class='form-control' /><span class='input-group-addon'><a href='#' class='remove-option'><span class='glyphicon glyphicon-remove'></span> </a></span></p>";
+      $(this).parent().siblings('.option-list').append(newElement);
+      FieldWorkspace.bindLinks();
+      e.preventDefault();
+    });
+
+    $("#workspace .pick_one .remove-option, #workspace .pick_several .remove-option").unbind();
+    $("#workspace .pick_one .remove-option, #workspace .pick_several .remove-option").click(function(e) {
+      $(this).parents('p.input-group').remove();
+      e.preventDefault();
     });
   },
 
   reindexFormElements: function() {
     $("#workspace .form-element").each(function(i, el) {
-      $(el).find("input[name=index]").val(i);
+      $(el).find("input#index").val(i);
     });
   },
 

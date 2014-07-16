@@ -2,6 +2,7 @@ Swarmize::Application.routes.draw do
   resources :swarms do
     member do
       get 'fields'
+      post 'update_fields'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

@@ -6,29 +6,29 @@
   .form-group
     %label.col-sm-3.control-label Field name
     .col-sm-9
-      = text_field_tag :field_name, nil, :class => 'form-control'
+      = text_field_tag "fields[][field_name]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Minimum value
     .col-sm-9
-      = text_field_tag :minimum_value, nil, :class => 'form-control'
+      = text_field_tag "fields[][minimum_value]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Maximum value
     .col-sm-9
-      = text_field_tag :maximum_value, nil, :class => 'form-control'
+      = text_field_tag "fields[][maximum_value]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Compulsory?
     .col-sm-9
-      = check_box_tag :compulsory, nil, :class => 'form-control'
+      = check_box_tag "fields[][compulsory]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Index
     .col-sm-9
-      = text_field_tag :index, nil, :class => 'form-control'
+      = text_field_tag "fields[][index]", nil, :class => 'form-control', :id => "index"
 
   .form-group
     %label.col-sm-3.control-label Field type
     .col-sm-9
-      = text_field_tag :field_type, 'rating', :class => 'form-control'
+      = text_field_tag "fields[][field_type]", 'rating', :class => 'form-control'

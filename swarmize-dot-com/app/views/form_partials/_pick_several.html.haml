@@ -6,33 +6,34 @@
   .form-group
     %label.col-sm-3.control-label Field name
     .col-sm-9
-      = text_field_tag :field_name, nil, :class => 'form-control'
+      = text_field_tag "fields[][field_name]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Possible values
     .col-sm-9
-      %p
-        = text_field_tag :field_name, nil, :class => 'form-control'
-      %p
-        = text_field_tag :field_name, nil, :class => 'form-control'
-      %p.input-group
-        = text_field_tag :field_name, nil, :class => 'form-control'
-        %span{:class => "input-group-addon"}
-          %a{:href => "#"}
-            %span{:class => 'glyphicon glyphicon-remove'}
-      %p= link_to "Add another", "#"
+      .option-list
+        %p
+          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
+        %p
+          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
+        %p.input-group
+          = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
+          %span{:class => "input-group-addon"}
+            %a.remove-option{:href => "#"}
+              %span{:class => 'glyphicon glyphicon-remove'}
+      %p= link_to "Add another", "#", :class => "add-option"
 
   .form-group
     %label.col-sm-3.control-label Compulsory?
     .col-sm-9
-      = check_box_tag :compulsory, nil, :class => 'form-control'
+      = check_box_tag "fields[][compulsory]", nil, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Index
     .col-sm-9
-      = text_field_tag :index, nil, :class => 'form-control'
+      = text_field_tag "fields[][index]", nil, :class => 'form-control', :id => "index"
 
   .form-group
     %label.col-sm-3.control-label Field type
     .col-sm-9
-      = text_field_tag :field_type, 'pick_several', :class => 'form-control'
+      = text_field_tag "fields[][field_type]", 'pick_several', :class => 'form-control'

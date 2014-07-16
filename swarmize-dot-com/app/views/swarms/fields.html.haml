@@ -17,6 +17,7 @@
 
     FieldWorkspace.bindLinks();
     FieldWorkspace.reindexFormElements();
+
   });
 
 .row
@@ -26,9 +27,11 @@
       - FormBuilderField::ALL.each do |field,text|
         .field{id: "#{field}_dragger"}= text
 
-  .col-sm-9#workspace
-    = form_tag "/", :class => "form-horizontal"
-    -#form fields will be inserted via JS.
+  .col-sm-9
+    = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do
+      #workspace
+      -#form fields will be inserted via JS.
+      = submit_tag "Save fields", :class => "btn btn-default"
 
 
 -#This just sets up our templates
