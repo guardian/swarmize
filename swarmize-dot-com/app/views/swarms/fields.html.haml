@@ -30,12 +30,13 @@
   .col-sm-9
     = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do
       #workspace
-      -#form fields will be inserted via JS.
+        - @swarm.fields.each do |field|
+          = render "form_partials/#{field['field_type']}", field: Field.from_hash(field)
       = submit_tag "Save fields", :class => "btn btn-default"
 
 
 -#This just sets up our templates
 - FormBuilderField::ALL.each do |field,text|
   %script{type: 'text/template', id: "#{field}_template"}
-    = render partial: "form_partials/#{field}"
+    = render "form_partials/#{field}", field: Field.null_field
 
