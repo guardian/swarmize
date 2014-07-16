@@ -9,6 +9,7 @@
 
     // set up droppable for workspace
 
+    $('#workspace').attr('ondragenter', 'FieldWorkspace.onDragEnterWorkspace(event)');
     $('#workspace').attr('ondragover', 'FieldWorkspace.onDragOverWorkspace(event)');
     $('#workspace').attr('ondragleave', 'FieldWorkspace.onDragLeaveWorkspace(event)');
     $('#workspace').attr('ondragend', 'FieldWorkspace.onDragEndWorkspace(event)');
@@ -27,6 +28,7 @@
 
   .col-sm-9#workspace
     = form_tag "/", :class => "form-horizontal"
+    -#form fields will be inserted via JS.
 
 
 -#This just sets up our templates

@@ -1,24 +1,31 @@
 var FieldWorkspace = {
+  onDragEnterWorkspace: function(event) {
+    event.preventDefault();
+    FieldWorkspace.updateDragCount(event);
+  },
+
   onDragOverWorkspace: function(event) {
-    console.log('Dragged over workspace');
     var type = window.beingDraggedType;
     var text = window.beingDraggedText;
     var index = FieldWorkspace.getIndexForEvent(event);
-    var newElement = '<div class="form-element temp">' + text + '</div>';
-    var tempOuterHtml = $('.temp').clone().wrap('<p>').parent().html();
-    if(tempOuterHtml != newElement) {
-      console.log("Oh, this element is different.");
-      console.log(tempOuterHtml);
-      console.log(newElement);
+
+    var tempElement = '<div class="form-element temp">' + text + '</div>';
+
+    if(window.currentDropIndex && (index != window.currentDropIndex)) {
+      console.log("currentDropIndex is " + window.currentDropIndex + " but actual index is " + index);
       $(".temp").remove();
-      if($('.form-element').length > 0) {
+    }
+    window.currentDropIndex = index;
+    
+    if($(".temp").length < 1) {
+      if($(".form-element").length > 0) {
         if(index == 0) {
-          $(".form-element:eq(0)").before(newElement);
+          $(".form-element:eq(0)").before(tempElement);
         } else {
-          $(".form-element:eq(" + (index-1) + ")").after(newElement);
+          $(".form-element:eq(" + (index-1) + ")").after(tempElement);
         }
       } else {
-        $("#workspace form").append(newElement);
+        $("#workspace form").append(tempElement);
       }
     }
     $("#workspace").addClass('hover');
@@ -26,27 +33,24 @@ var FieldWorkspace = {
   },
 
   onDragLeaveWorkspace: function(event) {
-    console.log('Drag left workspace');
     $("#workspace").removeClass('hover')
     $(".temp").remove();
+    FieldWorkspace.resetDragCount(event);
   },
 
   onDragEndWorkspace: function(event) {
+    FieldWorkspace.resetDragCount(event);
     $(this).removeClass('hover');
   },
 
   onDropWorkspace: function(event) {
-    index = FieldWorkspace.getIndexForEvent(event);
     var type = event.dataTransfer.getData('text/plain');
     var template = _.template( $('#' + type + '_template').html(), {} );
     $('.temp').remove();
-    if($('.form-element').length > 0) {
-      $('.form-element:eq(' + (index-1) + ")").after(template);
-    } else {
-      $('#workspace form').append(template);
-    }
+    $('#workspace form').append(template);
     FieldWorkspace.bindLinks();
     FieldWorkspace.reindexFormElements();
+    FieldWorkspace.resetDragCount(event);
     event.preventDefault();
   },
 
@@ -56,7 +60,6 @@ var FieldWorkspace = {
       var mid = top + ($(o).height() / 2);
       return mid;
     });
-    var data = event.dataTransfer.getData("text/plain");
 
     var index = 0;
     _.each(middles, function(t) {
@@ -80,9 +83,27 @@ var FieldWorkspace = {
     $("#workspace .form-element").each(function(i, el) {
       $(el).find("input[name=index]").val(i);
     });
+  },
+
+  updateDragCount: function(event) {
+    var $hierarchy = $(event.target).parents().add(event.target),
+    $workspace = $hierarchy.filter('#workspace'),
+    countOffset = event.type === 'dragenter' ? 1 : -1;
+
+    var dragCount = ($('#workspace').data('dragCount') || 0) + countOffset;
+    $('#workspace')
+      .data('dragCount', dragCount)
+      .toggleClass('dragging', dragCount > 0);
+
+    //console.log("Dragcount: " + dragCount);
+  },
+
+  resetDragCount: function(event) {
+    $('#workspace')
+      .data('dragCount', 0)
+      .removeClass('dragging');
+
+    //console.log("Dragcount: " + 0);
   }
-
-
-
 
 }

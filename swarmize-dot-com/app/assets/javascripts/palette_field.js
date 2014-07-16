@@ -2,6 +2,7 @@ var PaletteField = {
   onDragPaletteStart: function(event) {
     var type = $(event.toElement).attr('id').replace("_dragger", "");
     var text = $(event.toElement).text();
+
     event.dataTransfer.setData('text/plain', type);
     window.beingDraggedType = type;
     window.beingDraggedText = text;
