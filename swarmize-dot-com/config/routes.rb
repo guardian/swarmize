@@ -5,6 +5,7 @@ Swarmize::Application.routes.draw do
     member do
       get 'fields'
       get 'preview'
+      get 'delete'
       post 'update_fields'
     end
   end

@@ -1,0 +1,8 @@
+%h1 Delete Swarm '#{@swarm.name}'?
+
+%p Are you sure you want to delete this swarm?
+
+%p
+  = button_to "Delete", swarm_path(@swarm), :method => :delete, :class => "btn btn-default"
+  or
+  = link_to "Return to all swarms", swarms_path

@@ -11,6 +11,15 @@ class SwarmsController < ApplicationController
     respond_with @swarm
   end
 
+  def delete
+
+  end
+
+  def destroy
+    @swarm.destroy
+    redirect_to swarms_path
+  end
+
   def fields
   end
 
