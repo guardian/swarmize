@@ -33,6 +33,20 @@
             }
         },
 
+        "Processor": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+                    "Fn::Join": [ "/", [ { "Ref": "TemplateBucketPath" }, "processor.template" ] ]
+                },
+                "Parameters": {
+                    "KeyName": { "Ref": "KeyName" },
+                    "DistPath": { "Ref": "DistBucketPath" }
+                }
+            }
+        },
+
+
         "Elasticsearch": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {

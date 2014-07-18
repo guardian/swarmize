@@ -1,7 +1,7 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
 
-    "Description" : "swarmize: collectors",
+    "Description" : "swarmize: processors",
 
     "Parameters" : {
 
@@ -38,7 +38,10 @@
                 "PolicyDocument": {
                     "Statement": [
                         {
-                            "Action": ["swf:*"],
+                            "Action": [
+                                "swf:*",
+                                "ec2:DescribeInstances"
+                            ],
                             "Effect": "Allow",
                             "Resource":"*"
                         }
@@ -86,9 +89,9 @@
                 "HealthCheckGracePeriod" : 300,
                 "Tags" : [
                     { "Key" : "Stage", "Value" : "PROD", "PropagateAtLaunch" : "true"  },
-                    { "Key" : "Name", "Value" : "swarmize-collector", "PropagateAtLaunch" : "true"  },
+                    { "Key" : "Name", "Value" : "swarmize-processor", "PropagateAtLaunch" : "true"  },
                     { "Key" : "Stack", "Value" : "swarmize", "PropagateAtLaunch" : "true" },
-                    { "Key" : "App", "Value" : "collector", "PropagateAtLaunch" : "true" },
+                    { "Key" : "App", "Value" : "processor", "PropagateAtLaunch" : "true" },
                     { "Key" : "Management", "Value" : "port=9000", "PropagateAtLaunch" : "true" }
                 ]
             }
@@ -111,15 +114,15 @@
                     "adduser --system --home /swarmize --disabled-password swarmize\n",
 
 
-                    "wget ", { "Ref": "DistPath" }, "/collector.conf",
+                    "wget ", { "Ref": "DistPath" }, "/processor.conf",
                     " --directory-prefix=/etc/init\n",
 
-                    "wget ", { "Ref": "DistPath" }, "/collector.tar.gz",
+                    "wget ", { "Ref": "DistPath" }, "/processor.tar.gz",
                     " --directory-prefix=/swarmize\n",
 
                     "chown swarmize /swarmize/*\n",
 
-                    "start collector\n"
+                    "start processor\n"
 
                 ]]}}
             }
@@ -143,7 +146,7 @@
             "Type" : "AWS::Route53::RecordSet",
             "Properties" : {
                 "HostedZoneName" : "app.swarmize.com.",
-                "Name" : "collector.app.swarmize.com",
+                "Name" : "processor.app.swarmize.com",
                 "Type" : "CNAME",
                 "TTL" : "300",
                 "ResourceRecords" : [ { "Fn::GetAtt" : [ "ELB", "DNSName" ]} ]
