@@ -6,6 +6,7 @@ class FormBuilderField
           :county => "County",
           :state => "State",
           :country => "Country",
+          :postcode => "Postcode",
           :email => "Email",
           :number => "Number",
           :pick_one => "Pick One",
