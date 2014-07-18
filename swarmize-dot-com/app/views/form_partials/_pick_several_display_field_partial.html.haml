@@ -1,0 +1,7 @@
+.form_group
+  %label= field.field_name
+  - field.possible_values.each_with_index do |value, index|
+    .checkbox
+      %label
+        = check_box_tag field.field_name, index
+        = value
