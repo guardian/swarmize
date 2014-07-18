@@ -15,7 +15,10 @@
     .form-group
       %label.col-sm-3.control-label Sample value
       .col-sm-9
-        = text_field_tag "fields[][sample_value]", field.sample_value, :class => 'form-control'
+        - if form_builder_field.input_type
+          %input.form-control{:name => "fields[][sample_value]", :value => field.send(:sample_value), :type => form_builder_field.input_type}
+        - else
+          = text_field_tag "fields[][sample_value]", field.send(:sample_value), :class => 'form-control'
 
   - if form_builder_field.has_possible_values
     .form-group
