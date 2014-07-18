@@ -1,14 +1,20 @@
 class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index new create}
 
+  respond_to :html, :json
+
   def index
     @swarms = Swarm.all
   end
 
   def show
+    respond_with @swarm
   end
 
   def fields
+  end
+
+  def preview
   end
 
   def new
