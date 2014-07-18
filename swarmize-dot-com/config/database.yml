@@ -54,7 +54,8 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: swarmize_production
-  pool: 5
-  username: swarmize
-  password:
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
