@@ -1,6 +1,6 @@
 require 'hashie'
 
-class FormBuilderField
+class FieldDescription
 
   ALL_FIELDS = [
     {:field_type => "text",

@@ -3,10 +3,10 @@
 .embeddable-swarm
   = form_tag '#' do
     - @swarm.fields.each do |field|
-      - if FormBuilderField.has_custom_display?(Field.from_hash(field).field_type)
-        = render "form_partials/#{Field.from_hash(field).field_type}_display_field_partial", field: Field.from_hash(field), form_builder_field: FormBuilderField.find(Field.from_hash(field).field_type)
+      - if FieldDescription.has_custom_display?(Field.from_hash(field).field_type)
+        = render "form_partials/#{Field.from_hash(field).field_type}_display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
       - else
-        = render "form_partials/display_field_partial", field: Field.from_hash(field), form_builder_field: FormBuilderField.find(Field.from_hash(field).field_type)
+        = render "form_partials/display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
     %p
       = submit_tag "Submit", :class => "btn btn-default"
       = link_to "Alter fields", fields_swarm_path(@swarm)

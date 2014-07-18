@@ -1,26 +1,26 @@
-.form-element{:class => form_builder_field.field_type}
+.form-element{:class => field_description.field_type}
   .header
-    %h2= form_builder_field.display_name
+    %h2= field_description.display_name
     = render :partial => "form_partials/element_controls"
 
     = hidden_field_tag "fields[][index]", field['index'], :class => 'form-control', :id => "index"
-    = hidden_field_tag "fields[][field_type]", form_builder_field.field_type, :class => 'form-control'
+    = hidden_field_tag "fields[][field_type]", field_description.field_type, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Field name
     .col-sm-9
       = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control'
 
-  - if form_builder_field.has_sample
+  - if field_description.has_sample
     .form-group
       %label.col-sm-3.control-label Sample value
       .col-sm-9
-        - if form_builder_field.input_type
-          %input.form-control{:name => "fields[][sample_value]", :value => field.send(:sample_value), :type => form_builder_field.input_type}
+        - if field_description.input_type
+          %input.form-control{:name => "fields[][sample_value]", :value => field.send(:sample_value), :type => field_description.input_type}
         - else
           = text_field_tag "fields[][sample_value]", field.send(:sample_value), :class => 'form-control'
 
-  - if form_builder_field.has_possible_values
+  - if field_description.has_possible_values
     .form-group
       %label.col-sm-3.control-label Possible values
       .col-sm-9
@@ -40,8 +40,8 @@
               = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
         %p= link_to "Add another", "#", :class => "add-option"
 
-  - if form_builder_field.custom_fields
-    - form_builder_field.custom_fields.each do |custom_field|
+  - if field_description.custom_fields
+    - field_description.custom_fields.each do |custom_field|
       .form-group
         %label.col-sm-3.control-label= custom_field.display_name
         .col-sm-9
