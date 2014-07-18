@@ -11,7 +11,7 @@ KEY = creds['Access Key Id']
 SECRET = creds['Secret Access Key']
 
 APPNAME = "Swarmize"
-LIVE_ENV = "swarmize-live"
+LIVE_ENV = "swarmize-prod"
 S3_BUCKET = "swarmize"
 APP_DIR = "swarmize-dot-com" # name of dir within this repo.
 
@@ -48,7 +48,7 @@ else
 
   Dir.chdir("..") do 
     puts "Archiving website to #{package_filename}"
-    system "git archive -o #{APP_DIR}/#{package_filename} master:mock-website"
+    system "git archive -o #{APP_DIR}/#{package_filename} master:#{APP_DIR}"
   end
 
   puts "Uploading to S3."
