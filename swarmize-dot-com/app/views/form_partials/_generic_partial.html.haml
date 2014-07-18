@@ -42,7 +42,10 @@
       .form-group
         %label.col-sm-3.control-label= custom_field.display_name
         .col-sm-9
-          = text_field_tag "fields[][#{custom_field.field_type}]", field.send(custom_field.field_type), :class => 'form-control'
+          - if custom_field.input_type
+            %input.form-control{:name => "fields[][#{custom_field.field_type}]", :value => field.send(custom_field.field_type), :type => custom_field.input_type}
+          - else
+            = text_field_tag "fields[][#{custom_field.field_type}]", field.send(custom_field.field_type), :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Compulsory?

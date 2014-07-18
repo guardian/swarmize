@@ -1,3 +1,5 @@
+require 'hashie'
+
 class FormBuilderField
 
   ALL_FIELDS = [
@@ -71,7 +73,7 @@ class FormBuilderField
      :custom_fields => [ 
                         {:display_name => 'Minimum',
                          :field_type => 'minimum',
-                         :input_type => 'text'},
+                         :input_type => 'number'},
                         {:display_name => "Maximum",
                          :field_type => 'maximum',
                          :input_type => 'number'}
