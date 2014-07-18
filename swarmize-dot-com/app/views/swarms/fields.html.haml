@@ -38,7 +38,7 @@
       #workspace
         - if @swarm.fields
           - @swarm.fields.each do |field|
-            = render "form_partials/generic_partial", field: Field.from_hash(field), form_builder_field: FormBuilderField.find(Field.from_hash(field).field_type)
+            = render "form_partials/edit_field_partial", field: Field.from_hash(field), form_builder_field: FormBuilderField.find(Field.from_hash(field).field_type)
       %p
         = link_to "&larr; All swarms".html_safe, swarms_path, :class => "btn btn-default"
         = submit_tag "Save fields &rarr;".html_safe, :class => "btn btn-default"
@@ -47,5 +47,5 @@
 -#This just sets up our templates
 - FormBuilderField.all.each do |form_builder_field|
   %script{type: 'text/template', id: "#{form_builder_field.field_type}_template"}
-    = render "form_partials/generic_partial", field: Hashie::Mash.new({}), form_builder_field: form_builder_field
+    = render "form_partials/edit_field_partial", field: Hashie::Mash.new({}), form_builder_field: form_builder_field
 
