@@ -9,6 +9,8 @@
         = render "form_partials/display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
     %p
       = submit_tag "Submit", :class => "btn btn-default"
-      = link_to "Alter fields", fields_swarm_path(@swarm)
-      |
-      = link_to "Back to swarms", swarms_path
+
+%p
+  = link_to "Alter fields", fields_swarm_path(@swarm)
+  |
+  = link_to "Back to swarms", swarms_path
