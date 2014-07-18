@@ -1,9 +1,6 @@
 import lib.{Activity, ActivityDispatcher, Decider}
-import play.api.{GlobalSettings, Logger, Application}
+import play.api.{Application, GlobalSettings, Logger}
 import swarmize.aws.SimpleWorkflow
-
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 
 object Global extends GlobalSettings {
@@ -14,13 +11,8 @@ object Global extends GlobalSettings {
     Activity.registerAll()
     SimpleWorkflow.registerWorkflow()
 
-    Future {
-      new Decider().run()
-    }
-
-    Future {
-      new ActivityDispatcher().run()
-    }
+    new Thread(new Decider()).start()
+    new Thread(new ActivityDispatcher()).start()
 
   }
 

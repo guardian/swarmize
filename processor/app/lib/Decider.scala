@@ -9,7 +9,7 @@ import swarmize.aws._
 import scala.annotation.tailrec
 import scala.collection.convert.wrapAll._
 
-class Decider extends ClassLogger {
+class Decider extends ClassLogger with Runnable {
 
   val swf = AWS.swf
 

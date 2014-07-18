@@ -8,7 +8,7 @@ import swarmize.aws.{SimpleWorkflow, AWS}
 import scala.annotation.tailrec
 import scala.util.control.NonFatal
 
-class ActivityDispatcher extends ClassLogger {
+class ActivityDispatcher extends ClassLogger with Runnable {
 
   @tailrec
   final def run() {
