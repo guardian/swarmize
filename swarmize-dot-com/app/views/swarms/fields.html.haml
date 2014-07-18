@@ -30,22 +30,22 @@
   .col-sm-3
     .fields-palette
       %h3 Field Palette
-      - FormBuilderField::ALL.each do |field,text|
-        .field{id: "#{field}_dragger"}= text
+      - FormBuilderField.all.each do |field|
+        .field{id: "#{field.field_type}_dragger"}= field.display_name
 
   .col-sm-9
     = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do
       #workspace
         - if @swarm.fields
           - @swarm.fields.each do |field|
-            = render "form_partials/#{field['field_type']}", field: Field.from_hash(field)
+            = render "form_partials/generic_partial", field: Field.from_hash(field), form_builder_field: FormBuilderField.find(Field.from_hash(field).field_type)
       %p
         = link_to "&larr; All swarms".html_safe, swarms_path, :class => "btn btn-default"
         = submit_tag "Save fields &rarr;".html_safe, :class => "btn btn-default"
 
 
 -#This just sets up our templates
-- FormBuilderField::ALL.each do |field,text|
-  %script{type: 'text/template', id: "#{field}_template"}
-    = render "form_partials/#{field}", field: Field.null_field
+- FormBuilderField.all.each do |form_builder_field|
+  %script{type: 'text/template', id: "#{form_builder_field.field_type}_template"}
+    = render "form_partials/generic_partial", field: Hashie::Mash.new({}), form_builder_field: form_builder_field
 
