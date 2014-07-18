@@ -42,19 +42,22 @@ class FieldDescription
     {:field_type => "postcode",
      :display_name => "Postcode",
      :has_sample => true,
-     :has_possible_values => false
+     :has_possible_values => false,
+     :validation => "isAPostcode"
     },
     {:field_type => "email",
      :display_name => "Email",
      :has_sample => true,
      :has_possible_values => false,
-     :input_type => 'email'
+     :input_type => 'email',
+     :validation => 'email'
     },
     {:field_type => "number",
      :display_name => "Number",
      :has_sample => true,
      :has_possible_values => false,
-     :input_type => 'number'
+     :input_type => 'number',
+     :validation => 'number'
     },
     {:field_type => "pick_one",
      :display_name => "Pick One",
@@ -92,7 +95,8 @@ class FieldDescription
      :display_name => "Checkbox",
      :has_sample => false,
      :has_possible_values => false,
-     :has_custom_display_template => true
+     :has_custom_display_template => true,
+     :validation => 'agreement'
     }
   ]
 
