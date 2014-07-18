@@ -2,6 +2,7 @@ Swarmize::Application.routes.draw do
   resources :swarms do
     member do
       get 'fields'
+      get 'preview'
       post 'update_fields'
     end
   end

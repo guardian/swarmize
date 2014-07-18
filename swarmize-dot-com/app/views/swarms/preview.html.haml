@@ -1,0 +1,5 @@
+%h1 Previewing #{@swarm.name}
+
+.embeddable-swarm
+  - @swarm.fields.each do |field|
+    %li= field.inspect

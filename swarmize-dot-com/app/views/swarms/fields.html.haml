@@ -39,8 +39,9 @@
         - if @swarm.fields
           - @swarm.fields.each do |field|
             = render "form_partials/#{field['field_type']}", field: Field.from_hash(field)
-      = link_to "&larr; All swarms".html_safe, swarms_path, :class => "btn btn-default"
-      = submit_tag "Save fields &rarr;".html_safe, :class => "btn btn-default"
+      %p
+        = link_to "&larr; All swarms".html_safe, swarms_path, :class => "btn btn-default"
+        = submit_tag "Save fields &rarr;".html_safe, :class => "btn btn-default"
 
 
 -#This just sets up our templates
