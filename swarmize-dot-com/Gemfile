@@ -34,6 +34,7 @@ gem 'unicorn'
 
 group :development do
   gem 'thin'
+  gem 'fog'
 end
 
 gem 'rspec-rails'
