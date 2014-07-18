@@ -1,0 +1,7 @@
+.form-group
+  %label= field.field_name
+  - if form_builder_field.input_type
+    %input.form-control{:name => field.field_name, :type => form_builder_field.input_type, :placeholder => field.sample_value}
+  - else
+    = text_field_tag "#{field.field_name}", nil, :class => 'form-control', :placeholder => field.sample_value
+

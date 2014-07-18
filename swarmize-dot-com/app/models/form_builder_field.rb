@@ -59,17 +59,20 @@ class FormBuilderField
     {:field_type => "pick_one",
      :display_name => "Pick One",
      :has_sample => false,
-     :has_possible_values => true
+     :has_possible_values => true,
+     :has_custom_display_template => true
     },
     {:field_type => "pick_several",
      :display_name => "Pick Several",
      :has_sample => false,
-     :has_possible_values => true
+     :has_possible_values => true,
+     :has_custom_display_template => true
     },
     {:field_type => "rating",
      :display_name => "Rating",
      :has_sample => false,
      :has_possible_values => false,
+     :has_custom_display_template => true,
      :custom_fields => [ 
                         {:display_name => 'Minimum',
                          :field_type => 'minimum',
@@ -82,17 +85,24 @@ class FormBuilderField
     {:field_type => "yesno",
      :display_name => "Yes/No",
      :has_sample => false,
-     :has_possible_values => false
+     :has_possible_values => false,
+     :has_custom_display_template => true
     },
     {:field_type => "check_box",
      :display_name => "Checkbox",
      :has_sample => false,
-     :has_possible_values => false
+     :has_possible_values => false,
+     :has_custom_display_template => true
     }
   ]
 
   def self.all
     ALL_FIELDS.map {|f| Hashie::Mash.new(f)}
+  end
+
+  def self.has_custom_display?(type)
+    types_with_custom_display = ALL_FIELDS.select {|f| f[:has_custom_display_template]}.map {|f| f[:field_type]}
+    types_with_custom_display.include? type
   end
 
   def self.find(field_type)
