@@ -1,0 +1,10 @@
+.form_group
+  %label= field.field_name
+  - upper_bound = field.maximum.to_i
+  - lower_bound = field.minimum.to_i
+  - range = (lower_bound..upper_bound)
+  - range.each do |rating|
+    .radio
+      %label
+        = radio_button_tag field.field_name, rating
+        = rating

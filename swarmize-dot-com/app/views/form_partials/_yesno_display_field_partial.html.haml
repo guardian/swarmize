@@ -1,0 +1,11 @@
+.form_group
+  %label= field.field_name
+  .radio
+    %label
+      = radio_button_tag field.field_name, 'yes'
+      Yes
+  .radio
+    %label
+      = radio_button_tag field.field_name, 'no'
+      No 
+

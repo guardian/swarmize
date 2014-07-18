@@ -28,7 +28,7 @@ class SwarmsController < ApplicationController
 
   def update_fields
     @swarm.update(:fields => params[:fields])
-    redirect_to fields_swarm_path(@swarm)
+    redirect_to preview_swarm_path(@swarm)
   end
 
   private
