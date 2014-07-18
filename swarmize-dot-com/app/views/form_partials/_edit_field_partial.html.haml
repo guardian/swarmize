@@ -11,6 +11,11 @@
     .col-sm-9
       = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control'
 
+  .form-group
+    %label.col-sm-3.control-label Field hint
+    .col-sm-9
+      = text_field_tag "fields[][hint]", field.hint, :class => 'form-control'
+
   - if field_description.has_sample
     .form-group
       %label.col-sm-3.control-label Sample value
