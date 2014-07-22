@@ -7,7 +7,7 @@ class ResultsController < ApplicationController
       @current_page = 1
     end
 
-    @rows, @total_pages = @swarm.search.all(@current_page)
+    @rows, @total_pages = @swarm.search.all(@current_page, 10)
   end
 
   private
