@@ -41,7 +41,34 @@ class SwarmsController < ApplicationController
   end
 
   def do_commission
+    if params[:swarm_ready] == 'false'
+      @swarm.opens_at = nil
+      @swarm.closes_at = nil
+    else
+      if params['swarm_opens_now'] == 'true'
+        @swarm.opens_at = Time.now
+      else
+        open_time = Time.new(params['open_year'],
+                             params['open_month'],
+                             params['open_day'],
+                             params['open_hour'],
+                             params['open_minute'])
+        @swarm.opens_at = open_time
+      end
 
+      if params['swarm_closes_manually'] == 'true'
+        @swarm.closes_at = nil
+      else
+        close_time = Time.new(params['close_year'],
+                              params['close_month'],
+                              params['close_day'],
+                              params['close_hour'],
+                              params['close_minute'])
+        @swarm.closes_at = close_time
+      end
+    end
+    @swarm.save
+    redirect_to swarms_path
   end
 
   def create

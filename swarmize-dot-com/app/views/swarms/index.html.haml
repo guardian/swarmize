@@ -7,18 +7,25 @@
     %tr
       %th Name
       %th Description
+      %th Opens At
+      %th Closes At
       %th Actions
+
   %tbody
     - for swarm in @swarms
       %tr
         %td= swarm.name
         %td= swarm.description
+        %td= swarm.opens_at
+        %td= swarm.closes_at
         %td
           = link_to "Edit", edit_swarm_path(swarm)
           |
           = link_to "Fields", fields_swarm_path(swarm)
           |
           = link_to "Preview", preview_swarm_path(swarm)
+          |
+          = link_to "Commission", commission_swarm_path(swarm)
           |
           = link_to "Delete", delete_swarm_path(swarm)
 

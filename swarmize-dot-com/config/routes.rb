@@ -7,7 +7,9 @@ Swarmize::Application.routes.draw do
       get 'preview'
       get 'embed'
       get 'delete'
+      get 'commission'
       post 'update_fields'
+      post 'do_commission'
     end
   end
   # Example resource route with more complex sub-resources:
