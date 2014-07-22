@@ -25,7 +25,7 @@ class SwarmizeSearch
 
     total_hits = search_results_hash.hits.total
     per_page = per_page
-    total_pages = (total_hits/per_page) + 1
+    total_pages = (total_hits.to_f/per_page).ceil
 
     rows = search_results_hash.hits.hits.map {|h| h._source}
     [rows, total_pages]
