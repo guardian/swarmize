@@ -26,6 +26,10 @@ class SwarmsController < ApplicationController
   def preview
   end
 
+  def embed
+    render layout: 'embed'
+  end
+
   def new
     @swarm = Swarm.new
   end
@@ -34,18 +38,26 @@ class SwarmsController < ApplicationController
   end
 
   def create
-    Swarm.create(swarm_params)
-    redirect_to swarms_path
+    swarm = Swarm.create(swarm_params)
+    redirect_to fields_swarm_path(swarm)
   end
 
   def update
     @swarm.update(swarm_params)
-    redirect_to swarms_path
+    if params[:update_and_next]
+      redirect_to fields_swarm_path(@swarm)
+    else
+      redirect_to swarms_path
+    end
   end
 
   def update_fields
     @swarm.update(:fields => params[:fields])
-    redirect_to preview_swarm_path(@swarm)
+    if params[:update_and_next]
+      redirect_to preview_swarm_path(@swarm)
+    else
+      redirect_to edit_swarm_path(@swarm)
+    end
   end
 
   private

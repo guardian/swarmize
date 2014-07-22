@@ -21,5 +21,10 @@
 
   .form-group
     .col-sm-offset-3
-      = f.submit :class => "btn btn-default"
+      %p
+        = f.submit "Update Swarm and return to index", :class => "btn btn-default", :name => "update_and_back"
+        = f.submit "Update Swarm &rarr;".html_safe, :class => "btn btn-default", :name => "update_and_next"
+      %p= link_to "Back to all swarms", swarms_path
+
+
 

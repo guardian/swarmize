@@ -6,18 +6,10 @@
   %li.active= link_to "Preview Swarm", preview_swarm_path(@swarm)
   %li= link_to "Commission Swarm", '#'
 
-.embeddable-swarm
-  = form_tag '#' do
-    - if @swarm.fields
-      - @swarm.fields.each do |field|
-        - if FieldDescription.has_custom_display?(Field.from_hash(field).field_type)
-          = render "form_partials/#{Field.from_hash(field).field_type}_display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
-        - else
-          = render "form_partials/display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
-      %p
-        = submit_tag "Submit", :class => "btn btn-default"
+%iframe{:src => embed_swarm_path(@swarm), :width => 400, :height => 400}
 
 %p
-  = link_to "Alter fields", fields_swarm_path(@swarm)
-  |
-  = link_to "Back to swarms", swarms_path
+  = link_to "&larr; Alter fields".html_safe, fields_swarm_path(@swarm), :class => "btn btn-default"
+  = link_to "Commission Swarm! &rarr;".html_safe, fields_swarm_path(@swarm), :class => "btn btn-default"
+
+%p= link_to "Back to all swarms", swarms_path

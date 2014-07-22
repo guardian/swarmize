@@ -47,8 +47,9 @@
           - @swarm.fields.each do |field|
             = render "form_partials/edit_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
       %p
-        = link_to "&larr; All swarms".html_safe, swarms_path, :class => "btn btn-default"
-        = submit_tag "Save fields &rarr;".html_safe, :class => "btn btn-default"
+        = submit_tag "&larr; Swarm details".html_safe, :class => "btn btn-default", :name => 'update_and_back'
+        = submit_tag "Preview Swarm &rarr;".html_safe, :class => "btn btn-default", :name => 'update_and_next'
+      %p= link_to "Back to all swarms", swarms_path
 
 
 -#This just sets up our templates
