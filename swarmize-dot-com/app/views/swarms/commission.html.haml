@@ -137,4 +137,6 @@
               - [2014,2015,2016,2017].each do |n|
                 %option{:value => n, :selected => (true if n == Time.now.day)}= n
         
-  %p= submit_tag "Save Swarm", :class => "btn btn-default"
+  %p
+    = link_to "&larr; Back to Preview".html_safe, preview_swarm_path(@swarm), :class => "btn btn-default"
+    = submit_tag "Save Swarm", :class => "btn btn-default"
