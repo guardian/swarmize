@@ -1,0 +1,19 @@
+%h1 Edit Swarm '#{@swarm.name}'
+
+= form_for @swarm, :html => {:class => "form-horizontal"} do |f|
+  .form-group
+    %label.col-sm-3.control-label Swarm name
+    .col-sm-6
+      = f.text_field :name, :class => 'form-control'
+      %span.help-block This is the public name your swarm will be known by. This will be used across Swarmize.com, even if you don't display it with the input for your Swarm.
+
+  .form-group
+    %label.col-sm-3.control-label Swarm description
+    .col-sm-6
+      = f.text_area :description, :class => 'form-control'
+      %span.help-block A short description of your Swarm. This will be used across Swarmize.com, even if you don't display it with the input for your Swarm.
+
+  .form-group
+    .col-sm-offset-3
+      = f.submit :class => "btn btn-default"
+

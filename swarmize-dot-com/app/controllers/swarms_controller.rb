@@ -30,8 +30,16 @@ class SwarmsController < ApplicationController
     @swarm = Swarm.new
   end
 
+  def edit
+  end
+
   def create
     Swarm.create(swarm_params)
+    redirect_to swarms_path
+  end
+
+  def update
+    @swarm.update(swarm_params)
     redirect_to swarms_path
   end
 
