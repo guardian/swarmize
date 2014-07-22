@@ -1,0 +1,2 @@
+module GraphsHelper
+end

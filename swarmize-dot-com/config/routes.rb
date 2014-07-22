@@ -12,6 +12,12 @@ Swarmize::Application.routes.draw do
       post 'do_commission'
     end
   end
+
+  resources :results do
+  end
+
+  get 'results/:swarm_id/graphs/count/:count_field', to: 'graphs#aggregate_count'
+  get 'results/:swarm_id/graphs/count/:count_field/:unique_field', to: 'graphs#cardinal_count'
   # Example resource route with more complex sub-resources:
   #   resources :products do
   #     resources :comments
