@@ -41,34 +41,42 @@ class SwarmsController < ApplicationController
   end
 
   def do_commission
-    if params[:swarm_ready] == 'false'
+    if params['swarm_ready'] == 'false'
       @swarm.opens_at = nil
       @swarm.closes_at = nil
+      @swarm.save
+      redirect_to swarms_path
     else
       if params['swarm_opens_now'] == 'true'
-        @swarm.opens_at = Time.now
+        open_time = Time.now
       else
         open_time = Time.new(params['open_year'],
                              params['open_month'],
                              params['open_day'],
                              params['open_hour'],
                              params['open_minute'])
-        @swarm.opens_at = open_time
       end
 
       if params['swarm_closes_manually'] == 'true'
-        @swarm.closes_at = nil
+        close_time = nil
       else
         close_time = Time.new(params['close_year'],
                               params['close_month'],
                               params['close_day'],
                               params['close_hour'],
                               params['close_minute'])
+      end
+
+      if close_time && (open_time > close_time)
+        flash[:error] = "Open Time cannot come after Close Time."
+        render :commission
+      else
+        @swarm.opens_at = open_time
         @swarm.closes_at = close_time
+        @swarm.save
+        redirect_to swarms_path
       end
     end
-    @swarm.save
-    redirect_to swarms_path
   end
 
   def create

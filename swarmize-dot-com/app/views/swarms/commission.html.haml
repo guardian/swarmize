@@ -26,11 +26,11 @@
     %label Is your swarm ready to go?
     .radio
       %label
-        = radio_button_tag "swarm_ready", false, true
+        = radio_button_tag "swarm_ready", false, !@swarm.ready?
         No, not yet, just save it for now.
     .radio
       %label
-        = radio_button_tag "swarm_ready", true
+        = radio_button_tag "swarm_ready", true, @swarm.ready?
         Yes.
 
   .swarm-timings
