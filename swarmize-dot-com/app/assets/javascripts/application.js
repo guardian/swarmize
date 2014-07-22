@@ -26,3 +26,7 @@ $.verify.addRules({
   }
 });
 
+$(document).ready(function() {
+  $('.dropdown-toggle').dropdown();
+});
+
