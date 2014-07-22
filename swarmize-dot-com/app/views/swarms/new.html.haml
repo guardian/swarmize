@@ -1,5 +1,12 @@
 %h1 Create Swarm
 
+%ul.nav.nav-tabs.swarmbuilder-nav.nav-justified
+  %li.disabled.active= link_to "Swarm Details", new_swarm_path
+  %li.disabled= link_to "Swarm Fields", '#'
+  %li.disabled= link_to "Preview Swarm", '#'
+  %li.disabled= link_to "Commission Swarm", '#'
+
+
 = form_for @swarm, :html => {:class => "form-horizontal"} do |f|
   .form-group
     %label.col-sm-3.control-label Swarm name
