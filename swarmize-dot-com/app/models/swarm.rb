@@ -10,6 +10,14 @@ class Swarm < ActiveRecord::Base
     }
   end
 
+  def swarm_key
+    'voting' # TODO obviously not hardcoded
+  end
+
+  def search
+    SwarmizeSearch.new(swarm_key)
+  end
+
   def ready?
     opens_at || closes_at
   end
