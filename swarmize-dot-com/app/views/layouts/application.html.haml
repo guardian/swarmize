@@ -11,6 +11,8 @@
     = javascript_include_tag "application"
   %body
     = render "layouts/nav"
+
     .container
+      = render "layouts/flashes"
       = yield
 
