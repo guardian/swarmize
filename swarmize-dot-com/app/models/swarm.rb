@@ -4,7 +4,9 @@ class Swarm < ActiveRecord::Base
   def as_json(options={})
     {:name => self.name,
      :description => self.description,
-     :fields => self.fields
+     :fields => self.fields,
+     :opens_at => self.opens_at,
+     :closes_at => self.closes_at
     }
   end
 
