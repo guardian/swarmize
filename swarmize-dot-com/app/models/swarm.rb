@@ -30,6 +30,7 @@ class Swarm < ActiveRecord::Base
     closes_at.nil?
   end
 
+  # TODO: this is legacy from the mock application.
   def display_fields
     display_field_data = [
                             ["timestamp", "Timestamp", 'timestamp'],
@@ -42,6 +43,7 @@ class Swarm < ActiveRecord::Base
     SwarmizeDisplayField.from_array(display_field_data)
   end
 
+  # TODO: this is legacy from the mock application.
   def graphs
     graph_data = [
                   {:title => "Aggregate Feedback",
