@@ -15,6 +15,12 @@
 
 %h1 Commission Swarm '#{@swarm.name}'
 
+%ul.nav.nav-tabs.swarmbuilder-nav.nav-justified
+  %li= link_to "Swarm Details", edit_swarm_path(@swarm)
+  %li= link_to "Swarm Fields", fields_swarm_path(@swarm)
+  %li= link_to "Preview Swarm", preview_swarm_path(@swarm)
+  %li.active= link_to "Commission Swarm", commission_swarm_path(@swarm)
+
 %p Your Swarm is almost ready to go.
 
 %p The last thing to do is set it live.
