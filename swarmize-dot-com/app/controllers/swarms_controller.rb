@@ -37,6 +37,13 @@ class SwarmsController < ApplicationController
   def edit
   end
 
+  def commission
+  end
+
+  def do_commission
+
+  end
+
   def create
     swarm = Swarm.create(swarm_params)
     redirect_to fields_swarm_path(swarm)

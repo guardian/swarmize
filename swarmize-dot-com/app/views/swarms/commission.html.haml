@@ -1,0 +1,43 @@
+%h1 Commission Swarm '#{@swarm.name}'
+
+%p Your Swarm is almost ready to go.
+
+%p The last thing to do is set it live.
+
+%p Once a Swarm is live, it will accept data via forms and API-based inputs. It will also be public on Swarmize. You might not want to make it public just yet.
+
+= form_tag do_commission_swarm_path(@swarm) do 
+  .form_group
+    %label Is your swarm ready to go?
+    .radio
+      %label
+        = radio_button_tag "swarm_ready", false, true
+        No, not yet, just save it for now.
+    .radio
+      %label
+        = radio_button_tag "swarm_ready", true
+        Yes.
+
+  .form_group
+    %label When does it open?
+    .radio
+      %label
+        = radio_button_tag "swarm_opens", true, true
+        Now!
+    .radio
+      %label
+        = radio_button_tag "swarm_opens", false
+        Timey stuff here
+
+  .form_group
+    %label When does it close?
+    .radio
+      %label
+        = radio_button_tag "swarm_closes", true, true
+        Not sure, I'll close it manually.
+    .radio
+      %label
+        = radio_button_tag "swarm_closes", false
+        Timey stuff here
+
+  %p= submit_tag "Save Swarm", :class => "btn btn-default"
