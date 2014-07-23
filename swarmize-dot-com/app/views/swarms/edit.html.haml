@@ -4,7 +4,6 @@
   %li.active= link_to "Swarm Details", edit_swarm_path(@swarm)
   %li= link_to "Swarm Fields", fields_swarm_path(@swarm)
   %li= link_to "Preview Swarm", preview_swarm_path(@swarm)
-  %li= link_to "Commission Swarm", '#'
 
 = form_for @swarm, :html => {:class => "form-horizontal"} do |f|
   .form-group
@@ -21,9 +20,7 @@
 
   .form-group
     .col-sm-offset-3
-      %p
-        = f.submit "Update Swarm and return to index", :class => "btn btn-default", :name => "update_and_back"
-        = f.submit "Update Swarm &rarr;".html_safe, :class => "btn btn-default", :name => "update_and_next"
+      %p= f.submit "Edit fields &rarr;".html_safe, :class => "btn btn-default", :name => "update_and_next"
       %p= link_to "Back to all swarms", swarms_path
 
 

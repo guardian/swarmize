@@ -18,6 +18,14 @@ class Swarm < ActiveRecord::Base
     SwarmizeSearch.new(swarm_key)
   end
 
+  def live?
+    if closes_at && opens_at
+      (Time.now.utc >= opens_at) && (Time.now.utc < closes_at)
+    elsif opens_at
+      Time.now.utc >= opens_at 
+    end
+  end
+
   def ready?
     opens_at || closes_at
   end
@@ -29,6 +37,15 @@ class Swarm < ActiveRecord::Base
   def closes_manually?
     closes_at.nil?
   end
+
+  def open!
+    update_attribute(:opens_at, Time.now.utc)
+  end
+
+  def close!
+    update_attribute(:closes_at, Time.now.utc)
+  end
+
 
   # TODO: this is legacy from the mock application.
   def display_fields

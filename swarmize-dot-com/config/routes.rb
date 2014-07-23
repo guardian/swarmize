@@ -10,6 +10,8 @@ Swarmize::Application.routes.draw do
       get 'commission'
       post 'update_fields'
       post 'do_commission'
+      post 'open'
+      post 'close'
     end
   end
 

@@ -86,11 +86,7 @@ class SwarmsController < ApplicationController
 
   def update
     @swarm.update(swarm_params)
-    if params[:update_and_next]
-      redirect_to fields_swarm_path(@swarm)
-    else
-      redirect_to swarms_path
-    end
+    redirect_to fields_swarm_path(@swarm)
   end
 
   def update_fields
@@ -100,6 +96,16 @@ class SwarmsController < ApplicationController
     else
       redirect_to edit_swarm_path(@swarm)
     end
+  end
+
+  def open
+    @swarm.open!
+    redirect_to @swarm
+  end
+
+  def close
+    @swarm.close!
+    redirect_to @swarm
   end
 
   private

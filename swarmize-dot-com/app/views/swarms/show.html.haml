@@ -1,5 +1,32 @@
-%h1= @swarm.name
+.row
+  .col-sm-10
+    %h1
+      = @swarm.name
+      - if @swarm.live?
+        %span.label.label-success.swarmlive Live!
+  .col-sm-2
+    = link_to "Spike", "#", :class => "btn btn-sm btn-danger"
+    = link_to "Clone", "#", :class => "btn btn-sm btn-warning"
 
-.desc= simple_format @swarm.description
+.row
+  .col-sm-8
+    .desc= simple_format @swarm.description
+  .col-sm-4
+    .row
+      .col-sm-6
+        - if @swarm.opens_at?
+          %h3 Opened at 
+          %h4= @swarm.opens_at
+        - else
+          %h3 Opens
+          %p= button_to "Open Now", open_swarm_path(@swarm), :class => "btn btn-primary"
+          %p= link_to "Schedule", "#", :class => "btn btn-primary"
+      .col-sm-6
+        - if @swarm.closes_at?
+          %h3 Closes at 
+          %h4= @swarm.closes_at
+        - else
+          %h3 Closes
+          %p= button_to "Close Now", close_swarm_path(@swarm), :class => "btn btn-primary"
+          %p= link_to "Schedule", "#", :class => "btn btn-primary"
 
-%p= link_to "Back to all swarms", swarms_path

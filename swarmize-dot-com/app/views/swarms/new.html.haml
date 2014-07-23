@@ -4,8 +4,6 @@
   %li.disabled.active= link_to "Swarm Details", new_swarm_path
   %li.disabled= link_to "Swarm Fields", '#'
   %li.disabled= link_to "Preview Swarm", '#'
-  %li.disabled= link_to "Commission Swarm", '#'
-
 
 = form_for @swarm, :html => {:class => "form-horizontal"} do |f|
   .form-group
@@ -22,4 +20,5 @@
 
   .form-group
     .col-sm-offset-3
-      = f.submit :class => "btn btn-default"
+      %p= f.submit "Add fields &rarr;".html_safe, :class => "btn btn-default"
+      %p= link_to "Back to all swarms", swarms_path

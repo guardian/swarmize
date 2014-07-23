@@ -4,12 +4,11 @@
   %li= link_to "Swarm Details", edit_swarm_path(@swarm)
   %li= link_to "Swarm Fields", fields_swarm_path(@swarm)
   %li.active= link_to "Preview Swarm", preview_swarm_path(@swarm)
-  %li= link_to "Commission Swarm", '#'
 
 %iframe{:src => embed_swarm_path(@swarm), :width => 400, :height => 400}
 
 %p
   = link_to "&larr; Alter fields".html_safe, fields_swarm_path(@swarm), :class => "btn btn-default"
-  = link_to "Commission Swarm! &rarr;".html_safe, commission_swarm_path(@swarm), :class => "btn btn-default"
+  = link_to "Done!", @swarm, :class => "btn btn-default"
 
 %p= link_to "Back to all swarms", swarms_path
