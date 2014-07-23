@@ -27,7 +27,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_edited?
-    opens_at.nil? || opens_at > Time.now.utc
+    opens_at.nil? || (opens_at > Time.now.utc)
   end
 
   def has_opened?
