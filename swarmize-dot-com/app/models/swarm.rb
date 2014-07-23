@@ -26,16 +26,20 @@ class Swarm < ActiveRecord::Base
     end
   end
 
-  def ready?
-    opens_at || closes_at
+  def has_opened?
+    !opens_at.nil? && (opens_at <= Time.now.utc)
   end
 
-  def opens_now?
-    opens_at.nil?
+  def scheduled_to_open?
+    !opens_at.nil? && (opens_at > Time.now.utc)
   end
 
-  def closes_manually?
-    closes_at.nil?
+  def closed?
+    !close_at.nil? && (close_at <= Time.now.utc)
+  end
+
+  def scheduled_to_close?
+    !close_at.nil? && (close_at > Time.now.utc)
   end
 
   def open!

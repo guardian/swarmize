@@ -16,19 +16,89 @@
   .col-sm-4
     .row
       .col-sm-6
-        - if @swarm.opens_at?
+        - if @swarm.has_opened?
           %h3 Opened at 
           %h4= @swarm.opens_at
         - else
           %h3 Opens
-          %p= button_to "Open Now", open_swarm_path(@swarm), :class => "btn btn-primary"
-          %p= link_to "Schedule", "#", :class => "btn btn-primary"
+          - if @swarm.opens_at
+            %h4= @swarm.opens_at
+
+          %p
+            - if @swarm.opens_at
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#open-or-schedule'} Alter
+            - else
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#open-or-schedule'} Open / Schedule
       .col-sm-6
         - if @swarm.closes_at?
           %h3 Closes at 
           %h4= @swarm.closes_at
         - else
           %h3 Closes
-          %p= button_to "Close Now", close_swarm_path(@swarm), :class => "btn btn-primary"
-          %p= link_to "Schedule", "#", :class => "btn btn-primary"
+          - if @swarm.has_opened?
+            %p
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#close-or-schedule'} Close / Schedule
+          - else 
+            %p
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#close-or-schedule'} Schedule
 
+
+#open-or-schedule.modal.fade{:tabindex => -1, :role => 'dialog'}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => 'modal'}
+          %span{"aria-hidden" => true} &times;
+          %span.sr-only Close
+        %h4.modal-title Open Swarm
+      .modal-body
+        = form_tag open_swarm_path(@swarm), :id => "open-date-form" do 
+          %p When does your swarm open?
+          %p
+            At
+            - if @swarm.opens_at
+              %select{:name => "open_hour"}
+                - (00..23).each do |n|
+                  %option{:value => n, :selected => (true if n == @swarm.opens_at.hour)}= "%.2d" % n
+              \:
+              %select{:name => "open_minute"}
+                - (00..59).each do |n|
+                  %option{:value => n, :selected => (true if n == @swarm.opens_at.min)}= "%.2d" % n
+              GMT
+              on
+              %select{:name => "open_month"}
+                - (1..12).each do |n|
+                  %option{:value => n, :selected => (true if n == @swarm.opens_at.month)}= Date::MONTHNAMES[n]
+
+              %select{:name => "open_day"}
+                - (1..31).each do |n|
+                  %option{:value => n, :selected => (true if n == @swarm.opens_at.day)}= "%.2d" % n
+              %select{:name => "open_year"}
+                - [2014,2015,2016,2017].each do |n|
+                  %option{:value => n, :selected => (true if n == @swarm.opens_at.year)}= n
+            - else
+              %select{:name => "open_hour"}
+                - (00..23).each do |n|
+                  %option{:value => n, :selected => (true if n == Time.now.hour)}= "%.2d" % n
+              \:
+              %select{:name => "open_minute"}
+                - (00..59).each do |n|
+                  %option{:value => n, :selected => (true if n == Time.now.min)}= "%.2d" % n
+              GMT
+              on
+              %select{:name => "open_month"}
+                - (1..12).each do |n|
+                  %option{:value => n, :selected => (true if n == Time.now.month)}= Date::MONTHNAMES[n]
+
+              %select{:name => "open_day"}
+                - (1..31).each do |n|
+                  %option{:value => n, :selected => (true if n == Time.now.day)}= "%.2d" % n
+              %select{:name => "open_year"}
+                - [2014,2015,2016,2017].each do |n|
+                  %option{:value => n, :selected => (true if n == Time.now.day)}= n
+            = link_to "Set to now", "#", :id => "set-open-date-to-now", :class => "btn btn-primary btn-sm"
+
+        %p <b>Once your swarm has opened it cannot be closed and re-opened at a later date</b> - so make sure you're happy with your fields!
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => 'modal'} Cancel
+        %button#open-submit.btn.btn-primary Save changes

@@ -99,7 +99,12 @@ class SwarmsController < ApplicationController
   end
 
   def open
-    @swarm.open!
+    open_time = Time.new(params['open_year'],
+                         params['open_month'],
+                         params['open_day'],
+                         params['open_hour'],
+                         params['open_minute'])
+    @swarm.update(:opens_at => open_time)
     redirect_to @swarm
   end
 
