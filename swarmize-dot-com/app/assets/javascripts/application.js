@@ -27,7 +27,6 @@ $.verify.addRules({
 });
 
 $(document).ready(function() {
-  $('.dropdown-toggle').dropdown();
   $('.disabled a').click(function(e) { e.preventDefault(); return false });
 });
 
