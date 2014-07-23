@@ -1,0 +1,48 @@
+:javascript
+  $(document).ready(function() {
+    $("#set-open-date-to-now").click(function(e) {
+      var d = new Date();
+
+      var year = d.getFullYear();
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var hours = d.getHours();
+      var mins = d.getMinutes();
+
+      $('select[name=open_year]').val(year);
+      $('select[name=open_month]').val(month);
+      $('select[name=open_day]').val(day);
+      $('select[name=open_hour]').val(hours);
+      $('select[name=open_minute]').val(mins);
+
+      e.preventDefault();
+    });
+
+    $("#open-submit").click(function(e) {
+      $("#open-date-form").submit();
+      e.preventDefault();
+    });
+
+    $("#set-close-date-to-now").click(function(e) {
+      var d = new Date();
+
+      var year = d.getFullYear();
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var hours = d.getHours();
+      var mins = d.getMinutes();
+
+      $('select[name=close_year]').val(year);
+      $('select[name=close_month]').val(month);
+      $('select[name=close_day]').val(day);
+      $('select[name=close_hour]').val(hours);
+      $('select[name=close_minute]').val(mins);
+
+      e.preventDefault();
+    });
+
+    $("#close-submit").click(function(e) {
+      $("#close-date-form").submit();
+      e.preventDefault();
+    });
+  });
