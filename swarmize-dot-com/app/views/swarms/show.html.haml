@@ -1,16 +1,18 @@
 
 
 .row
-  .col-sm-10
+  .col-sm-9
     %h1
       = @swarm.name
       - if @swarm.live?
         %span.label.label-success.swarmlive Live!
-  .col-sm-2.swarm-controls
+  .col-sm-3.swarm-controls
     .button
       = button_to "Spike", '#', :class => "btn btn-danger btn-sm"
     .button
       = button_to "Clone", clone_swarm_path(@swarm), :class => "btn btn-warning btn-sm"
+    .button
+      = link_to "Edit", edit_swarm_path(@swarm), :class => "btn btn-success btn-sm"
 
 .row
   .col-sm-8
