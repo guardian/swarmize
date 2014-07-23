@@ -19,6 +19,8 @@
         %td= swarm.opens_at
         %td= swarm.closes_at
         %td
+          = link_to "View", swarm
+          |
           = link_to "Edit", edit_swarm_path(swarm)
           |
           = link_to "Delete", delete_swarm_path(swarm)
