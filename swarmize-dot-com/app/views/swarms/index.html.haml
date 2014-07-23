@@ -14,15 +14,11 @@
   %tbody
     - for swarm in @swarms
       %tr
-        %td= swarm.name
+        %td= link_to swarm.name, swarm
         %td= swarm.description
         %td= swarm.opens_at
         %td= swarm.closes_at
         %td
-          = link_to "View", swarm
-          |
-          = link_to "Edit", edit_swarm_path(swarm)
-          |
           = link_to "Delete", delete_swarm_path(swarm)
           |
           = link_to "JSON", swarm_path(swarm, :format => 'json')
