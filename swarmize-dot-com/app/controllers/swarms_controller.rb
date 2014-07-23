@@ -108,6 +108,15 @@ class SwarmsController < ApplicationController
     redirect_to @swarm
   end
 
+  def clone
+    new_swarm = @swarm.dup
+    new_swarm.opens_at = nil
+    new_swarm.closes_at = nil
+    new_swarm.name = @swarm.name + " (cloned)"
+    new_swarm.save
+    redirect_to new_swarm
+  end
+
   private
 
   def scope_to_swarm

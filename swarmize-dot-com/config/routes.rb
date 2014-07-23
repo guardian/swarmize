@@ -12,6 +12,7 @@ Swarmize::Application.routes.draw do
       post 'do_commission'
       post 'open'
       post 'close'
+      post 'clone'
     end
   end
 

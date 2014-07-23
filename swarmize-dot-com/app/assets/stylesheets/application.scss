@@ -17,6 +17,13 @@ span.swarmlive {
   vertical-align: top;
 }
 
+.swarm-controls {
+  .button {
+    float: right;
+    margin-left: 10px;
+  }
+}
+
 .fields-palette {
   background: #ccc;
   border: 2px solid #888;
