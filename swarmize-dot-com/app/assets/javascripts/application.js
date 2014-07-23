@@ -29,27 +29,5 @@ $.verify.addRules({
 $(document).ready(function() {
   $('.disabled a').click(function(e) { e.preventDefault(); return false });
 
-  $("#set-open-date-to-now").click(function(e) {
-    var d = new Date();
-
-    var year = d.getFullYear();
-    var month = d.getMonth() + 1;
-    var day = d.getDate();
-    var hours = d.getHours();
-    var mins = d.getMinutes();
-
-    $('select[name=open_year]').val(year);
-    $('select[name=open_month]').val(month);
-    $('select[name=open_day]').val(day);
-    $('select[name=open_hour]').val(hours);
-    $('select[name=open_minute]').val(mins);
-
-    e.preventDefault();
-  });
-
-  $("#open-submit").click(function(e) {
-    $("#open-date-form").submit();
-    e.preventDefault();
-  });
 });
 
