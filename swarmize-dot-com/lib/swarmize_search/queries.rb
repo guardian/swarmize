@@ -1,6 +1,5 @@
 class SwarmizeSearch
   module Queries 
-
     private
 
     def all_query(page, per_page)
@@ -51,5 +50,4 @@ class SwarmizeSearch
       end
     end
   end
-
 end

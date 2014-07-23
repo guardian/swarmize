@@ -3,7 +3,7 @@ require 'jbuilder'
 require 'hashie'
 
 class SwarmizeSearch
-  include SwarmizeSearch::Query
+  include SwarmizeSearch::Queries
   attr_reader :key
 
   def initialize(key)
@@ -13,6 +13,16 @@ class SwarmizeSearch
 
   def self.client
     Elasticsearch::Client.new log: true, host: ENV['ELASTICSEARCH_HOST']
+  end
+
+  def search(index, query)
+    search_results = @client.search(index: index, body: query)
+    Hashie::Mash.new(search_results)
+  end
+
+  def total_pages_for_results(results, per_page)
+    total_hits = results.hits.total
+    (total_hits.to_f/per_page).ceil
   end
 
   def all(page=1, per_page=10)
@@ -33,6 +43,7 @@ class SwarmizeSearch
     search_results_hash = search(key,query)
 
     buckets = search_results_hash.aggregations.field_count.buckets
+
     buckets.map {|b| {b['key'] => b.doc_count} }
   end
 
@@ -42,17 +53,8 @@ class SwarmizeSearch
     search_results_hash = search(key,query)
 
     buckets = search_results_hash.aggregations.field_count.buckets
+
     buckets.map {|b| {b['key'] => b.unique_field.value} }
-  end
-
-  def search(index, query)
-    search_results = @client.search(index: index, body: query)
-    Hashie::Mash.new(search_results)
-  end
-
-  def total_pages_for_results(results, per_page)
-    total_hits = results.hits.total
-    (total_hits.to_f/per_page).ceil
   end
 
 
