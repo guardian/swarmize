@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'rspec-rails'
 gem 'hashie'
+gem 'pg_search'
 gem 'elasticsearch'
 gem 'dotenv'
 
