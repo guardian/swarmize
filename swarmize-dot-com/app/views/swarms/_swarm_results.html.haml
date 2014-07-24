@@ -31,6 +31,9 @@
   - if @current_page > 1
     %li
       %a{:href => "?page=#{@current_page - 1}"} &laquo;
+  - else
+    %li.disabled
+      %span &laquo;
 
   - @total_pages.times do |i|
     - if i+1 == @current_page
@@ -44,4 +47,6 @@
   - if @current_page < @total_pages
     %li
       %a{:href => "?page=#{@current_page + 1}"} &raquo;
-
+  - else
+    %li.disabled
+      %span &raquo;
