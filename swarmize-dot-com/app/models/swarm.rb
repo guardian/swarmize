@@ -36,7 +36,11 @@ class Swarm < ActiveRecord::Base
 
   def live?
     if has_opened?
-      closes_at > Time.now.utc
+      if closes_at
+        closes_at > Time.now.utc
+      else
+        true
+      end
     elsif opens_at
       opens_at <= Time.now.utc
     end
