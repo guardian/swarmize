@@ -1,6 +1,9 @@
 class Swarm < ActiveRecord::Base
   include PgSearch
-  pg_search_scope :search_by_name_and_description, :against => [:name, :description]
+  pg_search_scope :search_by_name_and_description, :against => {
+    :name => 'A', 
+    :description => 'B'
+  }
 
   serialize :fields
 
