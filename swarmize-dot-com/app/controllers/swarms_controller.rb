@@ -75,11 +75,10 @@ class SwarmsController < ApplicationController
 
     if @swarm.opens_at && (@swarm.opens_at > close_time)
       flash[:error] = "Swarm cannot close before it has opened!"
-      render :show
     else
       @swarm.update(:closes_at => close_time)
-      redirect_to @swarm
     end
+    redirect_to @swarm
   end
 
   def clone
