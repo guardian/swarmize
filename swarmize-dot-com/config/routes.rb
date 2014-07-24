@@ -20,9 +20,6 @@ Swarmize::Application.routes.draw do
     end
   end
 
-  resources :results do
-  end
-
   get 'swarms/:swarm_id/graphs/count/:count_field', to: 'graphs#aggregate_count'
   get 'swarms/:swarm_id/graphs/count/:count_field/:unique_field', to: 'graphs#cardinal_count'
 end
