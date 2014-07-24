@@ -26,8 +26,8 @@
             Logged in as 
             = link_to "Bob User", "#", :class => "navbar-link"
         %li= link_to "Log out", "#"
-      %form.navbar-form.navbar-right{role: 'search'}
+      %form.navbar-form.navbar-right{role: 'search', action: results_search_path}
         .form-group
-          %input.form-control{placeholder: 'Search'}
+          %input.form-control{placeholder: 'Search', name: 'query'}
         %button.btn.btn-default{type: 'Submit'} Search
 

@@ -14,6 +14,12 @@ Swarmize::Application.routes.draw do
     end
   end
 
+  resource :search, :controller => "search" do
+    member do
+      get 'results'
+    end
+  end
+
   resources :results do
   end
 
