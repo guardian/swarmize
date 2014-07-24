@@ -21,7 +21,6 @@ class SwarmsController < ApplicationController
   end
 
   def delete
-
   end
 
   def destroy
@@ -29,31 +28,11 @@ class SwarmsController < ApplicationController
     redirect_to swarms_path
   end
 
-  def fields
-  end
-
-  def preview
-  end
-
-  def embed
-    render layout: 'embed'
-  end
-
   def new
     @swarm = Swarm.new
   end
 
-  def edit
-  end
-
-  def create
-    swarm = Swarm.create(swarm_params)
-    redirect_to fields_swarm_path(swarm)
-  end
-
-  def update
-    @swarm.update(swarm_params)
-    redirect_to fields_swarm_path(@swarm)
+  def fields
   end
 
   def update_fields
@@ -63,6 +42,26 @@ class SwarmsController < ApplicationController
     else
       redirect_to edit_swarm_path(@swarm)
     end
+  end
+
+  def preview
+  end
+
+  def embed
+    render layout: 'embed'
+  end
+
+  def create
+    swarm = Swarm.create(swarm_params)
+    redirect_to fields_swarm_path(swarm)
+  end
+
+  def edit
+  end
+
+  def update
+    @swarm.update(swarm_params)
+    redirect_to fields_swarm_path(@swarm)
   end
 
   def open
