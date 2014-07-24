@@ -1,4 +1,7 @@
 class Swarm < ActiveRecord::Base
+  include PgSearch
+  pg_search_scope :search_by_name_and_description, :against => [:name, :description]
+
   serialize :fields
 
   def as_json(options={})
