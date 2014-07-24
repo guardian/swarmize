@@ -8,6 +8,15 @@ class SwarmsController < ApplicationController
   end
 
   def show
+    if @swarm.closed?
+      if params[:page]
+        @current_page = params[:page].to_i
+      else
+        @current_page = 1
+      end
+
+      @rows, @total_pages = @swarm.search.all(@current_page, 10)
+    end
     respond_with @swarm
   end
 
