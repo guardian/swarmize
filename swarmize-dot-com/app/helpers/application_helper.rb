@@ -15,6 +15,10 @@ module ApplicationHelper
     end
   end
 
+  def login_path
+    "/auth/google_oauth2"
+  end
+
 
   # this comes from the old Sinatra app
   def format_timestamp(ts)
