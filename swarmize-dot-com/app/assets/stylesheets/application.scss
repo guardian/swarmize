@@ -84,3 +84,15 @@ form {
 .nav.swarmbuilder-nav {
   margin-bottom: 30px;
 }
+
+.swarm-header {
+  margin: 0 0 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  h1 {
+    margin: 0 0 10px;
+  }
+  .subheader {
+    font-size: 120%;
+  }
+}

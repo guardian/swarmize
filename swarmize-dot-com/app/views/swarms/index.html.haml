@@ -7,6 +7,7 @@
     %tr
       %th Name
       %th Description
+      %th Created by
       %th Opens At
       %th Closes At
       %th Actions
@@ -16,6 +17,7 @@
       %tr
         %td= link_to swarm.name, swarm
         %td= swarm.description
+        %td= link_to swarm.user.name, user_path(swarm.user)
         %td= swarm.opens_at
         %td= swarm.closes_at
         %td

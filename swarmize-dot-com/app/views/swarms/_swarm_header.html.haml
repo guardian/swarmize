@@ -1,9 +1,12 @@
-.row
+.row.swarm-header
   .col-sm-9
     %h1
       = @swarm.name
       - if @swarm.live?
         %span.label.label-success.swarmlive Live!
+    .subheader
+      Created by
+      = link_to @swarm.user.name, user_path(@swarm.user)
   .col-sm-3.swarm-controls
     .button
       = button_to "Spike", '#', :class => "btn btn-danger btn-sm"

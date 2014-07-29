@@ -53,7 +53,9 @@ class SwarmsController < ApplicationController
   end
 
   def create
-    swarm = Swarm.create(swarm_params)
+    swarm = Swarm.new(swarm_params)
+    swarm.user = @current_user
+    swarm.save
     redirect_to fields_swarm_path(swarm)
   end
 
