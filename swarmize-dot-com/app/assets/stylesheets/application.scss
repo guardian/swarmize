@@ -85,6 +85,20 @@ form {
   margin-bottom: 30px;
 }
 
+.nav .user-icon {
+  img {
+    float: right;
+  }
+  // nasty hack because I'm lazy at rewriting bootstrap
+  /*margin: -15px 0;*/
+}
+
+.navbar-user {
+  background-position: top right;
+  background-repeat: no-repeat;
+  padding-right: 60px;
+}
+
 .swarm-header {
   margin: 0 0 20px;
   border-bottom: 1px solid #ccc;

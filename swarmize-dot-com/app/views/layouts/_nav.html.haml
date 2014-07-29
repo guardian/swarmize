@@ -21,19 +21,20 @@
             - if @current_user
               %li= link_to "My Swarms", "#"
               %li= link_to "New Swarm", new_swarm_path
-      %ul.nav.navbar-nav.navbar-right
-        - if @current_user
-          %li
-            %p.navbar-text 
-              Logged in as 
-              = link_to @current_user.name, "/users/#{@current_user.id}", :class => "navbar-link"
-              = image_tag @current_user.image_url
-          %li= link_to "Log out", logout_session_path
-        - else
-          %li= link_to "Log in", login_path
-
-      %form.navbar-form.navbar-right{role: 'search', action: results_search_path}
+      %form.navbar-form.navbar-nav{role: 'search', action: results_search_path}
         .form-group
           %input.form-control{placeholder: 'Search', name: 'query'}
         %button.btn.btn-default{type: 'Submit'} Search
+
+      %ul.nav.navbar-nav.navbar-right.navbar-user{:style => ("background-image: url(#{@current_user.image_url})" if @current_user)}
+        - if @current_user
+          %li
+            = link_to @current_user.name, "/users/#{@current_user.id}", :class => "navbar-link"
+          %li
+            = link_to "Log out", logout_session_path
+          -#%li.user-icon
+            -#= image_tag @current_user.image_url, :class => 'user-icon'
+        - else
+          %li= link_to "Log in", login_path
+
 

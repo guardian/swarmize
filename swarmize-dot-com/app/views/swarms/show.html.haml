@@ -1,7 +1,10 @@
 = render :partial => "swarms/swarm_page_js"
 
 = render :partial => "swarms/swarm_header"
-= render :partial => "swarms/swarm_description_open_close"
+- if @swarm.user == @current_user
+  = render :partial => "swarms/swarm_description_open_close_logged_in"
+- else
+  = render :partial => "swarms/swarm_description_open_close"
 
 %hr
 

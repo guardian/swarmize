@@ -1,0 +1,33 @@
+.row
+  .col-sm-8
+    .desc= simple_format @swarm.description
+  .col-sm-4
+    .row
+      .col-sm-6
+        - if @swarm.has_opened?
+          %h3 Opened at 
+          %h4= @swarm.opens_at
+        - else
+          %h3 Opens
+          - if @swarm.opens_at
+            %h4= @swarm.opens_at
+
+          %p
+            - if @swarm.opens_at
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#open-or-schedule'} Alter
+            - else
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#open-or-schedule'} Open / Schedule
+      .col-sm-6
+        - if @swarm.closed?
+          %h3 Closed at 
+          %h4= @swarm.closes_at
+        - else
+          %h3 Closes at
+          - if @swarm.scheduled_to_close?
+            %h4= @swarm.closes_at
+            %p
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#close-or-schedule'} Alter
+          - else 
+            %p
+              %button{:class => "btn btn-primary", "data-toggle" => 'modal', 'data-target' => '#close-or-schedule'} Close / Schedule
+
