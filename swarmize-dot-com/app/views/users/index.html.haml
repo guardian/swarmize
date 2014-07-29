@@ -1,0 +1,24 @@
+%h1 Users
+
+%p This page is intended for development purposes only: to enumerate who's in the system.
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Image
+      %th Actions
+  %tbody
+    - for user in @users
+      %tr
+        %td= user.name
+        %td= user.email
+        %td= image_tag(user.image_url)
+        %td
+          = link_to "View", user_path(user)
+          |
+          = link_to "Edit", edit_user_path(user)
+          |
+          = link_to "Delete", delete_user_path(user)
+

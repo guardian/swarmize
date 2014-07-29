@@ -1,0 +1,8 @@
+%h1 Delete User '#{@user.name}'?
+
+%p Are you sure you want to delete this user?
+
+%p
+  = button_to "Delete", user_path(@user), :method => :delete, :class => "btn btn-default"
+  or
+  = link_to "Return to all users", users_path
