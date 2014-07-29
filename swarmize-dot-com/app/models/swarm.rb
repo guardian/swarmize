@@ -48,8 +48,12 @@ class Swarm < ActiveRecord::Base
     end
   end
 
-  def can_be_edited?
-    !has_opened?
+  def can_be_edited_by?(u)
+    (self.user_id == u.id) && !has_opened?
+  end
+
+  def can_be_spiked_by?(u)
+    self.user_id == u.id
   end
 
   def closed?
