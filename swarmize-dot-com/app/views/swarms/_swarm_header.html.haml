@@ -7,6 +7,9 @@
     .subheader
       Created by
       = link_to @swarm.user.name, user_path(@swarm.user)
+      - if @swarm.parent_swarm
+        %small
+          [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]
   .col-sm-3.swarm-controls
     - if @current_user
       .button
