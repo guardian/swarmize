@@ -48,8 +48,8 @@ test:
   encoding: unicode
   database: swarmize_test
   pool: 5
-  username: swarmize
-  password:
+  username: dbuser
+  password: dbp
 
 production:
   adapter: postgresql
