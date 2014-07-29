@@ -13,7 +13,7 @@ gem 'hashie'
 gem 'pg_search'
 gem 'elasticsearch'
 gem 'dotenv'
-gem 'google-api-client'
+gem "omniauth-google-oauth2"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
