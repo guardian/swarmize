@@ -1,6 +1,6 @@
 class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index new create}
-  before_filter :check_for_user, :except => %w{index show}
+  before_filter :check_for_user, :except => %w{index show embed}
 
   respond_to :html, :json
 
