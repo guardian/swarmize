@@ -1,4 +1,6 @@
 class Swarm < ActiveRecord::Base
+  belongs_to :user
+
   include LegacySwarm
   include PgSearch
 

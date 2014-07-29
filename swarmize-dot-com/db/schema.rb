@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729093242) do
+ActiveRecord::Schema.define(version: 20140729123430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,10 @@ ActiveRecord::Schema.define(version: 20140729093242) do
     t.text     "fields"
     t.datetime "opens_at"
     t.datetime "closes_at"
+    t.integer  "user_id"
   end
+
+  add_index "swarms", ["user_id"], name: "index_swarms_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"
