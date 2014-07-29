@@ -25,5 +25,7 @@
           |
           = link_to "JSON", swarm_path(swarm, :format => 'json')
 
+= will_paginate @swarms, :renderer => BootstrapPagination::Rails
+
 - if @current_user
   %p= link_to "New swarm", new_swarm_path

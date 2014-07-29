@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_filter :scope_to_user, :except => %w{index new create}
 
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page], :per_page => 20)
   end
 
   def delete

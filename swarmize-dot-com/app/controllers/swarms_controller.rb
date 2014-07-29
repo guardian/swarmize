@@ -5,7 +5,7 @@ class SwarmsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @swarms = Swarm.all
+    @swarms = Swarm.paginate(:page => params[:page], :per_page => 20)
   end
 
   def show
