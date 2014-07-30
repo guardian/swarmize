@@ -9,16 +9,17 @@
       %th Actions
 
   %tbody
-    - for swarm in swarms
-      %tr
-        %td= link_to swarm.name, swarm
-        %td= swarm.description
-        %td= link_to swarm.user.name, user_path(swarm.user)
-        %td= swarm.opens_at
-        %td= swarm.closes_at
-        %td
-          - if swarm.user == @current_user
-            = link_to "Delete", delete_swarm_path(swarm)
-            |
-          = link_to "JSON", swarm_path(swarm, :format => 'json')
+    - if swarms && swarms.any?
+      - for swarm in swarms
+        %tr
+          %td= link_to swarm.name, swarm
+          %td= swarm.description
+          %td= link_to swarm.user.name, user_path(swarm.user)
+          %td= swarm.opens_at
+          %td= swarm.closes_at
+          %td
+            - if swarm.user == @current_user
+              = link_to "Delete", delete_swarm_path(swarm)
+              |
+            = link_to "JSON", swarm_path(swarm, :format => 'json')
 

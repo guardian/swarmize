@@ -16,8 +16,12 @@
 
 %hr
 
-%h2 Latest Swarms
+%h2 Swarms In Progress
 
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms}
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
+
+%h2 Latest complete swarms
+
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
 
 %p= link_to "View all swarms", swarms_path
