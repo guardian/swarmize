@@ -16,7 +16,7 @@ class Swarm < ActiveRecord::Base
   }
 
   scope :latest, lambda {|n|
-    order("created_at DESC").limit(n)
+    limit(n)
   }
 
   scope :yet_to_launch, lambda {
@@ -24,11 +24,11 @@ class Swarm < ActiveRecord::Base
   }
 
   scope :closed, lambda {
-    where("closes_at < ?", Time.now).order("created_at DESC")
+    where("closes_at < ?", Time.now).order("closes_at DESC")
   }
 
   scope :live, lambda {
-    where("opens_at <= ?", Time.now).where("closes_at IS NULL or closes_at > ?", Time.now).order('created_at DESC')
+    where("opens_at <= ?", Time.now).where("closes_at IS NULL or closes_at > ?", Time.now).order('opens_at DESC')
   }
 
   serialize :fields
