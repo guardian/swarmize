@@ -29,3 +29,7 @@ group :development do
   gem 'thin'
   gem 'fog'
 end
+
+group :test do
+  gem 'timecop'
+end

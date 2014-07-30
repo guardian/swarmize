@@ -58,4 +58,9 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/v/3-0/docs
   config.infer_spec_type_from_file_location!
+
+  config.before(:each) do
+    Timecop.return # Timecop should reset before each test is run.
+  end
 end
+
