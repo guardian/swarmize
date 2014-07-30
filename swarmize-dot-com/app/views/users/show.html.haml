@@ -3,30 +3,7 @@
   - if @user == @current_user
     %span.label.label-success.swarmlive You!
 
-%table.table
-  %thead
-    %tr
-      %th Name
-      %th Description
-      %th Created by
-      %th Opens At
-      %th Closes At
-      - if @user == @current_user
-        %th Actions
-
-  %tbody
-    - for swarm in @swarms
-      %tr
-        %td= link_to swarm.name, swarm
-        %td= swarm.description
-        %td= link_to swarm.user.name, user_path(swarm.user)
-        %td= swarm.opens_at
-        %td= swarm.closes_at
-        - if @user == @current_user
-          %td
-            = link_to "Delete", delete_swarm_path(swarm)
-            |
-            = link_to "JSON", swarm_path(swarm, :format => 'json')
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms}
 
 = will_paginate @swarms, :renderer => BootstrapPagination::Rails
 
