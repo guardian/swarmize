@@ -184,7 +184,7 @@ RSpec.describe Swarm do
       expect(swarm.closes_at).to eq(Time.now)
     end
 
-    it "should raise an error if asked to set it before the open date" do
+    it "should raise a TimeParadoxError if asked to set it before the open date" do
       Timecop.freeze
 
       close_time = Time.now - 2.hours
