@@ -53,20 +53,21 @@ class Swarm < ActiveRecord::Base
     end
   end
 
-  def can_be_edited_by?(u)
-    (self.user_id == u.id) && !has_opened?
-  end
-
-  def can_be_spiked_by?(u)
-    self.user_id == u.id
-  end
-
   def closed?
     closes_at && (closes_at <= Time.now.utc)
   end
 
   def scheduled_to_close?
     closes_at && (closes_at > Time.now.utc)
+  end
+
+
+  def can_be_edited_by?(u)
+    (self.user_id == u.id) && !has_opened?
+  end
+
+  def can_be_spiked_by?(u)
+    self.user_id == u.id
   end
 
 end
