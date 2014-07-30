@@ -153,7 +153,7 @@ RSpec.describe Swarm do
       open_time = Time.now - 1.hour
       close_time = Time.now - 2.hours
       
-      expect { swarm.update(:opens_at => open_time, :closes_at => close_time) }.to raise_error
+      expect { swarm.update(:opens_at => open_time, :closes_at => close_time) }.to raise_error TimeParadoxError
     end
 
     it "should not raise an error if there is no close date" do
@@ -190,7 +190,7 @@ RSpec.describe Swarm do
       close_time = Time.now - 2.hours
       open_time = Time.now - 1.hour
       
-      expect { swarm.update(:closes_at => close_time, :opens_at => open_time) }.to raise_error
+      expect { swarm.update(:closes_at => close_time, :opens_at => open_time) }.to raise_error TimeParadoxError
     end
 
     it "should not raise an error if there is no open date" do

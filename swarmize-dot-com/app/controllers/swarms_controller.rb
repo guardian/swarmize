@@ -88,10 +88,10 @@ class SwarmsController < ApplicationController
                           params['close_hour'],
                           params['close_minute'])
 
-    if @swarm.opens_at && (@swarm.opens_at > close_time)
-      flash[:error] = "Swarm cannot close before it has opened!"
-    else
+    begin
       @swarm.update(:closes_at => close_time)
+    rescue TimeParadoxError
+      flash[:error] = "Swarm cannot close before it has opened!"
     end
     redirect_to @swarm
   end

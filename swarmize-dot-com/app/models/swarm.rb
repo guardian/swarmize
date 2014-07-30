@@ -1,3 +1,5 @@
+class TimeParadoxError < StandardError; end
+
 class Swarm < ActiveRecord::Base
   include LegacySwarm
   include PgSearch
@@ -82,7 +84,7 @@ class Swarm < ActiveRecord::Base
       end
 
       if self.closes_at && (self.opens_at > self.closes_at)
-        raise "Swarm cannot close before it has opened!"
+        raise TimeParadoxError, "Swarm cannot close before it has opened!"
       end
     end
   end
@@ -94,7 +96,7 @@ class Swarm < ActiveRecord::Base
       end
 
       if self.opens_at && (self.closes_at < self.opens_at)
-        raise "Swarm cannot close before it has opened!"
+        raise TimeParadoxError, "Swarm cannot close before it has opened!"
       end
     end
   end
