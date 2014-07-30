@@ -1,22 +1,28 @@
-%h2 Swarms In Progress
+%ul.nav.nav-tabs{:role => 'tablist'}
+  %li.active= link_to "All Swarms", "#all", "data-toggle" => 'tab'
+  %li= link_to "My Swarms", "#mine", "data-toggle" => 'tab'
 
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
+.tab-content
+  #all.tab-pane.active
+    %h2 Swarms In Progress
 
-%h2 Latest complete swarms
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
 
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
+    %h2 Latest complete swarms
 
-%p= link_to "View all swarms", swarms_path
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
 
-%hr
-
-%h2 My Swarms Yet To Launch
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_yet_to_launch}
-
-%h2 My Swarms In Progress
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_in_progress}
-
-%h2 My Latest Completed Swarms
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_completed_swarms}
+    %p= link_to "View all swarms", swarms_path
 
 
+  #mine.tab-pane
+    %h2 My Swarms Yet To Launch
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_yet_to_launch}
+
+    %h2 My Swarms In Progress
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_in_progress}
+
+    %h2 My Latest Completed Swarms
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_completed_swarms}
+
+    %p= link_to "View all my swarms", user_path(@current_user)
