@@ -19,6 +19,18 @@ class Swarm < ActiveRecord::Base
     order("created_at DESC").limit(n)
   }
 
+  scope :yet_to_launch, lambda {
+    where("opens_at IS NULL OR opens_at > ?", Time.now).order("created_at DESC")
+  }
+
+  scope :closed, lambda {
+    where("closes_at < ?", Time.now).order("created_at DESC")
+  }
+
+  scope :live, lambda {
+    where("opens_at <= ?", Time.now).where("closes_at IS NULL or closes_at > ?", Time.now).order('created_at DESC')
+  }
+
   serialize :fields
 
   def as_json(options={})
