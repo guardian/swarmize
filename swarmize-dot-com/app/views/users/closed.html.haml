@@ -4,7 +4,7 @@
     %span.label.label-success.swarmlive You!
 
 %ul.nav.nav-tabs
-  %li.active
+  %li
     %a{:href => user_path(@user)}
       All Swarms
       %span.badge= @all_swarms_count
@@ -16,7 +16,7 @@
     %a{:href => live_user_path(@user)}
       In Progress
       %span.badge= @live_swarms_count
-  %li
+  %li.active
     %a{:href => closed_user_path(@user)}
       Closed
       %span.badge= @closed_swarms_count

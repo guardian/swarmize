@@ -4,11 +4,11 @@
     %span.label.label-success.swarmlive You!
 
 %ul.nav.nav-tabs
-  %li.active
+  %li
     %a{:href => user_path(@user)}
       All Swarms
       %span.badge= @all_swarms_count
-  %li
+  %li.active
     %a{:href => open_user_path(@user)}
       Yet To Open
       %span.badge= @open_swarms_count

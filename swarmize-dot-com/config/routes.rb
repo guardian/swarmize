@@ -21,6 +21,9 @@ Swarmize::Application.routes.draw do
   resources :users do
     member do
       get 'delete'
+      get 'open'
+      get 'live'
+      get 'closed'
     end
   end
 
