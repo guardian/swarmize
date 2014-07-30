@@ -6,6 +6,7 @@ class Swarm < ActiveRecord::Base
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
   before_update :confirm_open_time
+  before_update :confirm_close_time
 
   pg_search_scope :search_by_name_and_description, :against => {
     :name => 'A', 
@@ -75,12 +76,26 @@ class Swarm < ActiveRecord::Base
   private
 
   def confirm_open_time
-    if self.opens_at < Time.now
-      self.opens_at = Time.now
-    end
+    if self.opens_at
+      if self.opens_at < Time.now
+        self.opens_at = Time.now
+      end
 
-    if self.closes_at && (self.opens_at > self.closes_at)
-      raise "Swarm cannot close before it has opened!"
+      if self.closes_at && (self.opens_at > self.closes_at)
+        raise "Swarm cannot close before it has opened!"
+      end
+    end
+  end
+
+  def confirm_close_time
+    if self.closes_at
+      if self.closes_at < Time.now
+        self.closes_at = Time.now
+      end
+
+      if self.opens_at && (self.closes_at > self.opens_at)
+        raise "Swarm cannot close before it has opened!"
+      end
     end
   end
 
