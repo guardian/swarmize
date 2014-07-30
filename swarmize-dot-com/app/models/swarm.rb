@@ -34,31 +34,31 @@ class Swarm < ActiveRecord::Base
   end
 
   def has_opened?
-    opens_at && (opens_at <= Time.now.utc)
+    opens_at && (opens_at <= Time.now)
   end
 
   def scheduled_to_open?
-    opens_at && (opens_at > Time.now.utc)
+    opens_at && (opens_at > Time.now)
   end
 
   def live?
     if has_opened?
       if closes_at
-        closes_at > Time.now.utc
+        closes_at > Time.now
       else
         true
       end
     elsif opens_at
-      opens_at <= Time.now.utc
+      opens_at <= Time.now
     end
   end
 
   def closed?
-    closes_at && (closes_at <= Time.now.utc)
+    closes_at && (closes_at <= Time.now)
   end
 
   def scheduled_to_close?
-    closes_at && (closes_at > Time.now.utc)
+    closes_at && (closes_at > Time.now)
   end
 
 
