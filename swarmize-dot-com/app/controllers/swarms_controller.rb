@@ -9,7 +9,7 @@ class SwarmsController < ApplicationController
   end
 
   def mine
-    @swarms = @current_user.swarms.paginate(:page => params[:page], :per_page => 20)
+    redirect_to user_path(@current_user)
   end
 
   def show

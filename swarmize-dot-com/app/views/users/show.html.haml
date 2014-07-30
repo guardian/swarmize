@@ -1,4 +1,7 @@
-%h1 Swarms created by #{@user.name}
+%h1 
+  Swarms created by #{@user.name}
+  - if @user == @current_user
+    %span.label.label-success.swarmlive You!
 
 %table.table
   %thead
