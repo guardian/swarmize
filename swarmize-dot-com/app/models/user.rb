@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   end
 
   def self.is_valid_email?(email)
-    (email == 'tom@infovore.org') || (email =~ /@theguardian\.com$/)
+    (email == 'tom@infovore.org') || (email =~ /@theguardian\.com$/) || (email =~ /@guardian\.co\.uk$/)
+
   end
 end
