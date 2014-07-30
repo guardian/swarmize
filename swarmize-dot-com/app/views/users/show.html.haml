@@ -1,4 +1,4 @@
-%h1 All Swarms
+%h1 Swarms created by #{@user.name}
 
 %table.table
   %thead
@@ -8,7 +8,8 @@
       %th Created by
       %th Opens At
       %th Closes At
-      %th Actions
+      - if @user == @current_user
+        %th Actions
 
   %tbody
     - for swarm in @swarms
@@ -18,12 +19,11 @@
         %td= link_to swarm.user.name, user_path(swarm.user)
         %td= swarm.opens_at
         %td= swarm.closes_at
-        %td
-          = link_to "Delete", delete_swarm_path(swarm)
-          |
-          = link_to "JSON", swarm_path(swarm, :format => 'json')
+        - if @user == @current_user
+          %td
+            = link_to "Delete", delete_swarm_path(swarm)
+            |
+            = link_to "JSON", swarm_path(swarm, :format => 'json')
 
 = will_paginate @swarms, :renderer => BootstrapPagination::Rails
 
-- if @current_user
-  %p= link_to "New swarm", new_swarm_path

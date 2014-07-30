@@ -1,5 +1,5 @@
 Swarmize::Application.routes.draw do
-  root "swarms#index"
+  root "home#show"
 
   resources :swarms do
     member do
@@ -11,6 +11,10 @@ Swarmize::Application.routes.draw do
       post 'open'
       post 'close'
       post 'clone'
+    end
+
+    collection do
+      get 'mine'
     end
   end
 
@@ -25,6 +29,8 @@ Swarmize::Application.routes.draw do
       get 'results'
     end
   end
+
+  resource :home, :controller => "home"
 
   resource :session do
     collection do

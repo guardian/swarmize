@@ -10,6 +10,10 @@ class Swarm < ActiveRecord::Base
     :description => 'B'
   }
 
+  scope :latest, lambda {|n|
+    order("created_at DESC").limit(n)
+  }
+
   serialize :fields
 
   def as_json(options={})

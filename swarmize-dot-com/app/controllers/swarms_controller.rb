@@ -1,11 +1,15 @@
 class SwarmsController < ApplicationController
-  before_filter :scope_to_swarm, :except => %w{index new create}
+  before_filter :scope_to_swarm, :except => %w{index new create mine}
   before_filter :check_for_user, :except => %w{index show embed}
 
   respond_to :html, :json
 
   def index
     @swarms = Swarm.paginate(:page => params[:page], :per_page => 20)
+  end
+
+  def mine
+    @swarms = @current_user.swarms.paginate(:page => params[:page], :per_page => 20)
   end
 
   def show

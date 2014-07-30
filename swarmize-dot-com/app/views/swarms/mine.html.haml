@@ -1,4 +1,4 @@
-%h1 All Swarms
+%h1 My swarms
 
 %table.table
   %thead
@@ -25,5 +25,3 @@
 
 = will_paginate @swarms, :renderer => BootstrapPagination::Rails
 
-- if @current_user
-  %p= link_to "New swarm", new_swarm_path
