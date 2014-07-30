@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def callback
     if User.is_valid_email?(request.env['omniauth.auth'].info.email)
-      @user = User.first_or_create_from_info_hash(request.env['omniauth.auth'].info)
+      @user = User.find_or_create_from_info_hash(request.env['omniauth.auth'].info)
       session[:user_id] = @user.id
       flash[:success] = "You've been successfully logged in to Swarmize."
       redirect_back_or_default(root_path)
