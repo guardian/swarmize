@@ -201,4 +201,17 @@ RSpec.describe Swarm do
       expect { swarm.update(:opens_at => nil, :closes_at => close_time) }.not_to raise_error
     end
   end
+
+  describe "that has already opened" do
+    before  { Timecop.freeze }
+    let(:swarm) { Swarm.create(:opens_at => (Time.now - 1.hour)) }
+
+    describe "having its close date set" do
+      it "should not alter the opened at date." do
+        close_time = Time.now + 1.hour
+        swarm.update(:closes_at => close_time)
+        expect(swarm.opens_at).to eq(Time.now - 1.hour)
+      end
+    end
+  end
 end

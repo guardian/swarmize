@@ -76,7 +76,7 @@ class Swarm < ActiveRecord::Base
   private
 
   def confirm_open_time
-    if self.opens_at
+    if self.opens_at && self.opens_at_changed?
       if self.opens_at < Time.now
         self.opens_at = Time.now
       end
@@ -88,12 +88,12 @@ class Swarm < ActiveRecord::Base
   end
 
   def confirm_close_time
-    if self.closes_at
+    if self.closes_at && self.closes_at_changed?
       if self.closes_at < Time.now
         self.closes_at = Time.now
       end
 
-      if self.opens_at && (self.closes_at > self.opens_at)
+      if self.opens_at && (self.closes_at < self.opens_at)
         raise "Swarm cannot close before it has opened!"
       end
     end
