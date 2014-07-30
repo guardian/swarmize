@@ -127,4 +127,42 @@ RSpec.describe Swarm do
       end
     end
   end
+
+  describe "having its open date set" do
+    let(:swarm) { Swarm.create() }
+    it "should really be the time it was asked to be set to, if it's set to the future" do
+      Timecop.freeze
+      open_time = Time.now + 1.hour
+      swarm.update(:opens_at => open_time)
+      
+      expect(swarm.opens_at).to eq(open_time)
+    end
+
+    it "should really be set to now, if asked to set it before now." do
+      Timecop.freeze
+
+      open_time = Time.now - 1.hour
+      swarm.update(:opens_at => open_time)
+      
+      expect(swarm.opens_at).to eq(Time.now)
+    end
+
+    it "should raise an error if asked to set it after the close date" do
+      Timecop.freeze
+
+      open_time = Time.now - 1.hour
+      close_time = Time.now - 2.hours
+      
+      expect { swarm.update(:opens_at => open_time, :closes_at => close_time) }.to raise_error
+    end
+
+    it "should not raise an error if there is no close date" do
+      Timecop.freeze
+
+      open_time = Time.now - 1.hour
+      swarm.update(:opens_at => open_time, :closes_at => nil)
+      
+      expect(swarm.opens_at).not_to raise_error
+    end
+  end
 end

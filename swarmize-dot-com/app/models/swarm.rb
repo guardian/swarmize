@@ -1,9 +1,11 @@
 class Swarm < ActiveRecord::Base
+  include LegacySwarm
+  include PgSearch
+
   belongs_to :user
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
-  include LegacySwarm
-  include PgSearch
+  before_update :confirm_open_time
 
   pg_search_scope :search_by_name_and_description, :against => {
     :name => 'A', 
@@ -68,6 +70,18 @@ class Swarm < ActiveRecord::Base
 
   def can_be_spiked_by?(u)
     self.user_id == u.id
+  end
+
+  private
+
+  def confirm_open_time
+    if self.opens_at < Time.now
+      self.opens_at = Time.now
+    end
+
+    if self.closes_at && (self.opens_at > self.closes_at)
+      raise "Swarm cannot close before it has opened!"
+    end
   end
 
 end
