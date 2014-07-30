@@ -27,7 +27,7 @@ describe "An email address being tested for validity" do
     expect(User.is_valid_email?('graham.tackley@theguardian.com')).to be_truthy
   end
 
-  it "should be valid if it is Matt" do
+  it "should be valid if it is Matt's guardian.co.uk email" do
     expect(User.is_valid_email?('matt.mcalister@guardian.co.uk')).to be_truthy
   end
 
