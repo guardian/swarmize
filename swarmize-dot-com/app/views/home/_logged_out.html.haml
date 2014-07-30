@@ -1,0 +1,25 @@
+.row
+  .col-sm-6
+    %p Swarmize is a public repository of data for analysis and re-use.
+
+    %p Collected by theguardian.com editors, Swarms are surveys run over a period of time - from hours to weeks. 
+
+    %p You can see the results of Swarms in progress in real time as we receive data, right her on Swarmize.
+
+    %p When a Swarm is over, you can explore its results, watch how they built up over time, and download CSV and JSON to use within your own applications.
+
+  .col-sm-6
+    .placeholder{:style => 'height: 250px;'}
+      Video here?
+
+%hr
+
+%h2 Swarms In Progress
+
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
+
+%h2 Latest complete swarms
+
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
+
+%p= link_to "View all swarms", swarms_path

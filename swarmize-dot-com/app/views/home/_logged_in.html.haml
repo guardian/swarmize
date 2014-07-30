@@ -1,0 +1,22 @@
+%h2 Swarms In Progress
+
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
+
+%h2 Latest complete swarms
+
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
+
+%p= link_to "View all swarms", swarms_path
+
+%hr
+
+%h2 My Swarms Yet To Launch
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_yet_to_launch}
+
+%h2 My Swarms In Progress
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_in_progress}
+
+%h2 My Latest Completed Swarms
+= render :partial => "swarms/swarm_table", :locals => {:swarms => @user_completed_swarms}
+
+
