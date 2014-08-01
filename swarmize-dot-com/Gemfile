@@ -22,6 +22,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'faker' # will need to be removed later, used for creating fake data
+
 # Use unicorn as the app server
 gem 'unicorn'
 
