@@ -34,7 +34,7 @@ var FieldWorkspace = {
   },
 
   onDragLeaveWorkspace: function(event) {
-    if(window.dragCount < 1) {
+    if($("#workspace").data('dragCount') < 2) {
       $("#workspace").removeClass('hover')
       $(".temp").remove();
     }
@@ -78,7 +78,7 @@ var FieldWorkspace = {
 
     var index = 0;
     _.each(middles, function(t) {
-      if(event.clientY > t) {
+      if(event.pageY > t) {
         index++;
       }
     });
