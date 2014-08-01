@@ -22,4 +22,4 @@
       %span.badge= @closed_swarms_count
 
 = render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms}
-= will_paginate @swarms, :renderer => BootstrapPagination::Rails
+= will_paginate @swarms
