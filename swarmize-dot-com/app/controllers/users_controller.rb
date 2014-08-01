@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :scope_to_user, :except => %w{index new create}
-  before_filter :count_swarms, :only => %w{show open live closed}
+  before_filter :count_swarms, :only => %w{show yet_to_open live closed}
 
   def index
     @users = User.paginate(:page => params[:page])
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @swarms = @user.swarms.paginate(:page => params[:page])
   end
 
-  def open
+  def yet_to_open
     @swarms = @user.swarms.yet_to_launch.paginate(:page => params[:page])
   end
 
