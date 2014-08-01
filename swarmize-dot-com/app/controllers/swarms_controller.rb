@@ -6,19 +6,19 @@ class SwarmsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @swarms = Swarm.paginate(:page => params[:page])
+    @swarms = Swarm.unspiked.paginate(:page => params[:page])
   end
 
   def yet_to_open
-    @swarms = Swarm.yet_to_launch.paginate(:page => params[:page])
+    @swarms = Swarm.unspiked.yet_to_launch.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = Swarm.live.paginate(:page => params[:page])
+    @swarms = Swarm.unspiked.live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = Swarm.closed.paginate(:page => params[:page])
+    @swarms = Swarm.unspiked.closed.paginate(:page => params[:page])
   end
 
 
@@ -123,7 +123,7 @@ class SwarmsController < ApplicationController
   private
 
   def scope_to_swarm
-    @swarm = Swarm.find(params[:id])
+    @swarm = Swarm.unspiked.find(params[:id])
   end
 
   def swarm_params
@@ -131,9 +131,9 @@ class SwarmsController < ApplicationController
   end
 
   def count_swarms
-    @all_swarms_count = Swarm.all.count
-    @open_swarms_count = Swarm.yet_to_launch.count
-    @live_swarms_count= Swarm.live.count
-    @closed_swarms_count = Swarm.closed.count
+    @all_swarms_count = Swarm.unspiked.count
+    @open_swarms_count = Swarm.unspiked.yet_to_launch.count
+    @live_swarms_count= Swarm.unspiked.live.count
+    @closed_swarms_count = Swarm.unspiked.closed.count
   end
 end

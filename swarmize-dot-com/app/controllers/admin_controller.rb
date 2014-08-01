@@ -1,4 +1,8 @@
 class AdminController < ApplicationController
+  def show
+    @spiked_swarms = Swarm.spiked
+  end
+
   def dummy_up
     Dummy.destroy_fake_data
     5.times do
