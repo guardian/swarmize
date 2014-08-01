@@ -12,7 +12,7 @@ class FieldDescription
      :display_name => "Big Text",
      :has_sample => true,
      :has_possible_values => false,
-     :input_type => 'textarea'
+     :has_custom_display_template => true
     },
     {:field_type => "address",
      :display_name => "Address",
