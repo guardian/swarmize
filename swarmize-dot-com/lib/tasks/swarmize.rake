@@ -18,7 +18,7 @@ namespace :swarmize do
     task :insert_dummy_preopen_swarms => :environment do
       5.times do |n|
         user = User.where(:is_fake => true).order("RANDOM()").first
-        s = Dummy.create_dummy_swarm(user, (Time.now+n.days), nil)
+        s = Dummy.create_dummy_preopen_swarm(user, n)
         puts "Created #{s.name}"
       end
     end
@@ -27,7 +27,7 @@ namespace :swarmize do
     task :insert_dummy_live_swarms => :environment do
       5.times do |n|
         user = User.where(:is_fake => true).order("RANDOM()").first
-        s = Dummy.create_dummy_swarm(user, (Time.now-n.days), (Time.now+n.days))
+        s = Dummy.create_dummy_live_swarm(user, n)
         puts "Created #{s.name}"
       end
     end
@@ -36,7 +36,7 @@ namespace :swarmize do
     task :insert_dummy_closed_swarms => :environment do
       5.times do |n|
         user = User.where(:is_fake => true).order("RANDOM()").first
-        s = Dummy.create_dummy_swarm(user, (Time.now-(2*n).days), (Time.now-n.days))
+        s = Dummy.create_dummy_closed_swarm(user, n)
         puts "Created #{s.name}"
       end
     end

@@ -13,6 +13,21 @@ class Dummy
     u
   end
 
+  def self.create_dummy_preopen_swarm(user, n=1)
+    s = Dummy.create_dummy_swarm(user, (Time.now+n.days), nil)
+   s 
+  end
+
+  def self.create_dummy_live_swarm(user, n=1)
+    s = Dummy.create_dummy_swarm(user, (Time.now-n.days), (Time.now+n.days))
+   s 
+  end
+
+  def self.create_dummy_closed_swarm(user, n=1)
+    s = Dummy.create_dummy_swarm(user, (Time.now-(2*n).days), (Time.now-n.days))
+    s
+  end
+
   def self.create_dummy_swarm(user,opens,closes)
     s = Swarm.new
     s.user = user
