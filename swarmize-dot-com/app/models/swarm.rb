@@ -10,14 +10,12 @@ class Swarm < ActiveRecord::Base
   before_update :confirm_open_time
   before_update :confirm_close_time
 
-  pg_search_scope :search_by_name_and_description, :against => {
-    :name => 'A', 
-    :description => 'B'
-  }
-
   scope :latest, lambda {|n|
     limit(n)
   }
+
+  scope :spiked, where(:is_spiked => true)
+  scope :unspiked, where(:is_spiked => false)
 
   scope :yet_to_launch, lambda {
     where("opens_at IS NULL OR opens_at > ?", Time.now).order("created_at DESC")
@@ -31,7 +29,18 @@ class Swarm < ActiveRecord::Base
     where("opens_at <= ?", Time.now).where("closes_at IS NULL or closes_at > ?", Time.now).order('opens_at DESC')
   }
 
+  pg_search_scope :search_by_name_and_description, :against => {
+    :name => 'A', 
+    :description => 'B'
+  }
+
   serialize :fields
+
+  def spike!
+    self.closes_at = Time.now
+    self.is_spiked = true
+    self.save
+  end
 
   def as_json(options={})
     {:name => self.name,
