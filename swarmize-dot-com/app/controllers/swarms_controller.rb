@@ -6,19 +6,19 @@ class SwarmsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @swarms = Swarm.paginate(:page => params[:page], :per_page => 20)
+    @swarms = Swarm.paginate(:page => params[:page])
   end
 
   def yet_to_open
-    @swarms = Swarm.yet_to_launch.paginate(:page => params[:page], :per_page => 20)
+    @swarms = Swarm.yet_to_launch.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = Swarm.live.paginate(:page => params[:page], :per_page => 20)
+    @swarms = Swarm.live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = Swarm.closed.paginate(:page => params[:page], :per_page => 20)
+    @swarms = Swarm.closed.paginate(:page => params[:page])
   end
 
 

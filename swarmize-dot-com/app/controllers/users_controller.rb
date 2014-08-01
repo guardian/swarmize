@@ -3,23 +3,23 @@ class UsersController < ApplicationController
   before_filter :count_swarms, :only => %w{show open live closed}
 
   def index
-    @users = User.paginate(:page => params[:page], :per_page => 20)
+    @users = User.paginate(:page => params[:page])
   end
 
   def show
-    @swarms = @user.swarms.paginate(:page => params[:page], :per_page => 20)
+    @swarms = @user.swarms.paginate(:page => params[:page])
   end
 
   def open
-    @swarms = @user.swarms.yet_to_launch.paginate(:page => params[:page], :per_page => 20)
+    @swarms = @user.swarms.yet_to_launch.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = @user.swarms.live.paginate(:page => params[:page], :per_page => 20)
+    @swarms = @user.swarms.live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = @user.swarms.closed.paginate(:page => params[:page], :per_page => 20)
+    @swarms = @user.swarms.closed.paginate(:page => params[:page])
   end
 
   def delete
