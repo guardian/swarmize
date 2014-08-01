@@ -14,8 +14,8 @@ class Swarm < ActiveRecord::Base
     limit(n)
   }
 
-  scope :spiked, where(:is_spiked => true)
-  scope :unspiked, where(:is_spiked => false)
+  scope :spiked, lambda { where(:is_spiked => true) }
+  scope :unspiked, lambda { where(:is_spiked => false) }
 
   scope :yet_to_launch, lambda {
     where("opens_at IS NULL OR opens_at > ?", Time.now).order("created_at DESC")
