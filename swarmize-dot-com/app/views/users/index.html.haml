@@ -8,6 +8,7 @@
       %th Name
       %th Email
       %th Image
+      %th Is Fake?
       %th Actions
   %tbody
     - for user in @users
@@ -15,6 +16,9 @@
         %td= user.name
         %td= user.email
         %td= image_tag(user.image_url)
+        %td
+          - if user.is_fake?
+            √
         %td
           = link_to "View", user_path(user)
           |
