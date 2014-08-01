@@ -19,7 +19,6 @@
               %select{:name => "open_minute"}
                 - (00..59).each do |n|
                   %option{:value => n, :selected => (true if n == @swarm.opens_at.min)}= "%.2d" % n
-              GMT
               on
               %select{:name => "open_month"}
                 - (1..12).each do |n|
@@ -39,7 +38,6 @@
               %select{:name => "open_minute"}
                 - (00..59).each do |n|
                   %option{:value => n, :selected => (true if n == Time.now.min)}= "%.2d" % n
-              GMT
               on
               %select{:name => "open_month"}
                 - (1..12).each do |n|
