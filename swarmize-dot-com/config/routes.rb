@@ -35,6 +35,15 @@ Swarmize::Application.routes.draw do
 
   resource :home, :controller => "home"
 
+  resource :admin, :controller => "admin" do
+    collection do
+      post 'dummy_up'
+      post 'delete_dummy'
+      post 'create_dummy_users'
+      post 'create_dummy_swarms'
+    end
+  end
+
   resource :session do
     collection do
       get 'logout'
