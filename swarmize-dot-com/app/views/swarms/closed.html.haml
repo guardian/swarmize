@@ -1,7 +1,7 @@
 %h1 All Swarms
 
 %ul.nav.nav-tabs
-  %li.active
+  %li
     %a{:href => swarms_path}
       All Swarms
       %span.badge= @all_swarms_count
@@ -13,7 +13,7 @@
     %a{:href => live_swarms_path}
       In Progress
       %span.badge= @live_swarms_count
-  %li
+  %li.active
     %a{:href => closed_swarms_path}
       Closed
       %span.badge= @closed_swarms_count

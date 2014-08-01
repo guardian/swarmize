@@ -1,12 +1,26 @@
 class SwarmsController < ApplicationController
-  before_filter :scope_to_swarm, :except => %w{index new create mine}
-  before_filter :check_for_user, :except => %w{index show embed}
+  before_filter :scope_to_swarm, :except => %w{index yet_to_open live closed new create mine}
+  before_filter :check_for_user, :except => %w{index yet_to_open live closed show embed}
+  before_filter :count_swarms, :only => %w{index yet_to_open live closed}
 
   respond_to :html, :json
 
   def index
     @swarms = Swarm.paginate(:page => params[:page], :per_page => 20)
   end
+
+  def yet_to_open
+    @swarms = Swarm.yet_to_launch.paginate(:page => params[:page], :per_page => 20)
+  end
+
+  def live
+    @swarms = Swarm.live.paginate(:page => params[:page], :per_page => 20)
+  end
+  
+  def closed
+    @swarms = Swarm.closed.paginate(:page => params[:page], :per_page => 20)
+  end
+
 
   def mine
     redirect_to user_path(@current_user)
@@ -114,5 +128,12 @@ class SwarmsController < ApplicationController
 
   def swarm_params
     params.require(:swarm).permit(:name, :description)
+  end
+
+  def count_swarms
+    @all_swarms_count = Swarm.all.count
+    @open_swarms_count = Swarm.yet_to_launch.count
+    @live_swarms_count= Swarm.live.count
+    @closed_swarms_count = Swarm.closed.count
   end
 end

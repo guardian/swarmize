@@ -15,6 +15,9 @@ Swarmize::Application.routes.draw do
 
     collection do
       get 'mine'
+      get 'yet_to_open'
+      get 'live'
+      get 'closed'
     end
   end
 
