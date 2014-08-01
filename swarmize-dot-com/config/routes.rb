@@ -7,10 +7,12 @@ Swarmize::Application.routes.draw do
       get 'preview'
       get 'embed'
       get 'delete'
+      get 'spike'
       post 'update_fields'
       post 'open'
       post 'close'
       post 'clone'
+      post 'do_spike'
     end
 
     collection do

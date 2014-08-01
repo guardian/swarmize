@@ -47,6 +47,15 @@ class SwarmsController < ApplicationController
     redirect_to swarms_path
   end
 
+  def spike
+  end
+
+  def do_spike
+    @swarm.spike!
+    flash[:success] = "'#{@swarm.name}' was spiked, and is no longer visible."
+    redirect_to swarms_path
+  end
+
   def new
     @swarm = Swarm.new
   end

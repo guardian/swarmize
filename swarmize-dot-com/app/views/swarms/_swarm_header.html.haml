@@ -16,7 +16,7 @@
     - if @current_user
       .button
         - if @swarm.can_be_spiked_by?(@current_user)
-          = button_to "Spike", '#', :class => "btn btn-danger btn-sm"
+          = link_to "Spike", spike_swarm_path(@swarm), :class => "btn btn-danger btn-sm"
       .button
         = button_to "Clone", clone_swarm_path(@swarm), :class => "btn btn-warning btn-sm"
       - if @swarm.can_be_edited_by?(@current_user)

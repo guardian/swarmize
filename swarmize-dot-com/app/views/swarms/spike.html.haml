@@ -1,0 +1,8 @@
+%h1 Spike Swarm '#{@swarm.name}'?
+
+%p Are you sure you want to spike this swarm?
+
+%p
+  = button_to "Spike", do_spike_swarm_path(@swarm), :class => "btn btn-default"
+  or
+  = link_to "Return to swarm", swarm_path(@swarm)
