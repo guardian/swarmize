@@ -30,18 +30,19 @@ object Swarm extends Controller {
     }
   }
 
-  def submit(token: String) = Action(parse.tolerantText) { request =>
+  def submit(token: String) = Action(parse.tolerantJson) { request =>
     val config = SwarmConfig.findByToken(token)
-    val text = request.body
+    val json = request.body
 
     config.map { c =>
       try {
-        val doc = buildAvroDocFromJson(text, c.submissionSchema)
-        val msg = s"submitted to ${c.name}:\n${doc.toString}\n"
 
-        val bundle = c.makeBundle(doc)
 
-        SimpleWorkflow.submit(bundle)
+        val fullObject = c.wrapWithMetadata(json)
+
+        val msg = s"submission to ${c.name}:\n$fullObject\n"
+
+        SimpleWorkflow.submit(fullObject)
         Logger.info(msg)
         Ok(msg)
       } catch {

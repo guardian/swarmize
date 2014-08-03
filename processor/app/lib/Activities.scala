@@ -2,6 +2,7 @@ package lib
 
 import com.amazonaws.services.simpleworkflow.model.ActivityType
 import org.apache.avro.generic.GenericRecord
+import play.api.libs.json.JsValue
 import swarmize.aws.SimpleWorkflow
 
 trait Activity {
@@ -10,7 +11,7 @@ trait Activity {
 
   def activityType = new ActivityType().withName(name).withVersion(version)
 
-  def process(r: GenericRecord): GenericRecord
+  def process(r: JsValue): JsValue
 }
 
 object Activity {

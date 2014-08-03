@@ -8,6 +8,7 @@ import org.apache.avro.generic.GenericRecord
 import org.joda.time.Duration
 
 import play.api.Logger
+import play.api.libs.json.JsValue
 import swarmize.{ClassLogger, Avro}
 
 import scala.collection.convert.wrapAll._
@@ -99,12 +100,11 @@ object SimpleWorkflow extends ClassLogger {
     createWorkflowIfNeeded(workflowType)
   }
 
-  def submit(bundle: GenericRecord) {
-    val bytes = Avro.toBytes(bundle)
+  def submit(obj: JsValue) {
     AWS.swf.startWorkflowExecution(
       new StartWorkflowExecutionRequest()
         .withDomain(domain)
-        .withInput(Base64.encodeAsString(bytes: _*))
+        .withInput(obj.toString())
         .withWorkflowId(UUID.randomUUID().toString)
         .withWorkflowType(workflowType)
     )

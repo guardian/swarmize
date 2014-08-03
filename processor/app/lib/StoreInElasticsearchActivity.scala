@@ -1,17 +1,18 @@
 package lib
 
 import org.apache.avro.generic.GenericRecord
+import play.api.libs.json.JsValue
 import swarmize.ClassLogger
 
 object StoreInElasticsearchActivity extends Activity with ClassLogger {
   val name = "StoreInElasticsearch"
   val version = "1"
 
-  override def process(r: GenericRecord): GenericRecord = {
+  override def process(r: JsValue): JsValue = {
     log.info("Should now insert into elasticsearch: " + r)
 
-    val theData = r.get("data")
-    val metaData = r.get("metadata")
+    val theData = r \ "data"
+    val metaData = r \ "metadata"
 
     log.info(s"types are: data = ${theData.getClass} meta = ${metaData.getClass}")
 

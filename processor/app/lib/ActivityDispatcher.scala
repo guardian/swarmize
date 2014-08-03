@@ -2,6 +2,7 @@ package lib
 
 import com.amazonaws.services.simpleworkflow.model.{RespondActivityTaskFailedRequest, RespondActivityTaskCompletedRequest, TaskList, PollForActivityTaskRequest}
 import com.amazonaws.util.Base64
+import play.api.libs.json.Json
 import swarmize.{Avro, ClassLogger}
 import swarmize.aws.{SimpleWorkflow, AWS}
 
@@ -30,16 +31,15 @@ class ActivityDispatcher extends ClassLogger with Runnable {
       log.info(s"now should run ${activityTask.getActivityType} with input:\n${activityTask.getInput}")
 
       try {
-        val bytes = Base64.decode(activityTask.getInput)
-        val record = Avro.fromBytes(bytes)
+        val json = Json.parse(activityTask.getInput)
 
         val activity = Activity.lookupByType(activityTask.getActivityType)
 
-        val result = activity.process(record.head)
+        val result = activity.process(json)
 
         AWS.swf.respondActivityTaskCompleted(
           new RespondActivityTaskCompletedRequest()
-            .withResult("completed processing of input")
+            .withResult(result.toString)
             .withTaskToken(activityTask.getTaskToken)
         )
       } catch {

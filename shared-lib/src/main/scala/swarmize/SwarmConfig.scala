@@ -3,6 +3,7 @@ package swarmize
 import com.swarmize.Metadata
 import org.apache.avro.{SchemaBuilder, Schema}
 import org.apache.avro.generic.{GenericRecordBuilder, GenericRecord}
+import play.api.libs.json.{JsValue, Json}
 
 import scala.collection.convert.wrapAll._
 
@@ -15,24 +16,18 @@ case class SwarmConfig
   def name = submissionSchema.getDoc
 
   lazy val metadata =
-    Metadata.newBuilder()
-      .setName(name)
-      .setToken(token)
-      .setSteps(List("geocode", "es_store"))
-      .build()
+    Json.obj(
+      "name" -> name,
+      "token" -> token,
+      "steps" -> Json.arr("StoreInElasticsearch")
+    )
 
-  lazy val bundleSchema = SchemaBuilder.builder()
-    .record("Submission").namespace("com.swarmize")
-    .fields()
-      .name("data").`type`(submissionSchema).noDefault()
-      .name("metadata").`type`(Metadata.getClassSchema).noDefault()
-    .endRecord
 
-  def makeBundle(submittedData: GenericRecord): GenericRecord =
-    new GenericRecordBuilder(bundleSchema)
-      .set("data", submittedData)
-      .set("metadata", metadata)
-      .build()
+  def wrapWithMetadata(submittedData: JsValue) =
+    Json.obj(
+      "metadata" -> metadata,
+      "data" -> submittedData
+    )
 }
 
 // This is just a placeholder for something that will probably be a real service
