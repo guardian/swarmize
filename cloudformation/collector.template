@@ -97,7 +97,7 @@
         "LaunchConfig"  : {
             "Type" : "AWS::AutoScaling::LaunchConfiguration",
             "Properties" : {
-                "ImageId"        : "ami-bd0cc5ca",
+                "ImageId"        : "ami-0307d674",
                 "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ],
                 "InstanceType"   : "t2.micro",
                 "IamInstanceProfile": { "Ref": "InstanceProfile" },

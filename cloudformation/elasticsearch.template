@@ -81,7 +81,7 @@
         "ElasticsearchLaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": "ami-bd0cc5ca",
+                "ImageId": "ami-0307d674",
                 "SecurityGroups": [ { "Ref": "ElasticsearchSecurityGroup" } ],
                 "InstanceType": "t2.micro",
                 "KeyName": { "Ref": "KeyName" },
@@ -99,11 +99,11 @@
                             "apt-get -y install language-pack-en openjdk-7-jre-headless elasticsearch\n",
 
                             "/usr/share/elasticsearch/bin/plugin --install elasticsearch/elasticsearch-cloud-aws/2.2.0\n",
-                            "/usr/share/elasticsearch/bin/plugin --install elasticsearch/marvel/latest\n",
+                            "/usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head\n",
 
                             "wget -O /etc/elasticsearch/elasticsearch.yml ",  { "Ref": "DistPath" }, "/elasticsearch.yml\n",
 
-                            "echo \"ES_HEAP_SIZE=500m\" > /etc/default/elasticsearch\n",
+                            "echo \"ES_HEAP_SIZE=768m\" > /etc/default/elasticsearch\n",
 
                             "service elasticsearch start\n"
                         ] ]
