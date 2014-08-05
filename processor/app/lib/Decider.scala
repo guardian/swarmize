@@ -33,7 +33,7 @@ class Decider extends ClassLogger with Runnable {
 
       val events = decisionTask.getEvents.map(SwfHistoryEvent.parse)
 
-      // ignore the events that tell use the decider has been invoked
+      // ignore the events that tell us the decider has been invoked
       val nonDecisionEvents = events.filterNot(_.isDecisionEvent)
 
       val lastInterestingEvent = nonDecisionEvents.last

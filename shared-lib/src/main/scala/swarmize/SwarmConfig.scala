@@ -1,11 +1,6 @@
 package swarmize
 
-import com.swarmize.Metadata
-import org.apache.avro.{SchemaBuilder, Schema}
-import org.apache.avro.generic.{GenericRecordBuilder, GenericRecord}
-import play.api.libs.json.{JsValue, Json}
-
-import scala.collection.convert.wrapAll._
+import org.apache.avro.Schema
 
 
 case class SwarmConfig

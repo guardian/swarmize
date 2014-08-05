@@ -12,7 +12,7 @@ object SwarmizeBuild extends Build {
   val scalaLibraryVersion = "2.11.1"
 
   val avro = "org.apache.avro" % "avro" % "1.7.6"
-  val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.0"
+  val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.7"
 
   val standardSettings = Seq[Setting[_]](
     scalaVersion := scalaLibraryVersion,

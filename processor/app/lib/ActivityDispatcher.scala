@@ -1,10 +1,10 @@
 package lib
 
 import com.amazonaws.services.simpleworkflow.model.{RespondActivityTaskFailedRequest, RespondActivityTaskCompletedRequest, TaskList, PollForActivityTaskRequest}
-import com.amazonaws.util.Base64
 import play.api.libs.json.Json
 import swarmize.ClassLogger
 import swarmize.aws.{SimpleWorkflow, AWS}
+import swarmize.json.SubmittedData
 
 import scala.annotation.tailrec
 import scala.util.control.NonFatal
@@ -32,14 +32,15 @@ class ActivityDispatcher extends ClassLogger with Runnable {
 
       try {
         val json = Json.parse(activityTask.getInput)
+        val submittedData = json.as[SubmittedData]
 
         val activity = Activity.lookupByType(activityTask.getActivityType)
 
-        val result = activity.process(json)
+        val result = activity.process(submittedData)
 
         AWS.swf.respondActivityTaskCompleted(
           new RespondActivityTaskCompletedRequest()
-            .withResult(result.toString)
+            .withResult(Json.toJson(result).toString())
             .withTaskToken(activityTask.getTaskToken)
         )
       } catch {
