@@ -1,12 +1,10 @@
 package controllers
 
-import org.apache.avro.Schema
-import org.apache.avro.generic.{GenericDatumReader, GenericRecord}
-import org.apache.avro.io.DecoderFactory
 import play.api.Logger
 import play.api.mvc._
 import swarmize.SwarmConfig
 import swarmize.aws.SimpleWorkflow
+import swarmize.json.SubmittedData
 
 import scala.util.control.NonFatal
 
@@ -37,8 +35,11 @@ object Swarm extends Controller {
     config.map { c =>
       try {
 
+        // TODO: need to figure out here how to come up with the list of activities
 
-        val fullObject = c.wrapWithMetadata(json)
+        // TODO: validate against swam config
+
+        val fullObject = SubmittedData.wrap(json, c, List("StoreInElasticsearch"))
 
         val msg = s"submission to ${c.name}:\n$fullObject\n"
 
@@ -55,9 +56,4 @@ object Swarm extends Controller {
     }
   }
 
-  private def buildAvroDocFromJson(json: String, schema: Schema): GenericRecord = {
-    val reader = new GenericDatumReader[GenericRecord](schema)
-    val jsonDecoder = DecoderFactory.get().jsonDecoder(schema, json)
-    reader.read(null, jsonDecoder)
-  }
 }

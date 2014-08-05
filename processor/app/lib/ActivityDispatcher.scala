@@ -3,7 +3,7 @@ package lib
 import com.amazonaws.services.simpleworkflow.model.{RespondActivityTaskFailedRequest, RespondActivityTaskCompletedRequest, TaskList, PollForActivityTaskRequest}
 import com.amazonaws.util.Base64
 import play.api.libs.json.Json
-import swarmize.{Avro, ClassLogger}
+import swarmize.ClassLogger
 import swarmize.aws.{SimpleWorkflow, AWS}
 
 import scala.annotation.tailrec

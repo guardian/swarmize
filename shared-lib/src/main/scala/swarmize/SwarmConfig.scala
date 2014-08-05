@@ -14,20 +14,6 @@ case class SwarmConfig
   submissionSchema: Schema
 ) {
   def name = submissionSchema.getDoc
-
-  lazy val metadata =
-    Json.obj(
-      "name" -> name,
-      "token" -> token,
-      "steps" -> Json.arr("StoreInElasticsearch")
-    )
-
-
-  def wrapWithMetadata(submittedData: JsValue) =
-    Json.obj(
-      "metadata" -> metadata,
-      "data" -> submittedData
-    )
 }
 
 // This is just a placeholder for something that will probably be a real service
