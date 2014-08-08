@@ -2,6 +2,7 @@ import play.PlayImport._
 import sbt.Keys._
 import sbt._
 import com.typesafe.sbt.SbtNativePackager._
+import NativePackagerKeys._
 
 
 object SwarmizeBuild extends Build {
@@ -18,8 +19,6 @@ object SwarmizeBuild extends Build {
     scalaVersion := scalaLibraryVersion,
     scalacOptions := List("-feature", "-deprecation"),
 
-    emojiLogs,
-
     // generally putting dependencies in here is a bad idea, but
     // test dependencies is ok in my opion :)
     libraryDependencies ++= Seq(
@@ -28,7 +27,15 @@ object SwarmizeBuild extends Build {
       // and joda we need everywhere!
       "org.joda" % "joda-convert" % "1.6" % "provided",
       "joda-time" % "joda-time" % "2.3"
-    )
+    ),
+
+    // Don't include documentation in artifact
+    doc in Compile <<= target.map(_ / "none"),
+
+    maintainer in Docker := "Graham Tackley <graham.tackley@theguardian.com>",
+
+    dockerExposedPorts in Docker := List(9000)
+
   )
 
   lazy val sharedLib = sbt.Project("shared-lib", file("shared-lib"))

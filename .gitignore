@@ -4,3 +4,4 @@ target/
 collector/logs
 stasher/logs
 logs
+*.zip

@@ -19,7 +19,7 @@
 
     "Resources": {
 
-        "ElasticsearchRole": {
+        "Role": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "Path": "/",
@@ -51,19 +51,19 @@
                 ]
             }
         },
-        "ElasticsearchInstanceProfile": {
+        "InstanceProfile": {
             "Type": "AWS::IAM::InstanceProfile",
             "Properties": {
                 "Path": "/",
-                "Roles": [ { "Ref": "ElasticsearchRole" } ]
+                "Roles": [ { "Ref": "Role" } ]
             }
         },
 
-        "ElasticsearchAutoscalingGroup": {
+        "ASG": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
-                "LaunchConfigurationName": { "Ref": "ElasticsearchLaunchConfig" },
+                "LaunchConfigurationName": { "Ref": "LaunchConfig" },
                 "MinSize": "2",
                 "MaxSize": "2",
                 "HealthCheckType": "EC2",
@@ -78,14 +78,14 @@
             }
         },
 
-        "ElasticsearchLaunchConfig": {
+        "LaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
                 "ImageId": "ami-0307d674",
-                "SecurityGroups": [ { "Ref": "ElasticsearchSecurityGroup" } ],
+                "SecurityGroups": [ { "Ref": "ElasticsearchSG" } ],
                 "InstanceType": "t2.micro",
                 "KeyName": { "Ref": "KeyName" },
-                "IamInstanceProfile": { "Ref": "ElasticsearchInstanceProfile" },
+                "IamInstanceProfile": { "Ref": "InstanceProfile" },
 
                 "UserData": {
                     "Fn::Base64": {
@@ -112,11 +112,17 @@
             }
         },
 
-        "ElasticsearchSecurityGroup": {
+        "ElasticsearchSG": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "GroupDescription": "SSH and Elasticsearch",
                 "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9200",
+                        "ToPort": "9300",
+                        "SourceSecurityGroupName": { "Ref": "AccessElasticsearchSG" }
+                    },
                     {
                         "IpProtocol": "tcp",
                         "FromPort": "9200",
@@ -133,14 +139,22 @@
             }
         },
 
+
         "ElasticsearchSecurityGroupCanTalkToItself": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "Properties": {
-                "GroupName": { "Ref": "ElasticsearchSecurityGroup" },
+                "GroupName": { "Ref": "ElasticsearchSG" },
                 "IpProtocol": "tcp",
                 "FromPort": "9300",
                 "ToPort": "9300",
-                "SourceSecurityGroupName": { "Ref": "ElasticsearchSecurityGroup" }
+                "SourceSecurityGroupName": { "Ref": "ElasticsearchSG" }
+            }
+        },
+
+        "AccessElasticsearchSG": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Join this group to be able to access elasticsearch"
             }
         }
 
