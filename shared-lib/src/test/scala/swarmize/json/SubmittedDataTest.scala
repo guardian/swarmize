@@ -28,6 +28,4 @@ class SubmittedDataTest extends FlatSpec with Matchers with OptionValues {
 
   }
 
-  it should ""
-
 }
