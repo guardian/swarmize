@@ -59,6 +59,16 @@ class Swarm < ActiveRecord::Base
     SwarmizeSearch.new(swarm_key)
   end
 
+  def clone_by(user)
+    new_swarm = self.dup
+    new_swarm.opens_at = nil
+    new_swarm.closes_at = nil
+    new_swarm.parent_swarm = self
+    new_swarm.user = user
+    new_swarm.name = self.name + " (cloned)"
+    new_swarm
+  end
+
   def has_opened?
     opens_at && (opens_at <= Time.now)
   end
@@ -86,7 +96,6 @@ class Swarm < ActiveRecord::Base
   def scheduled_to_close?
     closes_at && (closes_at > Time.now)
   end
-
 
   def can_be_edited_by?(u)
     (self.user_id == u.id) && !has_opened?

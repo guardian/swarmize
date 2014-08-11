@@ -214,4 +214,35 @@ RSpec.describe Swarm do
       end
     end
   end
+
+  describe "that has been cloned" do
+    let(:alice) { User.create }
+    let(:bob) { User.create }
+    let(:swarm) { Swarm.create(:name => 'Test Swarm',
+                               :parent_swarm => nil,
+                               :user => alice,
+                               :opens_at => (Time.now - 1.hour)) }
+
+    before { @new_swarm = swarm.clone_by(bob) }
+
+    it "should not have an open time" do
+      expect(@new_swarm.opens_at).to be_nil
+    end
+
+    it "should not have a close time" do
+      expect(@new_swarm.closes_at).to be_nil
+    end
+
+    it "should have a parent swarm set" do
+      expect(@new_swarm.parent_swarm).to eq(swarm)
+    end
+
+    it "should have the user set to be the cloning user" do
+      expect(@new_swarm.user).to eq(bob)
+    end
+
+    it "should have an altered name" do
+      expect(@new_swarm.name).to eq("Test Swarm (cloned)")
+    end
+  end
 end

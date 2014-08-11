@@ -21,7 +21,6 @@ class SwarmsController < ApplicationController
     @swarms = Swarm.unspiked.closed.paginate(:page => params[:page])
   end
 
-
   def mine
     redirect_to user_path(@current_user)
   end
@@ -125,12 +124,7 @@ class SwarmsController < ApplicationController
   end
 
   def clone
-    new_swarm = @swarm.dup
-    new_swarm.opens_at = nil
-    new_swarm.closes_at = nil
-    new_swarm.parent_swarm = @swarm
-    new_swarm.user = @current_user
-    new_swarm.name = @swarm.name + " (cloned)"
+    new_swarm = @swarm.clone_by(@current_user)
     new_swarm.save
     redirect_to new_swarm
   end
