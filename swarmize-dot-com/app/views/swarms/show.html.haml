@@ -10,7 +10,10 @@
 
 - if @swarm.closed?
   %h2 Results
-  = render :partial => "swarms/swarm_results"
+  - if @connection_error
+    %p There was an error connecting to Elasticsearch, and results cannot be shown.
+  - else
+    = render :partial => "swarms/swarm_results"
 - else
   %h2 Results
   %p Results for this swarm will be available when it's over.

@@ -34,7 +34,12 @@ class SwarmsController < ApplicationController
         @current_page = 1
       end
 
-      @rows, @total_pages = @swarm.search.all(@current_page, 10)
+      begin
+        @rows, @total_pages = @swarm.search.all(@current_page, 10)
+      rescue Faraday::TimeoutError
+        @rows, @total_pages = [], 0
+        @connection_error = true
+      end
     end
     respond_with @swarm
   end
