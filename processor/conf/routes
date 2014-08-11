@@ -2,6 +2,26 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET        /                    controllers.Application.index
-GET        /health-check       controllers.Management.healthCheck
+GET         /                     controllers.Application.index
+
+GET         /newtoken             controllers.Application.newtoken
+
+# see http://www.restapitutorial.com/lessons/httpmethods.html
+
+# get summary of all swarms
+GET         /swarms               controllers.Swarms.returnAll
+
+# add a new swarm, assigning a new id
+POST        /swarms               controllers.Swarms.addNew
+
+# get full detail of a swam
+GET         /swarms/:token        controllers.Swarms.get(token)
+
+# put a new swamrm, with the given token
+#  NB: update not supported, so you can only call this once!
+PUT         /swarms/:token        controllers.Swarms.add(token)
+
+
+GET         /health-check         controllers.Management.healthCheck
+
 

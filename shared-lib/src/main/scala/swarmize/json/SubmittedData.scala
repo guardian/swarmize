@@ -30,7 +30,7 @@ object SubmittedData {
     SubmittedData(
       swarmName = swarm.name,
       swarmToken = swarm.token,
-      submissionId = UniqueId.generate,
+      submissionId = UniqueId.generateSubmissionId,
       processingSteps = steps,
       data = data
     )
