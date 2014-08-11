@@ -12,7 +12,11 @@ class SwarmizeSearch
   end
 
   def self.client
-    Elasticsearch::Client.new log: true, host: ENV['ELASTICSEARCH_HOST']
+    Elasticsearch::Client.new log: true, 
+      host: ENV['ELASTICSEARCH_HOST'],
+      transport_options: {
+        request: { timeout: 5 }
+      }
   end
 
   def search(index, query)
