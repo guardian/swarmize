@@ -108,6 +108,7 @@ object SimpleWorkflow extends ClassLogger {
         .withInput(Json.toJson(obj).toString())
         .withWorkflowId(obj.submissionId)
         .withWorkflowType(workflowType)
+        .withTagList(obj.swarmToken)
     )
   }
 }
