@@ -17,9 +17,9 @@ object Swarm extends Controller {
       val msg =
         s"""
           |Swarm name: ${c.name}
-          |
+          |Swarm description: ${c.description}
           |Schema:
-          |${c.submissionSchema.toString(true)}
+          |${c.definition.toJson}
         """.stripMargin
 
       Ok(msg)

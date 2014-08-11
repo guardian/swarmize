@@ -1,10 +1,10 @@
 package controllers
 
 import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException
-import play.api.libs.json.{JsResultException, JsString, JsArray, Json}
+import play.api.libs.json.{JsArray, JsResultException, JsString, Json}
 import play.api.mvc._
 import swarmize.json.SwarmDefinition
-import swarmize.{UniqueId, SwarmConfig, SwarmTable}
+import swarmize.{SwarmTable, UniqueId}
 
 object Swarms extends Controller {
 
@@ -20,7 +20,7 @@ object Swarms extends Controller {
   def get(token: String) = Action { request =>
     val defn = SwarmTable.get(token)
 
-    defn.map(c => Ok(c.definition)) getOrElse NotFound(s"No swarm with token $token found")
+    defn.map(c => Ok(Json.toJson(c.definition))) getOrElse NotFound(s"No swarm with token $token found")
   }
 
   def add(token: String) = Action(parse.tolerantJson) { request =>

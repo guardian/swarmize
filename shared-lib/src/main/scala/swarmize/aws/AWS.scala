@@ -30,11 +30,11 @@ object AWS {
 
   lazy val EC2 = createClient[AmazonEC2Client]
 
-  //lazy val dynamodb = createClient[AmazonDynamoDBAsyncClient]
+  lazy val dynamodb = createClient[AmazonDynamoDBAsyncClient]
 
-  lazy val dynamodb = {
-    val c = new AmazonDynamoDBAsyncClient(credentialProvider)
-    c.setEndpoint("http://localhost:8000")
-    c
-  }
+//  lazy val dynamodb = {
+//    val c = new AmazonDynamoDBAsyncClient(credentialProvider)
+//    c.setEndpoint("http://localhost:8000")
+//    c
+//  }
 }

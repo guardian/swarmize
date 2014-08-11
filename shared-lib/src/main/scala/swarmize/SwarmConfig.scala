@@ -1,8 +1,9 @@
 package swarmize
 
-import org.apache.avro.Schema
+import play.api.libs.json.Json
 import swarmize.aws.AWS
 import swarmize.aws.dynamodb.DynamoDBTable
+import swarmize.json.SwarmDefinition
 
 object SwarmTable extends DynamoDBTable {
   val client = AWS.dynamodb
@@ -22,8 +23,8 @@ object SwarmTable extends DynamoDBTable {
       r <- get(Map("token" -> S(token)))
       definition <- r.get("definition")
     } yield {
-      println("read: " + definition)
-      SwarmConfig(token, null)
+      val defn = Json.parse(definition.getS).as[SwarmDefinition]
+      SwarmConfig(token, defn)
     }
   }
 
@@ -41,21 +42,14 @@ object SwarmTable extends DynamoDBTable {
 case class SwarmConfig
 (
   token: String,
-  submissionSchema: Schema
+  definition: SwarmDefinition
 ) {
-  def name = submissionSchema.getDoc
-  def definition = submissionSchema.toString(true)
+  def name = definition.name
+  def description = definition.description
 }
 
-// This is just a placeholder for something that will probably be a real service
 object SwarmConfig {
 
-  def findByToken(token: String): Option[SwarmConfig] = {
-    val parser = new Schema.Parser
-
-    Option(getClass.getResourceAsStream(s"/swarms/$token.avsc"))
-      .map(parser.parse)
-      .map(SwarmConfig(token, _))
-  }
+  def findByToken(token: String): Option[SwarmConfig] = SwarmTable.get(token)
 
 }
