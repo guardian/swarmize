@@ -10,7 +10,9 @@
 
 %h2 Results
 - if @connection_error
-  %p There was an error with Elasticsearch, and results cannot be shown.
+  %p There was an error connecting to Elasticsearch, and results cannot be shown.
+- elsif @not_found
+  %p There are no results in Elasticsearch yet.
 - else
   = render :partial => "swarms/swarm_results"
 
