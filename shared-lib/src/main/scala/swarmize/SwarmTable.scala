@@ -18,13 +18,13 @@ object SwarmTable extends DynamoDBTable {
    }
   }
 
-  def get(token: String): Option[SwarmConfig] = {
+  def get(token: String): Option[Swarm] = {
     for {
       r <- get(Map("token" -> S(token)))
       definition <- r.get("definition")
     } yield {
       val defn = Json.parse(definition.getS).as[SwarmDefinition]
-      SwarmConfig(token, defn)
+      Swarm(token, defn)
     }
   }
 
@@ -37,19 +37,4 @@ object SwarmTable extends DynamoDBTable {
       }
     }
   }
-}
-
-case class SwarmConfig
-(
-  token: String,
-  definition: SwarmDefinition
-) {
-  def name = definition.name
-  def description = definition.description
-}
-
-object SwarmConfig {
-
-  def findByToken(token: String): Option[SwarmConfig] = SwarmTable.get(token)
-
 }

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-curl -XPOST "http://localhost:9000/swarm/test1" -d @- <<EOF
+curl -XPOST "http://localhost:9000/swarms/test1.json" -d @- <<EOF
 {"user_key":12345,"timestamp":$(date +%s),"intent":"green","feedback": "Mr King","postcode":"N1 9GU","ip":"10.0.0.1"}
 EOF

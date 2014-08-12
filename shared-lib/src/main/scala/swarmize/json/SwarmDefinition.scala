@@ -16,14 +16,16 @@ case class SwarmDefinition
 
 }
 
+
+
 case class SwarmField
 (
-  index: String,
-  field_type: String,
   field_name: String,
-  hint: String,
+  field_name_code: String,
+  field_type: String,
+  possible_values: Option[Map[String, String]],
   sample_value: Option[String],
-  compulsory: Option[String]
+  compulsory: Boolean
 )
 
 object SwarmDefinition {
