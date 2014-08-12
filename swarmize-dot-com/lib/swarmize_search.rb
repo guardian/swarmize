@@ -8,7 +8,7 @@ class SwarmizeSearch
 
   def initialize(token)
     @token = token
-    @client ||= SwarmizeSearch.client
+    @client = SwarmizeSearch.client
   end
 
   def self.client

@@ -8,7 +8,10 @@ class SwarmizeSearch
         json.size per_page
         json.from per_page * (page-1)
         json.sort do
-          json.timestamp "desc"
+          json.timestamp do
+            json.order "desc"
+            json.ignore_unmapped true
+          end
         end
       end
     end
