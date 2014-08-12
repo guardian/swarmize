@@ -45,6 +45,8 @@ class ActivityDispatcher extends ClassLogger with Runnable {
         )
       } catch {
         case NonFatal(e) =>
+          log.error(s"Activity ${activityTask.getActivityType} failed", e)
+
           AWS.swf.respondActivityTaskFailed(
             new RespondActivityTaskFailedRequest()
               .withTaskToken(activityTask.getTaskToken)

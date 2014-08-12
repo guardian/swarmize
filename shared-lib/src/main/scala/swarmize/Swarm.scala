@@ -16,9 +16,10 @@ case class Swarm
 
 
   class Field(raw: json.SwarmField) {
-    def code = raw.field_name_code
-    def name = raw.field_name
+    def codeName = raw.field_name_code
+    def fullName = raw.field_name
 
+    def fieldType = raw.field_type
   }
 
 }
@@ -34,6 +35,3 @@ object Swarm {
 
 
 
-trait Field {
-
-}

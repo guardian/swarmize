@@ -20,7 +20,9 @@ case class SubmittedData
 
   // the actual data
   data: JsValue
-)
+) {
+  def toJson = SubmittedData toJson this
+}
 
 
 object SubmittedData {
@@ -35,5 +37,7 @@ object SubmittedData {
       data = data
     )
   }
+
+  def toJson(d: SubmittedData) = Json toJson d
 
 }
