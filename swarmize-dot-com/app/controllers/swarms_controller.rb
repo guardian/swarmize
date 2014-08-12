@@ -34,9 +34,9 @@ class SwarmsController < ApplicationController
 
     begin
       @rows, @total_pages = @swarm.search.all(@current_page, 10)
-    rescue Faraday::TimeoutError
-      @rows, @total_pages = [], 0
-      @connection_error = true
+    #rescue Faraday::TimeoutError
+      #@rows, @total_pages = [], 0
+      #@connection_error = true
     #rescue Elasticsearch::Transport::Transport::Errors::NotFound
       #@rows, @total_pages = [], 0
       #@connection_error = true
