@@ -32,7 +32,7 @@ module ApplicationHelper
 
   # this comes from the old Sinatra app
   def format_timestamp(ts)
-    t = Time.at(ts / 1000 / 1000)
+    t = Time.parse(ts)
     t.strftime("%d %B %Y %H:%M:%S")
   end
 end

@@ -15,17 +15,16 @@
 %table.table
   %thead
     %tr
-      - for display_field in @swarm.display_fields
-        %th= display_field.display_name
+      %th Timestamp
+      - for field in @swarm.fields
+        %th= field['field_name']
 
   %tbody
     - for row in @rows
       %tr
-        - for display_field in @swarm.display_fields
-          - if display_field.formatter
-            %td= send("format_#{display_field.formatter}", row.send(display_field.name))
-          - else
-            %td= row.send(display_field.name)
+        %td= format_timestamp(row.timestamp)
+        - for field in @swarm.fields
+          %td= row.send field['field_name'].parameterize.underscore
 
 %ul.pagination
   - if @current_page > 1
