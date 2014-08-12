@@ -48,6 +48,21 @@ namespace :swarmize do
         puts "Created #{u.name}"
       end
     end
+
+    desc "Insert tokens for swarms with no tokens"
+    task :backfill_tokens => :environment do
+      require 'securerandom'
+
+      Swarm.where(:token => nil).each do |swarm|
+        t = SecureRandom.urlsafe_base64(6)
+        until (t.length == 8) && !Swarm.find_by_token(t)
+          t = SecureRandom.urlsafe_base64(6)
+        end
+
+        swarm.token = t
+        swarm.save
+      end
+    end
   end
 end
 
