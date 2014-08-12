@@ -1,17 +1,4 @@
 module LegacySwarm
-  # this class is all the stuff from the old Sinatra prototype.
-  def display_fields
-    display_field_data = [
-                            ["timestamp", "Timestamp", 'timestamp'],
-                            ["postcode", "Postcode"],
-                            ["intent", "Intent"],
-                            ["feedback", "Feedback"],
-                            ["ip", "IP"],
-                            ["user_key", "User Key"]
-                          ]
-    SwarmizeDisplayField.from_array(display_field_data)
-  end
-
   # TODO: this is legacy from the mock application.
   def graphs
     graph_data = [
