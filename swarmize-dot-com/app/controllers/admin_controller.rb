@@ -33,13 +33,6 @@ class AdminController < ApplicationController
     redirect_to admin_path
   end
 
-  def dynamo
-    @dynamo = AWS::DynamoDB.new
-
-    swarms_table = @dynamo.tables['swarms'].load_schema
-    @items = swarms_table.items.map {|i| i.attributes.to_hash}
-  end
-
   private
 
   def do_create_dummy_swarms
