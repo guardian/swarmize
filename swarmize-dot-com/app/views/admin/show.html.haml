@@ -4,7 +4,6 @@
 %ul.nav.nav-tabs
   %li.active= link_to "Fake Data", "#fake", "data-toggle" => 'tab'
   %li= link_to "Spiked swarms", "#spiked", "data-toggle" => 'tab'
-  %li= link_to "Tokens", "#tokens", "data-toggle" => 'tab'
 
 .tab-content
   #fate.tab-pane.active
@@ -18,6 +17,4 @@
   #spiked.tab-pane
     %h2 Spiked swarms.
     = render :partial => "swarms/swarm_table", :locals => {:swarms => @spiked_swarms}
-  #tokens.tab-pane
-    %h2 Tokens
-    %p= button_to "Regenerate tokens", regenerate_tokens_admin_path, :class => "btn btn-default"
+
