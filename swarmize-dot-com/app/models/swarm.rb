@@ -40,6 +40,10 @@ class Swarm < ActiveRecord::Base
 
   serialize :fields
 
+  def to_param
+    token
+  end
+
   def spike!
     self.closes_at = Time.now
     self.is_spiked = true

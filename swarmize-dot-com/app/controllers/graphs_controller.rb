@@ -25,6 +25,6 @@ class GraphsController < ApplicationController
   private
 
   def scope_to_swarm
-    @swarm = Swarm.find(params[:swarm_id])
+    @swarm = Swarm.find_by(token: params[:swarm_id])
   end
 end

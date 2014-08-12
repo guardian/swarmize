@@ -132,7 +132,7 @@ class SwarmsController < ApplicationController
   private
 
   def scope_to_swarm
-    @swarm = Swarm.unspiked.find(params[:id])
+    @swarm = Swarm.unspiked.find_by(token: params[:id])
   end
 
   def swarm_params
