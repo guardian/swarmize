@@ -6,5 +6,5 @@
   - range.each do |rating|
     .radio
       %label
-        = radio_button_tag field.field_name, rating
+        = radio_button_tag field.field_name.parameterize.underscore, rating
         = rating
