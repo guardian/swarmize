@@ -1,6 +1,8 @@
 package controllers
 
 import com.amazonaws.services.simpleworkflow.model.StartWorkflowExecutionRequest
+import org.joda.time.DateTime
+import org.joda.time.format.{ISODateTimeFormat, DateTimeFormatter}
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
@@ -67,7 +69,10 @@ object Swarms extends Controller {
 
     // TODO: validate against swam config
 
-    val fullObject = SubmittedData.wrap(data, swarm, List("StoreInElasticsearch"))
+    val dataWithTimestamp = data.as[JsObject] ++
+      Json.obj("timestamp" -> DateTime.now.toString(ISODateTimeFormat.dateTime()))
+
+    val fullObject = SubmittedData.wrap(dataWithTimestamp, swarm, List("StoreInElasticsearch"))
 
     val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
 

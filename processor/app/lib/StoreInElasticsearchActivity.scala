@@ -48,9 +48,11 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
   }
 
   def mappingFor(fields: List[Swarm#Field]): JsValue = {
-    val fieldMappings = fields.map { f =>
+    val fieldMappings: List[(String, JsValue)] = fields.map { f =>
       f.codeName -> mappingForFieldType(f.fieldType)
-    }
+    } :+ (
+      "timestamp" -> Json.obj("type" -> "date")
+    )
 
     Json.obj(
       "properties" -> JsObject(fieldMappings)
