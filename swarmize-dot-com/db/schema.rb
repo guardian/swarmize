@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801134513) do
+ActiveRecord::Schema.define(version: 20140812130235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,8 @@ ActiveRecord::Schema.define(version: 20140801134513) do
     t.datetime "closes_at"
     t.integer  "user_id"
     t.integer  "cloned_from"
-    t.boolean  "is_spiked",   default: false
+    t.boolean  "is_spiked",             default: false
+    t.string   "token",       limit: 8
   end
 
   add_index "swarms", ["user_id"], name: "index_swarms_on_user_id", using: :btree

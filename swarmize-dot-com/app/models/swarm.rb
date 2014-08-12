@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class TimeParadoxError < StandardError; end
 
 class Swarm < ActiveRecord::Base
@@ -6,6 +8,8 @@ class Swarm < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
+
+  before_create :setup_token
 
   before_update :confirm_open_time
   before_update :confirm_close_time
@@ -158,6 +162,15 @@ class Swarm < ActiveRecord::Base
         raise TimeParadoxError, "Swarm cannot close before it has opened!"
       end
     end
+  end
+
+  def setup_token
+    t = SecureRandom.urlsafe_base64(6)
+    until (t.length == 8) && !Swarm.find_by_token(t)
+      t = SecureRandom.urlsafe_base64(6)
+    end
+
+    self.token = t
   end
 
 end
