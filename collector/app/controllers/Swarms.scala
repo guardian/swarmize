@@ -1,10 +1,11 @@
 package controllers
 
+import com.amazonaws.services.simpleworkflow.model.StartWorkflowExecutionRequest
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
 import swarmize.Swarm
-import swarmize.aws.SimpleWorkflow
+import swarmize.aws.{AWS, SimpleWorkflow}
 import swarmize.json.SubmittedData
 
 import scala.util.control.NonFatal
@@ -68,9 +69,17 @@ object Swarms extends Controller {
 
     val fullObject = SubmittedData.wrap(data, swarm, List("StoreInElasticsearch"))
 
-    val msg = s"submission to ${swarm.name}:\n$fullObject\n"
+    val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
 
-    SimpleWorkflow.submit(fullObject)
+    AWS.swf.startWorkflowExecution(
+      new StartWorkflowExecutionRequest()
+        .withDomain(SimpleWorkflow.domain)
+        .withInput(Json.toJson(fullObject).toString())
+        .withWorkflowId(fullObject.submissionId)
+        .withWorkflowType(SimpleWorkflow.workflowType)
+        .withTagList(fullObject.swarmToken)
+    )
+
     Logger.info(msg)
     Ok(msg)
 

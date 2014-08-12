@@ -9,7 +9,7 @@ object TestSwarms {
     """
       |{
       |    "name": "Guardian Broadband Survey 2013",
-      |    "opens_at": null,
+      |    "opens_at": "2015-08-02T11:13:00.000Z",
       |    "closes_at": null,
       |    "description": "With your help, the Guardian is creating an up-to-date broadband map of Britain, showing advertised versus real speeds. We want to highlight the best and worst-served communities, and bring attention to the broadband blackspots.",
       |    "fields": [

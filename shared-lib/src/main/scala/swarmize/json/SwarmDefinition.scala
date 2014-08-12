@@ -29,6 +29,7 @@ case class SwarmField
 )
 
 object SwarmDefinition {
+  implicit val dateFormat = PlayJsonIsoDateFormat
   implicit val fieldJsonFormat = Json.format[SwarmField]
   implicit val definitionJsonFormat = Json.format[SwarmDefinition]
 

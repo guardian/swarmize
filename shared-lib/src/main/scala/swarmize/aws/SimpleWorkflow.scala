@@ -101,14 +101,4 @@ object SimpleWorkflow extends ClassLogger {
     createWorkflowIfNeeded(workflowType)
   }
 
-  def submit(obj: SubmittedData) {
-    AWS.swf.startWorkflowExecution(
-      new StartWorkflowExecutionRequest()
-        .withDomain(domain)
-        .withInput(Json.toJson(obj).toString())
-        .withWorkflowId(obj.submissionId)
-        .withWorkflowType(workflowType)
-        .withTagList(obj.swarmToken)
-    )
-  }
 }
