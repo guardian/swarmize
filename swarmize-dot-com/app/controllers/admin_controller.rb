@@ -33,6 +33,12 @@ class AdminController < ApplicationController
     redirect_to admin_path
   end
 
+  def regenerate_tokens
+    do_regenerate_tokens
+    flash[:success] = "Tokens regenerated"
+    redirect_to admin_path
+  end
+
   private
 
   def do_create_dummy_swarms
@@ -49,6 +55,20 @@ class AdminController < ApplicationController
     5.times do |n|
       user = User.where(:is_fake => true).order("RANDOM()").first
       Dummy.create_dummy_closed_swarm(user, n)
+    end
+  end
+
+  def do_regenerate_tokens
+    require 'securerandom'
+
+    Swarm.all.each do |swarm|
+      t = SecureRandom.urlsafe_base64(6)
+      until (t.length == 8) && !Swarm.find_by_token(t)
+        t = SecureRandom.urlsafe_base64(6)
+      end
+
+      swarm.token = t
+      swarm.save
     end
   end
 
