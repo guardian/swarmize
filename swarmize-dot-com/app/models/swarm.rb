@@ -15,6 +15,7 @@ class Swarm < ActiveRecord::Base
   before_update :confirm_close_time
 
   after_save :dynamo_sync
+  after_destroy :dynamo_delete
 
   scope :latest, lambda {|n|
     limit(n)
@@ -175,6 +176,10 @@ class Swarm < ActiveRecord::Base
 
   def dynamo_sync
     DynamoSync.sync(self)
+  end
+
+  def dynamo_delete
+    DynamoSync.delete(self)
   end
 
 end

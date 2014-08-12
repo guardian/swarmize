@@ -12,4 +12,13 @@ class DynamoSync
       end
     end
   end
+
+  def self.delete(swarm)
+    if Rails.env.production?
+      @@dynamo ||= AWS::DynamoDB.new
+      swarms_table = @@dynamo.tables['swarms'].load_schema
+
+      swarms_table.items[swarm.token].delete
+    end
+  end
 end
