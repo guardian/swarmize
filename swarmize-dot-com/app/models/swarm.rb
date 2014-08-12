@@ -14,6 +14,8 @@ class Swarm < ActiveRecord::Base
   before_update :confirm_open_time
   before_update :confirm_close_time
 
+  after_save :dynamo_sync
+
   scope :latest, lambda {|n|
     limit(n)
   }
@@ -60,23 +62,25 @@ class Swarm < ActiveRecord::Base
   end
 
   def fields_for_json
-    fields.map do |f|
-      json_fields = {}
-      json_fields[:field_type] = f['field_type']
-      json_fields[:field_name] = f['field_name']
-      json_fields[:field_name_code] = f['field_name'].parameterize.underscore
-      json_fields[:compulsory] = (f['compulsory'] == '1')
-      json_fields[:minimum] = f['minimum'].to_i unless f['minimum'].blank?
-      json_fields[:maximum] = f['maximum'].to_i unless f['maximum'].blank?
+    if fields
+      fields.map do |f|
+        json_fields = {}
+        json_fields[:field_type] = f['field_type']
+        json_fields[:field_name] = f['field_name']
+        json_fields[:field_name_code] = f['field_name'].parameterize.underscore
+        json_fields[:compulsory] = (f['compulsory'] == '1')
+        json_fields[:minimum] = f['minimum'].to_i unless f['minimum'].blank?
+        json_fields[:maximum] = f['maximum'].to_i unless f['maximum'].blank?
 
-      
-      if f['possible_values']
-        json_fields[:possible_values] = f['possible_values'].inject({}) {|hash, p|
-          hash.merge({p.parameterize.underscore => p})
-        }
+        
+        if f['possible_values']
+          json_fields[:possible_values] = f['possible_values'].inject({}) {|hash, p|
+            hash.merge({p.parameterize.underscore => p})
+          }
+        end
+
+        json_fields
       end
-
-      json_fields
     end
   end
 
@@ -167,6 +171,10 @@ class Swarm < ActiveRecord::Base
     end
 
     self.token = t
+  end
+
+  def dynamo_sync
+    DynamoSync.sync(self)
   end
 
 end
