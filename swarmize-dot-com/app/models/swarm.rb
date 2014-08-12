@@ -45,10 +45,39 @@ class Swarm < ActiveRecord::Base
   def as_json(options={})
     {:name => self.name,
      :description => self.description,
-     :fields => self.fields,
+     :fields => self.fields_for_json,
      :opens_at => self.opens_at,
      :closes_at => self.closes_at
     }
+  end
+
+  def fields_for_json
+    fields.map do |f|
+      json_fields = {}
+      json_fields[:field_type] = f['field_type']
+      json_fields[:field_name] = f['field_name']
+      json_fields[:field_name_code] = f['field_name'].parameterize.underscore
+      json_fields[:compulsory] = (f['compulsory'] == '1')
+      json_fields[:minimum] = f['minimum'].to_i unless f['minimum'].blank?
+      json_fields[:maximum] = f['maximum'].to_i unless f['maximum'].blank?
+
+      
+      if f['possible_values']
+        array_of_arrays= f['possible_values'].map {|p|
+          [p.parameterize.underscore,p]
+        }.flatten
+        json_fields[:possible_values] = Hash[*array_of_arrays]
+      end
+
+      if f['custom_fields']
+        array_of_arrays= f['custom_fields'].map {|p|
+          [p.parameterize.underscore,p]
+        }.flatten
+        json_fields[:custom_fields] = Hash[*array_of_arrays]
+      end
+
+      json_fields
+    end
   end
 
   def swarm_key
