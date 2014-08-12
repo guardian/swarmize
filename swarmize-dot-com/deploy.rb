@@ -4,7 +4,7 @@ require 'csv'
 require 'json'
 require 'fog'
 require 'httparty'
-require './fogpatch.rb' # patch for Elastic Beanstalk errors.
+#require './fogpatch.rb' # patch for Elastic Beanstalk errors.
 
 def notify_slack(version)
   slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{CONFIG['slack_key']}"
