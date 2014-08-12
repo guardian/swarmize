@@ -139,6 +139,12 @@ class Swarm < ActiveRecord::Base
     self.user_id == u.id
   end
 
+  def regenerate_token!
+    # this is really dangerous
+    setup_token
+    save
+  end
+
   private
 
   def confirm_open_time
@@ -166,12 +172,16 @@ class Swarm < ActiveRecord::Base
   end
 
   def setup_token
-    t = SecureRandom.urlsafe_base64(6)
-    until (t.length == 8) && !Swarm.find_by_token(t)
-      t = SecureRandom.urlsafe_base64(6)
+    t = generate_token
+    until !Swarm.find_by_token(t)
+      t = generate_token
     end
 
     self.token = t
+  end
+
+  def generate_token(len=8)
+    (0...len).map { (65 + rand(26)).chr.downcase }.join
   end
 
   def dynamo_sync
