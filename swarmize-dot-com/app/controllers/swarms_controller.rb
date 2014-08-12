@@ -26,19 +26,20 @@ class SwarmsController < ApplicationController
   end
 
   def show
-    if @swarm.closed?
-      if params[:page]
-        @current_page = params[:page].to_i
-      else
-        @current_page = 1
-      end
+    if params[:page]
+      @current_page = params[:page].to_i
+    else
+      @current_page = 1
+    end
 
-      begin
-        @rows, @total_pages = @swarm.search.all(@current_page, 10)
-      rescue Faraday::TimeoutError
-        @rows, @total_pages = [], 0
-        @connection_error = true
-      end
+    begin
+      @rows, @total_pages = @swarm.search.all(@current_page, 10)
+    rescue Faraday::TimeoutError
+      @rows, @total_pages = [], 0
+      @connection_error = true
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      @rows, @total_pages = [], 0
+      @connection_error = true
     end
     respond_with @swarm
   end

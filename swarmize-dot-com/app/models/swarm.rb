@@ -89,12 +89,8 @@ class Swarm < ActiveRecord::Base
     "http://collector.swarmize.com/swarms/#{token}"
   end
 
-  def swarm_key
-    'voting' # TODO obviously not hardcoded
-  end
-
   def search
-    SwarmizeSearch.new(swarm_key)
+    SwarmizeSearch.new(token)
   end
 
   def clone_by(user)
