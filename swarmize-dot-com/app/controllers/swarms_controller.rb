@@ -37,9 +37,9 @@ class SwarmsController < ApplicationController
     rescue Faraday::TimeoutError
       @rows, @total_pages = [], 0
       @connection_error = true
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-      @rows, @total_pages = [], 0
-      @connection_error = true
+    #rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      #@rows, @total_pages = [], 0
+      #@connection_error = true
     end
     respond_with @swarm
   end
