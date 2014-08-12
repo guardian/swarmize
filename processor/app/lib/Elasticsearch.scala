@@ -25,7 +25,7 @@ object Elasticsearch {
     .build()
 
   lazy val client = {
-    val host = discoveredElasticsearchHost getOrElse sys.error("Cannogt find elasticsearch")
+    val host = discoveredElasticsearchHost getOrElse sys.error("Cannot find elasticsearch")
     Logger.info("Connecting to elasticsearch cluster at " + host)
     new TransportClient(settings)
       .addTransportAddress(new InetSocketTransportAddress(host, 9300))

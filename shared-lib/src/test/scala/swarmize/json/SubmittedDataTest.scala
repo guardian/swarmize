@@ -2,7 +2,7 @@ package swarmize.json
 
 import org.scalatest._
 import play.api.libs.json.Json
-import swarmize.SwarmConfig
+import swarmize.Swarm
 
 class SubmittedDataTest extends FlatSpec with Matchers with OptionValues {
 

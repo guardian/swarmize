@@ -1,7 +1,7 @@
 package swarmize.json
 
 import play.api.libs.json.{Json, JsValue}
-import swarmize.{UniqueId, SwarmConfig}
+import swarmize.{UniqueId, Swarm}
 
 case class SubmittedData
 (
@@ -26,7 +26,7 @@ case class SubmittedData
 object SubmittedData {
   implicit val jsonFormat = Json.format[SubmittedData]
 
-  def wrap(data: JsValue, swarm: SwarmConfig, steps: List[String]): SubmittedData = {
+  def wrap(data: JsValue, swarm: Swarm, steps: List[String]): SubmittedData = {
     SubmittedData(
       swarmName = swarm.name,
       swarmToken = swarm.token,

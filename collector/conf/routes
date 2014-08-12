@@ -3,13 +3,15 @@
 # ~~~~
 
 # Home page
-GET        /                    controllers.Application.index
+GET         /                          controllers.Application.index
 
-GET        /swarm/:token        controllers.Swarm.show(token)
-POST       /swarm/:token        controllers.Swarm.submit(token)
+GET         /swarms/:token             controllers.Swarms.show(token)
 
-GET         /health-check       controllers.Management.healthCheck
+POST        /swarms/:token.json        controllers.Swarms.submitJson(token)
+POST        /swarms/:token             controllers.Swarms.submitForm(token)
+
+GET         /health-check              controllers.Management.healthCheck
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file              controllers.Assets.at(path="/public", file)
