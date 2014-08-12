@@ -4,10 +4,10 @@ require 'hashie'
 
 class SwarmizeSearch
   include SwarmizeSearch::Queries
-  attr_reader :key
+  attr_reader :token
 
-  def initialize(key)
-    @key = key
+  def initialize(token)
+    @token = token
     @client ||= SwarmizeSearch.client
   end
 
@@ -32,7 +32,7 @@ class SwarmizeSearch
   def all(page=1, per_page=10)
     query = all_query(page, per_page)
     
-    search_results_hash = search(key,query)
+    search_results_hash = search(token,query)
 
     rows = search_results_hash.hits.hits.map {|h| h._source}
 
@@ -44,7 +44,7 @@ class SwarmizeSearch
   def aggregate_count(field)
     query = aggregate_count_query(field)
     
-    search_results_hash = search(key,query)
+    search_results_hash = search(token,query)
 
     buckets = search_results_hash.aggregations.field_count.buckets
 
@@ -54,7 +54,7 @@ class SwarmizeSearch
   def cardinal_count(field, unique_field)
     query = cardinal_count_query(field, unique_field)
     
-    search_results_hash = search(key,query)
+    search_results_hash = search(token,query)
 
     buckets = search_results_hash.aggregations.field_count.buckets
 
