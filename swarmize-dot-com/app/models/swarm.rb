@@ -71,17 +71,9 @@ class Swarm < ActiveRecord::Base
 
       
       if f['possible_values']
-        array_of_arrays= f['possible_values'].map {|p|
-          [p.parameterize.underscore,p]
-        }.flatten
-        json_fields[:possible_values] = Hash[*array_of_arrays]
-      end
-
-      if f['custom_fields']
-        array_of_arrays= f['custom_fields'].map {|p|
-          [p.parameterize.underscore,p]
-        }.flatten
-        json_fields[:custom_fields] = Hash[*array_of_arrays]
+        json_fields[:possible_values] = f['possible_values'].inject({}) {|hash, p|
+          hash.merge({p.parameterize.underscore => p})
+        }
       end
 
       json_fields
