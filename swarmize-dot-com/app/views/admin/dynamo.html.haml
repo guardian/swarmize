@@ -1,0 +1,13 @@
+%h1 Poking Dynamo
+
+%table.table
+  %thead
+    %tr
+      %th Token
+      %th Fields
+  %tbody
+    - for item in @items
+      %tr
+        %td= item['token']
+        %td
+          %code= item['definition']
