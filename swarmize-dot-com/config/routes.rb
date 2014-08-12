@@ -46,7 +46,6 @@ Swarmize::Application.routes.draw do
       post 'delete_dummy'
       post 'create_dummy_users'
       post 'create_dummy_swarms'
-      get 'dynamo'
     end
   end
 
