@@ -1,12 +1,13 @@
 #! /usr/bin/env ruby
 
 require 'csv'
+require 'json'
 require 'fog'
 require 'httparty'
 require './fogpatch.rb' # patch for Elastic Beanstalk errors.
 
 def notify_slack(version)
-  slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=N9AEOcz68MVeKgk105K9WRld"
+  slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{CONFIG['slack_key']}"
   host = "http://swarmize-prod.elasticbeanstalk.com"
 
   HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed version #{version} to <#{host}>"}.to_json)
@@ -18,10 +19,7 @@ creds = CSV.read('../credentials.csv', :headers => true)[0]
 KEY = creds['Access Key Id']
 SECRET = creds['Secret Access Key']
 
-APPNAME = "Swarmize"
-LIVE_ENV = "swarmize-prod"
-S3_BUCKET = "swarmize"
-APP_DIR = "swarmize-dot-com" # name of dir within this repo.
+CONFIG = JSON.parse(File.read('deploy.json'))
 
 currentrev = `git log --pretty=format:'%h' -n 1`
 package_filename = "package-#{currentrev}.zip"
@@ -32,17 +30,17 @@ s3 = Fog::Storage.new({
   :aws_access_key_id        => KEY,
   :aws_secret_access_key    => SECRET,
   :path_style => true,
-  :region => "eu-west-1"
+  :region => CONFIG['aws_region']
 })
 
 beanstalk = Fog::AWS::ElasticBeanstalk.new({
   :aws_access_key_id        => KEY,
   :aws_secret_access_key    => SECRET,
-  :region => "eu-west-1",
+  :region => CONFIG['aws_region']
 })
 
 beanstalk_applications = beanstalk.applications
-application = beanstalk_applications.find {|a| a.name == APPNAME}
+application = beanstalk_applications.find {|a| a.name == CONFIG['appname']}
 
 version = nil
 
@@ -56,12 +54,12 @@ else
 
   Dir.chdir("..") do 
     puts "Archiving website to #{package_filename}"
-    system "git archive -o #{APP_DIR}/#{package_filename} master:#{APP_DIR}"
+    system "git archive -o #{CONFIG['app_dir']}/#{package_filename} master:#{CONFIG['app_dir']}"
   end
 
   puts "Uploading to S3."
 
-  directory = s3.directories.get(S3_BUCKET)
+  directory = s3.directories.get(CONFIG['s3_bucket'])
   file = directory.files.create(
     :key    => "package-#{currentrev}.zip",
     :body   => File.open(package_filename),
@@ -71,22 +69,24 @@ else
   puts "Creating new application version #{package_version}"
 
   version = application.versions.create(
-    :application_name => APPNAME,
+    :application_name => CONFIG['appname'],
     :label => package_version,
-    :source_bundle => {"S3Bucket" => S3_BUCKET,
+    :source_bundle => {"S3Bucket" => CONFIG['s3_bucket'],
                        "S3Key" => package_filename}
   )
 
 end
 
-live_environment = application.environments.find {|e| e.name == LIVE_ENV }
+live_environment = application.environments.find {|e| e.name == CONFIG['live_env'] }
 
 if live_environment.version_label != package_version
-  puts "Creating new application version #{package_version} on environment #{LIVE_ENV}."
+  puts "Creating new application version #{package_version} on environment #{CONFIG['live_env']}."
 
   live_environment.version = version
-  notify_slack(package_version)
+  if CONFIG['slack_key']
+    notify_slack(package_version)
+  end
 else
-  puts "Environment #{LIVE_ENV} already running #{package_version}."
+  puts "Environment #{CONFIG['live_env']} already running #{package_version}."
 end
 

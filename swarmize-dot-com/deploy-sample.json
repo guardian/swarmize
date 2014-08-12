@@ -1,0 +1,8 @@
+{
+  "appname": "Application Name",
+  "live_env": "Live Environment Name",
+  "aws_region": "eu-west-1",
+  "s3_bucket": "bucketname",
+  "app_dir": "subdir_of_repo", 
+  "slack_key": "slack_key_here"
+}
