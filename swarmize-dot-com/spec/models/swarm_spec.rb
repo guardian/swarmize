@@ -245,4 +245,13 @@ RSpec.describe Swarm do
       expect(@new_swarm.name).to eq("Test Swarm (cloned)")
     end
   end
+
+  describe "generating its collector url" do
+    let(:swarm) { Swarm.create(:name => 'Test Swarm',
+                               :opens_at => (Time.now - 1.hour)) }
+    it "should generate the correct URL based upon its token" do
+      expect(swarm.collector_url).to eq("http://collector.swarmize.com/swarms/#{swarm.token}")
+
+    end
+  end
 end

@@ -85,6 +85,10 @@ class Swarm < ActiveRecord::Base
     end
   end
 
+  def collector_url
+    "http://collector.swarmize.com/swarms/#{token}"
+  end
+
   def swarm_key
     'voting' # TODO obviously not hardcoded
   end

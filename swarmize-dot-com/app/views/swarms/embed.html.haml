@@ -1,7 +1,7 @@
 .embeddable-swarm
   %h2= @swarm.name
   .explanation= simple_format @swarm.description
-  = form_tag '#' do
+  = form_tag @swarm.collector_url do
     - if @swarm.fields
       - @swarm.fields.each do |field|
         - if FieldDescription.has_custom_display?(Field.from_hash(field).field_type)
