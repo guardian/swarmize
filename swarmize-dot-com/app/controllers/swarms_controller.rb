@@ -32,14 +32,16 @@ class SwarmsController < ApplicationController
       @current_page = 1
     end
 
-    begin
-      @rows, @total_pages = @swarm.search.all(@current_page, 10)
-    rescue Faraday::TimeoutError
-      @rows, @total_pages = [], 0
-      @connection_error = true
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-      @rows, @total_pages = [], 0
-      @not_found = true
+    if @swarm.closed? || @current_user
+      begin
+        @rows, @total_pages = @swarm.search.all(@current_page, 10)
+      rescue Faraday::TimeoutError
+        @rows, @total_pages = [], 0
+        @elasticsearch_error = "There was an error connecting to Elasticsearch, and results cannot be shown."
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
+        @rows, @total_pages = [], 0
+        @elasticsearch_error = "There are no results in Elasticsearch yet."
+      end
     end
     respond_with @swarm
   end
