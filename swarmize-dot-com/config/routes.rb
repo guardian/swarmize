@@ -8,6 +8,7 @@ Swarmize::Application.routes.draw do
       get 'embed'
       get 'delete'
       get 'spike'
+      get 'csv'
       post 'update_fields'
       post 'open'
       post 'close'

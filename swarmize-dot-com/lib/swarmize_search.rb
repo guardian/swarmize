@@ -53,7 +53,7 @@ class SwarmizeSearch
 
     rows = search_results_hash.hits.hits.map {|h| h._source}
 
-    result_set << rows
+    result_set = rows
 
     if total_pages > 1
       (2..total_pages).each do |p|
@@ -63,7 +63,7 @@ class SwarmizeSearch
 
         rows = search_results_hash.hits.hits.map {|h| h._source}
 
-        result_set << rows
+        result_set += rows
       end
     end
 
