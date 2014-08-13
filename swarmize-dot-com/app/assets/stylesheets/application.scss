@@ -121,3 +121,12 @@ form {
     font-size: 120%;
   }
 }
+
+#graphs .graph-container {
+  float: left;
+  margin: 0 20px 20px 0;
+  .epoch {
+    width: 200px;
+    height: 200px;
+  }
+}

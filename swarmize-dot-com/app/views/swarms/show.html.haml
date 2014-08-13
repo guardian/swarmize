@@ -8,12 +8,32 @@
 
 %hr
 
+- 
+- if @swarm.closed? || @current_user
+  - if @swarm.fields_of_type('pick_one')
+    %h2 Graphs
+
+    - @swarm.fields_of_type('pick_one').each_with_index do |field, i|
+      :javascript
+        $(document).ready(function() {
+          $.getJSON('#{SwarmizeGraph.count_url(@swarm, field['field_name'].parameterize.underscore)}', function(data) {
+            $("#graphs").append("<div class='graph-container' id='graph-container#{i+1}'></div>");
+            $("#graph-container#{i+1}").append("<h3>#{field['field_name']}</h3>");
+            $("#graph-container#{i+1}").append("<div class='epoch' id='graph#{i+1}'></div>");
+            $('#graph#{i+1}').epoch({ type: 'pie', data: data });
+          });
+        });
+
+    #graphs
+
+    .clearfix
+
 - if @swarm.closed? || @current_user
   %h2 
     Results
     = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
 
-  .clear
+  .clearfix
 
   - if @elasticsearch_error
     %p= @elasticsearch_error

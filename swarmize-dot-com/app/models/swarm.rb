@@ -85,6 +85,10 @@ class Swarm < ActiveRecord::Base
     end
   end
 
+  def fields_of_type(t)
+    fields.select {|f| f[:field_type] == t} if fields
+  end
+
   def collector_url
     "http://collector.swarmize.com/swarms/#{token}"
   end
