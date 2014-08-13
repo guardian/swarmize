@@ -3,7 +3,6 @@ require 'securerandom'
 class TimeParadoxError < StandardError; end
 
 class Swarm < ActiveRecord::Base
-  include LegacySwarm
   include PgSearch
 
   belongs_to :user
