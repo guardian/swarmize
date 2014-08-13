@@ -41,6 +41,35 @@ class SwarmizeSearch
     [rows, total_pages]
   end
 
+  def entirety
+    per_page = 100
+    result_set = []
+
+    query = all_query(1, per_page)
+
+    search_results_hash = search(token,query)
+
+    total_pages = total_pages_for_results(search_results_hash, per_page)
+
+    rows = search_results_hash.hits.hits.map {|h| h._source}
+
+    result_set << rows
+
+    if total_pages > 1
+      (2..total_pages).each do |p|
+        query = all_query(p, per_page)
+
+        search_results_hash = search(token,query)
+
+        rows = search_results_hash.hits.hits.map {|h| h._source}
+
+        result_set << rows
+      end
+    end
+
+    result_set
+  end
+
   def aggregate_count(field)
     query = aggregate_count_query(field)
     
