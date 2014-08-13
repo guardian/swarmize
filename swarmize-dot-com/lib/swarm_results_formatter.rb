@@ -14,7 +14,9 @@ class SwarmResultsFormatter
       # first, add the headers
       headers = []
       headers << "Timestamp"
-      headers << @swarm.fields.map {|f| f['field_name']}
+      @swarm.fields.each do |f|
+        headers << f['field_name']
+      end
       csv << headers
 
       #now, add all the results
