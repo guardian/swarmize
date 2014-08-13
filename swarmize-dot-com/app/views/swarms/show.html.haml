@@ -8,18 +8,19 @@
 
 %hr
 
-%h2 
-  Results
-  = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
-
-.clear
-
 - if @swarm.closed? || @current_user
+  %h2 
+    Results
+    = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+
+  .clear
+
   - if @elasticsearch_error
     %p= @elasticsearch_error
   - else
     = render :partial => "swarms/swarm_results"
 - else
+  %h2 Results
   %p Results will appear here when the swarm is complete.
 
 = render "swarms/open_swarm_modal"
