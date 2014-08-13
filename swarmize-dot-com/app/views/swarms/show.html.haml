@@ -8,7 +8,12 @@
 
 %hr
 
-%h2 Results
+%h2 
+  Results
+  = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+
+.clear
+
 - if @swarm.closed? || @current_user
   - if @elasticsearch_error
     %p= @elasticsearch_error

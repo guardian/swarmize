@@ -46,6 +46,14 @@ class SwarmsController < ApplicationController
     respond_with @swarm
   end
 
+  def csv
+    results = @swarm.search.entirety
+    formatted_results = SwarmResultsFormatter.new(@swarm,results)
+    send_data formatted_results.to_csv, 
+              filename: "#{@swarm.token}.csv",
+              type: 'text/csv; charset=utf-8; header=present'
+  end
+
   def delete
   end
 
