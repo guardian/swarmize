@@ -4,6 +4,7 @@
 = render :partial => "swarms/swarm_page_js"
 
 = render :partial => "swarms/swarm_header"
+
 - if @swarm.user == @current_user
   = render :partial => "swarms/swarm_description_open_close_logged_in"
 - else
@@ -11,7 +12,6 @@
 
 %hr
 
-- 
 - if (@swarm.closed? || @current_user) && !@elasticsearch_error
   - if @swarm.fields_of_type('pick_one')
     = render "swarms/swarm_graphs"
