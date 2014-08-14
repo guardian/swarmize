@@ -40,7 +40,7 @@
             %br
             %code no
           - when 'rating'
-            %code #{f['minimum']}...#{f['maximum']}
+            %code #{f.minimum}...#{f.maximum}
           - when 'pick_one', 'pick_several'
             - if f.possible_values
               - f.possible_values.each do |v|
