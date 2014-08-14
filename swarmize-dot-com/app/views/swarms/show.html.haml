@@ -12,7 +12,7 @@
 %hr
 
 - 
-- if @swarm.closed? || @current_user
+- if (@swarm.closed? || @current_user) && !@elasticsearch_error
   - if @swarm.fields_of_type('pick_one')
     %h2 Graphs
 

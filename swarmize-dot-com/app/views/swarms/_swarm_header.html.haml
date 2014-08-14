@@ -7,8 +7,11 @@
     .subheader
       Created by
       = link_to @swarm.user.name, user_path(@swarm.user)
-      |
-      = link_to "View Form", embed_swarm_path(@swarm)
+      - if @current_user
+        |
+        = link_to "View Form", embed_swarm_path(@swarm)
+        |
+        = link_to "Get code", code_swarm_path(@swarm)
       - if @swarm.parent_swarm
         %small
           [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]

@@ -1,0 +1,47 @@
+- content_for :pagetitle do
+  Code for #{@swarm.name} : Swarms : 
+
+%h1 Code for #{@swarm.name}
+
+%p= link_to "Back to swarm", @swarm
+
+%dl
+  %dt Token
+  %dd
+    %code= @swarm.token
+
+  %dt Collector URL
+  %dd
+    %code= @swarm.collector_url
+
+%table.table
+  %thead
+    %tr
+      %th Field name
+      %th Field code
+      %th Field type
+      %th Possible values
+  %tbody
+    - @swarm.fields.each do |f|
+      %tr
+        %td= f['field_name']
+        %td
+          %code= f['field_name'].parameterize.underscore
+        %td
+          %code= f['field_type']
+        %td
+          - case f['field_type']
+          - when 'yesno'
+            %code yes
+            %br
+            %code no
+          - when 'rating'
+            %code #{f['minimum']}...#{f['maximum']}
+          - when 'pick_one', 'pick_several'
+            - if f['possible_values']
+              - f['possible_values'].each do |v|
+                %code= v.parameterize.underscore
+                %br
+
+
+
