@@ -1,3 +1,6 @@
+- content_for :pagetitle do
+  Live Swarms by #{@user.name} : Users : 
+
 %h1 
   Swarms created by #{@user.name}
   - if @user == @current_user

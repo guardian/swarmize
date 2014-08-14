@@ -4,7 +4,10 @@
     %meta{:'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
     %meta{:name => "lang", :content => "en"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
-    %title Swarmize
+    %title 
+      =yield :pagetitle
+      Swarmize
+      
     = stylesheet_link_tag asset_path("bootstrap.min")
     = stylesheet_link_tag asset_path("bootstrap-theme.min")
     = stylesheet_link_tag asset_path("epoch.0.5.2.min")
