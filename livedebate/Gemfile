@@ -5,6 +5,7 @@ gem 'sinatra'
 gem 'shotgun'
 gem 'haml'
 gem 'thin'
+gem 'httparty'
 
 gem 'compass'
 gem 'sass'

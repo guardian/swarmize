@@ -1,26 +1,19 @@
 require 'json'
-require 'net/http'
+require 'httparty'
 
 class SwarmApi
-  attr_reader :swarmkey, :hostname, :port
+  include HTTParty
+  base_uri 'http://collector.swarmize.com'
+  attr_reader :token
 
-  def initialize(swarmkey, hostname, port=80)
-    @swarmkey = swarmkey
-    @hostname = hostname
-    @port = port
+  def initialize(token)
+    @token = token
   end
 
   def send(data)
-    path = "/swarm/#{swarmkey}"
+    path = "/swarms/#{token}"
 
-    payload = data.to_json
-
-    req = Net::HTTP::Post.new(path, {'Content-Type' =>'application/json'})
-    req.body = payload
-
-    response = Net::HTTP.new(hostname, port).start do |http| 
-      http.request(req)
-    end
+    response = self.class.post(path, {body: data})
 
     puts "Response #{response.code} #{response.message}:
     #{response.body}"
