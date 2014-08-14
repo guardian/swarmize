@@ -8,15 +8,7 @@ class GraphsController < ApplicationController
 
   def new
     @graph = @swarm.graphs.new
-    if @swarm.fields_of_type('pick_one').any?
-      @graphable_fields = @swarm.fields_of_type('pick_one').map do |f|
-        [f['field_name'], f['field_name'].parameterize.underscore]
-      end
-      @filter_fields = @swarm.fields.map do |f|
-        [f['field_name'], f['field_name'].parameterize.underscore]
-      end
-      @graph_types = [['Pie', 'pie']]
-    end
+    setup_graphable_fields
   end
 
   def create
@@ -31,9 +23,18 @@ class GraphsController < ApplicationController
   end
 
   def edit
+    setup_graphable_fields
   end
 
   def update
+    @graph.update(graph_params)
+    options = {}
+    if !params[:filter_field].blank?
+      options[:filter_field] = params[:filter_field]
+    end
+    @graph.options = options
+    @graph.save
+    redirect_to swarm_graphs_path(@swarm)
   end
 
   def delete
@@ -78,6 +79,18 @@ class GraphsController < ApplicationController
 
   def graph_params
     params.require(:graph).permit(:title, :graph_type, :field, :filter_field, :viz_type)
+  end
+
+  def setup_graphable_fields
+    if @swarm.fields_of_type('pick_one').any?
+      @graphable_fields = @swarm.fields_of_type('pick_one').map do |f|
+        [f['field_name'], f['field_name'].parameterize.underscore]
+      end
+      @filter_fields = @swarm.fields.map do |f|
+        [f['field_name'], f['field_name'].parameterize.underscore]
+      end
+      @graph_types = [['Pie', 'pie']]
+    end
   end
 
 end
