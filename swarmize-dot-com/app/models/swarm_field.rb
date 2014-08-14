@@ -5,6 +5,26 @@ class SwarmField < ActiveRecord::Base
 
   before_save :set_code
 
+  def as_json(options={})
+    json_fields = {:field_type => self.field_type,
+         :field_name => self.field_name,
+         :field_name_code => self.field_code,
+         :compulsory => self.compulsory}
+
+    if field_type == 'rating'
+      json_fields[:maximum] = self.maximum
+      json_fields[:minimum] = self.minimum
+    end
+
+    if possible_values && possible_values.any?
+      json_fields[:possible_values] = possible_values.inject({}) {|hash, p|
+        hash.merge({p.parameterize.underscore => p})
+      }
+    end
+
+    json_fields
+  end
+
   private
 
   def set_code

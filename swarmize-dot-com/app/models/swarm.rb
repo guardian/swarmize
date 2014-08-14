@@ -41,7 +41,7 @@ class Swarm < ActiveRecord::Base
     :description => 'B'
   }
 
-  serialize :fields
+  #serialize :fields
 
   def to_param
     token
@@ -56,33 +56,10 @@ class Swarm < ActiveRecord::Base
   def as_json(options={})
     {:name => self.name,
      :description => self.description,
-     :fields => self.fields_for_json,
+     :fields => self.swarm_fields,
      :opens_at => self.opens_at,
      :closes_at => self.closes_at
     }
-  end
-
-  def fields_for_json
-    if fields
-      fields.map do |f|
-        json_fields = {}
-        json_fields[:field_type] = f['field_type']
-        json_fields[:field_name] = f['field_name']
-        json_fields[:field_name_code] = f['field_name'].parameterize.underscore
-        json_fields[:compulsory] = (f['compulsory'] == '1')
-        json_fields[:minimum] = f['minimum'].to_i unless f['minimum'].blank?
-        json_fields[:maximum] = f['maximum'].to_i unless f['maximum'].blank?
-
-        
-        if f['possible_values']
-          json_fields[:possible_values] = f['possible_values'].inject({}) {|hash, p|
-            hash.merge({p.parameterize.underscore => p})
-          }
-        end
-
-        json_fields
-      end
-    end
   end
 
   def collector_url
