@@ -57,5 +57,5 @@
 -#This just sets up our templates
 - FieldDescription.all.each do |field_type, description|
   %script{type: 'text/template', id: "#{field_type}_template"}
-    = render "form_partials/edit_field_partial", field: Hashie::Mash.new({}), field_type: field_type, field_description: description
+    = render "form_partials/edit_field_partial", field: SwarmField.new, field_type: field_type, field_description: description
 
