@@ -6,6 +6,7 @@ class Swarm < ActiveRecord::Base
   belongs_to :user
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
+  has_many :swarm_fields, :order => 'field_index ASC'
   has_many :graphs
 
   before_create :setup_token

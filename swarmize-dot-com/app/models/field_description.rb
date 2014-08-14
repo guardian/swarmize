@@ -86,8 +86,7 @@ class FieldDescription
   end
 
   def self.has_custom_display?(type)
-    types_with_custom_display = ALL_FIELDS.select {|f| f[:has_custom_display_template]}.map {|f| f[:field_type]}
-    types_with_custom_display.include? type
+    ALL_FIELDS[type.to_sym][:has_custom_display_template]
   end
 
   def self.find(field_type)
