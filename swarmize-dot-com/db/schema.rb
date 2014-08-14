@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812130235) do
+ActiveRecord::Schema.define(version: 20140814135824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "graphs", force: true do |t|
+    t.string   "title"
+    t.string   "graph_type"
+    t.string   "field"
+    t.string   "viz_type"
+    t.text     "options"
+    t.integer  "swarm_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "swarms", force: true do |t|
     t.string   "name"
