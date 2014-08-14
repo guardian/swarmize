@@ -1,10 +1,10 @@
-.form-element{:class => field_description.field_type}
+.form-element{:class => field_type}
   .header
     %h2= field_description.display_name
     = render :partial => "form_partials/element_controls"
 
     = hidden_field_tag "fields[][index]", field['index'], :class => 'form-control', :id => "index"
-    = hidden_field_tag "fields[][field_type]", field_description.field_type, :class => 'form-control'
+    = hidden_field_tag "fields[][field_type]", field_type, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Field name

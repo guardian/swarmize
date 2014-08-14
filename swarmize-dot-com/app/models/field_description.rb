@@ -2,106 +2,87 @@ require 'hashie'
 
 class FieldDescription
 
-  ALL_FIELDS = [
-    {:field_type => "text",
-     :display_name => "Text",
-     :has_sample => true,
-     :has_possible_values => false
+  ALL_FIELDS = {    
+    :text => {:display_name => "Text",
+              :has_sample => true,
     },
-    {:field_type => "bigtext",
+    :bigtext => {
      :display_name => "Big Text",
      :has_sample => true,
-     :has_possible_values => false,
      :has_custom_display_template => true
     },
-    {:field_type => "address",
+    :address => {
      :display_name => "Address",
      :has_sample => true,
-     :has_possible_values => false,
     },
-    {:field_type => "city",
+    :city => {
      :display_name => "City",
      :has_sample => true,
-     :has_possible_values => false
     },
-    {:field_type => "county",
+    :county => {
      :display_name => "County",
      :has_sample => true,
-     :has_possible_values => false
     },
-    {:field_type => "state",
+    :state => {
      :display_name => "State",
      :has_sample => true,
-     :has_possible_values => false
     },
-    {:field_type => "country",
+    :country => {
      :display_name => "Country",
      :has_sample => true,
-     :has_possible_values => false
     },
-    {:field_type => "postcode",
+    :postcode => {
      :display_name => "Postcode",
      :has_sample => true,
-     :has_possible_values => false,
      :validation => "isAPostcode"
     },
-    {:field_type => "email",
+    :email => {
      :display_name => "Email",
      :has_sample => true,
-     :has_possible_values => false,
      :input_type => 'email',
      :validation => 'email'
     },
-    {:field_type => "number",
+    :number => {
      :display_name => "Number",
      :has_sample => true,
-     :has_possible_values => false,
      :input_type => 'number',
      :validation => 'decimal'
     },
-    {:field_type => "pick_one",
+    :pick_one => {
      :display_name => "Pick One",
-     :has_sample => false,
      :has_possible_values => true,
      :has_custom_display_template => true
     },
-    {:field_type => "pick_several",
+    :pick_several => {
      :display_name => "Pick Several",
-     :has_sample => false,
      :has_possible_values => true,
      :has_custom_display_template => true
     },
-    {:field_type => "rating",
+    :rating => {
      :display_name => "Rating",
-     :has_sample => false,
-     :has_possible_values => false,
      :has_custom_display_template => true,
      :custom_fields => [ 
-                        {:display_name => 'Minimum',
-                         :field_type => 'minimum',
-                         :input_type => 'number'},
-                        {:display_name => "Maximum",
-                         :field_type => 'maximum',
-                         :input_type => 'number'}
-                       ]
+       {:display_name => 'Minimum',
+        :field_type => 'minimum',
+        :input_type => 'number'},
+        {:display_name => "Maximum",
+         :field_type => 'maximum',
+         :input_type => 'number'}
+     ]
     },
-    {:field_type => "yesno",
+    :yesno => {
      :display_name => "Yes/No",
-     :has_sample => false,
-     :has_possible_values => false,
      :has_custom_display_template => true
     },
-    {:field_type => "check_box",
+    :check_box => {
      :display_name => "Checkbox",
-     :has_sample => false,
-     :has_possible_values => false,
      :has_custom_display_template => true,
      :validation => 'agreement'
     }
-  ]
+  }
 
   def self.all
-    ALL_FIELDS.map {|f| Hashie::Mash.new(f)}
+    Hashie::Mash.new(ALL_FIELDS)
   end
 
   def self.has_custom_display?(type)
@@ -110,7 +91,7 @@ class FieldDescription
   end
 
   def self.find(field_type)
-    self.all.find {|f| f.field_type == field_type}
+    Hashie::Mash.new(ALL_FIELDS[field_type.to_sym])
   end
 
 end
