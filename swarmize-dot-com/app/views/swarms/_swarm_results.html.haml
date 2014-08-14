@@ -1,17 +1,3 @@
--#- @swarm.graphs.each_with_index do |graph, i|
-  -#:javascript
-    $(document).ready(function() {
-      $.getJSON(window.location.pathname+'#{graph.url_fragment}', function(data) {
-          var graph#{i+1} = $('#graph#{i+1}').epoch({ type: '#{graph.viz_type}', data: data });
-        });
-    });
-
--#.row
-  - @swarm.graphs.each_with_index do |graph, i|
-    .col-md-6
-      %h2= graph.title
-      %div{:id => "graph#{i+1}", :class => "epoch", :style => "width:200px; height: 200px;"}
-
 %table.table
   %thead
     %tr
