@@ -1,5 +1,3 @@
-require 'securerandom'
-
 class TimeParadoxError < StandardError; end
 
 class Swarm < ActiveRecord::Base
