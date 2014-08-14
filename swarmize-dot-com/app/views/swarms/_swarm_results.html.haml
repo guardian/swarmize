@@ -2,15 +2,15 @@
   %thead
     %tr
       %th Timestamp
-      - for field in @swarm.fields
-        %th= field['field_name']
+      - for field in @swarm.swarm_fields
+        %th= field.field_name
 
   %tbody
     - for row in @rows
       %tr
         %td= format_timestamp(row.timestamp)
-        - for field in @swarm.fields
-          %td= row.send field['field_name'].parameterize.underscore
+        - for field in @swarm.swarm_fields
+          %td= row.send field.field_code
 
 %ul.pagination
   - if @current_page > 1

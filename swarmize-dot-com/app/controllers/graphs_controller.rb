@@ -82,12 +82,13 @@ class GraphsController < ApplicationController
   end
 
   def setup_graphable_fields
-    if @swarm.fields_of_type('pick_one').any?
-      @graphable_fields = @swarm.fields_of_type('pick_one').map do |f|
-        [f['field_name'], f['field_name'].parameterize.underscore]
+    pick_one_fields = @swarm.swarm_fields.where(:field_type => 'pick_one')
+    if pick_one_fields.any?
+      @graphable_fields = pick_one_fields.map do |f|
+        [f.field_name, f.field_code]
       end
-      @filter_fields = @swarm.fields.map do |f|
-        [f['field_name'], f['field_name'].parameterize.underscore]
+      @filter_fields = @swarm.swarm_fields.map do |f|
+        [f.field_name, f.field_code]
       end
       @graph_types = [['Pie', 'pie']]
     end
