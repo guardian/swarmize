@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Swarm do
   describe "being asked if it can be edited by a user" do
-    let(:swarm) { Swarm.create(:user_id => 1) }
+    let(:swarm) { Swarm.new(:user_id => 1) }
     let(:this_user) { double('user1', :id => 1) }
     let(:another_user) { double('user2', :id => 2) }
 
@@ -20,7 +20,7 @@ RSpec.describe Swarm do
   end
 
   describe "being asked if it can be spiked by a user" do
-    let(:swarm) { Swarm.create(:user_id => 1) }
+    let(:swarm) { Swarm.new(:user_id => 1) }
     let(:this_user) { double('user1', :id => 1) }
     let(:another_user) { double('user2', :id => 2) }
 
@@ -34,7 +34,7 @@ RSpec.describe Swarm do
   end
 
   describe "that will open in the future" do
-    let(:swarm) { Swarm.create(:opens_at => (Time.now + 1.day) ) }
+    let(:swarm) { Swarm.new(:opens_at => (Time.now + 1.day) ) }
 
     it "should not describe itself as live" do
       expect(swarm.live?).to be_falsy
@@ -59,7 +59,7 @@ RSpec.describe Swarm do
     end
 
     describe "that has a close date" do
-      let(:swarm) { Swarm.create(:opens_at => (Time.now + 1.day),
+      let(:swarm) { Swarm.new(:opens_at => (Time.now + 1.day),
                                  :closes_at => (Time.now + 2.days)) }
       it "should a describe itself as scheduled to close" do
         expect(swarm.scheduled_to_close?).to be_truthy
@@ -68,7 +68,7 @@ RSpec.describe Swarm do
   end
 
   describe "that has opened in the past" do
-    let(:swarm) { Swarm.create(:opens_at => (Time.now - 1.day) ) }
+    let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day) ) }
 
     it "should describe itself as having opened" do
       expect(swarm.has_opened?).to be_truthy
@@ -94,7 +94,7 @@ RSpec.describe Swarm do
     end
 
     describe "and that has closed in the past" do
-      let(:swarm) { Swarm.create(:opens_at => (Time.now - 1.day),
+      let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day),
                                  :closes_at => (Time.now - 1.hour) ) }
 
       it "should not describe itself as live" do
@@ -111,7 +111,7 @@ RSpec.describe Swarm do
     end
 
     describe "and that closes in the future" do
-      let(:swarm) { Swarm.create(:opens_at => (Time.now - 1.day),
+      let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day),
                                  :closes_at => (Time.now + 1.day) ) }
 
       it "should describe itself as live" do
@@ -216,9 +216,9 @@ RSpec.describe Swarm do
   end
 
   describe "that has been cloned" do
-    let(:alice) { User.create }
-    let(:bob) { User.create }
-    let(:swarm) { Swarm.create(:name => 'Test Swarm',
+    let(:alice) { User.new }
+    let(:bob) { User.new }
+    let(:swarm) { Swarm.new(:name => 'Test Swarm',
                                :parent_swarm => nil,
                                :user => alice,
                                :opens_at => (Time.now - 1.hour)) }
