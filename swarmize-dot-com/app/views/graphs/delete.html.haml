@@ -1,0 +1,11 @@
+- content_for :pagetitle do
+  Delete Graph '#{@graph.title}' : Graphs for #{@swarm.name} : 
+
+%h1 Delete Swarm '#{@graph.title}'?
+
+%p Are you sure you want to delete this graph?
+
+%p
+  = button_to "Delete", swarm_graph_path(@swarm,@graph), :method => :delete, :class => "btn btn-default"
+  or
+  = link_to "Return to all graphs for this swarm.", swarm_graphs_path(@swarm)

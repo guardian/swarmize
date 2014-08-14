@@ -1,0 +1,29 @@
+- content_for :pagetitle do
+  Manage Graphs : #{@swarm.name} : 
+
+%h1 Manage Graphs for #{@swarm.name}
+
+- if @swarm.graphs.any?
+  %table.table
+    %thead
+      %tr
+        %th Title
+        %th Type
+        %th Viz Type
+        %th Field being graphed
+        %th Options
+    %tbody
+      - @swarm.graphs.each do |g|
+        %tr
+          %td= g.title
+          %td= g.graph_type
+          %td= g.viz_type
+          %td= g.field
+          %td= g.options.inspect
+          %td
+            = link_to "Edit", edit_swarm_graph_path(@swarm,g)
+            |
+            = link_to "Delete", delete_swarm_graph_path(@swarm,g)
+
+
+%p= link_to "Create new graph", new_swarm_graph_path(@swarm), :class => "btn btn-default"

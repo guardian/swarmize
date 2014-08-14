@@ -2,6 +2,11 @@ Swarmize::Application.routes.draw do
   root "home#show"
 
   resources :swarms do
+    resources :graphs do
+      member do
+        get 'delete'
+      end
+    end
     member do
       get 'fields'
       get 'preview'

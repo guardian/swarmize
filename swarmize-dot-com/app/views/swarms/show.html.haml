@@ -13,8 +13,13 @@
 %hr
 
 - if (@swarm.closed? || @current_user) && !@elasticsearch_error
-  - if @swarm.fields_of_type('pick_one')
+  -if @swarm.graphs.any?
     = render "swarms/swarm_graphs"
+  -elsif @swarm.user == @current_user
+    %h2 Graphs
+
+  - if @swarm.user == @current_user
+    %p= link_to "Manage swarm graphs", swarm_graphs_path(@swarm)
 
 - if @swarm.closed? || @current_user
   %h2 
