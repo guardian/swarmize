@@ -31,6 +31,7 @@ gem 'unicorn'
 group :development do
   gem 'thin'
   gem 'fog'
+  gem 'awesome_print'
 end
 
 group :test do
