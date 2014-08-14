@@ -130,7 +130,7 @@ form#debate .setup .form-el input {
   font-size: 48px;
   text-shadow: 2px 2px 1px #000;
 }
-.feedback-buttons .feedback-button#con:link, .feedback-buttons .feedback-button#con:visited {
+.feedback-buttons .feedback-button#david_cameron:link, .feedback-buttons .feedback-button#david_cameron:visited {
   text-decoration: none;
   color: white;
   background-image: url("/images/dc.jpg");
@@ -138,14 +138,14 @@ form#debate .setup .form-el input {
   background-size: cover;
   background-position: center right;
 }
-.feedback-buttons .feedback-button#lab:link, .feedback-buttons .feedback-button#lab:visited {
+.feedback-buttons .feedback-button#ed_miliband:link, .feedback-buttons .feedback-button#ed_miliband:visited {
   text-decoration: none;
   color: white;
   background-image: url("/images/em.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
-.feedback-buttons .feedback-button#ld:link, .feedback-buttons .feedback-button#ld:visited {
+.feedback-buttons .feedback-button#nick_clegg:link, .feedback-buttons .feedback-button#nick_clegg:visited {
   text-decoration: none;
   color: white;
   background-image: url("/images/nc.jpg");

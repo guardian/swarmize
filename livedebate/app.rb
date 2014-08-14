@@ -6,9 +6,7 @@ class LiveDebate < Sinatra::Base
   enable :sessions
   set :sessions, :expire_after => 2592000
 
-  #swarm = SwarmApi.new("voting", "localhost", 9000)
-
-  swarm = SwarmApi.new("voting", "Swarmize-Collecto-TJM7GAWKNW0Z-2117267710.us-east-1.elb.amazonaws.com")
+  swarm = SwarmApi.new("dcucpwlm")
 
   get '/' do
     unless session[:unique_key]
@@ -19,7 +17,7 @@ class LiveDebate < Sinatra::Base
   end
 
   post '/endpoint' do
-    data = params.merge({:ip => request.ip, :user_key => session[:unique_key], :timestamp => (Time.now.to_f * 1000000).to_i})
+    data = params.merge(:unique_user_key => session[:unique_key])
 
     # now send that to Swarm
     swarm.send(data)

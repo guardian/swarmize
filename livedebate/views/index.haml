@@ -4,18 +4,18 @@
   .setup
     .form-el
       %label How do you plan to vote in the general election?
-      %select{:name => "intent"}
+      %select{:name => "how_do_you_plan_to_vote_at_the_next_general_election"}
         %option{} - 
         %option{:value => "labour"} Labour
         %option{:value => "conservative"} Conservative
-        %option{:value => "libdem"} Liberal Democrats
+        %option{:value => "liberal_democrat"} Liberal Democrats
         %option{:value => "green"} Green
         %option{:value => "ukip"} UKIP
         %option{:value => "other"} Other
 
     .form-el
       %label What is your postcode?
-      %input{:name => "postcode"}
+      %input{:name => "what_s_your_postcode"}
 
     %a.next-button{:href => "#"} GO!
 
@@ -23,14 +23,13 @@
   .feedback-buttons
     %h2 Tap their face when they say something you agree with.
 
-    %input{:type => "hidden", :name => "feedback", :id => "feedback"}
-    %a.feedback-button{:id => "con", :href => "#"} 
+    %input{:type => "hidden", :name => "who_did_you_just_agree_with", :id => "feedback"}
+    %a.feedback-button{:id => "david_cameron", :href => "#"} 
       %span Conservative
-    %a.feedback-button{:id => "lab", :href => "#"} 
+    %a.feedback-button{:id => "ed_miliband", :href => "#"} 
       %span Labour
-    %a.feedback-button{:id => "ld", :href => "#"} 
-      %span Libedral Democrat
-
+    %a.feedback-button{:id => "nick_clegg", :href => "#"} 
+      %span Liberal Democrat
 
 .tick &#10003;
 
