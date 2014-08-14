@@ -3,5 +3,5 @@
   - field.possible_values.each_with_index do |value, index|
     .checkbox
       %label
-        = check_box_tag field.field_name.parameterize.underscore, value.parameterize.underscore
+        = check_box_tag field.field_code, value.parameterize.underscore
         = value

@@ -3,7 +3,7 @@
     %h2= field_description.display_name
     = render :partial => "form_partials/element_controls"
 
-    = hidden_field_tag "fields[][index]", field['index'], :class => 'form-control', :id => "index"
+    = hidden_field_tag "fields[][field_index]", field.field_index, :class => 'form-control', :id => "index"
     = hidden_field_tag "fields[][field_type]", field_type, :class => 'form-control'
 
   .form-group
@@ -21,16 +21,16 @@
       %label.col-sm-3.control-label Sample value
       .col-sm-9
         - if field_description.input_type
-          %input.form-control{:name => "fields[][sample_value]", :value => field.send(:sample_value), :type => field_description.input_type}
+          %input.form-control{:name => "fields[][sample_value]", :value => field.sample_value, :type => field_description.input_type}
         - else
-          = text_field_tag "fields[][sample_value]", field.send(:sample_value), :class => 'form-control'
+          = text_field_tag "fields[][sample_value]", field.sample_value, :class => 'form-control'
 
   - if field_description.has_possible_values
     .form-group
       %label.col-sm-3.control-label Possible values
       .col-sm-9
         .option-list
-          - if field.possible_values
+          - if field.possible_values && field.possible_values.any?
             - field.possible_values.each_with_index do |value, i|
               %p{:class => ('input-group' if i > 1)}
                 = text_field_tag "fields[]possible_values[]", value, :class => 'form-control'
@@ -58,5 +58,5 @@
   .form-group
     %label.col-sm-3.control-label Compulsory?
     .col-sm-9
-      = check_box_tag "fields[][compulsory]",  1, field.compulsory, :class => 'form-control'
+      = check_box_tag "fields[][compulsory]",  true, field.compulsory, :class => 'form-control'
 

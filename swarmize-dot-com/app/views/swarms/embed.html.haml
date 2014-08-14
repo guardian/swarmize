@@ -4,12 +4,12 @@
   - unless params[:nodesc]
     .explanation= simple_format @swarm.description
   = form_tag @swarm.collector_url do
-    - if @swarm.fields
-      - @swarm.fields.each do |field|
-        - if FieldDescription.has_custom_display?(Field.from_hash(field).field_type)
-          = render "form_partials/#{Field.from_hash(field).field_type}_display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
+    - if @swarm.swarm_fields
+      - @swarm.swarm_fields.each do |swarm_field|
+        - if FieldDescription.has_custom_display?(swarm_field.field_type)
+          = render "form_partials/#{swarm_field.field_type}_display_field_partial", field: swarm_field, field_description: FieldDescription.find(swarm_field.field_type)
         - else
-          = render "form_partials/display_field_partial", field: Field.from_hash(field), field_description: FieldDescription.find(Field.from_hash(field).field_type)
+          = render "form_partials/display_field_partial", field: swarm_field, field_description: FieldDescription.find(swarm_field.field_type)
       %p
         = submit_tag "Submit", :class => "btn btn-default"
 

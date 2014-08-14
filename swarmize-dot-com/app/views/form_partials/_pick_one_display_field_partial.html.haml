@@ -3,5 +3,5 @@
   - field.possible_values.each_with_index do |value, index|
     .radio
       %label
-        = radio_button_tag field.field_name.parameterize.underscore, value.parameterize.underscore
+        = radio_button_tag field.field_code, value.parameterize.underscore
         = value

@@ -1,6 +1,6 @@
 .form-group
   %label= field.field_name
-  = text_area_tag "#{field.field_name.parameterize.underscore}", nil, :class => 'form-control', :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description), :rows => 8
+  = text_area_tag "#{field.field_code}", nil, :class => 'form-control', :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description), :rows => 8
   - if field.hint
     %span.help-block= field.hint
 

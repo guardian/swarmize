@@ -45,10 +45,9 @@
   .col-sm-9
     = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do
       #workspace
-        - if @swarm.fields
-          - @swarm.fields.each do |field|
-            - field_type = Field.from_hash(field).field_type
-            = render "form_partials/edit_field_partial", field: Field.from_hash(field), :field_type => field_type, field_description: FieldDescription.find(field_type)
+        - if @swarm.swarm_fields.any?
+          - @swarm.swarm_fields.each do |f|
+            = render "form_partials/edit_field_partial", field: f, :field_type => f.field_type, field_description: FieldDescription.find(f.field_type)
       %p
         = submit_tag "&larr; Swarm details".html_safe, :class => "btn btn-default", :name => 'update_and_back'
         = submit_tag "Preview Swarm &rarr;".html_safe, :class => "btn btn-default", :name => 'update_and_next'

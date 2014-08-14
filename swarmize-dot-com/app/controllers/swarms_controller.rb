@@ -78,7 +78,13 @@ class SwarmsController < ApplicationController
   end
 
   def update_fields
-    @swarm.update(:fields => params[:fields])
+    @swarm.swarm_fields.destroy_all
+
+    params[:fields].each do |f|
+      @swarm.swarm_fields.create(f)
+    end
+    
+    #@swarm.update(:fields => params[:fields])
     if params[:update_and_next]
       redirect_to preview_swarm_path(@swarm)
     else

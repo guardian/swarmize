@@ -1,9 +1,9 @@
 .form-group
   %label= field.field_name
   - if field_description.input_type
-    %input.form-control{:name => field.field_name.parameterize.underscore, :type => field_description.input_type, :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description)}
+    %input.form-control{:name => field.field_code, :type => field_description.input_type, :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description)}
   - else
-    = text_field_tag "#{field.field_name.parameterize.underscore}", nil, :class => 'form-control', :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description)
+    = text_field_tag "#{field.field_code}", nil, :class => 'form-control', :placeholder => field.sample_value, "data-validate" => validation_for_field_and_description(field, field_description)
   - if field.hint
     %span.help-block= field.hint
 
