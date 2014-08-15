@@ -45,15 +45,17 @@
               = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
         %p= link_to "Add another", "#", :class => "add-option"
 
-  - if field_description.custom_fields
-    - field_description.custom_fields.each do |custom_field|
-      .form-group
-        %label.col-sm-3.control-label= custom_field.display_name
-        .col-sm-9
-          - if custom_field.input_type
-            %input.form-control{:name => "fields[][#{custom_field.field_type}]", :value => field.send(custom_field.field_type), :type => custom_field.input_type}
-          - else
-            = text_field_tag "fields[][#{custom_field.field_type}]", field.send(custom_field.field_type), :class => 'form-control'
+  - if field_description.has_minimum
+    .form-group
+      %label.col-sm-3.control-label Minimum
+      .col-sm-9
+        = text_field_tag "fields[][minimum]", field.minimum, :class => 'form-control'
+
+  - if field_description.has_maximum
+    .form-group
+      %label.col-sm-3.control-label Maximum
+      .col-sm-9
+        = text_field_tag "fields[][maximum]", field.maximum, :class => 'form-control'
 
   .form-group
     %label.col-sm-3.control-label Compulsory?

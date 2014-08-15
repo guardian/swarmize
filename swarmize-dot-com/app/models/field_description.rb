@@ -66,14 +66,8 @@ class FieldDescription
     :rating => {
      :display_name => "Rating",
      :has_custom_display_template => true,
-     :custom_fields => [ 
-       {:display_name => 'Minimum',
-        :field_type => 'minimum',
-        :input_type => 'number'},
-        {:display_name => "Maximum",
-         :field_type => 'maximum',
-         :input_type => 'number'}
-     ]
+     :has_minimum => true,
+     :has_maximum => true,
     },
     :yesno => {
      :display_name => "Yes/No",

@@ -3,7 +3,8 @@ class SwarmField < ActiveRecord::Base
   
   serialize :possible_values
 
-  before_save :set_code
+  before_save :set_code # TODO: this should probably be before_create
+                        # so that people can edit things
 
   def as_json(options={})
     json_fields = {:field_type => self.field_type,
