@@ -3,8 +3,9 @@ require 'hashie'
 class FieldDescription
 
   ALL_FIELDS = {    
-    :text => {:display_name => "Text",
-              :has_sample => true,
+    :text => {
+      :display_name => "Text",
+      :has_sample => true,
     },
     :bigtext => {
      :display_name => "Big Text",
