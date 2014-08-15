@@ -75,6 +75,15 @@ class Swarm < ActiveRecord::Base
     new_swarm.parent_swarm = self
     new_swarm.user = user
     new_swarm.name = self.name + " (cloned)"
+
+    new_swarm.save
+
+    self.swarm_fields.each do |f|
+      new_f = f.dup
+      new_f.swarm = new_swarm
+      new_f.save
+    end
+
     new_swarm
   end
 

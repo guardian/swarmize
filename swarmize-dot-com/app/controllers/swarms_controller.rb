@@ -140,7 +140,6 @@ class SwarmsController < ApplicationController
 
   def clone
     new_swarm = @swarm.clone_by(@current_user)
-    new_swarm.save
     redirect_to new_swarm
   end
 
