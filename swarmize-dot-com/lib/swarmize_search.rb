@@ -42,6 +42,7 @@ class SwarmizeSearch
   end
 
   def entirety
+    # TODO: 'scroll' query
     per_page = 100
     result_set = []
 

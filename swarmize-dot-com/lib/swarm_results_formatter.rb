@@ -14,8 +14,8 @@ class SwarmResultsFormatter
       # first, add the headers
       headers = []
       headers << "Timestamp"
-      @swarm.fields.each do |f|
-        headers << f['field_name']
+      @swarm.swarm_fields.each do |f|
+        headers << f.field_name
       end
       csv << headers
 
@@ -23,8 +23,8 @@ class SwarmResultsFormatter
       @raw_results.each do |r|
         row = []
         row << format_timestamp(r.timestamp)
-        @swarm.fields.each do |field|
-          row << r.send(field['field_name'].parameterize.underscore)
+        @swarm.swarm_fields.each do |field|
+          row << r.send(field.field_code)
         end
         csv << row
       end
