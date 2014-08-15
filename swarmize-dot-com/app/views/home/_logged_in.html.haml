@@ -1,3 +1,14 @@
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title Alpha Feedback
+  .panel-body
+    %p 
+      %b Swarmize is currently in alpha.
+      Please send feedback or suggestions to the Swarmize team:
+      #{link_to "Matt McAlister", "mailto:matt.mcalister@theguardian.com"}, 
+      #{link_to "Graham Tackley", "mailto:graham.tackley@theguardian.com"}, and
+      #{link_to "Tom Armitage", "mailto:tom@tomarmitage.com"}.
+
 %ul.nav.nav-tabs{:role => 'tablist'}
   %li.active= link_to "All Swarms", "#all", "data-toggle" => 'tab'
   %li= link_to "My Swarms", "#mine", "data-toggle" => 'tab'
