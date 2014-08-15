@@ -46,7 +46,6 @@ class FieldDescription
     :number => {
      :display_name => "Number",
      :has_sample => true,
-     :input_type => 'number',
      :validation => 'decimal'
     },
     :pick_one => {
