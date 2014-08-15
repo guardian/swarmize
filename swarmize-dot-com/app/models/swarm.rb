@@ -8,6 +8,7 @@ class Swarm < ActiveRecord::Base
 
   has_many :swarm_fields, :order => 'field_index ASC', :dependent => :destroy
   has_many :graphs
+  has_many :clones, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
   before_create :setup_token
 
