@@ -43,6 +43,11 @@ class FieldDescription
      :input_type => 'email',
      :validation => 'email'
     },
+    :url => {
+     :display_name => "URL",
+     :has_sample => true,
+     :validation => 'url'
+    },
     :number => {
      :display_name => "Number",
      :has_sample => true,
