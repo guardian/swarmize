@@ -11,9 +11,9 @@ class SwarmApi
   end
 
   def send(data)
-    path = "/swarms/#{token}"
+    path = "/swarms/#{token}.json"
 
-    response = self.class.post(path, {body: data})
+    response = self.class.post(path, {body: data.to_json})
 
     puts "Response #{response.code} #{response.message}:
     #{response.body}"
