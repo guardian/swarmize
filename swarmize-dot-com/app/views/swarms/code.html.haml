@@ -14,6 +14,10 @@
   %dd
     %code= @swarm.collector_url
 
+  %dt Embed code
+  %dd
+    %input{:value => "<iframe src='#{embed_swarm_url(@swarm)}' width='400' height='400'></iframe>", :style => "width: 300px"}
+
 %table.table
   %thead
     %tr
