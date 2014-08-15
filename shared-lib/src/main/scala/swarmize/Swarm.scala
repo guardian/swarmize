@@ -20,6 +20,8 @@ case class Swarm
     def fullName = raw.field_name
 
     def fieldType = raw.field_type
+
+    def isCompulsory = raw.compulsory
   }
 
 }

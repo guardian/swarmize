@@ -8,7 +8,7 @@ GET         /                          controllers.Application.index
 GET         /swarms/:token             controllers.Swarms.show(token)
 
 POST        /swarms/:token.json        controllers.Swarms.submitJson(token)
-POST        /swarms/:token             controllers.Swarms.submitForm(token)
+POST        /swarms/:token             controllers.Swarms.submit(token)
 
 GET         /health-check              controllers.Management.healthCheck
 
