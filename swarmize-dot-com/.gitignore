@@ -17,3 +17,6 @@
 
 # Ignore deploy config
 deploy.json
+
+# Ignore local .env specifics
+.env
