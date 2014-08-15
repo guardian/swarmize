@@ -41,7 +41,7 @@ class Swarm < ActiveRecord::Base
     :description => 'B'
   }
 
-  #serialize :fields
+  serialize :fields # this can be deleted once you've merged.
 
   def to_param
     token
