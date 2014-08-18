@@ -9,7 +9,7 @@ def notify_slack(version)
   slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{CONFIG['slack_key']}"
   host = "http://swarmize-prod.elasticbeanstalk.com"
 
-  HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed version #{version} to <#{host}>"}.to_json)
+  HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed #{CONFIG['appname']} version #{version} to <#{host}>"}.to_json)
 end
 
 # stick your standard Amazon creds in the main project directory.
