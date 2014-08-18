@@ -3,6 +3,7 @@
     %h2= field_description.display_name
     = render :partial => "form_partials/element_controls"
 
+    = hidden_field_tag "fields[][id]", field.id, :class => 'form-control', :id => "id"
     = hidden_field_tag "fields[][field_index]", field.field_index, :class => 'form-control', :id => "index"
     = hidden_field_tag "fields[][field_type]", field_type, :class => 'form-control'
 

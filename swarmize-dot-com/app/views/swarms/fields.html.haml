@@ -8,39 +8,17 @@
   %li.active= link_to "Swarm Fields", fields_swarm_path(@swarm)
   %li= link_to "Preview Swarm", preview_swarm_path(@swarm)
 
-
-:javascript
-  $(document).ready(function() {
-    // set up draggable for field palette
-    $('.fields-palette .field').attr('draggable', 'true');
-    $('.fields-palette .field').attr('ondragstart', 'PaletteField.onDragPaletteStart(event)');
-    $('.fields-palette .field').attr('ondragend', 'PaletteField.onDragPaletteEnd(event)');
-
-    // set up droppable for workspace
-
-    $('#workspace').attr('ondragenter', 'FieldWorkspace.onDragEnterWorkspace(event)');
-    $('#workspace').attr('ondragover', 'FieldWorkspace.onDragOverWorkspace(event)');
-    $('#workspace').attr('ondragleave', 'FieldWorkspace.onDragLeaveWorkspace(event)');
-    $('#workspace').attr('ondragend', 'FieldWorkspace.onDragEndWorkspace(event)');
-    $('#workspace').attr('ondrop', 'FieldWorkspace.onDropWorkspace(event)');
-
-    FieldWorkspace.bindLinks();
-    FieldWorkspace.reindexFormElements();
-
-    $('.fields-palette').affix({
-      offset: {
-        top: $("#workspace").offset().top
-      }
-    });
-
-  });
+= render "swarms/field_page_javascript"
 
 .row
   .col-sm-3
     .fields-palette
       %h3 Field Palette
-      - FieldDescription.all.each do |field_type, field_description|
-        .field{id: "#{field_type}_dragger"}= field_description.display_name
+      - if @swarm.has_opened?
+        %p This swarm has opened; it cannot have fields added to it.
+      - else
+        - FieldDescription.all.each do |field_type, field_description|
+          .field{id: "#{field_type}_dragger"}= field_description.display_name
 
   .col-sm-9
     = form_tag update_fields_swarm_path(@swarm), :class => "form-horizontal" do

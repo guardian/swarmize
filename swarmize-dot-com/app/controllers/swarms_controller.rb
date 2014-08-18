@@ -78,10 +78,20 @@ class SwarmsController < ApplicationController
   end
 
   def update_fields
-    @swarm.swarm_fields.destroy_all
+    if @swarm.has_opened?
+      params[:fields].each do |f|
+        if f[:id]
+          field = @swarm.swarm_fields.find(f[:id])
+          field.update(f)
+        end
+      end
+    else
+      @swarm.swarm_fields.destroy_all
 
-    params[:fields].each do |f|
-      @swarm.swarm_fields.create(f)
+      params[:fields].each do |f|
+        f['id'] = nil # unset any previously set id
+        @swarm.swarm_fields.create(f)
+      end
     end
     
     if params[:update_and_next]

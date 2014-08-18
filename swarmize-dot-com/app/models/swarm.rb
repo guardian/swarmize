@@ -117,7 +117,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_edited_by?(u)
-    (self.user_id == u.id) && !has_opened?
+    (self.user_id == u.id)
   end
 
   def can_be_spiked_by?(u)
