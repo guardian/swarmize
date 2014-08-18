@@ -5,6 +5,10 @@ require 'json'
 require 'fog'
 require 'httparty'
 
+def package(package_filename)
+  system "git archive -o #{CONFIG['app_dir']}/#{package_filename} master:#{CONFIG['app_dir']}"
+end
+
 def notify_slack(version)
   slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{CONFIG['slack_key']}"
   host = "http://swarmize-prod.elasticbeanstalk.com"
@@ -53,7 +57,7 @@ else
 
   Dir.chdir("..") do 
     puts "Archiving website to #{package_filename}"
-    system "git archive -o #{CONFIG['app_dir']}/#{package_filename} master:#{CONFIG['app_dir']}"
+    package(package_filename)
   end
 
   puts "Uploading to S3."
