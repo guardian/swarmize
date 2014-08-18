@@ -29,6 +29,8 @@ object SwarmizeBuild extends Build {
       "joda-time" % "joda-time" % "2.3"
     ),
 
+    resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+
     // Don't include documentation in artifact
     doc in Compile <<= target.map(_ / "none"),
 
