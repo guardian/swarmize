@@ -29,6 +29,8 @@ module Swarmize
     # config.i18n.default_locale = :de
     config.autoload_paths << Rails.root.join('lib')
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
+
+    Time.zone = "London"
     
   end
 end
