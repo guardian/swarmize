@@ -111,4 +111,61 @@ object TestSwarms {
   val broadbandSurveyJson = Json.parse(TestSwarms.broadbandSurveyJsonString)
 
   lazy val broadbandSurvey = Swarm("test-broadband", broadbandSurveyJson.as[SwarmDefinition])
+
+
+
+
+
+  val simpleSurveyJsonString =
+    """
+      |{
+      |    "name": "A very simple survey",
+      |    "opens_at": "2015-08-02T11:13:00.000Z",
+      |    "closes_at": null,
+      |    "description": "Without many fields.",
+      |    "fields": [
+      |        {
+      |            "compulsory": true,
+      |            "field_name": "What is your name?",
+      |            "field_name_code": "what_is_your_name",
+      |            "field_type": "text"
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "What is your age?",
+      |            "field_name_code": "what_is_your_age",
+      |            "field_type": "pick_one",
+      |            "possible_values": {
+      |                "young": "Young",
+      |                "not_sure": "Not sure",
+      |                "old": "Old"
+      |            }
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "What's your favourite day?",
+      |            "field_name_code": "whats_your_favourite_day",
+      |            "field_type": "pick_several",
+      |            "possible_values": {
+      |                "sat": "Saturday",
+      |                "sun": "Sunday",
+      |                "mon": "Monday"
+      |            }
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "Do you have a favourite colour?",
+      |            "field_name_code": "do_you_have_a_favourite_colour",
+      |            "field_type": "yesno"
+      |        }
+      |
+      |    ]
+      |}
+    """.stripMargin
+
+  val simpleSurveyJson = Json.parse(TestSwarms.simpleSurveyJsonString)
+
+  lazy val simpleSurvey = Swarm("test-simple", simpleSurveyJson.as[SwarmDefinition])
+
+
 }

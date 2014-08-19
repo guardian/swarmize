@@ -12,17 +12,7 @@ case class Swarm
   def name = definition.name
   def description = definition.description
 
-  lazy val fields = definition.fields.map(new Field(_))
-
-
-  class Field(raw: json.SwarmField) {
-    def codeName = raw.field_name_code
-    def fullName = raw.field_name
-
-    def fieldType = raw.field_type
-
-    def isCompulsory = raw.compulsory
-  }
+  lazy val fields: List[SwarmField] = definition.fields.map(SwarmField.apply)
 
 }
 

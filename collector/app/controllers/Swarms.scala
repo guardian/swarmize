@@ -6,7 +6,7 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
-import swarmize.Swarm
+import swarmize.{SwarmSubmissionValidator, Swarm}
 import swarmize.aws.{AWS, SimpleWorkflow}
 import swarmize.json.SubmittedData
 
@@ -22,8 +22,12 @@ object Swarms extends Controller {
         s"""
           |Swarm name: ${c.name}
           |Swarm description: ${c.description}
+          |
+          |Fields:
+          |${c.fields.map(_.description).mkString("\n")}
+          |
           |Schema:
-          |${c.definition.toJson}
+          |${Json.prettyPrint(c.definition.toJson)}
         """.stripMargin
 
       Ok(msg)
@@ -65,30 +69,20 @@ object Swarms extends Controller {
     }
   }
 
+
   private def addTimestampIfNotPresent(json: JsObject): JsObject = {
     if (json.keys contains "timestamp") json
     else json ++ Json.obj("timestamp" -> DateTime.now.toString(ISODateTimeFormat.dateTime()))
   }
 
-  def validateFields(jsObject: JsObject, swarm: Swarm): Unit = {
-    // check all mandatory fields are there
-    val mandatoryFields = swarm.fields.filter(_.isCompulsory).map(_.codeName)
-
-    val missingFields = mandatoryFields.toSet -- jsObject.keys.toSet
-
-    if (missingFields.nonEmpty)
-      sys.error(s"The following mandatory fields are missing: ${missingFields.mkString(", ")}")
-
-  }
-
   private def doSubmitJson(swarm: Swarm, data: JsValue): Result = try {
-    val dataObj = addTimestampIfNotPresent(data.as[JsObject])
+    val dataObj = SwarmSubmissionValidator.validated(swarm, data.as[JsObject])
 
     // TODO: need to figure out here how to come up with the list of activities
 
-    validateFields(dataObj, swarm)
-
-    val fullObject = SubmittedData.wrap(dataObj, swarm, List("StoreInElasticsearch"))
+    val fullObject = SubmittedData.wrap(
+      addTimestampIfNotPresent(dataObj), swarm, List("StoreInElasticsearch")
+    )
 
     val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
 
@@ -107,7 +101,7 @@ object Swarms extends Controller {
   } catch {
     case NonFatal(e) =>
       Logger.warn("submission failed", e)
-      BadRequest(e.toString + "\n")
+      BadRequest(e.getMessage + "\n")
   }
 
 }

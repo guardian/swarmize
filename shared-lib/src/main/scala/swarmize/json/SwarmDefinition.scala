@@ -8,7 +8,7 @@ case class SwarmDefinition
   name: String,
   description: String,
 
-  fields: List[SwarmField],
+  fields: List[JsonSwarmField],
   opens_at: Option[DateTime],
   closes_at: Option[DateTime]
 ) {
@@ -18,7 +18,7 @@ case class SwarmDefinition
 
 
 
-case class SwarmField
+case class JsonSwarmField
 (
   field_name: String,
   field_name_code: String,
@@ -30,7 +30,7 @@ case class SwarmField
 
 object SwarmDefinition {
   implicit val dateFormat = PlayJsonIsoDateFormat
-  implicit val fieldJsonFormat = Json.format[SwarmField]
+  implicit val fieldJsonFormat = Json.format[JsonSwarmField]
   implicit val definitionJsonFormat = Json.format[SwarmDefinition]
 
   def toJson(d: SwarmDefinition): JsValue = Json toJson d
