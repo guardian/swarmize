@@ -6,12 +6,14 @@ require 'fog'
 require 'httparty'
 
 def package(package_filename)
-  system "git archive -o #{CONFIG['app_dir']}/#{package_filename} master:#{CONFIG['app_dir']}"
+  Dir.chdir("..") do 
+    system "git archive -o #{CONFIG['app_dir']}/#{package_filename} master:#{CONFIG['app_dir']}"
+  end
 end
 
 def notify_slack(version)
   slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{CONFIG['slack_key']}"
-  host = "http://swarmize-prod.elasticbeanstalk.com"
+  host = CONFIG['host']
 
   HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed #{CONFIG['appname']} version #{version} to <#{host}>"}.to_json)
 end
@@ -25,8 +27,8 @@ SECRET = creds['Secret Access Key']
 CONFIG = JSON.parse(File.read('deploy.json'))
 
 currentrev = `git log --pretty=format:'%h' -n 1`
-package_filename = "package-#{currentrev}.zip"
-package_version = "package-#{currentrev}"
+package_filename = "#{CONFIG['appname'].downcase}-package-#{currentrev}.zip"
+package_version = "#{CONFIG['appname'].downcase}-package-#{currentrev}"
 
 s3 = Fog::Storage.new({
   :provider                 => 'AWS',
@@ -53,18 +55,16 @@ if application.version_names.include? package_version
 else
   puts "Version does not exist, packaging code."
   puts "Removing old packages"
-  system "rm package*.zip"
+  system "rm #{CONFIG['appname'].downcase}-package*.zip"
 
-  Dir.chdir("..") do 
-    puts "Archiving website to #{package_filename}"
-    package(package_filename)
-  end
+  puts "Archiving website to #{package_filename}"
+  package(package_filename)
 
   puts "Uploading to S3."
 
   directory = s3.directories.get(CONFIG['s3_bucket'])
   file = directory.files.create(
-    :key    => "package-#{currentrev}.zip",
+    :key    => package_filename,
     :body   => File.open(package_filename),
     :public => true
   )
