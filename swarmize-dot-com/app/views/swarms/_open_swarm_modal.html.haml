@@ -33,22 +33,22 @@
             - else
               %select{:name => "open_hour"}
                 - (00..23).each do |n|
-                  %option{:value => n, :selected => (true if n == Time.now.hour)}= "%.2d" % n
+                  %option{:value => n, :selected => (true if n == Time.zone.now.hour)}= "%.2d" % n
               \:
               %select{:name => "open_minute"}
                 - (00..59).each do |n|
-                  %option{:value => n, :selected => (true if n == Time.now.min)}= "%.2d" % n
+                  %option{:value => n, :selected => (true if n == Time.zone.now.min)}= "%.2d" % n
               on
               %select{:name => "open_month"}
                 - (1..12).each do |n|
-                  %option{:value => n, :selected => (true if n == Time.now.month)}= Date::MONTHNAMES[n]
+                  %option{:value => n, :selected => (true if n == Time.zone.now.month)}= Date::MONTHNAMES[n]
 
               %select{:name => "open_day"}
                 - (1..31).each do |n|
-                  %option{:value => n, :selected => (true if n == Time.now.day)}= "%.2d" % n
+                  %option{:value => n, :selected => (true if n == Time.zone.now.day)}= "%.2d" % n
               %select{:name => "open_year"}
                 - [2014,2015,2016,2017].each do |n|
-                  %option{:value => n, :selected => (true if n == Time.now.day)}= n
+                  %option{:value => n, :selected => (true if n == Time.zone.now.day)}= n
             = link_to "Set to now", "#", :id => "set-open-date-to-now", :class => "btn btn-primary btn-sm"
 
         %p <b>Once your swarm has opened it cannot be closed and re-opened at a later date</b> - so make sure you're happy with your fields!
