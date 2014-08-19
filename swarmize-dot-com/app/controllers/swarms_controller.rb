@@ -93,6 +93,9 @@ class SwarmsController < ApplicationController
         @swarm.swarm_fields.create(f)
       end
     end
+
+    # has to be called manually, because swarm_fields now a model.
+    DynamoSync(@swarm)
     
     if params[:update_and_next]
       redirect_to preview_swarm_path(@swarm)
