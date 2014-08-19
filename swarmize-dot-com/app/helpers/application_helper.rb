@@ -29,6 +29,14 @@ module ApplicationHelper
     "/auth/google_oauth2"
   end
 
+  def format_swarm_date(time)
+    time.strftime("%d %B %Y")
+  end
+
+  def format_swarm_time(time)
+    time.strftime("%H:%M%P")
+  end
+
 
   # this comes from the old Sinatra app
   def format_timestamp(ts)

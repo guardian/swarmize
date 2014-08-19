@@ -30,7 +30,7 @@ RSpec.describe Swarm do
   end
 
   describe "that will open in the future" do
-    let(:swarm) { Swarm.new(:opens_at => (Time.now + 1.day) ) }
+    let(:swarm) { Swarm.new(:opens_at => (Time.zone.now + 1.day) ) }
 
     it "should not describe itself as live" do
       expect(swarm.live?).to be_falsy
@@ -55,8 +55,8 @@ RSpec.describe Swarm do
     end
 
     describe "that has a close date" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.now + 1.day),
-                                 :closes_at => (Time.now + 2.days)) }
+      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now + 1.day),
+                                 :closes_at => (Time.zone.now + 2.days)) }
       it "should a describe itself as scheduled to close" do
         expect(swarm.scheduled_to_close?).to be_truthy
       end
@@ -64,7 +64,7 @@ RSpec.describe Swarm do
   end
 
   describe "that has opened in the past" do
-    let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day) ) }
+    let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day) ) }
 
     it "should describe itself as having opened" do
       expect(swarm.has_opened?).to be_truthy
@@ -90,8 +90,8 @@ RSpec.describe Swarm do
     end
 
     describe "and that has closed in the past" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day),
-                                 :closes_at => (Time.now - 1.hour) ) }
+      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day),
+                                 :closes_at => (Time.zone.now - 1.hour) ) }
 
       it "should not describe itself as live" do
         expect(swarm.live?).to be_falsy
@@ -107,8 +107,8 @@ RSpec.describe Swarm do
     end
 
     describe "and that closes in the future" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.now - 1.day),
-                                 :closes_at => (Time.now + 1.day) ) }
+      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day),
+                                 :closes_at => (Time.zone.now + 1.day) ) }
 
       it "should describe itself as live" do
         expect(swarm.live?).to be_truthy
@@ -128,7 +128,7 @@ RSpec.describe Swarm do
     let(:swarm) { Swarm.create() }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
-      open_time = Time.now + 1.hour
+      open_time = Time.zone.now + 1.hour
       swarm.update(:opens_at => open_time)
       
       expect(swarm.opens_at).to eq(open_time)
@@ -137,17 +137,17 @@ RSpec.describe Swarm do
     it "should really be set to now, if asked to set it before now." do
       Timecop.freeze
 
-      open_time = Time.now - 1.hour
+      open_time = Time.zone.now - 1.hour
       swarm.update(:opens_at => open_time)
       
-      expect(swarm.opens_at).to eq(Time.now)
+      expect(swarm.opens_at).to eq(Time.zone.now)
     end
 
     it "should raise an error if asked to set it after the close date" do
       Timecop.freeze
 
-      open_time = Time.now - 1.hour
-      close_time = Time.now - 2.hours
+      open_time = Time.zone.now - 1.hour
+      close_time = Time.zone.now - 2.hours
       
       expect { swarm.update(:opens_at => open_time, :closes_at => close_time) }.to raise_error TimeParadoxError
     end
@@ -155,7 +155,7 @@ RSpec.describe Swarm do
     it "should not raise an error if there is no close date" do
       Timecop.freeze
 
-      open_time = Time.now - 1.hour
+      open_time = Time.zone.now - 1.hour
       
       expect { swarm.update(:opens_at => open_time, :closes_at => nil) }.not_to raise_error
     end
@@ -165,7 +165,7 @@ RSpec.describe Swarm do
     let(:swarm) { Swarm.create() }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
-      close_time = Time.now + 1.hour
+      close_time = Time.zone.now + 1.hour
       swarm.update(:closes_at => close_time)
       
       expect(swarm.closes_at).to eq(close_time)
@@ -174,17 +174,17 @@ RSpec.describe Swarm do
     it "should really be set to now, if asked to set it before now." do
       Timecop.freeze
 
-      close_time = Time.now - 1.hour
+      close_time = Time.zone.now - 1.hour
       swarm.update(:closes_at => close_time)
       
-      expect(swarm.closes_at).to eq(Time.now)
+      expect(swarm.closes_at).to eq(Time.zone.now)
     end
 
     it "should raise a TimeParadoxError if asked to set it before the open date" do
       Timecop.freeze
 
-      close_time = Time.now - 2.hours
-      open_time = Time.now - 1.hour
+      close_time = Time.zone.now - 2.hours
+      open_time = Time.zone.now - 1.hour
       
       expect { swarm.update(:closes_at => close_time, :opens_at => open_time) }.to raise_error TimeParadoxError
     end
@@ -192,7 +192,7 @@ RSpec.describe Swarm do
     it "should not raise an error if there is no open date" do
       Timecop.freeze
 
-      close_time = Time.now - 1.hour
+      close_time = Time.zone.now - 1.hour
       
       expect { swarm.update(:opens_at => nil, :closes_at => close_time) }.not_to raise_error
     end
@@ -200,13 +200,13 @@ RSpec.describe Swarm do
 
   describe "that has already opened" do
     before  { Timecop.freeze }
-    let(:swarm) { Swarm.create(:opens_at => (Time.now - 1.hour)) }
+    let(:swarm) { Swarm.create(:opens_at => (Time.zone.now - 1.hour)) }
 
     describe "having its close date set" do
       it "should not alter the opened at date." do
-        close_time = Time.now + 1.hour
+        close_time = Time.zone.now + 1.hour
         swarm.update(:closes_at => close_time)
-        expect(swarm.opens_at).to eq(Time.now - 1.hour)
+        expect(swarm.opens_at).to eq(Time.zone.now - 1.hour)
       end
     end
   end
@@ -217,7 +217,7 @@ RSpec.describe Swarm do
     let(:swarm) { Swarm.new(:name => 'Test Swarm',
                                :parent_swarm => nil,
                                :user => alice,
-                               :opens_at => (Time.now - 1.hour)) }
+                               :opens_at => (Time.zone.now - 1.hour)) }
 
     before { @new_swarm = swarm.clone_by(bob) }
 
@@ -244,7 +244,7 @@ RSpec.describe Swarm do
 
   describe "generating its collector url" do
     let(:swarm) { Swarm.create(:name => 'Test Swarm',
-                               :opens_at => (Time.now - 1.hour)) }
+                               :opens_at => (Time.zone.now - 1.hour)) }
     it "should generate the correct URL based upon its token" do
       expect(swarm.collector_url).to eq("http://collector.swarmize.com/swarms/#{swarm.token}")
 

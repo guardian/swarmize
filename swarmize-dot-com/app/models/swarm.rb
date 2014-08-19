@@ -26,15 +26,15 @@ class Swarm < ActiveRecord::Base
   scope :unspiked, lambda { where(:is_spiked => false) }
 
   scope :yet_to_launch, lambda {
-    where("opens_at IS NULL OR opens_at > ?", Time.now).order("created_at DESC")
+    where("opens_at IS NULL OR opens_at > ?", Time.zone.now).order("created_at DESC")
   }
 
   scope :closed, lambda {
-    where("closes_at < ?", Time.now).order("closes_at DESC")
+    where("closes_at < ?", Time.zone.now).order("closes_at DESC")
   }
 
   scope :live, lambda {
-    where("opens_at <= ?", Time.now).where("closes_at IS NULL or closes_at > ?", Time.now).order('opens_at DESC')
+    where("opens_at <= ?", Time.zone.now).where("closes_at IS NULL or closes_at > ?", Time.zone.now).order('opens_at DESC')
   }
 
   pg_search_scope :search_by_name_and_description, :against => {
@@ -47,7 +47,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def spike!
-    self.closes_at = Time.now
+    self.closes_at = Time.zone.now
     self.is_spiked = true
     self.save
   end
@@ -89,31 +89,31 @@ class Swarm < ActiveRecord::Base
   end
 
   def has_opened?
-    opens_at && (opens_at <= Time.now)
+    opens_at && (opens_at <= Time.zone.now)
   end
 
   def scheduled_to_open?
-    opens_at && (opens_at > Time.now)
+    opens_at && (opens_at > Time.zone.now)
   end
 
   def live?
     if has_opened?
       if closes_at
-        closes_at > Time.now
+        closes_at > Time.zone.now
       else
         true
       end
     elsif opens_at
-      opens_at <= Time.now
+      opens_at <= Time.zone.now
     end
   end
 
   def closed?
-    closes_at && (closes_at <= Time.now)
+    closes_at && (closes_at <= Time.zone.now)
   end
 
   def scheduled_to_close?
-    closes_at && (closes_at > Time.now)
+    closes_at && (closes_at > Time.zone.now)
   end
 
   def can_be_edited_by?(u)
@@ -134,8 +134,8 @@ class Swarm < ActiveRecord::Base
 
   def confirm_open_time
     if self.opens_at && self.opens_at_changed?
-      if self.opens_at < Time.now
-        self.opens_at = Time.now
+      if self.opens_at < Time.zone.now
+        self.opens_at = Time.zone.now
       end
 
       if self.closes_at && (self.opens_at > self.closes_at)
@@ -146,8 +146,8 @@ class Swarm < ActiveRecord::Base
 
   def confirm_close_time
     if self.closes_at && self.closes_at_changed?
-      if self.closes_at < Time.now
-        self.closes_at = Time.now
+      if self.closes_at < Time.zone.now
+        self.closes_at = Time.zone.now
       end
 
       if self.opens_at && (self.closes_at < self.opens_at)

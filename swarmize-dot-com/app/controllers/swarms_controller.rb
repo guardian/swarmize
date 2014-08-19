@@ -124,21 +124,21 @@ class SwarmsController < ApplicationController
   end
 
   def open
-    open_time = Time.new(params['open_year'],
-                         params['open_month'],
-                         params['open_day'],
-                         params['open_hour'],
-                         params['open_minute'])
+    open_time = Time.zone.local(params['open_year'],
+                                params['open_month'],
+                                params['open_day'],
+                                params['open_hour'],
+                                params['open_minute'])
     @swarm.update(:opens_at => open_time)
     redirect_to @swarm
   end
 
   def close
-    close_time = Time.new(params['close_year'],
-                          params['close_month'],
-                          params['close_day'],
-                          params['close_hour'],
-                          params['close_minute'])
+    close_time = Time.zone.local(params['close_year'],
+                                 params['close_month'],
+                                 params['close_day'],
+                                 params['close_hour'],
+                                 params['close_minute'])
 
     begin
       @swarm.update(:closes_at => close_time)
