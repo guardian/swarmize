@@ -22,8 +22,12 @@ object Swarms extends Controller {
         s"""
           |Swarm name: ${c.name}
           |Swarm description: ${c.description}
+          |
+          |Fields:
+          |${c.fields.map(_.description).mkString("\n")}
+          |
           |Schema:
-          |${c.definition.toJson}
+          |${Json.prettyPrint(c.definition.toJson)}
         """.stripMargin
 
       Ok(msg)
@@ -97,7 +101,7 @@ object Swarms extends Controller {
   } catch {
     case NonFatal(e) =>
       Logger.warn("submission failed", e)
-      BadRequest(e.toString + "\n")
+      BadRequest(e.getMessage + "\n")
   }
 
 }

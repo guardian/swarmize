@@ -140,7 +140,25 @@ object TestSwarms {
       |                "not_sure": "Not sure",
       |                "old": "Old"
       |            }
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "What's your favourite day?",
+      |            "field_name_code": "whats_your_favourite_day",
+      |            "field_type": "pick_several",
+      |            "possible_values": {
+      |                "sat": "Saturday",
+      |                "sun": "Sunday",
+      |                "mon": "Monday"
+      |            }
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "Do you have a favourite colour?",
+      |            "field_name_code": "do_you_have_a_favourite_colour",
+      |            "field_type": "yesno"
       |        }
+      |
       |    ]
       |}
     """.stripMargin

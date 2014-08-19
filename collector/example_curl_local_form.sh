@@ -1,9 +1,5 @@
 #!/bin/sh
 
-curl -v -XPOST "http://localhost:9000/swarms/hwuxlrfh" \
-    -d user_key=12345 \
-    -d timestamp=$(date +%s) \
-    -d intent=green \
-    -d feedback="Mr King" \
-    -d postcode="N1 9GU" \
-    -d ip="10.0.0.1"
+curl -v -XPOST "http://localhost:9000/swarms/cpvywzme" \
+    -d do_you_think_you_ll_use_swarmize=yes \
+    -d do_you_like_swarmize=0
