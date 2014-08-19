@@ -111,4 +111,43 @@ object TestSwarms {
   val broadbandSurveyJson = Json.parse(TestSwarms.broadbandSurveyJsonString)
 
   lazy val broadbandSurvey = Swarm("test-broadband", broadbandSurveyJson.as[SwarmDefinition])
+
+
+
+
+
+  val simpleSurveyJsonString =
+    """
+      |{
+      |    "name": "A very simple survey",
+      |    "opens_at": "2015-08-02T11:13:00.000Z",
+      |    "closes_at": null,
+      |    "description": "Without many fields.",
+      |    "fields": [
+      |        {
+      |            "compulsory": true,
+      |            "field_name": "What is your name?",
+      |            "field_name_code": "what_is_your_name",
+      |            "field_type": "text"
+      |        },
+      |        {
+      |            "compulsory": false,
+      |            "field_name": "What is your age?",
+      |            "field_name_code": "what_is_your_age",
+      |            "field_type": "pick_one",
+      |            "possible_values": {
+      |                "young": "Young",
+      |                "not_sure": "Not sure",
+      |                "old": "Old"
+      |            }
+      |        }
+      |    ]
+      |}
+    """.stripMargin
+
+  val simpleSurveyJson = Json.parse(TestSwarms.simpleSurveyJsonString)
+
+  lazy val simpleSurvey = Swarm("test-simple", simpleSurveyJson.as[SwarmDefinition])
+
+
 }

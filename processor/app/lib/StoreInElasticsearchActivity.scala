@@ -3,7 +3,7 @@ package lib
 import org.elasticsearch.common.settings.ImmutableSettings
 import play.api.libs.json.{JsNull, JsObject, JsValue, Json}
 import swarmize.json.SubmittedData
-import swarmize.{ClassLogger, Swarm}
+import swarmize.{SwarmField, ClassLogger, Swarm}
 
 object StoreInElasticsearchActivity extends Activity with ClassLogger {
   val name = "StoreInElasticsearch"
@@ -47,7 +47,7 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
       JsNull
   }
 
-  def mappingFor(fields: List[Swarm#Field]): JsValue = {
+  def mappingFor(fields: List[SwarmField]): JsValue = {
     val fieldMappings: List[(String, JsValue)] = fields.map { f =>
       f.codeName -> mappingForFieldType(f.fieldType)
     } :+ (
