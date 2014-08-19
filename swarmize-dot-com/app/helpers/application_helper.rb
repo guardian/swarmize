@@ -31,10 +31,10 @@ module ApplicationHelper
 
   def format_swarm_date(time)
     time.strftime("%d %B %Y")
-end
+  end
 
-def format_swarm_time(time)
-  time.strftime("%H:%M%P")
+  def format_swarm_time(time)
+    time.strftime("%H:%M%P")
   end
 
 
