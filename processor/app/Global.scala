@@ -1,6 +1,6 @@
 import lib.{Activity, ActivityDispatcher, Decider}
 import play.api.{Application, GlobalSettings, Logger}
-import swarmize.aws.SimpleWorkflow
+import swarmize.aws.SimpleWorkflowConfig
 
 
 object Global extends GlobalSettings {
@@ -9,10 +9,10 @@ object Global extends GlobalSettings {
     Logger.info("On start")
 
     Activity.registerAll()
-    SimpleWorkflow.registerWorkflow()
+    SimpleWorkflowConfig.registerWorkflow()
 
-    new Thread(new Decider()).start()
-    new Thread(new ActivityDispatcher()).start()
+    Decider.run()
+    ActivityDispatcher.run()
 
   }
 

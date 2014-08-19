@@ -1,7 +1,13 @@
-import lib.{ActivityDispatcher, Decider}
+import lib.ActivityDispatcher
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 object ActivityRunOnce extends App {
   println("Running once!")
 
-  new ActivityDispatcher().runOnce()
+  val result = Await.result(ActivityDispatcher.runAsync(), atMost = Duration.Inf)
+
+  println(result)
+
 }

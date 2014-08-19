@@ -1,61 +1,81 @@
 package lib
 
-import com.amazonaws.services.simpleworkflow.model.{RespondActivityTaskFailedRequest, RespondActivityTaskCompletedRequest, TaskList, PollForActivityTaskRequest}
+import com.amazonaws.services.simpleworkflow.model._
 import play.api.libs.json.Json
 import swarmize.ClassLogger
-import swarmize.aws.{SimpleWorkflow, AWS}
+import swarmize.aws.{AWS, SimpleWorkflowConfig}
 import swarmize.json.SubmittedData
 
-import scala.annotation.tailrec
+import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class ActivityDispatcher extends ClassLogger with Runnable {
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  @tailrec
-  final def run() {
-    runOnce()
-    run()
+object ActivityDispatcher extends ClassLogger with Runnable {
+
+  def run() {
+    runAsync() onComplete (_ => run())
   }
 
-  def runOnce() {
+  def reportFailed(activityTask: ActivityTask, e: Throwable): Unit = {
+    log.error(s"Activity ${activityTask.getActivityType} failed", e)
+
+    AWS.swf.respondActivityTaskFailed(
+      new RespondActivityTaskFailedRequest()
+        .withTaskToken(activityTask.getTaskToken)
+        .withReason("Exception thrown: " + e.getMessage)
+        .withDetails(e.toString)
+    )
+  }
+
+  def doActivity(activityTask: ActivityTask): Unit = {
+    log.info(s"now should run ${activityTask.getActivityType} with input:\n${activityTask.getInput}")
+
+    try {
+      val json = Json.parse(activityTask.getInput)
+      val submittedData = json.as[SubmittedData]
+
+      val activity = Activity.lookupByType(activityTask.getActivityType)
+
+      activity.process(submittedData)
+        .map { result =>
+          AWS.swf.respondActivityTaskCompleted(
+            new RespondActivityTaskCompletedRequest()
+              .withResult(result.toJson.toString())
+              .withTaskToken(activityTask.getTaskToken)
+          )
+        }
+        .onFailure {
+          case NonFatal(e) => reportFailed(activityTask, e)
+        }
+
+    } catch {
+      case NonFatal(e) => reportFailed(activityTask, e)
+    }
+
+  }
+
+  def runAsync(): Future[Unit] = {
+    import swarmize.aws.swf.SwfAsyncHelpers._
+
     log.info("polling...")
 
-    val activityTask = AWS.swf.pollForActivityTask(
+    val activityTaskFuture = AWS.swf.pollForActivityTaskFuture(
       new PollForActivityTaskRequest()
-        .withDomain(SimpleWorkflow.domain)
-        .withIdentity(SimpleWorkflow.serverIdentity)
-        .withTaskList(SimpleWorkflow.defaultTaskList)
+        .withDomain(SimpleWorkflowConfig.domain)
+        .withIdentity(SimpleWorkflowConfig.serverIdentity)
+        .withTaskList(SimpleWorkflowConfig.defaultTaskList)
     )
 
-    if (Option(activityTask.getTaskToken).isDefined) {
-      log.info(s"now should run ${activityTask.getActivityType} with input:\n${activityTask.getInput}")
+    // now do the stuff we want to do - but do this async without blocking the poll future
+    activityTaskFuture
+      .filter(_.getTaskToken != null)
+      // TODO: the activity should be async too
+      .foreach(doActivity)
 
-      try {
-        val json = Json.parse(activityTask.getInput)
-        val submittedData = json.as[SubmittedData]
-
-        val activity = Activity.lookupByType(activityTask.getActivityType)
-
-        val result = activity.process(submittedData)
-
-        AWS.swf.respondActivityTaskCompleted(
-          new RespondActivityTaskCompletedRequest()
-            .withResult(Json.toJson(result).toString())
-            .withTaskToken(activityTask.getTaskToken)
-        )
-      } catch {
-        case NonFatal(e) =>
-          log.error(s"Activity ${activityTask.getActivityType} failed", e)
-
-          AWS.swf.respondActivityTaskFailed(
-            new RespondActivityTaskFailedRequest()
-              .withTaskToken(activityTask.getTaskToken)
-              .withReason("Exception thrown: " + e.getMessage)
-              .withDetails(e.toString)
-          )
-
-      }
-
-    }
+    // return the future just after it's done polling to queue up the next poll
+    activityTaskFuture.map(_ => Unit)
   }
+
+
 }

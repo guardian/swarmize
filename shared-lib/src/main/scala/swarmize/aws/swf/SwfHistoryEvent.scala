@@ -1,4 +1,4 @@
-package swarmize.aws
+package swarmize.aws.swf
 
 import com.amazonaws.services.simpleworkflow.flow.common.WorkflowExecutionUtils
 import com.amazonaws.services.simpleworkflow.model._

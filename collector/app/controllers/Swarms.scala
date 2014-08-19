@@ -6,8 +6,8 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
-import swarmize.{SwarmSubmissionValidator, Swarm}
-import swarmize.aws.{AWS, SimpleWorkflow}
+import swarmize.{Swarm, SwarmSubmissionValidator}
+import swarmize.aws.{AWS, SimpleWorkflowConfig}
 import swarmize.json.SubmittedData
 
 import scala.util.control.NonFatal
@@ -88,10 +88,10 @@ object Swarms extends Controller {
 
     AWS.swf.startWorkflowExecution(
       new StartWorkflowExecutionRequest()
-        .withDomain(SimpleWorkflow.domain)
+        .withDomain(SimpleWorkflowConfig.domain)
         .withInput(Json.toJson(fullObject).toString())
         .withWorkflowId(fullObject.submissionId)
-        .withWorkflowType(SimpleWorkflow.workflowType)
+        .withWorkflowType(SimpleWorkflowConfig.workflowType)
         .withTagList(fullObject.swarmToken)
     )
 

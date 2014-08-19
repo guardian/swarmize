@@ -5,11 +5,13 @@ import play.api.libs.json.{JsNull, JsObject, JsValue, Json}
 import swarmize.json.SubmittedData
 import swarmize._
 
+import scala.concurrent.Future
+
 object StoreInElasticsearchActivity extends Activity with ClassLogger {
   val name = "StoreInElasticsearch"
   val version = "1"
 
-  override def process(r: SubmittedData): SubmittedData = {
+  override def process(r: SubmittedData): Future[SubmittedData] = {
     log.info("Should now insert into elasticsearch: " + r)
 
     val theData = Json.stringify(r.data)
@@ -25,7 +27,8 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
 
     log.info("inserted")
 
-    r
+    // todo: we should be calling elasticsearch async here too
+    Future.successful(r)
   }
 
 

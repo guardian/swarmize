@@ -1,20 +1,13 @@
 package swarmize.aws
 
-import java.util.UUID
-
 import com.amazonaws.services.simpleworkflow.model._
-import com.amazonaws.util.{AwsHostNameUtils, EC2MetadataUtils, Base64}
-import org.apache.avro.generic.GenericRecord
+import com.amazonaws.util.{AwsHostNameUtils, EC2MetadataUtils}
 import org.joda.time.Duration
-
-import play.api.Logger
-import play.api.libs.json.{Json, JsValue}
-import swarmize.json.SubmittedData
 import swarmize.ClassLogger
 
 import scala.collection.convert.wrapAll._
 
-object SimpleWorkflow extends ClassLogger {
+object SimpleWorkflowConfig extends ClassLogger {
 
   val domain = "swarmize"
 
