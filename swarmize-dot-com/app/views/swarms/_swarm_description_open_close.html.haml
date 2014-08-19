@@ -6,8 +6,14 @@
       .col-sm-6
         - if @swarm.has_opened?
           %h3 Opened at 
-          %h4= @swarm.opens_at
+          %h4
+            = format_swarm_date(@swarm.opens_at)
+            %br
+            = format_swarm_time(@swarm.opens_at)
       .col-sm-6
         - if @swarm.closed?
           %h3 Closed at 
-          %h4= @swarm.closes_at
+          %h4
+            = format_swarm_date(@swarm.closes_at)
+            %br
+            = format_swarm_time(@swarm.closes_at)
