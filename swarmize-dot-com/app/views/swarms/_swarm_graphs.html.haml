@@ -26,6 +26,8 @@
             console.log(data);
             console.log("is not:");
             console.log(window.graphDataCache[graph#{i+1}]);
+
+            window.graphDataCache[graph#{i+1}] = data;
             chart#{i+1}.load({
               json: data
             });
