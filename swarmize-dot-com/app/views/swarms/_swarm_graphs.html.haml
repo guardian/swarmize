@@ -23,7 +23,7 @@
           if(_.isEqual(updateData#{i+1}, window.graphDataCache[graph#{i+1}])) {
             console.log('no change');
           } else {
-            console.log("Data in graphDataCache[graph#{i+1}]:", updateData#{i+1}, "is not", window.graphDataCache[graph#{i+1}]);
+            console.log("Data in graphDataCache[graph#{i+1}]:", window.graphDataCache[graph#{i+1}], "is not: ", updateData#{i+1});
 
             window.graphDataCache[graph#{i+1}] = updateData#{i+1};
             chart#{i+1}.load({
