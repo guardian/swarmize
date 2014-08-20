@@ -8,6 +8,7 @@
       $("#graph-container#{i+1}").append("<div class='g' id='graph#{i+1}'></div>");
       $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(loadData) {
         window.graphDataCache[graph#{i+1}] = loadData;
+        console.log("Storing", loadData, "in graphDataCache[graph#{i+1}]")
         chart#{i+1} = c3.generate({
           bindto: '#graph#{i+1}',
           data: {
@@ -22,10 +23,7 @@
           if(_.isEqual(updateData, window.graphDataCache[graph#{i+1}])) {
             console.log('no change');
           } else {
-            console.log("Data in graphDataCache[graph#{i+1}]:");
-            console.log(updateData);
-            console.log("is not:");
-            console.log(window.graphDataCache[graph#{i+1}]);
+            console.log("Data in graphDataCache[graph#{i+1}]:", updateData, "is not", window.graphDataCache[graph#{i+1}]);
 
             window.graphDataCache[graph#{i+1}] = updateData;
             chart#{i+1}.load({
