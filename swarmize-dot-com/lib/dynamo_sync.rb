@@ -5,7 +5,7 @@ class DynamoSync
       swarms_table = @@dynamo.tables['swarms'].load_schema
 
       if swarm.is_spiked
-        swarms_table.items[swarm.token].delete
+        delete(swarm)
       else
         swarms_table.items.create(token: swarm.token,
                                   definition: swarm.to_json)
