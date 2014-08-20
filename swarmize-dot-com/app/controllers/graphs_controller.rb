@@ -47,21 +47,18 @@ class GraphsController < ApplicationController
   end
 
   def aggregate_count
-    results = @swarm.search.aggregate_count(params[:count_field]).map do |hash|
-      { label: hash.keys.first,
-        value: hash.values.first
-      }
+    results = {}
+    @swarm.search.aggregate_count(params[:count_field]).each do |hash|
+      results[hash.keys.first] = hash.values.first
     end
     
     render :json => results
   end
 
   def cardinal_count
-    results = @swarm.search.cardinal_count(params[:count_field], params[:unique_field]).map do |hash|
-      {
-        label: hash.keys.first,
-        value: hash.values.first
-      }
+    results = {}
+    @swarm.search.cardinal_count(params[:count_field], params[:unique_field]).each do |hash|
+      results[hash.keys.first] = hash.values.first
     end
 
     render :json => results
