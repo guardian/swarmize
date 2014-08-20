@@ -6,28 +6,28 @@
       $("#graphs").append("<div class='graph-container' id='graph-container#{i+1}'></div>");
       $("#graph-container#{i+1}").append("<h3>#{graph.title}</h3>");
       $("#graph-container#{i+1}").append("<div class='g' id='graph#{i+1}'></div>");
-      $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(loadData) {
-        window.graphDataCache[graph#{i+1}] = loadData;
-        console.log("Storing", loadData, "in graphDataCache[graph#{i+1}]")
+      $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(loadData#{i+1}) {
+        window.graphDataCache[graph#{i+1}] = loadData#{i+1};
+        console.log("Storing", loadData#{i+1}, "in graphDataCache[graph#{i+1}]")
         chart#{i+1} = c3.generate({
           bindto: '#graph#{i+1}',
           data: {
-            json: loadData,
+            json: loadData#{i+1},
             type: 'pie'
           }
         });
       });
 
       setInterval(function () {
-        $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(updateData) {
-          if(_.isEqual(updateData, window.graphDataCache[graph#{i+1}])) {
+        $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(updateData#{i+1}) {
+          if(_.isEqual(updateData#{i+1}, window.graphDataCache[graph#{i+1}])) {
             console.log('no change');
           } else {
-            console.log("Data in graphDataCache[graph#{i+1}]:", updateData, "is not", window.graphDataCache[graph#{i+1}]);
+            console.log("Data in graphDataCache[graph#{i+1}]:", updateData#{i+1}, "is not", window.graphDataCache[graph#{i+1}]);
 
-            window.graphDataCache[graph#{i+1}] = updateData;
+            window.graphDataCache[graph#{i+1}] = updateData#{i+1};
             chart#{i+1}.load({
-              json: updateData
+              json: updateData#{i+1}
             });
           }
         });
