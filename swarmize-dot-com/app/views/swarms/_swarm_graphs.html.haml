@@ -7,7 +7,7 @@
       $("#graph-container#{i+1}").append("<h3>#{graph.title}</h3>");
       $("#graph-container#{i+1}").append("<div class='g' id='graph#{i+1}'></div>");
       $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(data) {
-        var chart#{i+1} = c3.generate({
+        chart#{i+1} = c3.generate({
           bindto: '#graph#{i+1}',
           data: {
             json: data,
@@ -15,6 +15,14 @@
           }
         });
       });
+
+      setInterval(function () {
+        $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(data) {
+          chart#{i+1}.load({
+            json: data
+          });
+        });
+      }, 5000);
     });
 
 #graphs
