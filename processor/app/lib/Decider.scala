@@ -10,6 +10,7 @@ import swarmize.{ClassLogger, Swarm}
 import scala.collection.convert.wrapAll._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 object Decider extends ClassLogger {
 
@@ -94,13 +95,18 @@ object Decider extends ClassLogger {
       // no action on decision tasks that are empty
       .filter(_.getTaskToken != null)
       .map { dt =>
-        val decision = makeDecision(dt)
+        try {
+          val decision = makeDecision(dt)
 
-        swf.respondDecisionTaskCompleted(
-          new RespondDecisionTaskCompletedRequest()
-            .withTaskToken(dt.getTaskToken)
-            .withDecisions(decision)
-        )
+          swf.respondDecisionTaskCompleted(
+            new RespondDecisionTaskCompletedRequest()
+              .withTaskToken(dt.getTaskToken)
+              .withDecisions(decision)
+          )
+        } catch {
+          case NonFatal(e) => log.error("Decision task failed", e)
+        }
+
       }
       .map(_ => Unit)
   }
