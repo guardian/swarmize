@@ -7,7 +7,9 @@ import scala.concurrent.duration.Duration
 object DeciderRunOnce extends App {
   println("Running once!")
 
-  val result = Await.result(Decider.runAsync(), atMost = Duration.Inf)
+  Await.ready(Decider.runAsync(), atMost = Duration.Inf)
 
-  println(result)
+  println("COMPLETED!")
+
+  sys.exit(0)
 }

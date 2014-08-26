@@ -6,8 +6,10 @@ import scala.concurrent.duration.Duration
 object ActivityRunOnce extends App {
   println("Running once!")
 
-  val result = Await.result(ActivityDispatcher.runAsync(), atMost = Duration.Inf)
+  Await.ready(ActivityDispatcher.runAsync(), atMost = Duration.Inf)
 
-  println(result)
+  println("COMPLETED!")
+
+  sys.exit(0)
 
 }

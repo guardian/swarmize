@@ -9,6 +9,7 @@ case class Swarm
   token: String,
   definition: json.SwarmDefinition
 ) {
+
   def name = definition.name
   def description = definition.description
 

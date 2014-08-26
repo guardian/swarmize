@@ -78,11 +78,7 @@ object Swarms extends Controller {
   private def doSubmitJson(swarm: Swarm, data: JsValue): Result = try {
     val dataObj = SwarmSubmissionValidator.validated(swarm, data.as[JsObject])
 
-    // TODO: need to figure out here how to come up with the list of activities
-
-    val fullObject = SubmittedData.wrap(
-      addTimestampIfNotPresent(dataObj), swarm, List("StoreInElasticsearch")
-    )
+    val fullObject = SubmittedData.wrap(addTimestampIfNotPresent(dataObj), swarm)
 
     val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
 

@@ -7,7 +7,8 @@ import com.amazonaws.services.simpleworkflow.model._
 sealed trait SwfHistoryEvent {
   def rawEvent: HistoryEvent
   def eventType: String = rawEvent.getEventType
-  
+
+  def eventId  = rawEvent.getEventId
   def isDecisionEvent = eventType startsWith "Decision"
 
   override def toString = WorkflowExecutionUtils.prettyPrintHistoryEvent(rawEvent)
@@ -17,60 +18,6 @@ case class WorkflowExecutionStarted(rawEvent: HistoryEvent) extends SwfHistoryEv
   def props = rawEvent.getWorkflowExecutionStartedEventAttributes
   def input = props.getInput
 }
-
-
-/*
- <b>Allowed Values: </b>
- WorkflowExecutionStarted, 
- WorkflowExecutionCancelRequested, 
- WorkflowExecutionCompleted, 
- CompleteWorkflowExecutionFailed,
- WorkflowExecutionFailed, 
- FailWorkflowExecutionFailed, 
- WorkflowExecutionTimedOut, 
- WorkflowExecutionCanceled, 
- CancelWorkflowExecutionFailed, 
- WorkflowExecutionContinuedAsNew,
-  ContinueAsNewWorkflowExecutionFailed,
-   WorkflowExecutionTerminated,
-    DecisionTaskScheduled, 
-    DecisionTaskStarted,
-    DecisionTaskCompleted, 
-    DecisionTaskTimedOut, 
-    ActivityTaskScheduled, 
-    ScheduleActivityTaskFailed, 
-    ActivityTaskStarted, 
-    ActivityTaskFailed,
-    ActivityTaskTimedOut, 
-    ActivityTaskCanceled,
-ActivityTaskCancelRequested,
-RequestCancelActivityTaskFailed,
-WorkflowExecutionSignaled,
-MarkerRecorded,
-RecordMarkerFailed,
-TimerStarted,
-StartTimerFailed,
-TimerFired,
-TimerCanceled,
-CancelTimerFailed,
-StartChildWorkflowExecutionInitiated,
-StartChildWorkflowExecutionFailed,
-ChildWorkflowExecutionStarted,
-ChildWorkflowExecutionCompleted,
-ChildWorkflowExecutionFailed,
-ChildWorkflowExecutionTimedOut,
-ChildWorkflowExecutionCanceled,
-ChildWorkflowExecutionTerminated,
-SignalExternalWorkflowExecutionInitiated,
-SignalExternalWorkflowExecutionFailed,
-ExternalWorkflowExecutionSignaled,
-RequestCancelExternalWorkflowExecutionInitiated,
-RequestCancelExternalWorkflowExecutionFailed,
-ExternalWorkflowExecutionCancelRequested
-
-     
-*
- */
 
 case class ActivityTaskStarted(rawEvent: HistoryEvent) extends SwfHistoryEvent
 
@@ -99,6 +46,58 @@ case class ActivityTaskTimedOut(rawEvent: HistoryEvent) extends SwfHistoryEvent 
 
 case class UnparsedHistoryEvent(rawEvent: HistoryEvent) extends SwfHistoryEvent
 
+
+/*
+ <b>Allowed Values: </b>
+ WorkflowExecutionStarted,
+ WorkflowExecutionCancelRequested,
+ WorkflowExecutionCompleted,
+ CompleteWorkflowExecutionFailed,
+ WorkflowExecutionFailed,
+ FailWorkflowExecutionFailed,
+ WorkflowExecutionTimedOut,
+ WorkflowExecutionCanceled,
+ CancelWorkflowExecutionFailed,
+ WorkflowExecutionContinuedAsNew,
+  ContinueAsNewWorkflowExecutionFailed,
+   WorkflowExecutionTerminated,
+    DecisionTaskScheduled,
+    DecisionTaskStarted,
+    DecisionTaskCompleted,
+    DecisionTaskTimedOut,
+    ActivityTaskScheduled,
+    ScheduleActivityTaskFailed,
+    ActivityTaskStarted,
+    ActivityTaskFailed,
+    ActivityTaskTimedOut,
+    ActivityTaskCanceled,
+ActivityTaskCancelRequested,
+RequestCancelActivityTaskFailed,
+WorkflowExecutionSignaled,
+MarkerRecorded,
+RecordMarkerFailed,
+TimerStarted,
+StartTimerFailed,
+TimerFired,
+TimerCanceled,
+CancelTimerFailed,
+StartChildWorkflowExecutionInitiated,
+StartChildWorkflowExecutionFailed,
+ChildWorkflowExecutionStarted,
+ChildWorkflowExecutionCompleted,
+ChildWorkflowExecutionFailed,
+ChildWorkflowExecutionTimedOut,
+ChildWorkflowExecutionCanceled,
+ChildWorkflowExecutionTerminated,
+SignalExternalWorkflowExecutionInitiated,
+SignalExternalWorkflowExecutionFailed,
+ExternalWorkflowExecutionSignaled,
+RequestCancelExternalWorkflowExecutionInitiated,
+RequestCancelExternalWorkflowExecutionFailed,
+ExternalWorkflowExecutionCancelRequested
+
+*
+ */
 
 object SwfHistoryEvent {
   val all = List(

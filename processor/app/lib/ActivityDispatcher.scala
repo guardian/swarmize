@@ -70,7 +70,6 @@ object ActivityDispatcher extends ClassLogger with Runnable {
     // now do the stuff we want to do - but do this async without blocking the poll future
     activityTaskFuture
       .filter(_.getTaskToken != null)
-      // TODO: the activity should be async too
       .foreach(doActivity)
 
     // return the future just after it's done polling to queue up the next poll

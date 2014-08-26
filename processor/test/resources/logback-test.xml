@@ -1,0 +1,21 @@
+<configuration>
+
+    <contextName>processor-test</contextName>
+
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
+        </encoder>
+    </appender>
+
+
+    <logger name="org.elasticsearch.discovery" level="TRACE" />
+    <logger name="org.elasticsearch.client.transport" level="TRACE" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

@@ -19,7 +19,7 @@ object AWS {
   lazy val credentialProvider = new AWSCredentialsProviderChain(
     new EnvironmentVariableCredentialsProvider,
     new SystemPropertiesCredentialsProvider,
-    new ProfileCredentialsProvider("profile swarmize"),
+    new ProfileCredentialsProvider("swarmize"),
     new InstanceProfileCredentialsProvider
   )
 
