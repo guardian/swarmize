@@ -1,0 +1,43 @@
+#permissions-alter.modal.fade{:tabindex => -1, :role => 'dialog'}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => 'modal'}
+          %span{"aria-hidden" => true} &times;
+          %span.sr-only Close
+        %h4.modal-title Swarm Permissions
+      .modal-body
+        %h4 Users with permission to alter this swarm
+
+        %table.table
+          %tbody
+            %tr
+              %td= image_tag @current_user.image_url, :height => 25
+              %td
+                %b You (#{@swarm.user.name})
+              %td
+                %i Cannot remove yourself from this swarm.
+            - @swarm.access_permissions.each do |a|
+              %tr
+                - if a.user
+                  %td= image_tag a.user.image_url, :height => 25
+                  %td= link_to a.user.name, a.user
+                  %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove', :method => :delete, :confirm => "Are you sure you want to stop #{a.user.name} from having being able to alter this swarm?"
+                - else
+                  %td
+                  %td= a.email
+                  %td= link_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove', :method => :delete, :confirm => "Are you sure you want to stop #{a.email} from being able to alter this swarm?"
+
+
+        %h4 Give someone else permission to alter this swarm
+        %p You can allow other people to edit this swarm. Enter their Guardian email address below to invite them to this swarm.
+        = form_tag swarm_permissions_path(@swarm), :id => 'swarm-permissions-form', :class => 'form-horizontal' do
+          .form-group
+            %label.col-sm-2.control-label Email
+            .col-sm-6
+              = text_field_tag :email, nil, :class => 'form-control'
+          .row
+            .col-sm-6.col-sm-offset-2
+              %p= submit_tag "Grant access", :class => "btn btn-default"
+
+

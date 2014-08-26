@@ -40,3 +40,5 @@
 
 = render "swarms/open_swarm_modal"
 = render "swarms/close_swarm_modal"
+- if @swarm.user == @current_user
+  = render "swarms/permissions_modal"

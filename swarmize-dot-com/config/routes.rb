@@ -2,6 +2,7 @@ Swarmize::Application.routes.draw do
   root "home#show"
 
   resources :swarms do
+    resources :permissions
     resources :graphs do
       member do
         get 'delete'
