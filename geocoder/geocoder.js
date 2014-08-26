@@ -1,14 +1,34 @@
 var express = require('express');
 var request = require('request');
+var bodyParser = require('body-parser')
+
 var app = express();
 
-app.get("/geocode", function(req,res) {
-  console.log(req);
+app.use(bodyParser.json())
 
-  request('http://open.mapquestapi.com/nominatim/v1/search.php?format=json&limit=5&q='+req.query.input, function (error, response, body) {
+app.post("/geocode", function(req,res) {
+
+  var output = req.body;
+
+  var fieldToGeocode = req.query.field;
+  var valueToGeocode = req.body[fieldToGeocode];
+
+  request('http://open.mapquestapi.com/nominatim/v1/search.php?format=json&limit=1&q='+valueToGeocode, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var json = JSON.parse(body);
-      res.json(json);
+      if(json.length > 0) {
+        // we only care about the first one.
+        var lat = json[0].lat;
+        var lon = json[0].lon;
+        
+        var latLonFieldName = fieldToGeocode + "_lonlat";
+
+        output[latLonFieldName] = [lon,lat];
+
+        res.json(output);
+      } else {
+        res.send(204);
+      }
     }
   })
 });
