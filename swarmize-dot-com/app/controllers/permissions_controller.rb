@@ -11,6 +11,7 @@ class PermissionsController < ApplicationController
 
   def destroy
     @permission.destroy
+    render :nothing => true
   end
 
   private
