@@ -26,9 +26,11 @@ SECRET = creds['Secret Access Key']
 
 CONFIG = JSON.parse(File.read('deploy.json'))
 
+sanitised_app_name = CONFIG['appname'].gsub(" ", "-").downcase.strip
+
 currentrev = `git log --pretty=format:'%h' -n 1`
-package_filename = "#{CONFIG['appname'].downcase}-package-#{currentrev}.zip"
-package_version = "#{CONFIG['appname'].downcase}-package-#{currentrev}"
+package_filename = "#{sanitised_app_name}-package-#{currentrev}.zip"
+package_version = "#{sanitised_app_name}-package-#{currentrev}"
 
 s3 = Fog::Storage.new({
   :provider                 => 'AWS',
@@ -55,7 +57,7 @@ if application.version_names.include? package_version
 else
   puts "Version does not exist, packaging code."
   puts "Removing old packages"
-  system "rm #{CONFIG['appname'].downcase}-package*.zip"
+  system "rm #{sanitised_app_name}-package*.zip"
 
   puts "Archiving website to #{package_filename}"
   package(package_filename)
