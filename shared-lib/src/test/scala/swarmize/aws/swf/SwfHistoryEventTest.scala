@@ -1,17 +1,14 @@
-package swarmize.aws
+package swarmize.aws.swf
 
-import java.util.Date
-
-import com.amazonaws.services.simpleworkflow.model.{WorkflowExecutionStartedEventAttributes, HistoryEvent}
+import com.amazonaws.services.simpleworkflow.model.{HistoryEvent, WorkflowExecutionStartedEventAttributes}
 import org.joda.time.DateTime
 import org.scalatest._
-import swarmize.aws.swf.{SwfHistoryEvent, WorkflowExecutionStarted}
 
 class SwfHistoryEventTest extends FlatSpec with Matchers with OptionValues {
   "SwfHistoryEvent" should "be able to represent a WorkflowExecutionStarted event" in {
     val executionStarted = new HistoryEvent()
       .withEventType("WorkflowExecutionStarted")
-      .withEventId(1)
+      .withEventId(1L)
       .withEventTimestamp(new DateTime(1972, 7, 20, 11, 0).toDate)
       .withWorkflowExecutionStartedEventAttributes(
         new WorkflowExecutionStartedEventAttributes()
