@@ -12,8 +12,9 @@
         = link_to "View Form", embed_swarm_path(@swarm)
         |
         = link_to "Get code", code_swarm_path(@swarm)
-        |
-        = link_to "Permissions", "#", "data-toggle" => 'modal', 'data-target' => '#permissions-alter'
+        - if @swarm.user == @current_user
+          |
+          = link_to "Permissions", "#", "data-toggle" => 'modal', 'data-target' => '#permissions-alter'
       - if @swarm.parent_swarm
         %small
           [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]
