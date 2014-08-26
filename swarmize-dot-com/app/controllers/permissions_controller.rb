@@ -7,6 +7,7 @@ class PermissionsController < ApplicationController
     @access_permission = AccessPermission.create(:swarm => @swarm,
                                                  :creator => @current_user,
                                                  :email => params[:email])
+    render json: @access_permission.to_json(:methods => :user)
   end
 
   def destroy
