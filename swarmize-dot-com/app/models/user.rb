@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :swarms
+  has_many :access_permissions # that they have made
 
   def self.find_or_create_from_info_hash(info_hash)
     self.find_or_create_by(

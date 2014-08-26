@@ -9,6 +9,7 @@ class Swarm < ActiveRecord::Base
   has_many :swarm_fields, :order => 'field_index ASC', :dependent => :destroy
   has_many :graphs
   has_many :clones, :class_name => 'Swarm', :foreign_key => 'cloned_from'
+  has_many :access_permissions
 
   before_create :setup_token
 
@@ -117,7 +118,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_edited_by?(u)
-    (self.user_id == u.id)
+    (self.user_id == u.id) || self.access_permissions.find_by(email: u.email)
   end
 
   def can_be_spiked_by?(u)

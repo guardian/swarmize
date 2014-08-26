@@ -3,14 +3,20 @@ require 'spec_helper'
 RSpec.describe Swarm do
   describe "being asked if it can be edited by a user" do
     let(:swarm) { Swarm.new(:user_id => 1) }
-    let(:this_user) { double('user1', :id => 1) }
-    let(:another_user) { double('user2', :id => 2) }
+    let(:this_user) { double('user1', :id => 1, :email => 'test@test.com') }
+    let(:another_user) { double('user2', :id => 2, :email => 'test2@test.com') }
+    let(:permitted_user) {double('user3', :id => 3, :email => 'example@example.com')}
 
     it "will return a truthy response if it is asked by the user who owns it" do
 
       expect(swarm.can_be_edited_by?(this_user)).to be_truthy
     end
-    it "will return a falsey response if it is asked by another user" do
+    it "will return a truthy response if it is asked by a user who has permission" do
+      AccessPermission.create(:swarm => swarm, :email => 'example@example.com')
+
+      expect(swarm.can_be_edited_by?(permitted_user)).to be_truthy
+    end
+    it "will return a falsey response if it is asked by another user who does now have permission" do
       expect(swarm.can_be_edited_by?(another_user)).to be_falsey
     end
   end

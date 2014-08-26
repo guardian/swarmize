@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815095709) do
+ActiveRecord::Schema.define(version: 20140826092139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_permissions", force: true do |t|
+    t.integer  "swarm_id"
+    t.integer  "user_id"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "access_permissions", ["email"], name: "index_access_permissions_on_email", using: :btree
 
   create_table "graphs", force: true do |t|
     t.string   "title"
