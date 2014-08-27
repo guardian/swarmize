@@ -11,6 +11,7 @@ class Swarm < ActiveRecord::Base
   has_many :clones, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
   has_many :access_permissions
+  has_many :unassigned_access_permissions, -> { where('user_id IS NULL') }, :class_name => 'AccessPermission'
   has_many :users, :through => :access_permissions
   has_many :owners, -> { where('access_permissions.is_owner' => true) }, :through => :access_permissions, :source => :user
 

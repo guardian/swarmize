@@ -5,116 +5,19 @@
         %button.close{"data-dismiss" => 'modal'}
           %span{"aria-hidden" => true} &times;
           %span.sr-only Close
-        %h4.modal-title Swarm Permissions
+        %h4.modal-title Users with permission to alter this swarm
       .modal-body
-        %h4 Users with permission to alter this swarm
-
         %table.table#permissions
           %tbody
-            - @swarm.access_permissions.each do |a|
+            - @swarm.users.each do |user|
               %tr
-                - if a.user
-                  %td= image_tag a.user.image_url, :height => 25
-                  - if @current_user == a.user
-                    %td
-                      %b You (#{@swarm.creator.name})
-                    %td
-                      %i Cannot remove yourself from this swarm.
-                  - else
-                    %td= link_to a.user.name, a.user
-                    %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
-                - else
-                  %td
-                  %td= a.email
-                  %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
+                %td.pic= image_tag user.image_url, :height => 25
+                %td
+                  = link_to user.name, user
+                  - if @swarm.creator == user
+                    %b (creator)
+            - if @swarm.unassigned_access_permissions.any?
+              %tr
+                %td
+                %td ...and #{pluralize @swarm.unassigned_access_permissions.count, 'other user'}.
 
-
-        %h4 Give someone else permission to alter this swarm
-        %p You can allow other people to edit this swarm. Enter their Guardian email address below to invite them to this swarm.
-        = form_tag swarm_permissions_path(@swarm), :id => 'create-permission', :class => 'form-horizontal' do
-          .form-group
-            %label.col-sm-2.control-label Email
-            .col-sm-6
-              = text_field_tag :email, nil, :class => 'form-control'
-          .row
-            .col-sm-6.col-sm-offset-2
-              %p= submit_tag "Grant access", :class => "btn btn-default"
-
-
-:javascript
-  $(document).ready(function() {
-    handleRemoveLinks(); 
-    handleCreateForm();
-  });
-
-  function handleCreateForm() {
-    // on submit
-    $("#create-permission").submit(function(e) {
-      // serialize and post to endpoint
-     var postData = $(this).serializeArray();
-     var formURL = $(this).attr("action");
-     var that = this;
-     $.ajax({
-          url : formURL,
-          type: "POST",
-          data : postData,
-          success:function(data, textStatus, jqXHR) {
-            console.log(data);
-            // get JSON back
-            // clear value
-            $('input#email').val('');
-            // create row
-            if(data.user) {
-              console.log('#{button_to "Remove permissions on this swarm", swarm_permission_path(@swarm,1)}');
-
-              var template = '<tr><td><img alt="Photo" height="25" src="<%= imageUrl %>" /></td><td><%= name %></td><td><form action="/swarms/#{@swarm.token}/permissions/<%= id %>" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-default remove-permission" type="submit" value="Remove permissions on this swarm" /><input name="authenticity_token" type="hidden" value="#{form_authenticity_token.inspect}" /></div></form></td></tr>';
-              var compiled = _.template(template);
-              $("#permissions").append(compiled({id: data.id,
-                                                 imageUrl: data.user.image_url,
-                                                 name: data.user.name}));
-              // we have a user object}
-            } else {
-              // we just have email
-              var template = '<tr><td></td><td><%= email %></td><td><form action="/swarms/#{@swarm.token}/permissions/<%= id %>" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-default remove-permission" type="submit" value="Remove permissions on this swarm" /><input name="authenticity_token" type="hidden" value="trv+nAMcg9Yi5w/sA6ypBVQyk/EP/2w8jV3YIa4MPyo=" /></div></form></td></tr>';
-              var compiled = _.template(template);
-              $("#permissions").append(compiled({id: data.id,
-                                                 email: data.email}));
-            }
-            handleRemoveLinks();
-          },
-          error: function(jqXHR, textStatus, errorThrown)  {
-          //if fails      
-          }
-      });
-      // preventDefault
-      e.preventDefault();
-    });
-  }
-
-  function handleRemoveLinks() {
-    $(".remove-permission").unbind();
-    $(".remove-permission").click(function(e) {
-      var r = confirm("Are you sure you want to stop this user from being able to alter this swarm?");
-      if (r == true) {
-       var that = this;
-       var postData = $(this).parents('form').serializeArray();
-       var formURL = $(this).parents('form').attr("action");
-       $.ajax({
-            url : formURL,
-            type: "POST",
-            data : postData,
-            success:function(data, textStatus, jqXHR) {
-              $(that).parents("tr").fadeOut(300, function() {
-                $(this).remove();
-              });
-            },
-            error: function(jqXHR, textStatus, errorThrown)  {
-            //if fails      
-            }
-        });
-        e.preventDefault(); //STOP default action
-      } else {
-        e.preventDefault();
-      }
-    });
-  }
