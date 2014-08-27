@@ -115,6 +115,12 @@ class SwarmsController < ApplicationController
     swarm = Swarm.new(swarm_params)
     swarm.creator = @current_user
     swarm.save
+
+    AccessPermission.create(:swarm => swarm,
+                            :user => @current_user,
+                            :email => @current_user.email,
+                            :is_owner => true)
+
     redirect_to fields_swarm_path(swarm)
   end
 
