@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default = root_url)
     if session[:return_to]
       redirect_url = session[:return_to]
+      logger.debug("Redirect URL is #{redirect_url}")
       session.delete(:return_to)
       redirect_to(redirect_url)
     else

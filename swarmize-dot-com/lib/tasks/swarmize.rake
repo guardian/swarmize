@@ -93,11 +93,11 @@ namespace :swarmize do
     end
 
     desc "Set up access permissions for existing swarms."
-    task :give_creators_permissions => :environment do
+    task :give_owners_permissions => :environment do
       Swarm.all.each do |swarm|
         AccessPermission.create(:swarm => swarm,
                                 :user => swarm.creator,
-                                :is_creator => true)
+                                :is_owner => true)
         print "."
       end
       puts

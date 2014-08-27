@@ -12,7 +12,7 @@ class Swarm < ActiveRecord::Base
 
   has_many :access_permissions
   has_many :users, :through => :access_permissions
-  has_many :creators, -> { where('access_permissions.is_creator' => true) }, :through => :access_permissions, :source => :user
+  has_many :owners, -> { where('access_permissions.is_owner' => true) }, :through => :access_permissions, :source => :user
 
   before_create :setup_token
 
@@ -45,7 +45,7 @@ class Swarm < ActiveRecord::Base
     :name => 'A', 
     :description => 'B'
   }
-
+  
   def to_param
     token
   end
@@ -125,7 +125,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_spiked_by?(u)
-    self.creators.include? u
+    self.owners.include? u
   end
 
   def regenerate_token!

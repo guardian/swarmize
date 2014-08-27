@@ -6,13 +6,13 @@
         %span.label.label-success.swarmlive Live!
     .subheader
       Created by
-      = link_to @swarm.user.name, user_path(@swarm.user)
+      = link_to @swarm.creator.name, user_path(@swarm.creator)
       - if @current_user
         |
         = link_to "View Form", embed_swarm_path(@swarm)
         |
         = link_to "Get code", code_swarm_path(@swarm)
-        - if @swarm.user == @current_user
+        - if @swarm.creator == @current_user
           |
           = link_to "Permissions", "#", "data-toggle" => 'modal', 'data-target' => '#permissions-alter'
       - if @swarm.parent_swarm

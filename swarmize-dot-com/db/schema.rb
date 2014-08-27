@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20140827092647) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_creator", default: false
+    t.boolean  "is_owner",   default: false
   end
 
   add_index "access_permissions", ["email"], name: "index_access_permissions_on_email", using: :btree

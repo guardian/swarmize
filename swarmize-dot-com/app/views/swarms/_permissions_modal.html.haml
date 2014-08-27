@@ -14,7 +14,7 @@
             %tr
               %td= image_tag @current_user.image_url, :height => 25
               %td
-                %b You (#{@swarm.user.name})
+                %b You (#{@swarm.creator.name})
               %td
                 %i Cannot remove yourself from this swarm.
             - @swarm.access_permissions.each do |a|

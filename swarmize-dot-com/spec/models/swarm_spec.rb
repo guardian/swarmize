@@ -8,7 +8,7 @@ RSpec.describe Swarm do
     let(:permitted_user) { User.new(:email => 'example@example.com')}
 
     it "will return a truthy response if it is asked by the user who owns it" do
-      AccessPermission.create(:user => this_user, :swarm => swarm, :is_creator => true)
+      AccessPermission.create(:user => this_user, :swarm => swarm, :is_owner => true)
 
       expect(swarm.can_be_edited_by?(this_user)).to be_truthy
     end
@@ -33,11 +33,11 @@ RSpec.describe Swarm do
     let(:permitted_user) { User.new(:email => 'example@example.com')}
 
     it "will return a truthy response if it is asked by the user who owns it" do
-      AccessPermission.create(:user => this_user, :swarm => swarm, :is_creator => true)
+      AccessPermission.create(:user => this_user, :swarm => swarm, :is_owner => true)
       expect(swarm.can_be_spiked_by?(this_user)).to be_truthy
     end
 
-    it "will return a falsey response if it is asked by a user with permissions who is not the creator" do
+    it "will return a falsey response if it is asked by a user with permissions who is not the owner" do
       AccessPermission.create(:user => permitted_user, :swarm => swarm)
       expect(swarm.can_be_spiked_by?(permitted_user)).to be_falsey
     end
