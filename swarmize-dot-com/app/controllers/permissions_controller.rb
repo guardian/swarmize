@@ -4,10 +4,12 @@ class PermissionsController < ApplicationController
   before_filter :scope_to_permission, :only => %w{edit update delete destroy}
 
   def create
+    @user = User.find_by email: params[:email]
     @access_permission = AccessPermission.create(:swarm => @swarm,
+                                                 :user => @user,
                                                  :creator => @current_user,
                                                  :email => params[:email])
-    render json: @access_permission.to_json(:methods => :user)
+    render json: @access_permission.to_json(:include => :user)
   end
 
   def destroy
