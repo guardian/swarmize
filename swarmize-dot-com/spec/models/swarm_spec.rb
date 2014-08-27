@@ -2,18 +2,23 @@ require 'spec_helper'
 
 RSpec.describe Swarm do
   describe "being asked if it can be edited by a user" do
-    let(:swarm) { Swarm.new(:user_id => 1) }
-    let(:this_user) { double('user1', :id => 1, :email => 'test@test.com') }
-    let(:another_user) { double('user2', :id => 2, :email => 'test2@test.com') }
-    let(:permitted_user) {double('user3', :id => 3, :email => 'example@example.com')}
+    let(:swarm) { Swarm.create }
+    let(:this_user) { User.new(:email => 'test@test.com')}
+    let(:another_user) { User.new(:email => 'test2@test.com')}
+    let(:permitted_user) { User.new(:email => 'example@example.com')}
 
     it "will return a truthy response if it is asked by the user who owns it" do
+      AccessPermission.create(:user => this_user, :swarm => swarm, :is_creator => true)
 
       expect(swarm.can_be_edited_by?(this_user)).to be_truthy
     end
     it "will return a truthy response if it is asked by a user who has permission" do
-      AccessPermission.create(:swarm => swarm, :email => 'example@example.com')
+      AccessPermission.create(:user => permitted_user, :swarm => swarm)
 
+      expect(swarm.can_be_edited_by?(permitted_user)).to be_truthy
+    end
+    it "will return a truthy response if it is asked by a user whose email has permission" do
+      AccessPermission.create(:email => 'example@example.com', :swarm => swarm)
       expect(swarm.can_be_edited_by?(permitted_user)).to be_truthy
     end
     it "will return a falsey response if it is asked by another user who does now have permission" do
@@ -22,15 +27,22 @@ RSpec.describe Swarm do
   end
 
   describe "being asked if it can be spiked by a user" do
-    let(:swarm) { Swarm.new(:user_id => 1) }
-    let(:this_user) { double('user1', :id => 1) }
-    let(:another_user) { double('user2', :id => 2) }
+    let(:swarm) { Swarm.create }
+    let(:this_user) { User.new(:email => 'test@test.com')}
+    let(:another_user) { User.new(:email => 'test2@test.com')}
+    let(:permitted_user) { User.new(:email => 'example@example.com')}
 
     it "will return a truthy response if it is asked by the user who owns it" do
+      AccessPermission.create(:user => this_user, :swarm => swarm, :is_creator => true)
       expect(swarm.can_be_spiked_by?(this_user)).to be_truthy
     end
 
-    it "will return a falsey response if it is asked by another user" do
+    it "will return a falsey response if it is asked by a user with permissions who is not the creator" do
+      AccessPermission.create(:user => permitted_user, :swarm => swarm)
+      expect(swarm.can_be_spiked_by?(permitted_user)).to be_falsey
+    end
+
+    it "will return a falsey response if it is asked by another user who has no permissions" do
       expect(swarm.can_be_spiked_by?(another_user)).to be_falsey
     end
   end

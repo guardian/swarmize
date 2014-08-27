@@ -6,10 +6,13 @@ class Swarm < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
-  has_many :swarm_fields, :order => 'field_index ASC', :dependent => :destroy
+  has_many :swarm_fields, -> { order('field_index ASC') }, :dependent => :destroy
   has_many :graphs
   has_many :clones, :class_name => 'Swarm', :foreign_key => 'cloned_from'
+
   has_many :access_permissions
+  has_many :users, :through => :access_permissions
+  has_many :creators, -> { where('access_permissions.is_creator' => true) }, :through => :access_permissions, :source => :user
 
   before_create :setup_token
 
@@ -118,11 +121,11 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_edited_by?(u)
-    (self.user_id == u.id) || self.access_permissions.find_by(email: u.email)
+    self.users.include?(u) || self.access_permissions.find_by(email: u.email)
   end
 
   def can_be_spiked_by?(u)
-    self.user_id == u.id
+    self.creators.include? u
   end
 
   def regenerate_token!
