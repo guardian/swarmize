@@ -42,5 +42,48 @@ class SwarmResultsFormatter
 
     output
   end
+
+  def to_public_csv
+    output = CSV.generate do |csv|
+      # first, add the headers
+      headers = []
+      headers << "Timestamp"
+      @swarm.swarm_fields.each do |f|
+        headers << f.field_name
+        if f.derived_field_suffixes
+          f.derived_field_suffixes.each do |df|
+            headers << "#{f.field_name} [#{df}]"
+          end
+        end
+      end
+      csv << headers
+
+      #now, add all the results
+      @raw_results.each do |r|
+        row = []
+        row << format_timestamp(r.timestamp)
+        @swarm.swarm_fields.each do |field|
+          if field.redacted?
+            row << 'Redacted'
+          else
+            row << r.send(field.field_code)
+          end
+
+          if field.derived_field_codes
+            field.derived_field_codes.each do |df|
+              if field.redacted?
+                row << 'Redacted'
+              else
+                row << r.send(df)
+              end
+            end
+          end
+        end
+        csv << row
+      end
+    end
+
+    output
+  end
 end
 

@@ -1,6 +1,6 @@
 class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index yet_to_open live closed new create mine}
-  before_filter :check_for_user, :except => %w{index yet_to_open live closed show embed}
+  before_filter :check_for_user, :except => %w{index yet_to_open live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index yet_to_open live closed}
 
   respond_to :html, :json
@@ -50,6 +50,13 @@ class SwarmsController < ApplicationController
     results = @swarm.search.entirety
     formatted_results = SwarmResultsFormatter.new(@swarm,results)
     send_data formatted_results.to_csv, 
+              filename: "#{@swarm.token}.csv"
+  end
+
+  def public_csv
+    results = @swarm.search.entirety
+    formatted_results = SwarmResultsFormatter.new(@swarm,results)
+    send_data formatted_results.to_public_csv, 
               filename: "#{@swarm.token}.csv"
   end
 

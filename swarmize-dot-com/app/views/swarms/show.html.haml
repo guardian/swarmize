@@ -26,7 +26,10 @@
 - if @swarm.closed? || @current_user
   %h2 
     Results
-    = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+    - if @current_user
+      = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+    - else
+      = link_to "CSV", public_csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
 
   .clearfix
 
