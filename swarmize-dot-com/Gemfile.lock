@@ -30,6 +30,11 @@ GEM
     aws-sdk (1.51.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
+    aws-ses (0.5.0)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -252,6 +257,7 @@ GEM
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    xml-simple (1.1.4)
 
 PLATFORMS
   ruby
@@ -259,6 +265,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   aws-sdk (~> 1.0)
+  aws-ses (~> 0.5.0)
   dotenv
   elasticsearch
   factory_girl_rails
