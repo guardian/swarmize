@@ -15,6 +15,7 @@ class FieldDescription
     :address => {
      :display_name => "Address",
      :has_sample => true,
+     :redact => true
     },
     :city => {
      :display_name => "City",
@@ -36,13 +37,15 @@ class FieldDescription
      :display_name => "Postcode",
      :has_sample => true,
      :validation => "isAPostcode",
-     :derived_fields => ["_lonlat"]
+     :derived_fields => ["_lonlat"],
+     :redact => true
     },
     :email => {
      :display_name => "Email",
      :has_sample => true,
      :input_type => 'email',
-     :validation => 'email'
+     :validation => 'email',
+     :redact => true
     },
     :url => {
      :display_name => "URL",

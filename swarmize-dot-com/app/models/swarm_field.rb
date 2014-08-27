@@ -34,11 +34,15 @@ class SwarmField < ActiveRecord::Base
   end
 
   def derived_field_codes
-    if description[:derived_fields]
-      description[:derived_fields].map do |suffix|
+    if derived_field_suffixes
+      derived_field_suffixes.map do |suffix|
         field_code + suffix
       end
     end
+  end
+
+  def redacted?
+    description[:redact]
   end
 
   private
