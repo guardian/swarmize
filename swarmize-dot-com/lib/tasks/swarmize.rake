@@ -97,6 +97,7 @@ namespace :swarmize do
       Swarm.all.each do |swarm|
         AccessPermission.create(:swarm => swarm,
                                 :user => swarm.creator,
+                                :email => swarm.creator.email,
                                 :is_owner => true)
         print "."
       end
