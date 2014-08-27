@@ -18,7 +18,7 @@
           %td= swarm.opens_at
           %td= swarm.closes_at
           %td
-            - if swarm.creator == @current_user
+            - if swarm.owners.include?(@current_user)
               = link_to "Delete", delete_swarm_path(swarm)
               |
             = link_to "JSON", swarm_path(swarm, :format => 'json')

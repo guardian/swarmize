@@ -120,7 +120,6 @@ class SwarmsController < ApplicationController
 
   def create
     swarm = Swarm.new(swarm_params)
-    swarm.creator = @current_user
     swarm.save
 
     AccessPermission.create(:swarm => swarm,

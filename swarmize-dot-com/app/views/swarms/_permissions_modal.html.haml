@@ -14,8 +14,8 @@
                 %td.pic= image_tag user.image_url, :height => 25
                 %td
                   = link_to user.name, user
-                  - if @swarm.creator == user
-                    %b (creator)
+                  - if @swarm.owners.include?(user)
+                    %b (owner)
             - if @swarm.unassigned_access_permissions.any?
               %tr
                 %td

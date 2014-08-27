@@ -5,7 +5,6 @@
       - if @swarm.live?
         %span.label.label-success.swarmlive Live!
     .subheader
-      Created by
       = link_to @swarm.creator.name, user_path(@swarm.creator)
       - if @current_user
         |

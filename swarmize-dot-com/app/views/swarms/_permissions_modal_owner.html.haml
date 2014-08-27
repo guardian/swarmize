@@ -15,11 +15,16 @@
                   %td.pic= image_tag a.user.image_url, :height => 25
                   - if @current_user == a.user
                     %td
-                      %b You (#{@swarm.creator.name})
+                      %b 
+                        You (#{a.user.name})
+                        %i (owner)
                     %td
                       %i Cannot remove yourself from this swarm.
                   - else
-                    %td= link_to a.user.name, a.user
+                    %td
+                      = link_to a.user.name, a.user
+                      - if @swarm.owners.include?(a.user)
+                        %i (owner)
                     %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
                 - else
                   %td.pic

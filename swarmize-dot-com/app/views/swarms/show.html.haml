@@ -5,7 +5,7 @@
 
 = render :partial => "swarms/swarm_header"
 
-- if @swarm.creator == @current_user
+- if @swarm.owners.include?(@current_user)
   = render :partial => "swarms/swarm_description_open_close_logged_in"
 - else
   = render :partial => "swarms/swarm_description_open_close"
@@ -17,10 +17,10 @@
     :javascript
       window.graphDataCache = {};
     = render "swarms/swarm_graphs"
-  -elsif @swarm.creator == @current_user
+  -elsif @swarm.owners.include?(@current_user)
     %h2 Graphs
 
-  - if @swarm.creator == @current_user
+  - if @swarm.owners.include?(@current_user)
     %p= link_to "Manage swarm graphs", swarm_graphs_path(@swarm)
 
 - if @swarm.closed? || @current_user
@@ -43,7 +43,7 @@
 
 = render "swarms/open_swarm_modal"
 = render "swarms/close_swarm_modal"
-- if @swarm.creator == @current_user
-  = render "swarms/permissions_modal_creator"
+- if @swarm.owners.include?(@current_user)
+  = render "swarms/permissions_modal_owner"
 - else
   = render "swarms/permissions_modal"
