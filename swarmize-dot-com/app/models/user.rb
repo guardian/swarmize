@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_many :access_permissions
   has_many :swarms, :through => :access_permissions
 
+  after_create :update_access_permissions
+
   def self.find_or_create_from_info_hash(info_hash)
     self.find_or_create_by(
       :email => info_hash['email'],
@@ -13,5 +15,11 @@ class User < ActiveRecord::Base
   def self.is_valid_email?(email)
     (email == 'tom@infovore.org') || (email =~ /@theguardian\.com$/) || (email =~ /@guardian\.co\.uk$/)
 
+  end
+
+  private
+
+  def update_access_permissions
+    AccessPermission.update_legacy_permissions_for(self)
   end
 end

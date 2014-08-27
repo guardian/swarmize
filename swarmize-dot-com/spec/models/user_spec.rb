@@ -16,6 +16,19 @@ describe User do
       u = User.find_or_create_from_info_hash(info_hash)
     end
   end
+
+  describe 'being created' do
+    it 'should set any access permissions created for its email address to being it' do
+      access_permission = AccessPermission.create(:swarm_id => 1,
+                                                  :email => 'bob@example.com') 
+      bob = User.create(name: 'Bob',
+                        email: 'bob@example.com')
+
+      access_permission.reload
+
+      expect(access_permission.user).to eq(bob)
+    end
+  end
 end
 
 describe "An email address being tested for validity" do
@@ -35,3 +48,4 @@ describe "An email address being tested for validity" do
     expect(User.is_valid_email?('bob@example.org')).to be_falsey
   end
 end
+

@@ -7,5 +7,13 @@ class AccessPermission < ActiveRecord::Base
     message: "can only be given permission on a swarm once" }
   validates :user, uniqueness: { scope: :swarm,
     message: "can only be given permission on a swarm once" }, if: :user
+
+  def self.update_legacy_permissions_for(user)
+    aps = AccessPermission.where(email: user.email)
+    aps.each do |ap|
+      ap.user = user
+      ap.save
+    end
+  end
 end
 
