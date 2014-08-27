@@ -91,6 +91,17 @@ namespace :swarmize do
     task :destroy_fields => :environment do
       SwarmField.destroy_all
     end
+
+    desc "Set up access permissions for existing swarms."
+    task :give_creators_permissions => :environment do
+      Swarm.all.each do |swarm|
+        AccessPermission.create(:swarm => swarm,
+                                :user => swarm.creator,
+                                :is_creator => true)
+        print "."
+      end
+      puts
+    end
   end
 end
 

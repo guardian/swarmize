@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826092139) do
+ActiveRecord::Schema.define(version: 20140827092647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140826092139) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_creator", default: false
   end
 
   add_index "access_permissions", ["email"], name: "index_access_permissions_on_email", using: :btree
