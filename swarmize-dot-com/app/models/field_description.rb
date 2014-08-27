@@ -35,7 +35,8 @@ class FieldDescription
     :postcode => {
      :display_name => "Postcode",
      :has_sample => true,
-     :validation => "isAPostcode"
+     :validation => "isAPostcode",
+     :derived_fields => ["_lonlat"]
     },
     :email => {
      :display_name => "Email",

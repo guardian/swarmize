@@ -4,6 +4,10 @@
       %th Timestamp
       - for field in @swarm.swarm_fields
         %th= field.field_name
+        - if field.derived_field_suffixes
+          - field.derived_field_suffixes.each do |df|
+            %th= "#{field.field_name} [#{df}]"
+          
 
   %tbody
     - for row in @rows
@@ -11,6 +15,9 @@
         %td= format_timestamp(row.timestamp)
         - for field in @swarm.swarm_fields
           %td= row.send field.field_code
+          - if field.derived_field_codes
+            - field.derived_field_codes.each do |df|
+              %td= row.send df
 
 %ul.pagination
   - if @current_page > 1

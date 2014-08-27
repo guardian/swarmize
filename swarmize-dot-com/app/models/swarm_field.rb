@@ -25,6 +25,22 @@ class SwarmField < ActiveRecord::Base
     json_fields
   end
 
+  def description
+    FieldDescription.find(field_type)
+  end
+
+  def derived_field_suffixes
+    description[:derived_fields]
+  end
+
+  def derived_field_codes
+    if description[:derived_fields]
+      description[:derived_fields].map do |suffix|
+        field_code + suffix
+      end
+    end
+  end
+
   private
 
   def set_code
