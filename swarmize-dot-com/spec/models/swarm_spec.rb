@@ -258,6 +258,11 @@ RSpec.describe Swarm do
     it "should have an altered name" do
       expect(@new_swarm.name).to eq("Test Swarm (cloned)")
     end
+
+    it "should have an access permission set up for that new swarm" do
+      expect(AccessPermission.where(:swarm => @new_swarm,
+                                    :user => bobj<t_úX>).size).to eq(1)
+    end
   end
 
   describe "generating its collector url" do

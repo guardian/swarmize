@@ -84,6 +84,11 @@ class Swarm < ActiveRecord::Base
 
     new_swarm.save
 
+    AccessPermission.create(:swarm => new_swarm,
+                            :user => user,
+                            :email => user.email,
+                            :is_owner => true)
+
     self.swarm_fields.each do |f|
       new_f = f.dup
       new_f.swarm = new_swarm
