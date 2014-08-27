@@ -5,5 +5,7 @@ class AccessPermission < ActiveRecord::Base
 
   validates :email, uniqueness: { scope: :swarm,
     message: "can only be given permission on a swarm once" }
+  validates :user, uniqueness: { scope: :swarm,
+    message: "can only be given permission on a swarm once" }, if: :user
 end
 
