@@ -222,7 +222,7 @@ RSpec.describe Swarm do
     let(:bob) { User.new }
     let(:swarm) { Swarm.new(:name => 'Test Swarm',
                                :parent_swarm => nil,
-                               :user => alice,
+                               :creator => alice,
                                :opens_at => (Time.zone.now - 1.hour)) }
 
     before { @new_swarm = swarm.clone_by(bob) }
@@ -240,7 +240,7 @@ RSpec.describe Swarm do
     end
 
     it "should have the user set to be the cloning user" do
-      expect(@new_swarm.user).to eq(bob)
+      expect(@new_swarm.creator).to eq(bob)
     end
 
     it "should have an altered name" do

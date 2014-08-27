@@ -3,7 +3,7 @@ class TimeParadoxError < StandardError; end
 class Swarm < ActiveRecord::Base
   include PgSearch
 
-  belongs_to :user
+  belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
   has_many :swarm_fields, :order => 'field_index ASC', :dependent => :destroy
@@ -75,7 +75,7 @@ class Swarm < ActiveRecord::Base
     new_swarm.opens_at = nil
     new_swarm.closes_at = nil
     new_swarm.parent_swarm = self
-    new_swarm.user = user
+    new_swarm.creator = user
     new_swarm.name = self.name + " (cloned)"
 
     new_swarm.save
