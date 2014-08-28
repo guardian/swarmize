@@ -6,5 +6,9 @@ FactoryGirl.define do
     f.email Faker::Internet.email
     f.image_url ""
     f.is_fake false
+    
+    factory :admin do
+      is_admin true
+    end
   end
 end
