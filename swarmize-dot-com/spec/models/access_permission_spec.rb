@@ -20,4 +20,15 @@ describe AccessPermission do
 
     expect(Factory.build(:access_permission, :email => email, :swarm => swarm, :user => nil)).to_not be_valid
   end
+
+  describe "updating legacy permissions" do
+    it "should set any access permissions assigned to an email address to a user with that email address" do
+      user = Factory.create(:user, :email => "test@test.com")
+      ap = Factory.create(:access_permission, :email => "test@test.com", :user => nil)
+
+      AccessPermission.update_legacy_permissions_for(user)
+      ap.reload
+      expect(ap.user).to eq(user)
+    end
+  end
 end
