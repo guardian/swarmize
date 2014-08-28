@@ -234,7 +234,6 @@ RSpec.describe Swarm do
     let(:bob) { User.new }
     let(:swarm) { Swarm.new(:name => 'Test Swarm',
                                :parent_swarm => nil,
-                               :creator => alice,
                                :opens_at => (Time.zone.now - 1.hour)) }
 
     before { @new_swarm = swarm.clone_by(bob) }
@@ -251,18 +250,20 @@ RSpec.describe Swarm do
       expect(@new_swarm.parent_swarm).to eq(swarm)
     end
 
-    it "should have the user set to be the cloning user" do
-      expect(@new_swarm.creator).to eq(bob)
-    end
-
     it "should have an altered name" do
       expect(@new_swarm.name).to eq("Test Swarm (cloned)")
     end
 
     it "should have an access permission set up for that new swarm" do
       expect(AccessPermission.where(:swarm => @new_swarm,
-                                    :user => bobj<t_úX>).size).to eq(1)
+                                    :user => bob).size).to eq(1)
     end
+
+    it "should have an access permission set up that is an owner" do
+      expect(AccessPermission.where(:swarm => @new_swarm,
+                                    :user => bob).first.is_owner).to be_truthy
+    end
+
   end
 
   describe "generating its collector url" do
