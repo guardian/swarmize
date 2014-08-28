@@ -12,7 +12,7 @@ describe User do
                    'image' => 'https://lh3.googleusercontent.com/-PgrxxJsXdX0/AAAAAAAAAAI/AAAAAAAAABA/KGZmoHx_8tc/photo.jpg?sz=50'
       }
 
-      User.should_receive(:find_or_create_by).with({:email => 'tom@infovore.org',
+      expect(User).to receive(:find_or_create_by).with({:email => 'tom@infovore.org',
                    :name => 'Tom Armitage',
                    :image_url => 'https://lh3.googleusercontent.com/-PgrxxJsXdX0/AAAAAAAAAAI/AAAAAAAAABA/KGZmoHx_8tc/photo.jpg?sz=50'
       })
