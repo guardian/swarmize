@@ -6,18 +6,18 @@ describe AccessPermission do
   end
 
   it "is invalid if an AccessPermission for that swarm and email already exists" do
-    user = Factory.create(:user)
-    swarm = Factory.create(:swarm)
-    AccessPermission.create(:user => user, :swarm => swarm, :email => user.email)
+    user = Factory.build(:user)
+    swarm = Factory.build(:swarm)
+    Factory.create(:access_permission, :user => user, :swarm => swarm, :email => user.email)
 
-    expect(AccessPermission.new(:user => user, :swarm => swarm, :email => user.email)).to_not be_valid
+    expect(Factory.build(:access_permission, :user => user, :swarm => swarm, :email => user.email)).to_not be_valid
   end
 
   it "is invalid if an AccessPermission for that swarm and user already exists" do
     email = Faker::Internet.email
     swarm = Factory.create(:swarm)
-    AccessPermission.create(:swarm => swarm, :email => email)
+    Factory.create(:access_permission, :email => email, :swarm => swarm, :user => nil)
 
-    expect(AccessPermission.new(:swarm => swarm, :email => email)).to_not be_valid
+    expect(Factory.build(:access_permission, :email => email, :swarm => swarm, :user => nil)).to_not be_valid
   end
 end
