@@ -21,10 +21,6 @@ class ApplicationController < ActionController::Base
     session[:user_id] != nil
   end
 
-  def login_path
-    "/auth/google_oauth2"
-  end
-
   def store_location
     if request.get?
       session[:return_to] = request.original_url

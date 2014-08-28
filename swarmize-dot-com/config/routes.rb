@@ -65,6 +65,7 @@ Swarmize::Application.routes.draw do
     end
   end
 
+  get '/auth/google_oauth2', :as => 'login'
   get '/auth/google_oauth2/callback', to: 'sessions#callback'
 
   get 'swarms/:swarm_id/graphs/count/:count_field', to: 'graphs#aggregate_count'
