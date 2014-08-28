@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe User do
+  it "has a valid factory" do
+    Factory.create(:user).should be_valid
+  end
+
   describe 'being created from an info hash' do
     it "should set its attributes correctly from the info hash" do
       info_hash = {'email' => 'tom@infovore.org',

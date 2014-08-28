@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Swarm do
+  it "should have a valid factory" do
+    Factory.create(:swarm).should be_valid
+  end
   describe "being asked if it can be edited by a user" do
     let(:swarm) { Swarm.create }
     let(:this_user) { User.new(:email => 'test@test.com')}
