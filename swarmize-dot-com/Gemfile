@@ -24,6 +24,7 @@ group :doc do
 end
 
 gem 'faker' # will need to be removed later, used for creating fake data
+gem 'factory_girl_rails'
 
 # Use unicorn as the app server
 gem 'unicorn'
@@ -36,4 +37,5 @@ end
 
 group :test do
   gem 'timecop'
+  gem 'guard-rspec'
 end
