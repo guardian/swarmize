@@ -4,5 +4,13 @@ FactoryGirl.define do
     s.description "Test swarm description"
     s.is_spiked nil
     s.token "abcdefgh"
+
+    factory :swarm_opens_in_the_future do
+      opens_at Time.zone.now + 1.day
+    end
+
+    factory :swarm_already_opened do
+      opens_at Time.zone.now - 1.day
+    end
   end
 end

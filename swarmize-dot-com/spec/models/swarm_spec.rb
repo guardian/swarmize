@@ -4,44 +4,65 @@ RSpec.describe Swarm do
   it "should have a valid factory" do
     Factory.create(:swarm).should be_valid
   end
+
   describe "being asked if it can be edited by a user" do
-    let(:swarm) { Swarm.create }
-    let(:this_user) { User.new(:email => 'test@test.com')}
-    let(:another_user) { User.new(:email => 'test2@test.com')}
-    let(:permitted_user) { User.new(:email => 'example@example.com')}
+    let(:swarm) { Factory.create(:swarm) }
+    let(:this_user) { Factory.create(:user) }
+    let(:another_user) { Factory.create(:user) }
+    let(:permitted_user) { Factory.create(:user) }
 
     it "will return a truthy response if it is asked by the user who owns it" do
-      AccessPermission.create(:user => this_user, :swarm => swarm, :is_owner => true)
-
+      Factory.create(:access_permission, 
+                     :user => this_user,
+                     :swarm => swarm,
+                     :is_owner => true)
+                                      
       expect(swarm.can_be_edited_by?(this_user)).to be_truthy
     end
+
     it "will return a truthy response if it is asked by a user who has permission" do
-      AccessPermission.create(:user => permitted_user, :swarm => swarm)
+      Factory.create(:access_permission, 
+                     :user => permitted_user,
+                     :swarm => swarm)
 
       expect(swarm.can_be_edited_by?(permitted_user)).to be_truthy
     end
+
     it "will return a truthy response if it is asked by a user whose email has permission" do
-      AccessPermission.create(:email => 'example@example.com', :swarm => swarm)
+      Factory.create(:access_permission, 
+                     :user => nil,
+                     :email => permitted_user.email,
+                     :swarm => swarm)
+
       expect(swarm.can_be_edited_by?(permitted_user)).to be_truthy
     end
+
     it "will return a falsey response if it is asked by another user who does now have permission" do
       expect(swarm.can_be_edited_by?(another_user)).to be_falsey
     end
   end
 
   describe "being asked if it can be spiked by a user" do
-    let(:swarm) { Swarm.create }
-    let(:this_user) { User.new(:email => 'test@test.com')}
-    let(:another_user) { User.new(:email => 'test2@test.com')}
-    let(:permitted_user) { User.new(:email => 'example@example.com')}
+    let(:swarm) { Factory.create(:swarm) }
+    let(:this_user) { Factory.create(:user) }
+    let(:another_user) { Factory.create(:user) }
+    let(:permitted_user) { Factory.create(:user) }
+
 
     it "will return a truthy response if it is asked by the user who owns it" do
-      AccessPermission.create(:user => this_user, :swarm => swarm, :is_owner => true)
+      Factory.create(:access_permission, 
+                     :user => this_user,
+                     :swarm => swarm,
+                     :is_owner => true)
+                                      
       expect(swarm.can_be_spiked_by?(this_user)).to be_truthy
     end
 
     it "will return a falsey response if it is asked by a user with permissions who is not the owner" do
-      AccessPermission.create(:user => permitted_user, :swarm => swarm)
+      Factory.create(:access_permission, 
+                     :user => permitted_user,
+                     :swarm => swarm)
+                                      
       expect(swarm.can_be_spiked_by?(permitted_user)).to be_falsey
     end
 
@@ -51,7 +72,7 @@ RSpec.describe Swarm do
   end
 
   describe "that will open in the future" do
-    let(:swarm) { Swarm.new(:opens_at => (Time.zone.now + 1.day) ) }
+    let(:swarm) { Factory.build(:swarm_opens_in_the_future) }
 
     it "should not describe itself as live" do
       expect(swarm.live?).to be_falsy
@@ -76,8 +97,7 @@ RSpec.describe Swarm do
     end
 
     describe "that has a close date" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now + 1.day),
-                                 :closes_at => (Time.zone.now + 2.days)) }
+      let(:swarm) { Factory.build(:swarm_opens_in_the_future, :closes_at => Time.zone.now + 2.days) }
       it "should a describe itself as scheduled to close" do
         expect(swarm.scheduled_to_close?).to be_truthy
       end
@@ -85,7 +105,7 @@ RSpec.describe Swarm do
   end
 
   describe "that has opened in the past" do
-    let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day) ) }
+    let(:swarm) { Factory.build(:swarm_already_opened) }
 
     it "should describe itself as having opened" do
       expect(swarm.has_opened?).to be_truthy
@@ -111,8 +131,8 @@ RSpec.describe Swarm do
     end
 
     describe "and that has closed in the past" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day),
-                                 :closes_at => (Time.zone.now - 1.hour) ) }
+      let(:swarm) { Factory.build(:swarm_already_opened,
+                                  :closes_at => Time.zone.now - 1.hour) }
 
       it "should not describe itself as live" do
         expect(swarm.live?).to be_falsy
@@ -128,8 +148,8 @@ RSpec.describe Swarm do
     end
 
     describe "and that closes in the future" do
-      let(:swarm) { Swarm.new(:opens_at => (Time.zone.now - 1.day),
-                                 :closes_at => (Time.zone.now + 1.day) ) }
+      let(:swarm) { Factory.build(:swarm_already_opened,
+                                  :closes_at => Time.zone.now + 1.day) }
 
       it "should describe itself as live" do
         expect(swarm.live?).to be_truthy
@@ -146,7 +166,7 @@ RSpec.describe Swarm do
   end
 
   describe "having its open date set" do
-    let(:swarm) { Swarm.create() }
+    let(:swarm) { Factory.create(:swarm) }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
       open_time = Time.zone.now + 1.hour
@@ -183,7 +203,7 @@ RSpec.describe Swarm do
   end
 
   describe "having its close date set" do
-    let(:swarm) { Swarm.create() }
+    let(:swarm) { Factory.create(:swarm) }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
       close_time = Time.zone.now + 1.hour
@@ -221,23 +241,24 @@ RSpec.describe Swarm do
 
   describe "that has already opened" do
     before  { Timecop.freeze }
-    let(:swarm) { Swarm.create(:opens_at => (Time.zone.now - 1.hour)) }
+    let(:swarm) { Factory.create(:swarm_already_opened) }
 
     describe "having its close date set" do
       it "should not alter the opened at date." do
+        original_opens_at = swarm.opens_at
         close_time = Time.zone.now + 1.hour
         swarm.update(:closes_at => close_time)
-        expect(swarm.opens_at).to eq(Time.zone.now - 1.hour)
+        expect(swarm.opens_at).to eq(original_opens_at)
       end
     end
   end
 
   describe "that has been cloned" do
-    let(:alice) { User.new }
-    let(:bob) { User.new }
-    let(:swarm) { Swarm.new(:name => 'Test Swarm',
-                               :parent_swarm => nil,
-                               :opens_at => (Time.zone.now - 1.hour)) }
+    let(:alice) { Factory.build(:user)}
+    let(:bob) { Factory.build(:user)}
+    let(:swarm) { Factory.build(:swarm,
+                                :opens_at => (Time.zone.now - 1.hour))
+    }
 
     before { @new_swarm = swarm.clone_by(bob) }
 
@@ -254,7 +275,7 @@ RSpec.describe Swarm do
     end
 
     it "should have an altered name" do
-      expect(@new_swarm.name).to eq("Test Swarm (cloned)")
+      expect(@new_swarm.name).to eq("#{swarm.name} (cloned)")
     end
 
     it "should have an access permission set up for that new swarm" do
@@ -270,8 +291,10 @@ RSpec.describe Swarm do
   end
 
   describe "generating its collector url" do
-    let(:swarm) { Swarm.create(:name => 'Test Swarm',
-                               :opens_at => (Time.zone.now - 1.hour)) }
+    let(:swarm) { Factory.build(:swarm,
+                                :opens_at => (Time.zone.now - 1.hour))
+    }
+
     it "should generate the correct URL based upon its token" do
       expect(swarm.collector_url).to eq("http://collector.swarmize.com/swarms/#{swarm.token}")
 
