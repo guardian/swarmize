@@ -1,5 +1,7 @@
 class GraphsController < ApplicationController
+  before_filter :check_for_user, :only => %w{index new create edit update delete destroy}
   before_filter :scope_to_swarm
+  before_filter :check_user_has_permissions_on_swarm
   before_filter :scope_to_graph, :only => %w{edit update delete destroy}
 
   def index
@@ -72,6 +74,13 @@ class GraphsController < ApplicationController
 
   def scope_to_graph
     @graph = @swarm.graphs.find(params[:id])
+  end
+
+  def check_user_has_permissions_on_swarm
+    unless @swarm.users.include? @current_user
+      flash[:error] = "You don't have permission to do that."
+      redirect_to root_path
+    end
   end
 
   def graph_params
