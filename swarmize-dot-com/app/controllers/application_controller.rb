@@ -17,6 +17,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_current_user_is_admin
+    unless @current_user.is_admin?
+      flash[:error] = "You don't have permission to do that."
+      redirect_to root_path
+    end
+  end
+
   def logged_in?
     session[:user_id] != nil
   end
