@@ -13,11 +13,16 @@ class ApplicationController < ActionController::Base
   def check_for_user
     if !logged_in?
       store_location
-      redirect_to login_path
+      redirect_to login_path and return
     end
   end
 
-  def check_current_user_is_admin
+  def check_for_admin
+    if !logged_in?
+      store_location
+      redirect_to login_path and return
+    end
+
     unless @current_user.is_admin?
       flash[:error] = "You don't have permission to do that."
       redirect_to root_path

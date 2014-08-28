@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   before_filter :check_for_user
-  before_filter :check_current_user_is_admin
+  before_filter :check_for_admin
 
   def show
     @spiked_swarms = Swarm.spiked

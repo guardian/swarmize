@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :check_for_admin, :except => %w{show yet_to_open live closed}
   before_filter :scope_to_user, :except => %w{index new create}
   before_filter :count_swarms, :only => %w{show yet_to_open live closed}
 
