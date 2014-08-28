@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_many :access_permissions
   has_many :swarms, :through => :access_permissions
 
+  before_save :downcase_email
   after_create :update_access_permissions
 
   def self.find_or_create_from_info_hash(info_hash)
@@ -13,11 +14,15 @@ class User < ActiveRecord::Base
   end
 
   def self.is_valid_email?(email)
+    email = email.downcase
     (email == 'tom@infovore.org') || (email =~ /@theguardian\.com$/) || (email =~ /@guardian\.co\.uk$/)
-
   end
 
   private
+
+  def downcase_email
+    self.email = self.email.downcase
+  end
 
   def update_access_permissions
     AccessPermission.update_legacy_permissions_for(self)

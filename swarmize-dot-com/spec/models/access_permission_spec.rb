@@ -5,6 +5,14 @@ describe AccessPermission do
     expect(Factory.create(:access_permission)).to be_valid 
   end
 
+  describe "being saved" do
+    it "should ensure its email is stored downcase" do
+      ap = Factory.build(:access_permission, :email => 'BOB@TEST.com')
+      ap.save
+      expect(ap.email).to eq('bob@test.com')
+    end
+  end
+
   it "is invalid if an AccessPermission for that swarm and email already exists" do
     user = Factory.build(:user)
     swarm = Factory.build(:swarm)

@@ -5,6 +5,14 @@ describe User do
     Factory.create(:user).should be_valid
   end
 
+  describe "being saved" do
+    it "should ensure its email is stored downcase" do
+      user = Factory.build(:user, :email => 'BOB@TEST.com')
+      user.save
+      expect(user.email).to eq('bob@test.com')
+    end
+  end
+
   describe 'being created from an info hash' do
     it "should set its attributes correctly from the info hash" do
       info_hash = {'email' => 'tom@infovore.org',
