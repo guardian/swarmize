@@ -99,6 +99,7 @@ var FieldWorkspace = {
       var newElement = "<p class='input-group'><input name='fields[]possible_values[]' class='form-control' /><span class='input-group-addon'><a href='#' class='remove-option'><span class='glyphicon glyphicon-remove'></span> </a></span></p>";
       $(this).parent().siblings('.option-list').append(newElement);
       FieldWorkspace.bindLinks();
+      $(this).parent().siblings('.option-list').find('.form-control:last').focus()
       e.preventDefault();
     });
 
