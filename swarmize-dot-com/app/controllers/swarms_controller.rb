@@ -2,6 +2,7 @@ class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index yet_to_open live closed new create mine}
   before_filter :check_for_user, :except => %w{index yet_to_open live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index yet_to_open live closed}
+  before_filter :check_user_can_spike_swarm, :only => %w{spike do_spike}
 
   respond_to :html, :json
 
@@ -173,6 +174,21 @@ class SwarmsController < ApplicationController
   def scope_to_swarm
     @swarm = Swarm.unspiked.find_by(token: params[:id])
   end
+
+  def check_user_has_permissions_on_swarm
+    unless @swarm.users.include? @current_user
+      flash[:error] = "You don't have permission to do that."
+      redirect_to root_path
+    end
+  end
+
+  def check_user_can_spike_swarm
+    unless @swarm.owners.include? @current_user
+      flash[:error] = "You don't have permission to do that."
+      redirect_to root_path
+    end
+  end
+
 
   def swarm_params
     params.require(:swarm).permit(:name, :description)

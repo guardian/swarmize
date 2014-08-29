@@ -1,30 +1,38 @@
 require 'spec_helper'
 
+shared_examples_for 'it redirects to the login path' do |method, endpoint, params|
+  it "should redirect the user to the login form" do
+    send(method,endpoint,params)
+    expect(response).to redirect_to(login_path)
+  end
+end
+
+shared_examples_for 'it needs a user with permissions on that swarm' do |method, endpoint, params|
+  before do
+    user = Factory(:user)
+    swarm = Factory(:swarm)
+    allow(Swarm).to receive(:find_by).and_return(swarm)
+    session[:user_id] = user.id
+  end
+
+  it "should redirect the user to the home page" do
+    send(method,endpoint,params)
+    expect(response).to redirect_to root_path
+  end
+  it "should tell them they're not allowed to do that" do
+    send(method,endpoint,params)
+    expect(flash[:error]).to eq("You don't have permission to do that.")
+  end
+end
+
 describe GraphsController do
   describe "GET #index" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        get :index, :swarm_id => 1
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :get, :index, :swarm_id => 1
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        get :index, :swarm_id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        get :index, :swarm_id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :index, :swarm_id => 1
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -47,28 +55,11 @@ describe GraphsController do
   #NEW
   describe "GET #new" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        get :new, :swarm_id => 1
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :get, :new, :swarm_id => 1
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        get :new, :swarm_id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        get :new, :swarm_id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :new, :swarm_id => 1
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -91,28 +82,11 @@ describe GraphsController do
   #CREATE
   describe "POST #create" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :post, :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :post, :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -148,31 +122,11 @@ describe GraphsController do
   #EDIT
   describe "GET #edit" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        get :edit, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :get, :edit, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
-
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        allow(Graph).to receive(:find_by).and_return(graph)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        get :edit, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        get :edit, :swarm_id => 1, :id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -201,28 +155,11 @@ describe GraphsController do
   #UPDATE
   describe "PUT #update" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :put, :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -258,31 +195,11 @@ describe GraphsController do
   #DELETE
   describe "GET #delete" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        get :delete, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :get, :delete, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
-
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        allow(Graph).to receive(:find_by).and_return(graph)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        get :delete, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        get :delete, :swarm_id => 1, :id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :delete, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with permissions on that swarm" do
@@ -311,28 +228,11 @@ describe GraphsController do
   #DESTROY
   describe "DELETE #destroy" do
     describe "when not logged in" do
-      it "should redirect the user to the login form" do
-        delete :destroy, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
+      it_should_behave_like "it redirects to the login path", :delete, :destroy, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(Swarm).to receive(:find_by).and_return(swarm)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        delete :destroy, :swarm_id => 1, :id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        delete :destroy, :swarm_id => 1, :id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
+      it_should_behave_like "it needs a user with permissions on that swarm", :delete, :destroy, :swarm_id => 1, :id => 1
     end
 
     describe "when logged in as a user with permissions on that swarm" do
