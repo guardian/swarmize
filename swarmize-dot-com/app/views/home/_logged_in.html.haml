@@ -27,8 +27,8 @@
 
 
   #mine.tab-pane
-    %h2 My Swarms Yet To Launch
-    = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_yet_to_launch}
+    %h2 My Draft Swarms
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_draft}
 
     %h2 My Swarms In Progress
     = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_in_progress}

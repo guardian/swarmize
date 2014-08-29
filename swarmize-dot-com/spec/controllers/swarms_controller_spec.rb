@@ -6,8 +6,8 @@ describe SwarmsController do
     it_should_behave_like "it works for any user", :get, :index
   end
 
-  describe "GET #yet_to_open" do
-    it_should_behave_like "it works for any user", :get, :yet_to_open
+  describe "GET #draft" do
+    it_should_behave_like "it works for any user", :get, :draft
   end
 
   describe "GET #live" do

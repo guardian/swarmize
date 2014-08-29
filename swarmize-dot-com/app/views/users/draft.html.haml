@@ -1,29 +1,28 @@
 - content_for :pagetitle do
-  Yet To Open : Swarms : 
+  Swarms yet to open by #{@user.name} : Users : 
 
-%h1 All Swarms
+%h1 
+  Swarms created by #{@user.name}
+  - if @user == @current_user
+    %span.label.label-success.swarmlive You!
 
 %ul.nav.nav-tabs
   %li
-    %a{:href => swarms_path}
+    %a{:href => user_path(@user)}
       All Swarms
       %span.badge= @all_swarms_count
   %li.active
-    %a{:href => yet_to_open_swarms_path}
-      Yet To Open
+    %a{:href => draft_user_path(@user)}
+      Draft
       %span.badge= @open_swarms_count
   %li
-    %a{:href => live_swarms_path}
+    %a{:href => live_user_path(@user)}
       In Progress
       %span.badge= @live_swarms_count
   %li
-    %a{:href => closed_swarms_path}
+    %a{:href => closed_user_path(@user)}
       Closed
       %span.badge= @closed_swarms_count
 
 = render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms}
-
 = will_paginate @swarms
-
-- if @current_user
-  %p= link_to "New swarm", new_swarm_path

@@ -29,7 +29,7 @@ class Swarm < ActiveRecord::Base
   scope :spiked, lambda { where(:is_spiked => true) }
   scope :unspiked, lambda { where(:is_spiked => false) }
 
-  scope :yet_to_launch, lambda {
+  scope :draft, lambda {
     where("opens_at IS NULL OR opens_at > ?", Time.zone.now).order("created_at DESC")
   }
 

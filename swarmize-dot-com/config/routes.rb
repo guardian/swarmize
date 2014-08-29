@@ -26,7 +26,7 @@ Swarmize::Application.routes.draw do
 
     collection do
       get 'mine'
-      get 'yet_to_open'
+      get 'draft'
       get 'live'
       get 'closed'
     end
@@ -35,7 +35,7 @@ Swarmize::Application.routes.draw do
   resources :users do
     member do
       get 'delete'
-      get 'yet_to_open'
+      get 'draft'
       get 'live'
       get 'closed'
     end
