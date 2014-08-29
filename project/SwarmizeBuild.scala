@@ -12,7 +12,6 @@ object SwarmizeBuild extends Build {
 
   val scalaLibraryVersion = "2.11.1"
 
-  val avro = "org.apache.avro" % "avro" % "1.7.6"
   val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.7"
 
   val standardSettings = Seq[Setting[_]](
@@ -47,7 +46,6 @@ object SwarmizeBuild extends Build {
         "com.typesafe.play" %% "play" % play.core.PlayVersion.current,
         "com.google.guava" % "guava" % "18.0",
         "com.google.code.findbugs" % "jsr305" % "3.0.0",
-        avro,
         aws
       )
     )
@@ -57,9 +55,7 @@ object SwarmizeBuild extends Build {
     .settings(standardSettings: _*)
     .settings(
       libraryDependencies ++= Seq(
-        cache,
         ws,
-        avro,
         aws
       ),
 
@@ -73,9 +69,7 @@ object SwarmizeBuild extends Build {
     .settings(
 
       libraryDependencies ++= Seq(
-        cache,
         ws,
-        avro,
         aws,
         "org.elasticsearch" % "elasticsearch" % "1.2.1"
       ),
