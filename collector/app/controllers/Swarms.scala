@@ -22,6 +22,7 @@ object Swarms extends Controller {
         s"""
           |Swarm name: ${c.name}
           |Swarm description: ${c.description}
+          |Status: ${c.status}
           |
           |Fields:
           |${c.fields.map(_.description).mkString("\n")}
@@ -76,24 +77,27 @@ object Swarms extends Controller {
   }
 
   private def doSubmitJson(swarm: Swarm, data: JsValue): Result = try {
-    val dataObj = SwarmSubmissionValidator.validated(swarm, data.as[JsObject])
+    if (swarm.isClosed) {
+      Gone("This swarm is now closed")
+    } else {
+      val dataObj = SwarmSubmissionValidator.validated(swarm, data.as[JsObject])
 
-    val fullObject = SubmittedData.wrap(addTimestampIfNotPresent(dataObj), swarm)
+      val fullObject = SubmittedData.wrap(addTimestampIfNotPresent(dataObj), swarm)
 
-    val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
+      val msg = s"submission to ${swarm.name}:\n${Json.prettyPrint(fullObject.toJson)}\n"
 
-    AWS.swf.startWorkflowExecution(
-      new StartWorkflowExecutionRequest()
-        .withDomain(SimpleWorkflowConfig.domain)
-        .withInput(Json.toJson(fullObject).toString())
-        .withWorkflowId(fullObject.submissionId)
-        .withWorkflowType(SimpleWorkflowConfig.workflowType)
-        .withTagList(fullObject.swarmToken)
-    )
+      AWS.swf.startWorkflowExecution(
+        new StartWorkflowExecutionRequest()
+          .withDomain(SimpleWorkflowConfig.domain)
+          .withInput(Json.toJson(fullObject).toString())
+          .withWorkflowId(fullObject.submissionId)
+          .withWorkflowType(SimpleWorkflowConfig.workflowType)
+          .withTagList(fullObject.swarmToken)
+      )
 
-    Logger.info(msg)
-    Ok(msg)
-
+      Logger.info(msg)
+      Ok(msg)
+    }
   } catch {
     case NonFatal(e) =>
       Logger.warn("submission failed", e)

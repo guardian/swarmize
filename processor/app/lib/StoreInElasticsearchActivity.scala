@@ -1,9 +1,9 @@
 package lib
 
 import org.elasticsearch.common.settings.ImmutableSettings
-import play.api.libs.json.{JsNull, JsObject, JsValue, Json}
-import swarmize.json.SubmittedData
+import play.api.libs.json.{JsObject, JsValue, Json}
 import swarmize._
+import swarmize.json.SubmittedData
 
 import scala.concurrent.Future
 
@@ -16,10 +16,15 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
 
     val theData = Json.stringify(r.data)
 
+    val indexName = r.swarmStatus match {
+      case Swarm.Draft => s"${r.swarmToken}_draft"
+      case Swarm.Open => r.swarmToken
+      case Swarm.Closed => sys.error("received a actvity for a closed swarm: this should not be possible!")
+    }
 
     log.info(s"swarmToken: ${r.swarmToken} the es object = $theData")
 
-    ensureIndexExistsFor(r)
+    ensureIndexExistsFor(r, indexName)
 
     Elasticsearch.client.prepareIndex(r.swarmToken, "data", r.submissionId)
       .setSource(theData)
@@ -58,9 +63,7 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
     )
   }
 
-  def ensureIndexExistsFor(r: SubmittedData) = {
-    val indexName = r.swarmToken
-
+  def ensureIndexExistsFor(r: SubmittedData, indexName: String) = {
     val exists = Elasticsearch.client.admin.indices
       .prepareExists(indexName)
       .get()

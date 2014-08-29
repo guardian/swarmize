@@ -1,6 +1,7 @@
 package swarmize.json
 
-import play.api.libs.json.{Json, JsValue}
+import play.api.libs.json._
+import swarmize.Swarm._
 import swarmize.{UniqueId, Swarm}
 
 case class SubmittedData
@@ -15,6 +16,9 @@ case class SubmittedData
   // swarm token
   swarmToken: String,
 
+  // state of the swarm at point of submission
+  swarmStatus: Swarm.Status,
+
   // steps to action on this submission
   processingSteps: List[String] = Nil,
 
@@ -26,12 +30,28 @@ case class SubmittedData
 
 
 object SubmittedData {
+
+  implicit object statusReads extends Reads[Swarm.Status] {
+    override def reads(json: JsValue): JsResult[Status] = json match {
+      case JsString("Draft") => JsSuccess(Draft)
+      case JsString("Open") => JsSuccess(Open)
+      case JsString("Closed")  => JsSuccess(Closed)
+      case other => JsError("unknown status: " + other)
+    }
+  }
+
+  implicit object statusWrites extends Writes[Swarm.Status] {
+    override def writes(o: Status): JsValue = JsString(o.toString)
+  }
+
   implicit val jsonFormat = Json.format[SubmittedData]
+
 
   def wrap(data: JsValue, swarm: Swarm): SubmittedData = {
     SubmittedData(
       swarmName = swarm.name,
       swarmToken = swarm.token,
+      swarmStatus = swarm.status,
       submissionId = UniqueId.generateSubmissionId,
       data = data
     )

@@ -45,6 +45,8 @@ object SwarmizeBuild extends Build {
     .settings(
       libraryDependencies ++= Seq(
         "com.typesafe.play" %% "play" % play.core.PlayVersion.current,
+        "com.google.guava" % "guava" % "18.0",
+        "com.google.code.findbugs" % "jsr305" % "3.0.0",
         avro,
         aws
       )
