@@ -2,7 +2,8 @@ class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine}
   before_filter :check_for_user, :except => %w{index draft live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index draft live closed}
-  before_filter :check_user_can_spike_swarm, :only => %w{spike do_spike}
+  before_filter :check_user_has_permissions_on_swarm, :only => %w{edit update fields update_fields preview open close code}
+  before_filter :check_user_owns_swarm, :only => %w{spike do_spike delete destroy}
 
   respond_to :html, :json
 
@@ -182,7 +183,7 @@ class SwarmsController < ApplicationController
     end
   end
 
-  def check_user_can_spike_swarm
+  def check_user_owns_swarm
     unless @swarm.owners.include? @current_user
       flash[:error] = "You don't have permission to do that."
       redirect_to root_path
