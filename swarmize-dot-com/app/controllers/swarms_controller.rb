@@ -117,6 +117,7 @@ class SwarmsController < ApplicationController
   end
 
   def embed
+    response.headers.delete('X-Frame-Options')
     render layout: 'embed'
   end
 
