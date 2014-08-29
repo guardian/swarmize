@@ -10,7 +10,7 @@ object SwarmizeBuild extends Build {
     .aggregate(collector, processor, sharedLib)
     .settings(scalaVersion := scalaLibraryVersion)
 
-  val scalaLibraryVersion = "2.11.1"
+  val scalaLibraryVersion = "2.11.2"
 
   val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.7"
 
@@ -21,14 +21,14 @@ object SwarmizeBuild extends Build {
     // generally putting dependencies in here is a bad idea, but
     // test dependencies is ok in my opion :)
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+      "org.scalatest" %% "scalatest" % "2.2.2" % "test",
 
       // and joda we need everywhere!
-      "org.joda" % "joda-convert" % "1.6" % "provided",
-      "joda-time" % "joda-time" % "2.3"
+      "org.joda" % "joda-convert" % "1.7" % "provided",
+      "joda-time" % "joda-time" % "2.4"
     ),
 
-    resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
+    resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",
 
     // Don't include documentation in artifact
     doc in Compile <<= target.map(_ / "none"),
