@@ -74,7 +74,11 @@ class Swarm < ActiveRecord::Base
   end
 
   def search
-    SwarmizeSearch.new(token)
+    if draft?
+      SwarmizeSearch.new("#{token}_draft")
+    else
+      SwarmizeSearch.new(token)
+    end
   end
 
   def clone_by(user)
@@ -107,6 +111,10 @@ class Swarm < ActiveRecord::Base
 
   def scheduled_to_open?
     opens_at && (opens_at > Time.zone.now)
+  end
+
+  def draft?
+    opens_at.nil? || (opens_at > Time.zone.now)
   end
 
   def live?
