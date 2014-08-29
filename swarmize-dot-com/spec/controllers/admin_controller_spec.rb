@@ -11,8 +11,9 @@ describe AdminController do
 
     describe "when logged in as a non-admin user" do
       before do
-        user = Factory(:user)
-        session[:user_id] = user.id
+        user = Factory.build(:user)
+        session[:user_id] = 1
+        allow(User).to receive(:find).and_return(user)
       end
       it "should redirect the user to the home page" do
         get :show
@@ -26,8 +27,9 @@ describe AdminController do
 
     describe "when logged in as an admin user" do
       before do
-        user = Factory(:admin)
-        session[:user_id] = user.id
+        admin = Factory.build(:admin)
+        session[:user_id] = 1
+        allow(User).to receive(:find).and_return(admin)
       end
       it "should render the show page" do
         get :show
