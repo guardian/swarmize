@@ -38,4 +38,5 @@ end
 group :test do
   gem 'timecop'
   gem 'guard-rspec'
+  gem 'simplecov'
 end

@@ -20,3 +20,6 @@ deploy.json
 
 # Ignore local .env specifics
 .env
+
+# Ignore simplecov output
+coverage
