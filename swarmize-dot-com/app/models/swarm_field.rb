@@ -30,7 +30,7 @@ class SwarmField < ActiveRecord::Base
   end
 
   def derived_field_suffixes
-    description[:derived_fields]
+    description.derived_fields
   end
 
   def derived_field_codes
@@ -42,7 +42,11 @@ class SwarmField < ActiveRecord::Base
   end
 
   def redacted?
-    description[:redact]
+    description.redact
+  end
+
+  def has_custom_display?
+    description.has_custom_display_template
   end
 
   private
