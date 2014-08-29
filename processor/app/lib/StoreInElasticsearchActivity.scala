@@ -26,7 +26,7 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
 
     ensureIndexExistsFor(r, indexName)
 
-    Elasticsearch.client.prepareIndex(r.swarmToken, "data", r.submissionId)
+    Elasticsearch.client.prepareIndex(indexName, "data", r.submissionId)
       .setSource(theData)
       .get()
 

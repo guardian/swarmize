@@ -1,6 +1,6 @@
 #!/bin/sh
 
-curl -XPOST "http://collector.swarmize.com/swarms/cpvywzme.json" -d @- <<EOF
+curl -XPOST "http://collector.swarmize.com/swarms/moqxjfwr.json" -d @- <<EOF
 {
 "do_you_like_swarmize": "yes",
 "do_you_think_you_ll_use_swarmize": "yes",
