@@ -19,6 +19,10 @@
   src: url(asset_path('glyphicons-halflings-regular.eot?#iefix')) format('embedded-opentype'), url(asset_path('glyphicons-halflings-regular.woff')) format('woff'), url(asset_path('glyphicons-halflings-regular.ttf')) format('truetype'), url(asset_path('glyphicons-halflings-regular.svg#glyphicons_halflingsregular')) format('svg');
 }
 
+.navbar-inverse.is_admin {
+  background: #008;
+}
+
 .placeholder {
   background: pink;
 }
