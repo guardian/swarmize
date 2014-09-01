@@ -7,7 +7,7 @@ describe SwarmsController do
   end
 
   describe "GET #draft" do
-    it_should_behave_like "it works for any user", :get, :draft
+    it_should_behave_like "it needs login", :get, :draft
   end
 
   describe "GET #live" do

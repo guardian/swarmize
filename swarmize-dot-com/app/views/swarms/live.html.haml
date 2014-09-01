@@ -8,10 +8,11 @@
     %a{:href => swarms_path}
       All Swarms
       %span.badge= @all_swarms_count
-  %li
-    %a{:href => draft_swarms_path}
-      Draft
-      %span.badge= @open_swarms_count
+  - if @current_user
+    %li
+      %a{:href => draft_swarms_path}
+        Draft
+        %span.badge= @open_swarms_count
   %li.active
     %a{:href => live_swarms_path}
       In Progress

@@ -1,6 +1,6 @@
 class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine}
-  before_filter :check_for_user, :except => %w{index draft live closed show embed public_csv}
+  before_filter :check_for_user, :except => %w{index live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index draft live closed}
   before_filter :check_user_can_alter_swarm, :only => %w{edit update fields update_fields preview open close code}
   before_filter :check_user_can_destroy_swarm, :only => %w{spike do_spike delete destroy}
@@ -8,7 +8,11 @@ class SwarmsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @swarms = Swarm.unspiked.paginate(:page => params[:page])
+    if @current_user
+      @swarms = Swarm.unspiked.paginate(:page => params[:page])
+    else
+      @swarms = Swarm.public.paginate(:page => params[:page])
+    end
   end
 
   def draft
@@ -197,8 +201,13 @@ class SwarmsController < ApplicationController
   end
 
   def count_swarms
-    @all_swarms_count = Swarm.unspiked.count
-    @open_swarms_count = Swarm.unspiked.draft.count
+    if @current_user
+      @open_swarms_count = Swarm.unspiked.draft.count
+      @all_swarms_count = Swarm.unspiked.count
+    else
+      @all_swarms_count = Swarm.unspiked.public.count
+    end
+
     @live_swarms_count= Swarm.unspiked.live.count
     @closed_swarms_count = Swarm.unspiked.closed.count
   end
