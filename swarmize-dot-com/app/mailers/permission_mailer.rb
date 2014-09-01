@@ -1,5 +1,5 @@
 class PermissionMailer < ActionMailer::Base
-  default from: "noreply@swarmize.com"
+  default from: "tom@infovore.org" # TODO not forever, please
 
   def permission_email(to_address, swarm)
     @swarm = swarm
