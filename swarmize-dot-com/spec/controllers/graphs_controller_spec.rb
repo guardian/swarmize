@@ -11,7 +11,9 @@ shared_examples_for 'it needs a user with permissions on that swarm' do |method,
   before do
     user = Factory(:user)
     swarm = Factory(:swarm)
-    allow(Swarm).to receive(:find_by).and_return(swarm)
+    assoc = double('assoc', :find_by => swarm)
+    allow(Swarm).to receive(:unspiked).and_return(assoc)
+
     session[:user_id] = user.id
   end
 
@@ -40,7 +42,8 @@ describe GraphsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
         allow(swarm).to receive(:users).and_return([user])
         session[:user_id] = user.id
       end
@@ -56,7 +59,9 @@ describe GraphsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         session[:user_id] = user.id
       end
 
@@ -83,7 +88,9 @@ describe GraphsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
         session[:user_id] = user.id
       end
@@ -99,7 +106,9 @@ describe GraphsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         session[:user_id] = user.id
       end
 
@@ -127,7 +136,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
 
         graphs_association = double
@@ -156,7 +167,8 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -196,7 +208,9 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
 
         graphs_association = double
@@ -218,7 +232,8 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -251,7 +266,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
 
         graphs_association = double
@@ -280,7 +297,8 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -320,7 +338,9 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
 
         graphs_association = double
@@ -342,7 +362,8 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -374,7 +395,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
         allow(swarm).to receive(:users).and_return([user])
 
         graphs_association = double
@@ -401,7 +424,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        allow(Swarm).to receive(:find_by).and_return(swarm)
+        assoc = double('assoc', :find_by => swarm)
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)

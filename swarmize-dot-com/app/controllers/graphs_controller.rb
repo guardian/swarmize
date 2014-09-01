@@ -69,7 +69,10 @@ class GraphsController < ApplicationController
   private
 
   def scope_to_swarm
-    @swarm = Swarm.find_by(token: params[:swarm_id])
+    @swarm = Swarm.unspiked.find_by(token: params[:swarm_id])
+    if @swarm && @swarm.draft?
+      check_for_user
+    end
   end
 
   def scope_to_graph
