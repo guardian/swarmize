@@ -18,6 +18,14 @@ class AccessPermission < ActiveRecord::Base
     end
   end
 
+  def self.can_alter?(swarm, user)
+    user.is_admin? || swarm.users.include?(user) || swarm.access_permissions.find_by(email: user.email)
+  end
+
+  def self.can_destroy?(swarm,user)
+    user.is_admin? || swarm.owners.include?(user)
+  end
+
   private
 
   def downcase_email

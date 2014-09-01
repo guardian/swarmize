@@ -138,11 +138,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def can_be_edited_by?(u)
-    self.users.include?(u) || self.access_permissions.find_by(email: u.email)
-  end
-
-  def can_be_spiked_by?(u)
-    self.owners.include? u
+    AccessPermission.can_edit? self, u
   end
 
   def regenerate_token!
