@@ -50,40 +50,42 @@
   function handleCreateForm() {
     // on submit
     $("#create-permission").submit(function(e) {
-      // serialize and post to endpoint
-     var postData = $(this).serializeArray();
-     var formURL = $(this).attr("action");
-     var that = this;
-     $.ajax({
-          url : formURL,
-          type: "POST",
-          data : postData,
-          success:function(data, textStatus, jqXHR) {
-            console.log(data);
-            // get JSON back
-            // clear value
-            $('input#email').val('');
-            // create row
-            if(data && data.id) {
-              // create was successful
-              if(data.user) {
-                addFieldForUserData(data)
+      if($("input#email").val().trim() == "") {
+        alert("Please enter an email address to give permission to");
+      } else {
+        // serialize and post to endpoint
+       var postData = $(this).serializeArray();
+       var formURL = $(this).attr("action");
+       var that = this;
+       $.ajax({
+            url : formURL,
+            type: "POST",
+            data : postData,
+            success:function(data, textStatus, jqXHR) {
+              console.log(data);
+              // get JSON back
+              // clear value
+              $('input#email').val('');
+              // create row
+              if(data && data.id) {
+                // create was successful
+                if(data.user) {
+                  addFieldForUserData(data)
+                } else {
+                  // we just have email
+                  addFieldForEmailData(data)
+                }
+                handleRemoveLinks();
               } else {
-                // we just have email
-                addFieldForEmailData(data)
+                alert("There was an error and the permission was not granted - are you trying to allow access to someone who already has access?");
               }
-              handleRemoveLinks();
-            } else if(data == null) {
-              alert("Please enter an email address to grant permission to.");
-            } else {
-              alert("There was an error and the permission was not granted - are you trying to allow access to someone who already has access?");
+            },
+            error: function(jqXHR, textStatus, errorThrown)  {
+            //if fails      
             }
-          },
-          error: function(jqXHR, textStatus, errorThrown)  {
-          //if fails      
-          }
-      });
-      // preventDefault
+        });
+        // preventDefault
+      }
       e.preventDefault();
     });
   }

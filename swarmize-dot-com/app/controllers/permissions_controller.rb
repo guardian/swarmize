@@ -6,10 +6,14 @@ class PermissionsController < ApplicationController
   def create
     unless params[:email].blank?
       @user = User.find_by email: params[:email]
-      @access_permission = AccessPermission.create(:swarm => @swarm,
-                                                   :user => @user,
-                                                   :creator => @current_user,
-                                                   :email => params[:email])
+      ap = AccessPermission.where(:swarm => @swarm, :email => params[:email])
+      if(ap.empty?)
+        @access_permission = AccessPermission.create(:swarm => @swarm,
+                                                     :user => @user,
+                                                     :creator => @current_user,
+                                                     :email => params[:email])
+        PermissionMailer.permission_email(params[:email], @swarm).deliver
+      end
     end
     render json: @access_permission.to_json(:include => :user)
   end
