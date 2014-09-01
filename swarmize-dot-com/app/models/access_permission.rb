@@ -26,6 +26,10 @@ class AccessPermission < ActiveRecord::Base
     user.is_admin? || swarm.owners.include?(user)
   end
 
+  def self.can_alter_permissions?(swarm,user)
+    user.is_admin? || swarm.owners.include?(user)
+  end
+
   private
 
   def downcase_email

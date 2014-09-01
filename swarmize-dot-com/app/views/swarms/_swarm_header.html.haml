@@ -23,7 +23,7 @@
           = link_to "Spike", spike_swarm_path(@swarm), :class => "btn btn-danger btn-sm"
       .button
         = button_to "Clone", clone_swarm_path(@swarm), :class => "btn btn-warning btn-sm"
-      - if AccessPermission.can_alter?(@swarm, @current_user)
+      - if AccessPermission.can_alter?(@swarm, @current_user) && !@swarm.closed?
         .button
           = link_to "Edit", edit_swarm_path(@swarm), :class => "btn btn-success btn-sm"
 

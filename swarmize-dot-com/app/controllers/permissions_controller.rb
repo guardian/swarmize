@@ -26,7 +26,7 @@ class PermissionsController < ApplicationController
   end
 
   def check_user_can_alter_permissions
-    unless @swarm.owners.include?(@current_user)
+    unless AccessPermission.can_alter_permissions?(@swarm, @current_user)
       flash[:warning] = "You don't have permission to do that."
       redirect_to @swarm
     end
