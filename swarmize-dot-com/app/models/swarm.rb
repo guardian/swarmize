@@ -29,6 +29,10 @@ class Swarm < ActiveRecord::Base
   scope :spiked, lambda { where(:is_spiked => true) }
   scope :unspiked, lambda { where(:is_spiked => false) }
 
+  scope :publicly_visible, lambda {
+    where("(closes_at < ?) OR (opens_at <= ? AND (closes_at IS NULL or closes_at > ?))", Time.zone.now, Time.zone.now, Time.zone.now).order("opens_at DESC")
+  }
+
   scope :draft, lambda {
     where("opens_at IS NULL OR opens_at > ?", Time.zone.now).order("created_at DESC")
   }

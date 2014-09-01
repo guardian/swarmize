@@ -11,7 +11,7 @@ class SwarmsController < ApplicationController
     if @current_user
       @swarms = Swarm.unspiked.paginate(:page => params[:page])
     else
-      @swarms = Swarm.public.paginate(:page => params[:page])
+      @swarms = Swarm.publicly_visible.paginate(:page => params[:page])
     end
   end
 
@@ -179,6 +179,9 @@ class SwarmsController < ApplicationController
 
   def scope_to_swarm
     @swarm = Swarm.unspiked.find_by(token: params[:id])
+    if @swarm && @swarm.draft?
+      check_for_user
+    end
   end
 
   def check_user_can_alter_swarm
@@ -205,7 +208,7 @@ class SwarmsController < ApplicationController
       @open_swarms_count = Swarm.unspiked.draft.count
       @all_swarms_count = Swarm.unspiked.count
     else
-      @all_swarms_count = Swarm.unspiked.public.count
+      @all_swarms_count = Swarm.unspiked.publicly_visible.count
     end
 
     @live_swarms_count= Swarm.unspiked.live.count

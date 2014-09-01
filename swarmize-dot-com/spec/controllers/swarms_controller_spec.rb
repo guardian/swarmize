@@ -41,6 +41,37 @@ describe SwarmsController do
     end
   end
 
+  describe "GET #show" do
+    describe "for a swarm that isn't draft" do
+      before do
+        swarm = Factory(:swarm)
+        allow(swarm).to receive(:draft?).and_return(false)
+        allow(swarm).to receive(:search)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+      end
+      it_should_behave_like "it works for any user", :get, :show, :id => 1
+    end
+
+    describe "for a swarm that is draft" do
+      before do
+        swarm = Factory(:swarm)
+        allow(swarm).to receive(:draft?).and_return(true)
+
+        es_double = double("elasticsearch")
+        allow(es_double).to receive(:all)
+        allow(swarm).to receive(:search).and_return(es_double)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+      end
+      it_should_behave_like "it needs login", :get, :show, :id => 1
+    end
+  end
+
   describe "GET #new" do
     it_should_behave_like "it needs login", :get, :new
   end
