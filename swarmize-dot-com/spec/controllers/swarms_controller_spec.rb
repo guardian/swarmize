@@ -13,7 +13,7 @@ describe SwarmsController do
   describe "GET #live" do
     it_should_behave_like "it works for any user", :get, :live
   end
-  
+
   describe "GET #closed" do
     it_should_behave_like "it works for any user", :get, :closed
   end
@@ -40,7 +40,7 @@ describe SwarmsController do
       end
     end
   end
-  
+
   describe "GET #new" do
     it_should_behave_like "it needs login", :get, :new
   end
@@ -116,6 +116,30 @@ describe SwarmsController do
         expect(response).to redirect_to swarms_path
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      let(:swarm) {Factory(:swarm)}
+
+      before do
+        user = Factory(:admin)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should spike the swarm" do
+        expect(swarm).to receive(:destroy)
+        delete :destroy, :id => 1
+      end
+
+      it "redirect to the swarms path" do
+        delete :destroy, :id => 1
+        expect(response).to redirect_to swarms_path
+      end
+    end
+
   end
 
   describe "GET #spike" do
@@ -164,6 +188,24 @@ describe SwarmsController do
         expect(response).to render_template :spike
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should render the spike page" do
+        get :spike, :id => 1
+        expect(response).to render_template :spike
+      end
+    end
+
   end
 
   describe "POST #do_spike" do
@@ -218,6 +260,30 @@ describe SwarmsController do
         expect(response).to redirect_to swarms_path
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      let(:swarm) {Factory(:swarm)}
+
+      before do
+        user = Factory(:admin)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should spike the swarm" do
+        expect(swarm).to receive(:spike!)
+        post :do_spike, :id => 1
+      end
+
+      it "redirect to the swarms path" do
+        post :do_spike, :id => 1
+        expect(response).to redirect_to swarms_path
+      end
+    end
+
   end
 
   # GET #edit
@@ -267,6 +333,24 @@ describe SwarmsController do
         expect(response).to render_template :edit
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should render the edit page" do
+        get :edit, :id => 1
+        expect(response).to render_template :edit
+      end
+    end
+
   end
 
   # PUT #update
@@ -321,6 +405,29 @@ describe SwarmsController do
         expect(response).to redirect_to fields_swarm_path(swarm)
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      let(:swarm) {Factory(:swarm)}
+      before do
+        user = Factory(:admin)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should update the swarm" do
+        expect(swarm).to receive(:update).with({'name' => 'name', 'description' => 'desc'})
+        put :update, :id => 1, swarm: {name: "name", description: 'desc'}
+      end
+
+      it "redirect to the swarm fields page" do
+        put :update, :id => 1, swarm: {name: "name", description: 'desc'}
+        expect(response).to redirect_to fields_swarm_path(swarm)
+      end
+    end
+
   end
 
   # GET #fields
@@ -370,6 +477,24 @@ describe SwarmsController do
         expect(response).to render_template :fields
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should render the fields page" do
+        get :fields, :id => 1
+        expect(response).to render_template :fields
+      end
+    end
+
   end
 
   # POST #update_fields
@@ -409,6 +534,65 @@ describe SwarmsController do
       before do
         user = Factory(:user)
         allow(swarm).to receive(:users).and_return([user])
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      describe "which has opened" do
+        it "should update the swarm fields" do
+          allow(swarm).to receive(:has_opened?).and_return(true)
+          fake_field = double('field')
+          fake_fields_association = double('fields_assoc', :find => fake_field)
+          allow(swarm).to receive(:swarm_fields).and_return(fake_fields_association)
+
+          expect(fake_field).to receive(:update).exactly(sample_params['fields'].size).times
+
+          post :update_fields, {:id => 1}.merge(sample_params)
+        end
+
+      end
+      describe "which hasn't opened" do
+        it "should blow away the fields" do
+          allow(swarm).to receive(:has_opened?).and_return(false)
+
+          fake_fields_association = double('fields_assoc', :create => true)
+          allow(swarm).to receive(:swarm_fields).and_return(fake_fields_association)
+
+          expect(fake_fields_association).to receive(:destroy_all)
+          post :update_fields, {:id => 1}.merge(sample_params)
+        end
+
+        it "should recreate the fields" do
+          allow(swarm).to receive(:has_opened?).and_return(false)
+
+
+          fake_fields_association = double('fields_assoc', :destroy_all => true)
+          allow(swarm).to receive(:swarm_fields).and_return(fake_fields_association)
+
+          expect(fake_fields_association).to receive(:create).exactly(sample_params['fields'].size).times
+          post :update_fields, {:id => 1}.merge(sample_params)
+        end
+      end
+
+      it "redirect to the preview page if update_and_next is set" do
+        post :update_fields, {:id => 1}.merge(sample_params)
+        expect(response).to redirect_to preview_swarm_path(swarm)
+      end
+
+      it "redirect to the edit page if update_and_next is notset" do
+        post :update_fields, {:id => 1}.merge(sample_params).merge({:update_and_next => nil})
+        expect(response).to redirect_to edit_swarm_path(swarm)
+      end
+    end
+
+
+    describe 'for a user who is logged in and is an admin' do
+      let(:swarm) {Factory(:swarm)}
+      before do
+        user = Factory(:admin)
 
         assoc = double("swarms", :find_by => swarm)
 
@@ -511,6 +695,23 @@ describe SwarmsController do
         expect(response).to render_template :preview
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should render the preview page" do
+        get :preview, :id => 1
+        expect(response).to render_template :preview
+      end
+    end
   end
 
   # GET #code
@@ -560,6 +761,24 @@ describe SwarmsController do
         expect(response).to render_template :code
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should render the code page" do
+        get :code, :id => 1
+        expect(response).to render_template :code
+      end
+    end
+
   end
 
   describe "POST #clone" do
@@ -619,6 +838,30 @@ describe SwarmsController do
         expect(response).to redirect_to swarms_path
       end
     end
+
+    describe 'for a user who is logged in and is an admin' do
+      let(:swarm) {Factory(:swarm)}
+
+      before do
+        user = Factory(:admin)
+
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should spike the swarm" do
+        expect(swarm).to receive(:destroy)
+        delete :destroy, :id => 1
+      end
+
+      it "redirect to the swarms path" do
+        delete :destroy, :id => 1
+        expect(response).to redirect_to swarms_path
+      end
+    end
+
   end
 
   # POST #open
@@ -629,7 +872,7 @@ describe SwarmsController do
        'open_day' => '29',
        'open_hour' => '17',
        'open_minute' => '32'
-      }
+    }
     }
 
     describe 'for a user who is not logged in' do
@@ -662,6 +905,28 @@ describe SwarmsController do
         post :open, {:id => 1}.merge(sample_params)
       end
     end
+
+    describe 'for a user who is logged in and an admin' do
+      let(:user) { Factory(:admin) }
+      let(:swarm) { Factory(:swarm) }
+
+      before do
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should redirect to the swarm page" do
+        post :open, {:id => 1}.merge(sample_params)
+        expect(response).to redirect_to swarm_path(swarm)
+      end
+
+      it "should update the swarm" do
+        expect(swarm).to receive(:update)
+        post :open, {:id => 1}.merge(sample_params)
+      end
+    end
   end
 
   # POST #close
@@ -672,7 +937,7 @@ describe SwarmsController do
        'close_day' => '29',
        'close_hour' => '17',
        'close_minute' => '32'
-      }
+    }
     }
 
     describe 'for a user who is not logged in' do
@@ -713,6 +978,37 @@ describe SwarmsController do
         end
       end
     end
+
+    describe 'for a user who is logged in and is an admin ' do
+      let(:user) { Factory(:admin) }
+      let(:swarm) { Factory(:swarm) }
+
+      before do
+        assoc = double("swarms", :find_by => swarm)
+
+        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        session[:user_id] = user.id
+      end
+
+      it "should redirect to the swarm page" do
+        post :close, {:id => 1}.merge(sample_params)
+        expect(response).to redirect_to swarm_path(swarm)
+      end
+
+      it "should update the swarm" do
+        expect(swarm).to receive(:update)
+        post :close, {:id => 1}.merge(sample_params)
+      end
+
+      describe "attempting to set the close time before the start time" do
+        it "should tell them they can't do that" do
+          allow(swarm).to receive(:update).and_raise(TimeParadoxError)
+          post :close, {:id => 1}.merge(sample_params)
+          expect(flash[:error]).to eq("Swarm cannot close before it has opened!")
+        end
+      end
+    end
+
   end
 
 
