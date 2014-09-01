@@ -11,27 +11,24 @@
           %tbody
             - @swarm.access_permissions.each do |a|
               %tr
-                - if a.user
+                -if a.user
                   %td.pic= image_tag a.user.image_url, :height => 25
-                  - if @current_user == a.user
-                    %td
-                      %b 
-                        You (#{a.user.name})
-                        %i (owner)
-                    %td
-                      %i Cannot remove yourself from this swarm.
-                  - else
-                    %td
-                      = link_to a.user.name, a.user
-                      - if @swarm.owners.include?(a.user)
-                        %i (owner)
-                    %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
+                  %td{:class => ('owner' if @swarm.owners.include?(a.user))}
+                    = link_to a.user.name, a.user
+                    - if @swarm.owners.include?(a.user)
+                      %i (owner)
+                    - if @current_user == a.user
+                      %i (you)
+                  %td
+                    - if @swarm.users.size == 1
+                    - else
+                      = button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
                 - else
                   %td.pic
                   %td= a.email
                   %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
 
-
+              -## from here
         %h4 Give someone else permission to alter this swarm
         %p You can allow other people to edit this swarm. Enter their Guardian email address below to invite them to this swarm.
         = form_tag swarm_permissions_path(@swarm), :id => 'create-permission', :class => 'form-horizontal' do
@@ -142,3 +139,4 @@
       }
     });
   }
+

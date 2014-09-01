@@ -44,6 +44,6 @@
 = render "swarms/open_swarm_modal"
 = render "swarms/close_swarm_modal"
 - if AccessPermission.can_alter_permissions?(@swarm, @current_user)
-  = render "swarms/permissions_modal_owner"
+  = render "swarms/permissions_modal_alter"
 - else
   = render "swarms/permissions_modal"

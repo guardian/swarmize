@@ -36,6 +36,67 @@ describe UsersController do
     end
   end
 
+  describe "GET #draft" do
+    describe "when not logged in" do
+      it "should redirect the user to the login form" do
+        get :draft, :id => 1
+        expect(response).to redirect_to(login_path)
+      end
+    end
+
+    describe "when logged in as neither the user in question or an admin" do
+      before do
+        user = Factory(:user)
+        session[:user_id] = user.id
+        allow(User).to receive(:find).with('1').and_return(Factory.build(:user))
+        allow(User).to receive(:find).with(user.id).and_return(user)
+      end
+
+      it "should redirect the user to the root path" do
+        get :draft, :id => 1
+        expect(response).to redirect_to(root_path)
+      end
+      it "should tell them they're not allowed to do that" do
+        get :draft, :id => 1
+        expect(flash[:error]).to eq("You don't have permission to do that.")
+      end
+    end
+
+    describe "when as the user in question" do
+      let(:user) { Factory(:user) }
+      before do
+        session[:user_id] = user.id
+      end
+
+      it "should be a success" do
+        get :draft, :id => user.id
+        expect(response.status).to eq(200)
+      end
+      it "should render the drafts list" do
+        get :draft, :id => user.id 
+        expect(response).to render_template(:draft)
+      end
+    end
+
+    describe "when as an admin" do
+      before do
+        user = Factory(:admin)
+        session[:user_id] = user.id
+        allow(User).to receive(:find).with('1').and_return(Factory.build(:user))
+        allow(User).to receive(:find).with(user.id).and_return(user)
+      end
+
+      it "should be a success" do
+        get :draft, :id => 1
+        expect(response.status).to eq(200)
+      end
+      it "should render the drafts list" do
+        get :draft, :id => 1
+        expect(response).to render_template(:draft)
+      end
+    end
+  end
+
   describe "GET #delete" do
     let(:user_to_delete) { Factory.create(:user) }
 

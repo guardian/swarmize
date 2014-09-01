@@ -11,10 +11,11 @@
     %a{:href => user_path(@user)}
       All Swarms
       %span.badge= @all_swarms_count
-  %li.active
-    %a{:href => draft_user_path(@user)}
-      Draft
-      %span.badge= @open_swarms_count
+  - if AccessPermission.can_see_user_drafts?(@current_user, @user)
+    %li.active
+      %a{:href => draft_user_path(@user)}
+        Draft
+        %span.badge= @open_swarms_count
   %li
     %a{:href => live_user_path(@user)}
       In Progress

@@ -136,6 +136,9 @@ form {
 }
 
 table#permissions {
+  td.owner {
+    font-weight: bold;
+  }
   td.pic {
     width: 25px;
   }

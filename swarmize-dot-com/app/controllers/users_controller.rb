@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :check_for_admin, :except => %w{show draft live closed}
+  before_filter :check_for_user, :only => :draft
+  before_filter :check_for_admin, :except => %w{show live closed draft}
   before_filter :scope_to_user, :except => %w{index new create}
+  before_filter :check_can_see_drafts, :only => :draft
   before_filter :count_swarms, :only => %w{show draft live closed}
 
   def index
@@ -37,9 +39,20 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def check_can_see_drafts
+    unless AccessPermission.can_see_user_drafts?(@current_user, @user)
+      flash[:error] = "You don't have permission to do that."
+      redirect_to root_path
+    end
+  end
+
   def count_swarms
-    @all_swarms_count = @user.swarms.unspiked.count
-    @open_swarms_count = @user.swarms.unspiked.draft.count
+    if @current_user
+      @all_swarms_count = @user.swarms.unspiked.count
+      @open_swarms_count = @user.swarms.unspiked.draft.count
+    else
+      @all_swarms_count = @user.swarms.unspiked.publicly_visible.count
+    end
     @live_swarms_count= @user.swarms.unspiked.live.count
     @closed_swarms_count = @user.swarms.unspiked.closed.count
   end

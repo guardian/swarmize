@@ -30,6 +30,9 @@ class AccessPermission < ActiveRecord::Base
     user.is_admin? || swarm.owners.include?(user)
   end
 
+  def self.can_see_user_drafts?(current_user, user)
+    current_user && ((current_user == user) || current_user.is_admin?)
+  end
   private
 
   def downcase_email
