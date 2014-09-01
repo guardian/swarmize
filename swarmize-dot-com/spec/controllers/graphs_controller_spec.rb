@@ -50,6 +50,22 @@ describe GraphsController do
         expect(response).to render_template :index
       end
     end
+
+    describe "when logged in as an admin" do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+        session[:user_id] = user.id
+      end
+
+      it "should render the index page" do
+        get :index, :swarm_id => 1
+        expect(response).to render_template :index
+      end
+    end
+
   end
 
   #NEW
@@ -77,6 +93,22 @@ describe GraphsController do
         expect(response).to render_template :new
       end
     end
+
+    describe "when logged in as an admin" do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+        session[:user_id] = user.id
+      end
+
+      it "should render the new page" do
+        get :new, :swarm_id => 1
+        expect(response).to render_template :new
+      end
+    end
+
   end
 
   #CREATE
@@ -117,6 +149,35 @@ describe GraphsController do
         post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
       end
     end
+
+    describe "when logged in as a an admin" do
+      let(:user) { Factory.create(:admin) }
+      let(:swarm) { Factory.build(:swarm) }
+      let(:graph) { Factory.build(:graph) }
+
+      before do
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+
+        graphs_association = double
+        allow(swarm).to receive(:graphs).and_return(graphs_association)
+        allow(graphs_association).to receive(:new).and_return(graph)
+        allow(graph).to receive(:options=)
+        allow(graph).to receive(:save)
+
+        session[:user_id] = user.id
+      end
+
+      it "should redirect to the swarm graphs page" do
+        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        expect(response).to redirect_to swarm_graphs_path(swarm.token)
+      end
+
+      it "should create the graph" do
+        expect(graph).to receive(:save)
+        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      end
+    end
+
   end
   
   #EDIT
@@ -150,6 +211,28 @@ describe GraphsController do
         expect(response).to render_template :edit
       end
     end
+
+    describe "when logged in as an admin" do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+        graph = Factory(:graph)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+
+        graphs_association = double
+        allow(swarm).to receive(:graphs).and_return(graphs_association)
+        allow(graphs_association).to receive(:find).and_return(graph)
+
+        session[:user_id] = user.id
+      end
+
+      it "should render the edit page" do
+        get :edit, :swarm_id => 1, :id => 1
+        expect(response).to render_template :edit
+      end
+    end
+
   end
 
   #UPDATE
@@ -190,6 +273,35 @@ describe GraphsController do
         put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
       end
     end
+
+    describe "when logged in as an admin" do
+      let(:user) { Factory.create(:admin) }
+      let(:swarm) { Factory.build(:swarm) }
+      let(:graph) { Factory.build(:graph) }
+
+      before do
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+
+        graphs_association = double
+        allow(swarm).to receive(:graphs).and_return(graphs_association)
+        allow(graphs_association).to receive(:find).and_return(graph)
+        allow(graph).to receive(:options=)
+        allow(graph).to receive(:save)
+
+        session[:user_id] = user.id
+      end
+
+      it "should redirect to the swarm graphs page" do
+        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        expect(response).to redirect_to swarm_graphs_path(swarm.token)
+      end
+
+      it "should create the graph" do
+        expect(graph).to receive(:save)
+        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      end
+    end
+
   end
 
   #DELETE
@@ -210,6 +322,27 @@ describe GraphsController do
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         allow(swarm).to receive(:users).and_return([user])
+
+        graphs_association = double
+        allow(swarm).to receive(:graphs).and_return(graphs_association)
+        allow(graphs_association).to receive(:find).and_return(graph)
+
+        session[:user_id] = user.id
+      end
+
+      it "should render the delete page" do
+        get :delete, :swarm_id => 1, :id => 1
+        expect(response).to render_template :delete
+      end
+    end
+
+    describe "when logged in as an admin" do
+      before do
+        user = Factory(:admin)
+        swarm = Factory(:swarm)
+        graph = Factory(:graph)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -261,6 +394,33 @@ describe GraphsController do
         delete :destroy, :swarm_id => 1, :id => 1
       end
     end
+
+    describe "when logged in as an admin" do
+      let(:user) { Factory.create(:admin) }
+      let(:swarm) { Factory.build(:swarm) }
+      let(:graph) { Factory.build(:graph) }
+
+      before do
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+
+        graphs_association = double
+        allow(swarm).to receive(:graphs).and_return(graphs_association)
+        allow(graphs_association).to receive(:find).and_return(graph)
+
+        session[:user_id] = user.id
+      end
+
+      it "should redirect to the swarm graphs page" do
+        delete :destroy, :swarm_id => 1, :id => 1
+        expect(response).to redirect_to swarm_graphs_path(swarm.token)
+      end
+
+      it "should destroy the graph in question" do
+        expect(graph).to receive(:destroy)
+        delete :destroy, :swarm_id => 1, :id => 1
+      end
+    end
+
   end
 
 end

@@ -77,7 +77,7 @@ class GraphsController < ApplicationController
   end
 
   def check_user_has_permissions_on_swarm
-    unless @swarm.users.include? @current_user
+    unless AccessPermission.can_alter?(@swarm, @current_user)
       flash[:error] = "You don't have permission to do that."
       redirect_to root_path
     end
