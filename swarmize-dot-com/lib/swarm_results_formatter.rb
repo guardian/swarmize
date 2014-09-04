@@ -11,18 +11,23 @@ class SwarmResultsFormatter
 
   def to_csv
     output = CSV.generate do |csv|
-      # first, add the headers
+      # first, add the headers, and the field codes
       headers = []
+      field_codes = []
       headers << "Timestamp"
+      field_codes << 'timestamp'
       @swarm.swarm_fields.each do |f|
         headers << f.field_name
+        field_codes << f.field_code
         if f.derived_field_suffixes
           f.derived_field_suffixes.each do |df|
             headers << "#{f.field_name} [#{df}]"
+            field_codes << "#{f.field_code}#{df}"
           end
         end
       end
       csv << headers
+      csv << field_codes
 
       #now, add all the results
       @raw_results.each do |r|
@@ -47,16 +52,21 @@ class SwarmResultsFormatter
     output = CSV.generate do |csv|
       # first, add the headers
       headers = []
+      field_codes = []
       headers << "Timestamp"
+      field_codes << 'timestamp'
+
       @swarm.swarm_fields.each do |f|
         headers << f.field_name
         if f.derived_field_suffixes
           f.derived_field_suffixes.each do |df|
             headers << "#{f.field_name} [#{df}]"
+            field_codes << "#{f.field_code}#{df}"
           end
         end
       end
       csv << headers
+      csv << field_codes
 
       #now, add all the results
       @raw_results.each do |r|
