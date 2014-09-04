@@ -27,7 +27,9 @@
   %h2 
     Results
     - if @current_user
-      = link_to "CSV", csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+      %a.btn.btn-default{:href => csv_swarm_path(@swarm), :style => "float:right"}
+        %span.glyphicon.glyphicon-file
+        CSV
     - else
       = link_to "CSV", public_csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
 
