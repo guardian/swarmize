@@ -4,9 +4,7 @@
     %span.caret
   %ul.dropdown-menu.dropdown-menu-right
     %li
-      %a{:href => clone_swarm_path(@swarm)}
-        %span.glyphicon.glyphicon-retweet
-        Clone
+      = link_to "<span class='glyphicon glyphicon-retweet'></span> Clone".html_safe, clone_swarm_path(@swarm), :method => :post
       %li.divider
     - if AccessPermission.can_alter?(@swarm, @current_user) && !@swarm.closed?
       %li

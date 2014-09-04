@@ -172,6 +172,7 @@ class SwarmsController < ApplicationController
 
   def clone
     new_swarm = @swarm.clone_by(@current_user)
+    flash[:success] = "A new swarm has been created from the old, and you've been given full permissions on your new version."
     redirect_to new_swarm
   end
 
