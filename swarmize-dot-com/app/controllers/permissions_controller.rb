@@ -1,26 +1,46 @@
 class PermissionsController < ApplicationController
   before_filter :scope_to_swarm
-  before_filter :check_user_can_alter_permissions
-  before_filter :scope_to_permission, :only => %w{edit update delete destroy}
+  before_filter :check_user_can_alter_permissions, :except => :index
+  before_filter :scope_to_permission, :only => %w{destroy}
+
+  def index
+    @access_permissions = @swarm.access_permissions 
+  end
 
   def create
-    unless params[:email].blank?
-      @user = User.find_by email: params[:email]
-      ap = AccessPermission.where(:swarm => @swarm, :email => params[:email])
-      if(ap.empty?)
-        @access_permission = AccessPermission.create(:swarm => @swarm,
-                                                     :user => @user,
-                                                     :creator => @current_user,
-                                                     :email => params[:email])
-        PermissionMailer.permission_email(params[:email], @swarm).deliver
-      end
+    if params[:email].strip.blank?
+      flash[:error] = "You must specify an email address to give permission to!"
+      redirect_to swarm_permissions_path(@swarm) and return
     end
-    render json: @access_permission.to_json(:include => :user)
+
+    if !EmailValidator.is_valid_email?(params[:email])
+      flash[:error] = "You can only give permissions to users with Guardian email addresses."
+      redirect_to swarm_permissions_path(@swarm) and return
+    end
+
+    email = EmailValidator.normalize_email(params[:email])
+
+    @user = User.find_by email: email
+    ap = AccessPermission.where(:swarm => @swarm, :email => email)
+    if(!ap.empty?)
+      flash[:error] = "That user already has permissions on this swarm."
+      redirect_to swarm_permissions_path(@swarm) and return
+    else
+      @access_permission = AccessPermission.create(:swarm => @swarm,
+                                                   :user => @user,
+                                                   :creator => @current_user,
+                                                   :email => email)
+      PermissionMailer.permission_email(email, @swarm).deliver
+      flash[:success] = "#{email} has been given permission to alter this swarm. They've been sent an email notifying them of this fact!"
+      redirect_to swarm_permissions_path(@swarm) and return
+    end
   end
 
   def destroy
+    email = @permission.email
     @permission.destroy
-    render :nothing => true
+    flash[:success] = "#{email} no longer has permissions on this swarm."
+    redirect_to swarm_permissions_path(@swarm)
   end
 
   private
@@ -31,7 +51,7 @@ class PermissionsController < ApplicationController
 
   def check_user_can_alter_permissions
     unless AccessPermission.can_alter_permissions?(@swarm, @current_user)
-      flash[:warning] = "You don't have permission to do that."
+      flash[:error] = "You don't have permission to do that."
       redirect_to @swarm
     end
   end

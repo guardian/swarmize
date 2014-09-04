@@ -1,0 +1,35 @@
+%table.table#permissions
+  %tbody
+    - @swarm.access_permissions.each do |a|
+      %tr
+        -if a.user
+          %td.pic= image_tag a.user.image_url, :height => 25
+          %td{:class => ('owner' if @swarm.owners.include?(a.user))}
+            = link_to a.user.name, a.user
+            - if @swarm.owners.include?(a.user)
+              %i (owner)
+            - if @current_user == a.user
+              %i (you)
+          %td
+            - if @swarm.users.size == 1
+            - else
+              = button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
+        - else
+          %td.pic
+            %td= a.email
+          %td= button_to 'Remove permissions on this swarm', swarm_permission_path(@swarm, a), :class => 'btn btn-default remove-permission', :method => :delete
+
+%hr.divider
+
+%h4 Give someone else permission to alter this swarm
+%p You can allow other people to edit this swarm. Enter their Guardian email address below to invite them to this swarm.
+= form_tag swarm_permissions_path(@swarm), :id => 'create-permission', :class => 'form-horizontal' do
+  .form-group
+    %label.col-sm-2.control-label Email
+    .col-sm-6
+      = text_field_tag :email, nil, :class => 'form-control'
+  .row
+    .col-sm-6.col-sm-offset-2
+      %p= submit_tag "Grant access", :class => "btn btn-default"
+
+

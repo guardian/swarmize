@@ -1,0 +1,30 @@
+.dropdown.actions-dropdown{:style => "float: right;"}
+  %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown"} 
+    Actions
+    %span.caret
+  %ul.dropdown-menu.dropdown-menu-right
+    %li
+      %a{:href => clone_swarm_path(@swarm)}
+        %span.glyphicon.glyphicon-retweet
+        Clone
+      %li.divider
+    - if AccessPermission.can_alter?(@swarm, @current_user) && !@swarm.closed?
+      %li
+        %a{:href => edit_swarm_path(@swarm)}
+          %span.glyphicon.glyphicon-pencil
+          Edit 
+      %li
+        %a{:href => code_swarm_path(@swarm)}
+          %span.glyphicon.glyphicon-th-list
+          Get Code
+    %li
+      %a{:href => swarm_permissions_path(@swarm)}
+        %span.glyphicon.glyphicon-user
+        Permissions
+    - if AccessPermission.can_destroy?(@swarm, @current_user)
+      %li.divider
+      %li
+        %a{:href => spike_swarm_path(@swarm)}
+          %span.glyphicon.glyphicon-remove
+          Spike
+
