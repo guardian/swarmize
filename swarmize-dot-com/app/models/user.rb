@@ -8,15 +8,10 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_from_info_hash(info_hash)
     self.find_or_create_by(
-      :email => info_hash['email'],
+      :email => EmailValidator.normalize_email(info_hash['email']),
       :name => info_hash['name'],
       :image_url => info_hash['image']
     )
-  end
-
-  def self.is_valid_email?(email)
-    email = email.downcase
-    (email == 'tom@infovore.org') || (email =~ /@theguardian\.com$/) || (email =~ /@guardian\.co\.uk$/)
   end
 
   private
