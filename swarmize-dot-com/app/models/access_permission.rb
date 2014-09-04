@@ -19,15 +19,21 @@ class AccessPermission < ActiveRecord::Base
   end
 
   def self.can_alter?(swarm, user)
-    user.is_admin? || swarm.users.include?(user) || swarm.access_permissions.find_by(email: user.email)
+    if user
+      user.is_admin? || swarm.users.include?(user) || swarm.access_permissions.find_by(email: user.email)
+    end
   end
 
   def self.can_destroy?(swarm,user)
-    user.is_admin? || swarm.owners.include?(user)
+    if user
+      user.is_admin? || swarm.owners.include?(user)
+    end
   end
 
   def self.can_alter_permissions?(swarm,user)
-    user.is_admin? || swarm.owners.include?(user)
+    if user
+      user.is_admin? || swarm.owners.include?(user)
+    end
   end
 
   def self.can_see_user_drafts?(current_user, user)

@@ -43,21 +43,4 @@ describe User do
   end
 end
 
-describe "An email address being tested for validity" do
-  it "should be valid if it is Tom" do
-    expect(User.is_valid_email?('tom@infovore.org')).to be_truthy
-  end
-
-  it "should be valid if it is Graham's guardian.com email" do
-    expect(User.is_valid_email?('graham.tackley@theguardian.com')).to be_truthy
-  end
-
-  it "should be valid if it is Matt's guardian.co.uk email" do
-    expect(User.is_valid_email?('matt.mcalister@guardian.co.uk')).to be_truthy
-  end
-
-  it "shouldn't be valid if it is Bob" do
-    expect(User.is_valid_email?('bob@example.org')).to be_falsey
-  end
-end
 

@@ -5,25 +5,14 @@
       - if @swarm.live?
         %span.label.label-success.swarmlive Live!
     .subheader
-      = link_to @swarm.creator.name, user_path(@swarm.creator)
+      = @swarm.owners.map { |creator| link_to @swarm.creator.name, user_path(@swarm.creator) }.to_sentence
       - if @current_user
         |
         = link_to "View Form", embed_swarm_path(@swarm)
-        |
-        = link_to "Get code", code_swarm_path(@swarm)
-      |
-      = link_to "Permissions", "#", "data-toggle" => 'modal', 'data-target' => '#permissions-alter'
       - if @swarm.parent_swarm
         %small
           [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]
+
   .col-sm-3.swarm-controls
-    - if @current_user
-      .button
-        - if AccessPermission.can_destroy?(@swarm, @current_user)
-          = link_to "Spike", spike_swarm_path(@swarm), :class => "btn btn-danger btn-sm"
-      .button
-        = button_to "Clone", clone_swarm_path(@swarm), :class => "btn btn-warning btn-sm"
-      - if AccessPermission.can_alter?(@swarm, @current_user) && !@swarm.closed?
-        .button
-          = link_to "Edit", edit_swarm_path(@swarm), :class => "btn btn-success btn-sm"
+    = render :partial => 'swarms/swarm_dropdown_menu'
 

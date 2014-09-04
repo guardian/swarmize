@@ -1,0 +1,11 @@
+.row.swarm-header
+  .col-sm-12
+    %h1 Users with permissions on '#{@swarm.name}'
+    .subheader
+      = link_to "Back to swarm", @swarm
+
+- if AccessPermission.can_alter_permissions?(@swarm, @current_user)
+  = render :partial => 'owner_permissions_page'
+- else
+  = render :partial => 'logged_out_permissions_page'
+
