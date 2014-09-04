@@ -65,6 +65,8 @@ Swarmize::Application.routes.draw do
     end
   end
 
+  get '/utils/name_to_code', to: 'utils#name_to_code'
+
   get '/auth/google_oauth2', :as => 'login'
   get '/auth/google_oauth2/callback', to: 'sessions#callback'
 
