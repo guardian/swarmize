@@ -106,6 +106,13 @@ form {
   }
 }
 
+.code-text-block {
+  padding: 5px 0;
+  span {
+    font-family: monospace;
+  }
+}
+
 .nav.swarmbuilder-nav {
   margin-bottom: 30px;
 }

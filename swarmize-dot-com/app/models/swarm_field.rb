@@ -49,9 +49,21 @@ class SwarmField < ActiveRecord::Base
     description.has_custom_display_template
   end
 
+  def has_custom_field_code?
+    if !field_code.blank? && !field_name.blank?
+      self.field_code != SwarmField.encode_field_name(field_name)
+    end
+  end
+
+  def self.encode_field_name(name)
+    name.to_s.strip.parameterize.underscore
+  end
+
   private
 
   def set_code
-    self.field_code = field_name.parameterize.underscore
+    if self.field_code.blank?
+      self.field_code = SwarmField.encode_field_name(field_name)
+    end
   end
 end

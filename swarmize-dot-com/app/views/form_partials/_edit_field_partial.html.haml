@@ -1,4 +1,4 @@
-.form-element{:class => field_type}
+.form-element{:class => field_type, "data-has-custom-field-code" => field.has_custom_field_code?}
   .header
     %h2= field_description.display_name
     = render :partial => "form_partials/element_controls"
@@ -8,12 +8,12 @@
     = hidden_field_tag "fields[][field_type]", field_type, :class => 'form-control'
 
   .form-group
-    %label.col-sm-3.control-label Field name
+    %label.col-sm-3.control-label Question
     .col-sm-9
-      = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control'
+      = text_field_tag "fields[][field_name]", field.field_name, :class => 'form-control field-name'
 
   .form-group
-    %label.col-sm-3.control-label Field hint
+    %label.col-sm-3.control-label Hint
     .col-sm-9
       = text_field_tag "fields[][hint]", field.hint, :class => 'form-control'
 
@@ -63,3 +63,18 @@
     .col-sm-9
       = check_box_tag "fields[][compulsory]",  true, field.compulsory, :class => 'form-control'
 
+  .form-group
+    %label.col-sm-3.control-label Field code
+    .col-sm-9
+      - if @swarm.has_opened?
+        = text_field_tag "fields[][field_code]", field.field_code, :class => 'form-control', :disabled => true
+      - else
+        .field-code-block{:style => 'display: none'}
+          = text_field_tag "fields[][field_code]", field.field_code, :class => 'form-control field-code'
+          %p.note <b>Only</b> edit this if you know why you're doing it.
+        %p.code-text-block
+          %span.code-text= field.field_code
+          %a.alter{:href => '#'} Alter
+
+- unless @swarm.has_opened?
+  = render :partial => 'field_code_update_js'

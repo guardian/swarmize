@@ -1,0 +1,20 @@
+:javascript
+  $(document).ready(function() {
+    $(".code-text-block a.alter").click(function(e) {
+      $(this).parents('.form-group').find('.field-code-block').show();
+      $(this).parents('.code-text-block').hide();
+      e.preventDefault();
+    });
+
+    $("input.field-name").change(function(e) {
+      if(!('hasCustomFieldCode' in $(this).parents('.form-element').data())) {
+        var fieldCode = $(this).val();
+        var codeField = $(this).parents('.form-element').find('.field-code');
+        var codeText = $(this).parents('.form-element').find('.code-text');
+        $.get("/utils/name_to_code", {name: fieldCode}, function(data) {
+          $(codeField).val(data);
+          $(codeText).text(data);
+          });
+      }
+    });
+  });
