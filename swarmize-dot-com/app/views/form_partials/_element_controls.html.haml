@@ -1,5 +1,5 @@
 .controls
-  -#%span{:class => 'glyphicon glyphicon-move'}
+  %span.move-this-element.glyphicon.glyphicon-move{:style => "cursor:move;"}
   - unless @swarm.has_opened?
     %a{:href => "#", :class => "close-this-element"}
-      %span{:class => 'glyphicon glyphicon-remove'}
+      = glyphicon('remove')

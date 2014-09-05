@@ -47,8 +47,16 @@ var FieldWorkspace = {
   },
 
   onDropWorkspace: function(event) {
+    console.log("DropEvent:");
+    console.log(event);
     var type = event.dataTransfer.getData('text/plain');
-    var template = _.template( $('#' + type + '_template').html(), {} );
+    var template = "";
+    if(type == 'formElement') {
+      var template = FormElement.draggedElement;
+      FormElement.draggedElement = null;
+    } else {
+      var template = _.template( $('#' + type + '_template').html(), {} );
+    }
     var index = FieldWorkspace.getIndexForEvent(event);
 
     $('.temp').remove();

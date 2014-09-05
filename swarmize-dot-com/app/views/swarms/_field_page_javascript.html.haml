@@ -5,6 +5,14 @@
     $('.fields-palette .field').attr('ondragstart', 'PaletteField.onDragPaletteStart(event)');
     $('.fields-palette .field').attr('ondragend', 'PaletteField.onDragPaletteEnd(event)');
 
+    // set up draggable form fields
+    FormElement.dragTarget = false;
+    $(".form-element").attr('draggable', 'true');
+    $(".form-element .move-this-element").on('mousedown', function(e) {
+      FormElement.dragTarget = e.target;
+    });
+    $('.form-element').attr('ondragstart', 'FormElement.onDragStart(event)');
+
     // set up droppable for workspace
 
     $('#workspace').attr('ondragenter', 'FieldWorkspace.onDragEnterWorkspace(event)');

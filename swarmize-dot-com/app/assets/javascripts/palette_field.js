@@ -14,3 +14,4 @@ var PaletteField = {
     window.beingDraggedText = null;
   }
 }
+

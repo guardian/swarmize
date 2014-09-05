@@ -4,9 +4,18 @@
 %h1 Edit Swarm '#{@swarm.name}'
 
 %ul.nav.nav-tabs.swarmbuilder-nav.nav-justified
-  %li.active= link_to "Swarm Details", edit_swarm_path(@swarm)
-  %li= link_to "Swarm Fields", fields_swarm_path(@swarm)
-  %li= link_to "Preview Swarm", preview_swarm_path(@swarm)
+  %li.active
+    %a{:href => edit_swarm_path(@swarm)}
+      = glyphicon('pencil')
+      Swarm Details
+  %li
+    %a{:href => fields_swarm_path(@swarm)}
+      = glyphicon('list')
+      Swarm Fields
+  %li
+    %a{:href => preview_swarm_path(@swarm)}
+      = glyphicon('list-alt')
+      Preview Swarm
 
 = form_for @swarm, :html => {:class => "form-horizontal"} do |f|
   .form-group
