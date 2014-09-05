@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def glyphicon(string)
+    "<span class='glyphicon glyphicon-#{string}'></span>".html_safe
+  end
+
   def will_paginate(collection_or_options = nil, options = {})
     if collection_or_options.is_a? Hash
       options, collection_or_options = collection_or_options, nil
