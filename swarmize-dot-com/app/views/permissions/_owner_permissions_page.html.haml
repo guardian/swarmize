@@ -4,7 +4,7 @@
       %tr
         -if a.user
           %td.pic= image_tag a.user.image_url, :height => 25
-          %td{:class => ('owner' if @swarm.owners.include?(a.user))}
+          %td.user{:class => ('owner' if @swarm.owners.include?(a.user))}
             = link_to a.user.name, a.user
             - if @swarm.owners.include?(a.user)
               %i (owner)

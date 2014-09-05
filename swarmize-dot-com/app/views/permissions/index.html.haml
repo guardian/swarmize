@@ -1,8 +1,10 @@
-.row.swarm-header
-  .col-sm-12
-    %h1 Users with permissions on '#{@swarm.name}'
-    .subheader
-      = link_to "Back to swarm", @swarm
+.page-header.swarmize-header
+  %h1 
+    Users with permissions on '#{@swarm.name}'
+  %p
+    %a{:href => swarm_path(@swarm)}
+      = glyphicon('circle-arrow-left')
+      Back to swarm
 
 - if AccessPermission.can_alter_permissions?(@swarm, @current_user)
   = render :partial => 'owner_permissions_page'

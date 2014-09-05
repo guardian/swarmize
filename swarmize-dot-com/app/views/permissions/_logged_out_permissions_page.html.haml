@@ -3,7 +3,7 @@
     - @swarm.users.each do |user|
       %tr
         %td.pic= image_tag user.image_url, :height => 25
-        %td
+        %td.user
           = link_to user.name, user
           - if @swarm.owners.include?(user)
             %b (owner)

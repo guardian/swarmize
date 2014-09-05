@@ -122,6 +122,10 @@ form {
   padding-right: 60px;
 }
 
+.page-header.swarmize-header {
+  margin: 0 0 20px;
+}
+
 .swarm-header {
   margin: 0 0px 20px;
   border-bottom: 1px solid #ccc;
@@ -144,6 +148,12 @@ form {
 }
 
 table#permissions {
+  tr:nth-of-type(1) td {
+    border-top: none;
+  }
+  td.user {
+    padding-top: 12px;
+  }
   td.owner {
     font-weight: bold;
   }
