@@ -1,7 +1,8 @@
 - content_for :pagetitle do
   Edit '#{@graph.title}' : Graphs for #{@swarm.name} : 
 
-%h1 Edit graph '#{@graph.title}' for #{@swarm.name}
+.page-header.swarmize-header
+  %h1 Edit graph '#{@graph.title}' for #{@swarm.name}
 
 - if @graphable_fields && @graphable_fields.any?
   = form_for [@swarm, @graph], :html => {:class => "form-horizontal"} do |f|
@@ -34,7 +35,7 @@
     .form-group
       .col-sm-offset-3
         %p= f.submit "Update graph", :class => "btn btn-default"
-        %p= link_to "Back to swarm", @swarm
+        %p= link_to "Back to graphs for '#{@swarm.name}'", swarm_graphs_path(@swarm)
 
 - else
   %p There are no graphable fields in this swarm.

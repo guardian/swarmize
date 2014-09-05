@@ -1,7 +1,8 @@
 - content_for :pagetitle do
   Manage Graphs : #{@swarm.name} : 
 
-%h1 Manage Graphs for #{@swarm.name}
+.page-header.swarmize-header
+  %h1 Manage Graphs for #{@swarm.name}
 
 - if @swarm.graphs.any?
   %table.table

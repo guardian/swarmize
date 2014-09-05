@@ -1,10 +1,13 @@
 - content_for :pagetitle do
   Code for #{@swarm.name} : Swarms : 
 
-%h1 Code for #{@swarm.name}
-
-%p= link_to "Back to swarm", @swarm
-
+.page-header.swarmize-header
+  %h1 
+    Code for '#{@swarm.name}'
+  %p
+    %a{:href => swarm_path(@swarm)}
+      = glyphicon('circle-arrow-left')
+      Back to swarm
 %dl
   %dt Token
   %dd

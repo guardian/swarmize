@@ -1,10 +1,7 @@
 - content_for :pagetitle do
   #{@user.name} : Users : 
 
-%h1 
-  Swarms for #{@user.name}
-  - if @user == @current_user
-    %span.label.label-success.swarmlive You!
+= render :partial => 'users/user_header'
 
 %ul.nav.nav-tabs
   %li.active

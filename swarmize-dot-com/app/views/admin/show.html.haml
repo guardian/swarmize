@@ -1,7 +1,8 @@
 - content_for :pagetitle do
   Admin : 
 
-%h1 Admin tools
+.page-header.swarmize-header
+  %h1 Admin tools
 
 %ul.nav.nav-tabs
   %li.active= link_to "Fake Data", "#fake", "data-toggle" => 'tab'
@@ -9,7 +10,7 @@
   %li= link_to "Tokens ", "#tokens", "data-toggle" => 'tab'
 
 .tab-content
-  #fate.tab-pane.active
+  #fake.tab-pane.active
     %h2 Fake data
 
     %p= button_to "Clear out fake data, make fake swarms/users", dummy_up_admin_path, :class => "btn btn-default"

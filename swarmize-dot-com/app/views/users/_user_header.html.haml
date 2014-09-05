@@ -1,0 +1,6 @@
+.page-header.swarmize-header
+  %h1 
+    Swarms for #{@user.name}
+    - if @user == @current_user
+      %span.label.label-success.swarmlive You!
+
