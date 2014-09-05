@@ -6,7 +6,7 @@
       e.preventDefault();
     });
 
-    $("input.field-name").change(function(e) {
+    $("input.field-name").unbind('change').on('change', function(e) {
       if(!('hasCustomFieldCode' in $(this).parents('.form-element').data())) {
         var fieldCode = $(this).val();
         var codeField = $(this).parents('.form-element').find('.field-code');
@@ -14,7 +14,22 @@
         $.get("/utils/name_to_code", {name: fieldCode}, function(data) {
           $(codeField).val(data);
           $(codeText).text(data);
-          });
+        });
+      }
+    });
+
+    $("input.field-code").unbind('focus').on('focus', function(e) {
+      console.log('focus');
+      $(this).data('code-pre-alter', $(this).val());
+      console.log($(this).data());
+    });
+
+    $("input.field-code").unbind('change').on('change', function(e) {
+      if('codePreAlter' in $(this).data()) {
+        if($(this).val() != $(this).data('codePreAlter')) {
+          console.log("changed by hand, noting this is a custom field code");
+          $(this).parents('.form-element').data('hasCustomFieldCode', true);
+        }
       }
     });
   });
