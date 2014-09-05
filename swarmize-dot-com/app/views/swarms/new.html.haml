@@ -1,12 +1,22 @@
 - content_for :pagetitle do
   New Swarm : Swarms :
 
-%h1 Create Swarm
+.page-header.swarmize-header
+  %h1 Create Swarm
 
 %ul.nav.nav-tabs.swarmbuilder-nav.nav-justified
-  %li.disabled.active= link_to "Swarm Details", new_swarm_path
-  %li.disabled= link_to "Swarm Fields", '#'
-  %li.disabled= link_to "Preview Swarm", '#'
+  %li.disabled.active
+    %a{:href => new_swarm_path}
+      = glyphicon('pencil')
+      Swarm Details
+  %li.disabled
+    %a{:href => '#'}
+      = glyphicon('list')
+      Swarm Fields
+  %li.disabled
+    %a{:href => '#'}
+      = glyphicon('list-alt')
+      Preview Swarm
 
 = form_for @swarm, :html => {:class => "form-horizontal"} do |f|
   .form-group

@@ -1,7 +1,9 @@
 - content_for :pagetitle do
   Edit '#{@swarm.name}' : Swarms : 
 
-%h1 Edit Swarm '#{@swarm.name}'
+.page-header.swarmize-header
+  %h1 Edit Swarm '#{@swarm.name}'
+  %p= link_to "Back to swarm", @swarm
 
 %ul.nav.nav-tabs.swarmbuilder-nav.nav-justified
   %li.active
