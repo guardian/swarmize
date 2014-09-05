@@ -1,18 +1,20 @@
-.row.swarm-header
-  .col-sm-9
-    %h1
-      = @swarm.name
-      - if @swarm.live?
-        %span.label.label-success.swarmlive Live!
-    .subheader
-      = @swarm.owners.map { |creator| link_to @swarm.creator.name, user_path(@swarm.creator) }.to_sentence
-      - if @current_user
-        |
-        = link_to "View Form", embed_swarm_path(@swarm)
-      - if @swarm.parent_swarm
-        %small
-          [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]
+.row
+  .page-header.swarmize-header
+    .col-sm-9
+      %h1
+        = @swarm.name
+        - if @swarm.live?
+          %span.label.label-success.swarmlive Live!
+      .subheader
+        = @swarm.owners.map { |creator| link_to @swarm.creator.name, user_path(@swarm.creator) }.to_sentence
+        - if @current_user
+          |
+          = link_to "View Form", embed_swarm_path(@swarm)
+        - if @swarm.parent_swarm
+          %small
+            [Cloned from #{link_to @swarm.parent_swarm.name, swarm_path(@swarm.parent_swarm)}]
 
-  .col-sm-3.swarm-controls
-    = render :partial => 'swarms/swarm_dropdown_menu'
+    .col-sm-3.swarm-controls
+      = render :partial => 'swarms/swarm_dropdown_menu'
 
+    .clearfix

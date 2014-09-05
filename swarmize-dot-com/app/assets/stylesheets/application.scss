@@ -36,14 +36,16 @@
 }
 
 span.swarmlive {
-  font-size: 18px;
-  vertical-align: top;
+  /*font-size: 14px;*/
+  /*font-size: 50%;*/
+  /*vertical-align: top;*/
+  padding: 5px 15px;
 }
 
 .swarm-controls {
-  .button {
+  margin: 20px 0 0;
+  .actions-dropdown {
     float: right;
-    margin-left: 10px;
   }
 }
 
