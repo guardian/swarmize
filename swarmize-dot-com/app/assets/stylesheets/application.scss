@@ -92,6 +92,15 @@ form {
         position: absolute;
         top: 0;
         right: 0;
+        span.move-this-element:hover {
+          color: #428bca;
+        }
+        a.close-this-element:link, a.close-this-element:visited {
+          color: #333;
+        }
+        a.close-this-element:hover, a.close-this-element:active {
+          color: #428bca;
+        }
       }
 
       h2 {
