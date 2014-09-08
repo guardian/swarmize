@@ -4,6 +4,10 @@ module ApplicationHelper
     "<span class='glyphicon glyphicon-#{string}'></span>".html_safe
   end
 
+  def serve_from_cloudfront(path)
+    "http://d2onls90l91t9l.cloudfront.net#{path}"
+  end
+
   def will_paginate(collection_or_options = nil, options = {})
     if collection_or_options.is_a? Hash
       options, collection_or_options = collection_or_options, nil

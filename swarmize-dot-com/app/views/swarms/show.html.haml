@@ -32,7 +32,10 @@
         = glyphicon('file')
         CSV
     - else
-      = link_to "CSV", public_csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
+      - if Rails.env.production?
+        = link_to "CSV", serve_from_cloudfront(public_csv_swarm_path(@swarm)), :class => "btn btn-default", :style => 'float: right'
+      - else
+        = link_to "CSV", public_csv_swarm_path(@swarm), :class => "btn btn-default", :style => 'float: right'
 
   .clearfix
 
