@@ -59,6 +59,8 @@ class SwarmsController < ApplicationController
   def public_csv
     results = @swarm.search.entirety
     formatted_results = SwarmResultsFormatter.new(@swarm,results)
+
+    expires_in 1.year, :public => true # we need to set this to be public
     send_data formatted_results.to_public_csv, 
               filename: "#{@swarm.token}.csv"
   end
