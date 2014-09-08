@@ -25,6 +25,7 @@
 
 - if @swarm.closed? || @current_user
   %h2 
+    %hr.divider
     Results
     - if @current_user
       %a.btn.btn-default{:href => csv_swarm_path(@swarm), :style => "float:right"}
@@ -40,6 +41,7 @@
   - else
     = render :partial => "swarms/swarm_results"
 - else
+  %hr.divider
   %h2 Results
   %p Results will appear here when the swarm is complete.
 
