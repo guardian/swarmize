@@ -1,3 +1,9 @@
+%p
+  %span.huge-number= @total_count
+  submissions to this swarm to date, including:
+
+%h3 Sample Results
+
 %table.table
   %thead
     %tr
@@ -25,26 +31,3 @@
               - field.derived_field_codes.each do |df|
                 %td Redacted
 
-%ul.pagination
-  - if @current_page > 1
-    %li
-      %a{:href => "?page=#{@current_page - 1}"} &laquo;
-  - else
-    %li.disabled
-      %span &laquo;
-
-  - @total_pages.times do |i|
-    - if i+1 == @current_page
-      %li.active
-        %span
-          = i+1
-          %span.sr-only (current)
-    - else
-      %li
-        %a{:href => "?page=#{i+1}"}= i+1
-  - if @current_page < @total_pages
-    %li
-      %a{:href => "?page=#{@current_page + 1}"} &raquo;
-  - else
-    %li.disabled
-      %span &raquo;

@@ -29,6 +29,12 @@ class SwarmizeSearch
     (total_hits.to_f/per_page).ceil
   end
 
+  def count_all
+    query = all_query(1, 10)
+    search_results_hash = search(token,query)
+    search_results_hash['hits']['total']
+  end
+
   def all(page=1, per_page=10)
     query = all_query(page, per_page)
     

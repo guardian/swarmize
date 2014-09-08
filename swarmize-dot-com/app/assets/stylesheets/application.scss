@@ -19,6 +19,11 @@
   src: url(asset_path('glyphicons-halflings-regular.eot?#iefix')) format('embedded-opentype'), url(asset_path('glyphicons-halflings-regular.woff')) format('woff'), url(asset_path('glyphicons-halflings-regular.ttf')) format('truetype'), url(asset_path('glyphicons-halflings-regular.svg#glyphicons_halflingsregular')) format('svg');
 }
 
+.huge-number {
+  font-weight: bold;
+  font-size: 140%;
+}
+
 .navbar-inverse .navbar-brand {
   color: #ddd !important; // overriding bootstrap, hence the !important. sorry.
 }
