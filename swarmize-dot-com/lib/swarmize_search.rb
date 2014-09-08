@@ -48,33 +48,17 @@ class SwarmizeSearch
   end
 
   def entirety
-    # TODO: 'scroll' query
-    per_page = 100
-    result_set = []
-
-    query = all_query(1, per_page)
-
-    search_results_hash = search(token,query)
-
-    total_pages = total_pages_for_results(search_results_hash, per_page)
-
-    rows = search_results_hash.hits.hits.map {|h| h._source}
-
-    result_set = rows
-
-    if total_pages > 1
-      (2..total_pages).each do |p|
-        query = all_query(p, per_page)
-
-        search_results_hash = search(token,query)
-
-        rows = search_results_hash.hits.hits.map {|h| h._source}
-
-        result_set += rows
-      end
+    results = []
+    # scan and scroll
+    # Open the "view" of the index with the `scan` search_type
+    r = @client.search index: 'rycadjgp', 
+                      search_type: 'scan', 
+                      scroll: '5m', 
+                      size: 100
+    while r = @client.scroll(scroll_id: r['_scroll_id'], scroll: '5m') and not r['hits']['hits'].empty? do
+      results += r['hits']['hits'].map {|h| Hashie::Mash.new(h['_source'])}
     end
-
-    result_set
+    results
   end
 
   def aggregate_count(field)
