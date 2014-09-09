@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def serve_from_cloudfront(path)
-    "http://d2onls90l91t9l.cloudfront.net#{path}"
+    "http://cdn.swarmize.com#{path}"
   end
 
   def will_paginate(collection_or_options = nil, options = {})
