@@ -25,7 +25,8 @@
         width: 800,
         height: 300,
         renderer: 'line',
-        series: transformedData
+        series: transformedData,
+        interpolation: 'linear'
       });
 
       var x_axis = new Rickshaw.Graph.Axis.Time( {graph: graph});
