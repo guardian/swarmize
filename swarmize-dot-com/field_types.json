@@ -1,40 +1,57 @@
 {
     "text": {
         "display_name": "Text",
-        "has_sample": true
+        "has_sample": true,
+        "type": "free_text"
     },
     "bigtext": {
         "display_name": "Big Text",
         "has_sample": true,
-        "has_custom_display_template": true
+        "has_custom_display_template": true,
+        "type": "free_text"
     },
     "address": {
         "display_name": "Address",
         "has_sample": true,
-        "redact": true
+        "redact": true,
+        "type": "free_text"
     },
     "city": {
         "display_name": "City",
-        "has_sample": true
+        "has_sample": true,
+        "type": "free_text"
     },
     "county": {
         "display_name": "County",
-        "has_sample": true
+        "has_sample": true,
+        "type": "free_text"
     },
     "state": {
         "display_name": "State",
-        "has_sample": true
+        "has_sample": true,
+        "type": "free_text"
     },
     "country": {
         "display_name": "Country",
-        "has_sample": true
+        "has_sample": true,
+        "type": "free_text"
     },
     "postcode": {
         "display_name": "Postcode",
         "has_sample": true,
         "validation": "isAPostcode",
-        "derived_fields": [
-            "_lonlat"
+        "type": "symbol",
+        "process": [
+            {
+                "endpoint": "http://swarmizegeocoder-prod.elasticbeanstalk.com/geocode",
+                "derives": {
+                   "_lonlat": {
+                       "display_name": "Geo Location",
+                       "type": "geopoint"
+                   }
+                }
+            }
+
         ],
         "redact": true
     },
@@ -43,41 +60,50 @@
         "has_sample": true,
         "input_type": "email",
         "validation": "email",
+        "type": "symbol",
         "redact": true
     },
     "url": {
         "display_name": "URL",
         "has_sample": true,
+        "type": "symbol",
         "validation": "url"
     },
     "number": {
         "display_name": "Number",
         "has_sample": true,
+        "type": "number",
         "validation": "decimal"
     },
     "pick_one": {
         "display_name": "Pick One",
         "has_possible_values": true,
-        "has_custom_display_template": true
+        "has_custom_display_template": true,
+        "type": "symbol",
+        "max_values": 1
     },
     "pick_several": {
         "display_name": "Pick Several",
         "has_possible_values": true,
-        "has_custom_display_template": true
+        "has_custom_display_template": true,
+        "type": "symbol"
     },
     "rating": {
         "display_name": "Rating",
         "has_custom_display_template": true,
         "has_minimum": true,
-        "has_maximum": true
+        "has_maximum": true,
+        "type": "number"
     },
     "yesno": {
         "display_name": "Yes/No",
-        "has_custom_display_template": true
+        "has_custom_display_template": true,
+        "type": "boolean"
     },
     "check_box": {
         "display_name": "Checkbox",
         "has_custom_display_template": true,
-        "validation": "agreement"
+        "validation": "agreement",
+        "type": "boolean"
     }
 }
