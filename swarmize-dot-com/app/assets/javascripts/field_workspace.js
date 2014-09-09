@@ -75,6 +75,7 @@ var FieldWorkspace = {
     FieldWorkspace.bindLinks();
     FieldWorkspace.reindexFormElements();
     FieldWorkspace.resetDragCount(event);
+    FormElement.setupDraggableFields(event);
     event.preventDefault();
   },
 

@@ -13,5 +13,14 @@ var FormElement = {
       console.log("Dragged by other");
       event.preventDefault();
     }
+  },
+
+  setupDraggableFields: function() {
+    FormElement.dragTarget = false;
+    $(".form-element").attr('draggable', 'true');
+    $(".form-element .move-this-element").on('mousedown', function(e) {
+      FormElement.dragTarget = e.target;
+    });
+    $('.form-element').attr('ondragstart', 'FormElement.onDragStart(event)');
   }
 }
