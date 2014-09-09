@@ -1,38 +1,7 @@
 %h2 Graphs
 
 - @swarm.graphs.each_with_index do |graph, i|
-  :javascript
-    $(document).ready(function() {
-      $("#graphs").append("<div class='graph-container' id='graph-container#{i+1}'></div>");
-      $("#graph-container#{i+1}").append("<h3>#{graph.title}</h3>");
-      $("#graph-container#{i+1}").append("<div class='g' id='graph#{i+1}'></div>");
-      $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(loadData) {
-        window.graphDataCache['graph#{i+1}'] = loadData;
-        console.log("Storing", loadData, "in graphDataCache[graph#{i+1}]")
-        chart#{i+1} = c3.generate({
-          bindto: '#graph#{i+1}',
-          data: {
-            json: loadData,
-            type: 'pie'
-          }
-        });
-      });
-
-      setInterval(function () {
-        $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(updateData) {
-          if(_.isEqual(updateData, window.graphDataCache['graph#{i+1}'])) {
-            console.log('no change');
-          } else {
-            console.log("Data in graphDataCache[graph#{i+1}]:", window.graphDataCache['graph#{i+1}'], "is not: ", updateData);
-
-            window.graphDataCache['graph#{i+1}'] = updateData;
-            chart#{i+1}.load({
-              json: updateData
-            });
-          }
-        });
-      }, 5000);
-    });
+  = render :partial => "graphs/#{graph.viz_type}", :locals => {:graph => graph, :count => i}
 
 #graphs
 

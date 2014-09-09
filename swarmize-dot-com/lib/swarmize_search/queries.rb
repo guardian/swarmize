@@ -49,5 +49,26 @@ class SwarmizeSearch
         end
       end
     end
+
+    def count_over_time_query(field, interval)
+      Jbuilder.encode do |json|
+        json.size 0
+        json.aggs do
+          json.field_count do
+            json.terms do
+              json.field field
+            end
+            json.aggs do
+              json.results_per_minute do
+                json.date_histogram do
+                  json.field 'timestamp'
+                  json.interval interval
+                end
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end

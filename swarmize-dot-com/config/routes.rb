@@ -72,4 +72,5 @@ Swarmize::Application.routes.draw do
 
   get 'swarms/:swarm_id/graphs/count/:count_field', to: 'graphs#aggregate_count'
   get 'swarms/:swarm_id/graphs/count/:count_field/:unique_field', to: 'graphs#cardinal_count'
+  get 'swarms/:swarm_id/graphs/count_over_time/:count_field/:interval', to: 'graphs#count_over_time'
 end

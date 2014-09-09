@@ -1,0 +1,32 @@
+:javascript
+  $(document).ready(function() {
+    $("#graphs").append("<div class='graph-container' id='graph-container#{count+1}'></div>");
+    $("#graph-container#{count+1}").append("<h3>#{graph.title}</h3>");
+    $("#graph-container#{count+1}").append("<div class='g' id='graph#{count+1}'></div>");
+    $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(loadData) {
+      window.graphDataCache['graph#{count+1}'] = loadData;
+      console.log("Storing", loadData, "in graphDataCache[graph#{count+1}]")
+      chart#{count+1} = c3.generate({
+        bindto: '#graph#{count+1}',
+        data: {
+          json: loadData,
+          type: 'pie'
+        }
+      });
+    });
+
+    setInterval(function () {
+      $.getJSON('#{SwarmizeGraph.count_url(@swarm, graph.field, graph.options[:filter_field])}', function(updateData) {
+        if(_.isEqual(updateData, window.graphDataCache['graph#{count+1}'])) {
+          console.log('no change');
+        } else {
+          console.log("Data in graphDataCache[graph#{count+1}]:", window.graphDataCache['graph#{count+1}'], "is not: ", updateData);
+
+          window.graphDataCache['graph#{count+1}'] = updateData;
+          chart#{count+1}.load({
+            json: updateData
+          });
+        }
+      });
+    }, 5000);
+  });
