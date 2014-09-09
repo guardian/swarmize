@@ -1,0 +1,55 @@
+:javascript
+  $(document).ready(function() {
+    // create the graph container
+    $("#graphs").append("<div class='graph-container' id='graph-container#{count+1}'></div>");
+    // create the title
+    $("#graph-container#{count+1}").append("<h3>#{graph.title}</h3>");
+    // create the timeseries container
+    $("#graph-container#{count+1}").append("<div class='timeseries-container' id='graph#{count+1}'></div>");
+    // create the timeseries and axis inside the container
+    $("#graph#{count+1}").append("<div class='timeseries'></div>");
+    $("#graph#{count+1}").append("<div class='y_axis'></div>");
+    // create the legend
+    $("#graph-container#{count+1}").append("<div class='timeseries-legend'></div>");
+    $.get('#{SwarmizeGraph.time_series_url(@swarm,graph.field)}', function(data) {
+
+      var palette = new Rickshaw.Color.Palette();
+      
+      var transformedData = _.map(data, function(field) {
+        field.color = palette.color();
+        return field;
+      });
+      console.log(transformedData);
+      var graph = new Rickshaw.Graph( {
+        element: document.querySelector('#graph#{count+1} .timeseries'),
+        width: 800,
+        height: 300,
+        renderer: 'line',
+        series: transformedData
+      });
+
+      var x_axis = new Rickshaw.Graph.Axis.Time( {graph: graph});
+      var y_axis = new Rickshaw.Graph.Axis.Y({
+                graph: graph,
+                orientation: 'left',
+                tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+                element: document.querySelector("#graph#{count+1} .y_axis")
+      });
+
+      var legend = new Rickshaw.Graph.Legend( {
+        element: document.querySelector("#graph-container#{count+1} .timeseries-legend"),
+        graph: graph
+      });
+
+      var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+        graph: graph,
+        formatter: function(series, x, y) {
+          var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
+          var content = swatch + series.name;
+          return content;
+        }
+      });
+
+      graph.render();
+    });
+  });

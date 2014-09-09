@@ -15,7 +15,7 @@
     .form-group
       %label.col-sm-3.control-label Graph type
       .col-sm-6
-        = f.select :graph_type, [['Count', 'count'], ['Cardinal Count', 'cardinal_count']], {}, {:class => 'form-control'}
+        = f.select :graph_type, [['Count', 'count'], ['Cardinal Count', 'cardinal_count'], ['Count Over Time', 'count_over_time']], {}, {:class => 'form-control'}
 
     .form-group
       %label.col-sm-3.control-label Field to graph

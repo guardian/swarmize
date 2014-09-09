@@ -81,5 +81,19 @@ class SwarmizeSearch
     buckets.map {|b| {b['key'] => b.unique_field.value} }
   end
 
+  def count_over_time(field, interval)
+    query = count_over_time_query(field, interval)
+    p query
+    search_results_hash = search(token,query)
+    buckets = search_results_hash.aggregations.field_count.buckets
+    buckets.map do |b| 
+      results_per_minute = b.results_per_minute.buckets.map do |r|
+        p r
+        { r['key'] => r.doc_count }
+      end
+      {b['key'] => results_per_minute }
+    end
+  end
+
 
 end

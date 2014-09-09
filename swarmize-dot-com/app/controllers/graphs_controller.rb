@@ -66,6 +66,21 @@ class GraphsController < ApplicationController
     render :json => results
   end
 
+  def count_over_time
+    results = @swarm.search.count_over_time(params[:count_field], params[:interval]).map do |k| 
+      field_name = k.keys.first
+      data = k[field_name].map do |row|
+        t = row.keys.first
+        value = row[t]
+        {x: t/1000, y: value} # elasticsearch stores in miliseconds
+      end
+      {name: field_name,
+       data: data}
+    end
+
+    render :json => results
+  end
+
   private
 
   def scope_to_swarm
@@ -96,10 +111,10 @@ class GraphsController < ApplicationController
       @graphable_fields = pick_one_fields.map do |f|
         [f.field_name, f.field_code]
       end
-      @filter_fields = @swarm.swarm_fields.map do |f|
+     @filter_fields = @swarm.swarm_fields.map do |f|
         [f.field_name, f.field_code]
       end
-      @graph_types = [['Pie', 'pie']]
+      @graph_types = [['Pie', 'pie'], ['Time Series', 'timeseries']]
     end
   end
 
