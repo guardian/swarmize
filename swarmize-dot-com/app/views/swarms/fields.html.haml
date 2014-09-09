@@ -19,7 +19,12 @@
       = glyphicon('list-alt')
       Preview Swarm
 
-= render "swarms/field_page_javascript"
+:javascript
+  $(document).ready(function() {
+    PaletteField.setupDraggable();
+    FormElement.setupDraggableFields();
+    FieldWorkspace.setupDragDrop();
+  });
 
 .row
   .col-sm-3

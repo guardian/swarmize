@@ -1,4 +1,21 @@
 var FieldWorkspace = {
+  setupDragDrop: function() {
+    $('#workspace').attr('ondragenter', 'FieldWorkspace.onDragEnterWorkspace(event)');
+    $('#workspace').attr('ondragover', 'FieldWorkspace.onDragOverWorkspace(event)');
+    $('#workspace').attr('ondragleave', 'FieldWorkspace.onDragLeaveWorkspace(event)');
+    $('#workspace').attr('ondragend', 'FieldWorkspace.onDragEndWorkspace(event)');
+    $('#workspace').attr('ondrop', 'FieldWorkspace.onDropWorkspace(event)');
+
+    FieldWorkspace.bindLinks();
+    FieldWorkspace.reindexFormElements();
+
+    $('.fields-palette').affix({
+      offset: {
+        top: $("#workspace").offset().top
+      }
+    });
+  },
+
   onDragEnterWorkspace: function(event) {
     event.preventDefault();
     FieldWorkspace.updateDragCount(event);
