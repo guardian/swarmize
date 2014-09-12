@@ -39,7 +39,7 @@ object Decider extends ClassLogger {
     val swarm = Swarm.findByToken(submittedData.swarmToken)
       .getOrElse(sys.error("Swarm no longer exists: " + submittedData.swarmToken))
 
-    val requiredAcivities = Activity.allThatShouldProcess(swarm).map(_.name)
+    val requiredAcivities = swarm.processors ::: StoreInElasticsearchActivity.name :: Nil
 
     log.info(s"$submissionId: required activities are $requiredAcivities")
 

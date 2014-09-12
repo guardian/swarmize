@@ -43,6 +43,7 @@
         "archetype": "token",
         "process": [
             {
+                "id": "GeocodePostcode",
                 "endpoint": "http://swarmizegeocoder-prod.elasticbeanstalk.com/geocode",
                 "derives": {
                    "_lonlat": "geolocation"

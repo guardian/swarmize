@@ -1,7 +1,7 @@
 package swarmize
 
 import play.api.libs.json._
-import swarmize.json.JsonSwarmField
+import swarmize.json.{ProcessingStepJson, JsonSwarmField}
 
 import scala.math.BigDecimal
 
@@ -15,11 +15,6 @@ sealed trait SwarmField {
   def fullName = underlyingDefinition.field_name
 
   def isCompulsory = underlyingDefinition.compulsory
-
-  // TODO: THIS IS JUST USED IN THE PostCode processing, which should switch accross to
-  // our more general model. This field must die.
-  @deprecated("Do Not Use!", since = "12 Sept 2014")
-  def fieldTypeName: String = underlyingDefinition.field_type
 
   lazy val fieldType = FieldTypes(underlyingDefinition.field_type)
 
@@ -36,6 +31,8 @@ sealed trait SwarmField {
       }
       .map(SwarmField.apply)
   }
+
+  def processors: List[ProcessingStepJson] = fieldType.processingSteps
 
   def validate(maybeValue: Option[JsValue]): JsResult[JsValue] =
     if (isCompulsory && maybeValue.isEmpty)

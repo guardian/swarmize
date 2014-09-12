@@ -1,7 +1,7 @@
 package swarmize
 
 import org.scalatest._
-import swarmize.json.{FieldTypeJson, JsonSwarmField}
+import swarmize.json.JsonSwarmField
 
 class SwarmFieldTypesTest extends FlatSpec with Matchers with OptionValues {
 
@@ -32,6 +32,7 @@ class SwarmFieldTypesTest extends FlatSpec with Matchers with OptionValues {
 
     val step1 = postcode.process.value.head
 
+    step1.id shouldBe "GeocodePostcode"
     step1.endpoint shouldBe "http://swarmizegeocoder-prod.elasticbeanstalk.com/geocode"
     step1.derives shouldBe Map(
       "_lonlat" -> "geolocation"
@@ -42,5 +43,18 @@ class SwarmFieldTypesTest extends FlatSpec with Matchers with OptionValues {
     val field = SwarmField(fieldDef)
 
     field.derivedFields.size shouldBe 1
+    field.derivedFields.head.getClass.getSimpleName shouldBe "GeoPointField"
+  }
+
+  it should "expose processing steps" in {
+    val field = SwarmField(fieldDefinitionForFieldOfType("postcode"))
+
+    field.processors.size shouldBe 1
+  }
+
+
+  it should "have unqiue processing step names" in {
+    val allProcessors = FieldTypes.processors.toList
+    allProcessors.map(_.id).toSet.size shouldBe allProcessors.size
   }
 }

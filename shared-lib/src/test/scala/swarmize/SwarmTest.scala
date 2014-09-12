@@ -44,4 +44,5 @@ class SwarmTest extends FlatSpec with Matchers {
 
     TestSwarms.broadbandSurvey.derivedFields.map(_.codeName) should contain ("what_is_your_postcode_lonlat")
   }
+
 }

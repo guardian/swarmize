@@ -4,6 +4,7 @@ import play.api.libs.json.{JsObject, Json}
 
 case class ProcessingStepJson
 (
+  id: String,
   endpoint: String,
   derives: Map[String, String]
 )

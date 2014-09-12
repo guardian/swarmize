@@ -19,6 +19,9 @@ case class Swarm
 
   lazy val derivedFields: List[SwarmField] = fields.flatMap(_.derivedFields)
 
+  lazy val processors: List[String] = fields.flatMap(_.processors.map(_.id))
+
+
   def status: Status =
     if (definition.closes_at.exists(_.isBeforeNow)) Closed
     else if (definition.opens_at.exists(_.isBeforeNow)) Open

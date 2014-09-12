@@ -11,5 +11,8 @@ object FieldTypes {
     sys.error("I don't know how to deal with an underlying field type of " + t)
   }
 
-  def apply(fieldTypeName: String) = types(fieldTypeName)
+  def apply(fieldTypeName: String): FieldTypeJson = types(fieldTypeName)
+
+
+  def processors = types.values.flatMap(_.processingSteps).toList
 }

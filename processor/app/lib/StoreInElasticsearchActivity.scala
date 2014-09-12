@@ -93,6 +93,4 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
       }
     }
   }
-
-  override def shouldProcess(s: Swarm): Boolean = true
 }
