@@ -23,7 +23,7 @@ app.post("/geocode", function(req,res) {
         
         var latLonFieldName = fieldToGeocode + "_lonlat";
 
-        output[latLonFieldName] = [lon,lat];
+        output[latLonFieldName] = [parseFloat(lon),parseFloat(lat)];
 
         res.json(output);
       } else {
