@@ -15,7 +15,7 @@ object LookupPostcodeActivity extends Activity with ClassLogger {
     log.info(s"${r.submissionId} lookup postcode running")
 
     val swarm = Swarm.findByToken(r.swarmToken).get
-    val postcodeFields = swarm.fields.filter(_.fieldType == "postcode").map(_.codeName).map("field" -> _)
+    val postcodeFields = swarm.fields.filter(_.fieldTypeName == "postcode").map(_.codeName).map("field" -> _)
 
     import play.api.Play.current
 
@@ -42,6 +42,6 @@ object LookupPostcodeActivity extends Activity with ClassLogger {
   }
 
   override def shouldProcess(s: Swarm): Boolean = {
-    s.fields.exists(_.fieldType == "postcode")
+    s.fields.exists(_.fieldTypeName == "postcode")
   }
 }

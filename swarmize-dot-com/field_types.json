@@ -45,10 +45,7 @@
             {
                 "endpoint": "http://swarmizegeocoder-prod.elasticbeanstalk.com/geocode",
                 "derives": {
-                   "_lonlat": {
-                       "display_name": "Geo Location",
-                       "type": "geopoint"
-                   }
+                   "_lonlat": "geolocation"
                 }
             }
 
@@ -105,5 +102,9 @@
         "has_custom_display_template": true,
         "validation": "agreement",
         "archetype": "boolean"
+    },
+    "geolocation": {
+        "display_name": "Geolocation",
+        "archetype": "geopoint"
     }
 }

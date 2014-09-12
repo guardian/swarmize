@@ -27,6 +27,9 @@ object Swarms extends Controller {
           |Fields:
           |${c.fields.map(_.description).mkString("\n")}
           |
+          |Dervied Fields:
+          |${c.derivedFields.map(_.description).mkString("\n")}
+          |
           |Schema:
           |${Json.prettyPrint(c.definition.toJson)}
         """.stripMargin

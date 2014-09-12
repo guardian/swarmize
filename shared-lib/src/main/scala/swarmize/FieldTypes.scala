@@ -10,4 +10,6 @@ object FieldTypes {
   lazy val types = json.as[Map[String, FieldTypeJson]].withDefault { t =>
     sys.error("I don't know how to deal with an underlying field type of " + t)
   }
+
+  def apply(fieldTypeName: String) = types(fieldTypeName)
 }

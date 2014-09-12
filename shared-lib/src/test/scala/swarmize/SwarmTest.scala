@@ -38,4 +38,10 @@ class SwarmTest extends FlatSpec with Matchers {
     swarmWith(open = Some(now plusDays 2), close = Some(now minusDays 2)).status shouldBe Closed
   }
 
+  it should "calculate dervied fields correctly" in {
+    // we rely on this test data
+    TestSwarms.broadbandSurvey.fields.map(_.codeName) should contain ("what_is_your_postcode")
+
+    TestSwarms.broadbandSurvey.derivedFields.map(_.codeName) should contain ("what_is_your_postcode_lonlat")
+  }
 }

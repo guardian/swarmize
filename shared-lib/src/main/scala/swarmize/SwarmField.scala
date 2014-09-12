@@ -9,14 +9,33 @@ import scala.math.BigDecimal
 sealed trait SwarmField {
   def description: String = s"$codeName: ${getClass.getSimpleName}${if (isCompulsory) " (COMPULSORY)" else ""}"
 
-  def codeName: String
+  protected def underlyingDefinition: json.JsonSwarmField
 
-  def isCompulsory: Boolean
+  def codeName = underlyingDefinition.field_name_code
+  def fullName = underlyingDefinition.field_name
+
+  def isCompulsory = underlyingDefinition.compulsory
 
   // TODO: THIS IS JUST USED IN THE PostCode processing, which should switch accross to
-  // our more general model. This field must code.
+  // our more general model. This field must die.
   @deprecated("Do Not Use!", since = "12 Sept 2014")
-  def fieldType: String = "XXXX"
+  def fieldTypeName: String = underlyingDefinition.field_type
+
+  lazy val fieldType = FieldTypes(underlyingDefinition.field_type)
+
+  lazy val derivedFields: List[SwarmField] = {
+    fieldType.processingSteps
+      .flatMap(_.derives)
+      .map { case (suffix, derivedFieldType) =>
+        json.JsonSwarmField(
+          field_name = "Derived field",
+          field_name_code = codeName + suffix,
+          field_type = derivedFieldType,
+          compulsory = false
+        )
+      }
+      .map(SwarmField.apply)
+  }
 
   def validate(maybeValue: Option[JsValue]): JsResult[JsValue] =
     if (isCompulsory && maybeValue.isEmpty)
@@ -26,28 +45,21 @@ sealed trait SwarmField {
 
 }
 
-case class FreeTextField(codeName: String, isCompulsory: Boolean) extends SwarmField
+case class FreeTextField(underlyingDefinition: json.JsonSwarmField) extends SwarmField
 
 
 
-trait TokenField extends SwarmField
+sealed trait TokenField extends SwarmField
 
-case class SimpleTokenField
-(
-  codeName: String,
-  isCompulsory: Boolean,
-  override val fieldType: String
-  ) extends TokenField
+case class SimpleTokenField(underlyingDefinition: json.JsonSwarmField) extends TokenField
 
 case class PickField
 (
-  codeName: String,
-  isCompulsory: Boolean,
-  allowedValues: List[String],
+  underlyingDefinition: json.JsonSwarmField,
   many: Boolean
-  ) extends TokenField {
+) extends TokenField {
 
-  //def allowedValues: List[String] = rawJson
+  def allowedValues = underlyingDefinition.possible_values.getOrElse(Map.empty).keys.toList
 
   def err = JsError(s"expecting ${if (many) "some" else "one"} of ${allowedValues.mkString(", ")}")
 
@@ -74,12 +86,10 @@ case class PickField
 }
 
 
-case class NumberField(codeName: String, isCompulsory: Boolean) extends SwarmField {
-
-}
+case class NumberField(underlyingDefinition: json.JsonSwarmField) extends SwarmField 
 
 
-case class BooleanField(codeName: String, isCompulsory: Boolean) extends SwarmField {
+case class BooleanField(underlyingDefinition: json.JsonSwarmField) extends SwarmField {
   override def validate(maybeValue: Option[JsValue]): JsResult[JsValue] = {
     val TRUE = JsSuccess(JsBoolean(value = true))
     val FALSE = JsSuccess(JsBoolean(value = false))
@@ -101,6 +111,9 @@ case class BooleanField(codeName: String, isCompulsory: Boolean) extends SwarmFi
 }
 
 
+case class GeoPointField(underlyingDefinition: json.JsonSwarmField) extends SwarmField
+
+
 
 object SwarmField {
   def apply(f: JsonSwarmField): SwarmField = {
@@ -108,24 +121,22 @@ object SwarmField {
 
     fieldType.archetype match {
       case "free_text" =>
-        FreeTextField(codeName = f.field_name_code, isCompulsory = f.compulsory)
+        FreeTextField(f)
 
       case "token" =>
         if (fieldType.has_possible_values contains true)
-          PickField(
-            codeName = f.field_name_code,
-            isCompulsory = f.compulsory,
-            allowedValues = f.possible_values.getOrElse(Map.empty).keys.toList,
-            many = !(fieldType.max_values contains 1)
-          )
+          PickField(f, many = !(fieldType.max_values contains 1))
         else
-          SimpleTokenField(codeName = f.field_name_code, isCompulsory = f.compulsory, fieldType = f.field_type)
+          SimpleTokenField(f)
 
       case "boolean" =>
-        BooleanField(codeName = f.field_name_code, isCompulsory = f.compulsory)
+        BooleanField(f)
 
       case "number" =>
-        NumberField(codeName = f.field_name_code, isCompulsory = f.compulsory)
+        NumberField(f)
+
+      case "geopoint" =>
+        GeoPointField(f)
 
       case other =>
         sys.error("I don't understand archetype " + other)

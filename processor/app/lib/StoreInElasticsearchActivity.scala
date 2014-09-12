@@ -49,6 +49,9 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
 
     case _ : BooleanField =>
       Json.obj("type" -> "boolean")
+
+    case _ : GeoPointField =>
+      Json.obj("type" -> "geo_point")
   }
 
   def mappingFor(fields: List[SwarmField]): JsValue = {
@@ -85,7 +88,7 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
         Elasticsearch.client.admin.indices.prepareCreate(indexName)
           .setCause(s"Received submission ${r.submissionId}")
           .setSettings(indexSettings)
-          .addMapping("data", mappingFor(swarm.fields).toString())
+          .addMapping("data", mappingFor(swarm.fields ::: swarm.derivedFields).toString())
           .get()
       }
     }

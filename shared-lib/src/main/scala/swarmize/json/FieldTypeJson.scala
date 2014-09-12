@@ -5,20 +5,19 @@ import play.api.libs.json.{JsObject, Json}
 case class ProcessingStepJson
 (
   endpoint: String,
-  derives: Map[String, JsObject]
-) {
-  lazy val derivedFields: Map[String, FieldTypeJson] = 
-    derives.mapValues(_.as(FieldTypeJson.fmt))
-}
+  derives: Map[String, String]
+)
 
 case class FieldTypeJson
 (
   display_name: String,
   archetype: String,
-  has_possible_values: Option[Boolean],
-  max_values: Option[Int],
-  process: Option[List[ProcessingStepJson]]
-)
+  has_possible_values: Option[Boolean] = None,
+  max_values: Option[Int] = None,
+  process: Option[List[ProcessingStepJson]] = None
+) {
+  def processingSteps = process getOrElse Nil
+}
 
 
 object ProcessingStepJson {
