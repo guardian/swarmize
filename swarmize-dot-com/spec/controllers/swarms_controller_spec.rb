@@ -48,9 +48,7 @@ describe SwarmsController do
         allow(swarm).to receive(:draft?).and_return(false)
         allow(swarm).to receive(:search)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
       end
       it_should_behave_like "it works for any user", :get, :show, :id => 1
     end
@@ -65,9 +63,7 @@ describe SwarmsController do
         allow(es_double).to receive(:count_all)
         allow(swarm).to receive(:search).and_return(es_double)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
       end
       it_should_behave_like "it needs login", :get, :show, :id => 1
     end
@@ -109,9 +105,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -132,9 +126,7 @@ describe SwarmsController do
         user = Factory(:user)
         allow(swarm).to receive(:owners).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -155,9 +147,7 @@ describe SwarmsController do
       before do
         user = Factory(:admin)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -188,9 +178,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -210,9 +198,7 @@ describe SwarmsController do
         swarm = Factory(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -227,9 +213,7 @@ describe SwarmsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -255,9 +239,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -277,9 +259,7 @@ describe SwarmsController do
         user = Factory(:user)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -299,9 +279,7 @@ describe SwarmsController do
       before do
         user = Factory(:admin)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -332,9 +310,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -354,9 +330,7 @@ describe SwarmsController do
         swarm = Factory(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -371,9 +345,7 @@ describe SwarmsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -401,9 +373,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -423,9 +393,7 @@ describe SwarmsController do
         user = Factory(:user)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -482,9 +450,7 @@ describe SwarmsController do
       before do
         user = Factory(:admin)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -550,9 +516,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -572,9 +536,7 @@ describe SwarmsController do
         swarm = Factory(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -589,9 +551,7 @@ describe SwarmsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -616,9 +576,7 @@ describe SwarmsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -638,9 +596,7 @@ describe SwarmsController do
         swarm = Factory(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -655,9 +611,7 @@ describe SwarmsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -683,9 +637,7 @@ describe SwarmsController do
       let(:second_swarm) { FactoryGirl.build_stubbed(:swarm) }
 
       before do
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         allow(swarm).to receive(:clone_by).and_return(second_swarm)
 
@@ -729,9 +681,7 @@ describe SwarmsController do
       before do
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -751,9 +701,7 @@ describe SwarmsController do
       let(:swarm) { Factory(:swarm) }
 
       before do
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -794,9 +742,7 @@ describe SwarmsController do
       before do
         allow(swarm).to receive(:users).and_return([user])
 
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 
@@ -824,9 +770,7 @@ describe SwarmsController do
       let(:swarm) { Factory(:swarm) }
 
       before do
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
       end
 

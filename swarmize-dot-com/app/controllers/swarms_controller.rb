@@ -9,22 +9,22 @@ class SwarmsController < ApplicationController
 
   def index
     if @current_user
-      @swarms = Swarm.unspiked.paginate(:page => params[:page])
+      @swarms = Swarm.paginate(:page => params[:page])
     else
       @swarms = Swarm.publicly_visible.paginate(:page => params[:page])
     end
   end
 
   def draft
-    @swarms = Swarm.unspiked.draft.paginate(:page => params[:page])
+    @swarms = Swarm.draft.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = Swarm.unspiked.live.paginate(:page => params[:page])
+    @swarms = Swarm.live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = Swarm.unspiked.closed.paginate(:page => params[:page])
+    @swarms = Swarm.closed.paginate(:page => params[:page])
   end
 
   def mine
@@ -170,7 +170,7 @@ class SwarmsController < ApplicationController
   private
 
   def scope_to_swarm
-    @swarm = Swarm.unspiked.find_by(token: params[:id])
+    @swarm = Swarm.find_by(token: params[:id])
     if @swarm && @swarm.draft?
       check_for_user
     end
@@ -197,13 +197,13 @@ class SwarmsController < ApplicationController
 
   def count_swarms
     if @current_user
-      @open_swarms_count = Swarm.unspiked.draft.count
-      @all_swarms_count = Swarm.unspiked.count
+      @open_swarms_count = Swarm.draft.count
+      @all_swarms_count = Swarm.count
     else
-      @all_swarms_count = Swarm.unspiked.publicly_visible.count
+      @all_swarms_count = Swarm.publicly_visible.count
     end
 
-    @live_swarms_count= Swarm.unspiked.live.count
-    @closed_swarms_count = Swarm.unspiked.closed.count
+    @live_swarms_count= Swarm.live.count
+    @closed_swarms_count = Swarm.closed.count
   end
 end

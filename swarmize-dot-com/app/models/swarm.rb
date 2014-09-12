@@ -3,6 +3,8 @@ class TimeParadoxError < StandardError; end
 class Swarm < ActiveRecord::Base
   include PgSearch
 
+  acts_as_paranoid
+
   belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
 
   has_many :swarm_fields, -> { order('field_index ASC') }, :dependent => :destroy
@@ -25,9 +27,6 @@ class Swarm < ActiveRecord::Base
   scope :latest, lambda {|n|
     limit(n)
   }
-
-  scope :spiked, lambda { where(:is_spiked => true) }
-  scope :unspiked, lambda { where(:is_spiked => false) }
 
   scope :publicly_visible, lambda {
     where("(closes_at < ?) OR (opens_at <= ? AND (closes_at IS NULL or closes_at > ?))", Time.zone.now, Time.zone.now, Time.zone.now).order("opens_at DESC")
@@ -60,8 +59,7 @@ class Swarm < ActiveRecord::Base
 
   def spike!
     self.closes_at = Time.zone.now
-    self.is_spiked = true
-    self.save
+    self.destroy
   end
 
   def as_json(options={})

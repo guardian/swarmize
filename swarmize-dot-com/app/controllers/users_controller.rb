@@ -10,19 +10,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @swarms = @user.swarms.unspiked.paginate(:page => params[:page])
+    @swarms = @user.swarms.paginate(:page => params[:page])
   end
 
   def draft
-    @swarms = @user.swarms.unspiked.draft.paginate(:page => params[:page])
+    @swarms = @user.swarms.draft.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = @user.swarms.unspiked.live.paginate(:page => params[:page])
+    @swarms = @user.swarms.live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = @user.swarms.unspiked.closed.paginate(:page => params[:page])
+    @swarms = @user.swarms.closed.paginate(:page => params[:page])
   end
 
   def delete
@@ -48,12 +48,12 @@ class UsersController < ApplicationController
 
   def count_swarms
     if @current_user
-      @all_swarms_count = @user.swarms.unspiked.count
-      @open_swarms_count = @user.swarms.unspiked.draft.count
+      @all_swarms_count = @user.swarms.count
+      @open_swarms_count = @user.swarms.draft.count
     else
-      @all_swarms_count = @user.swarms.unspiked.publicly_visible.count
+      @all_swarms_count = @user.swarms.publicly_visible.count
     end
-    @live_swarms_count= @user.swarms.unspiked.live.count
-    @closed_swarms_count = @user.swarms.unspiked.closed.count
+    @live_swarms_count= @user.swarms.live.count
+    @closed_swarms_count = @user.swarms.closed.count
   end
 end

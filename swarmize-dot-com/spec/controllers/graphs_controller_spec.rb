@@ -11,17 +11,15 @@ shared_examples_for 'it needs a user with permissions on that swarm' do |method,
   before do
     user = Factory(:user)
     swarm = Factory(:swarm)
-    assoc = double('assoc', :find_by => swarm)
-    allow(Swarm).to receive(:unspiked).and_return(assoc)
 
     session[:user_id] = user.id
   end
 
-  it "should redirect the user to the home page" do
+  it "and redirect the user to the home page" do
     send(method,endpoint,params)
     expect(response).to redirect_to root_path
   end
-  it "should tell them they're not allowed to do that" do
+  it "and tell them they're not allowed to do that" do
     send(method,endpoint,params)
     expect(flash[:error]).to eq("You don't have permission to do that.")
   end
@@ -34,6 +32,10 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+      end
+
       it_should_behave_like "it needs a user with permissions on that swarm", :get, :index, :swarm_id => 1
     end
 
@@ -42,9 +44,9 @@ describe GraphsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+
         session[:user_id] = user.id
       end
 
@@ -59,8 +61,8 @@ describe GraphsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(AccessPermission).to receive(:can_alter?).and_return true
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         session[:user_id] = user.id
       end
@@ -80,6 +82,10 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+        
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :get, :new, :swarm_id => 1
     end
 
@@ -88,10 +94,10 @@ describe GraphsController do
         user = Factory(:user)
         swarm = Factory(:swarm)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
+        
         session[:user_id] = user.id
       end
 
@@ -106,8 +112,7 @@ describe GraphsController do
         user = Factory(:admin)
         swarm = Factory(:swarm)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         session[:user_id] = user.id
       end
@@ -127,6 +132,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :post, :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
@@ -136,10 +144,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -167,8 +174,7 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -199,6 +205,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1
     end
 
@@ -208,10 +217,9 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -232,8 +240,7 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -257,6 +264,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
     end
 
@@ -266,10 +276,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -297,8 +306,7 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -329,6 +337,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false        
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :get, :delete, :swarm_id => 1, :id => 1
     end
 
@@ -338,10 +349,8 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-
-        allow(swarm).to receive(:users).and_return([user])
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+        allow(AccessPermission).to receive(:can_alter?).and_return true
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -362,8 +371,7 @@ describe GraphsController do
         swarm = Factory(:swarm)
         graph = Factory(:graph)
 
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -386,6 +394,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
+      before do
+        allow(AccessPermission).to receive(:can_alter?).and_return false
+      end
       it_should_behave_like "it needs a user with permissions on that swarm", :delete, :destroy, :swarm_id => 1, :id => 1
     end
 
@@ -395,10 +406,9 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
-        allow(swarm).to receive(:users).and_return([user])
+        allow(AccessPermission).to receive(:can_alter?).and_return true
 
         graphs_association = double
         allow(swarm).to receive(:graphs).and_return(graphs_association)
@@ -424,8 +434,7 @@ describe GraphsController do
       let(:graph) { Factory.build(:graph) }
 
       before do
-        assoc = double('assoc', :find_by => swarm)
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
+        allow(Swarm).to receive(:find_by).and_return(swarm)
 
 
         graphs_association = double
