@@ -8,8 +8,16 @@ class SwarmizeGraph
   end
 
   def self.time_series_url(swarm, graph_field)
-    # TODO: scale interval, please
-    interval = 'minute'
+    interval = 'day'
+    case (swarm.closes_at - swarm.opens_at)
+    when (1.day)..(1.week)
+      interval = "hour"
+    when (1.hour..1.day)
+      interval = 'minute'
+    when (0..1.hour)
+      interval = 'minute'
+    end
+
     "/swarms/#{swarm.token}/graphs/count_over_time/#{graph_field}/#{interval}"
   end
 end
