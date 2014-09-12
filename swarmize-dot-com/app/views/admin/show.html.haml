@@ -6,7 +6,7 @@
 
 %ul.nav.nav-tabs
   %li.active= link_to "Fake Data", "#fake", "data-toggle" => 'tab'
-  %li= link_to "Spiked swarms", "#spiked", "data-toggle" => 'tab'
+  %li= link_to "Deleted swarms", "#deleted", "data-toggle" => 'tab'
   %li= link_to "Tokens ", "#tokens", "data-toggle" => 'tab'
 
 .tab-content
@@ -18,9 +18,9 @@
     %p= button_to "Create dummy users", create_dummy_users_admin_path, :class => "btn btn-default"
     %p= button_to "Create dummy swarms", create_dummy_swarms_admin_path, :class => "btn btn-default"
 
-  #spiked.tab-pane
-    %h2 Spiked swarms.
-    = render :partial => "swarms/swarm_table", :locals => {:swarms => @spiked_swarms}
+  #deleted.tab-pane
+    %h2 Deleted swarms.
+    = render :partial => "swarms/swarm_table", :locals => {:swarms => @deleted_swarms}
 
   #tokens.tab-pane
     %h2 Tokens

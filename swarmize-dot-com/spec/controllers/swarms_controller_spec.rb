@@ -62,6 +62,7 @@ describe SwarmsController do
 
         es_double = double("elasticsearch")
         allow(es_double).to receive(:all)
+        allow(es_double).to receive(:count_all)
         allow(swarm).to receive(:search).and_return(es_double)
 
         assoc = double("swarms", :find_by => swarm)
@@ -138,156 +139,12 @@ describe SwarmsController do
       end
 
       it "should spike the swarm" do
-        expect(swarm).to receive(:destroy)
-        delete :destroy, :id => 1
-      end
-
-      it "redirect to the swarms path" do
-        delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
-      end
-    end
-
-    describe 'for a user who is logged in and is an admin' do
-      let(:swarm) {Factory(:swarm)}
-
-      before do
-        user = Factory(:admin)
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should spike the swarm" do
-        expect(swarm).to receive(:destroy)
-        delete :destroy, :id => 1
-      end
-
-      it "redirect to the swarms path" do
-        delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
-      end
-    end
-
-  end
-
-  describe "GET #spike" do
-    describe 'for a user who is not logged in' do
-      it "should redirect to login" do
-        get :spike, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
-    end
-
-    describe 'for a user who is logged in but not an owner of the swarm' do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        get :spike, :id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        get :spike, :id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
-    end
-
-    describe 'for a user who is logged in and owns the swarm' do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        allow(swarm).to receive(:owners).and_return([user])
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should render the spike page" do
-        get :spike, :id => 1
-        expect(response).to render_template :spike
-      end
-    end
-
-    describe 'for a user who is logged in and is an admin' do
-      before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should render the spike page" do
-        get :spike, :id => 1
-        expect(response).to render_template :spike
-      end
-    end
-
-  end
-
-  describe "POST #do_spike" do
-    describe 'for a user who is not logged in' do
-      it "should redirect to login" do
-        post :do_spike, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
-    end
-
-    describe 'for a user who is logged in but not an owner of the swarm' do
-      before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should redirect the user to the home page" do
-        post :do_spike, :id => 1
-        expect(response).to redirect_to root_path
-      end
-      it "should tell them they're not allowed to do that" do
-        post :do_spike, :id => 1
-        expect(flash[:error]).to eq("You don't have permission to do that.")
-      end
-    end
-
-    describe 'for a user who is logged in and owns the swarm' do
-      let(:swarm) {Factory(:swarm)}
-
-      before do
-        user = Factory(:user)
-        allow(swarm).to receive(:owners).and_return([user])
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should spike the swarm" do
         expect(swarm).to receive(:spike!)
-        post :do_spike, :id => 1
+        delete :destroy, :id => 1
       end
 
       it "redirect to the swarms path" do
-        post :do_spike, :id => 1
+        delete :destroy, :id => 1
         expect(response).to redirect_to swarms_path
       end
     end
@@ -306,11 +163,11 @@ describe SwarmsController do
 
       it "should spike the swarm" do
         expect(swarm).to receive(:spike!)
-        post :do_spike, :id => 1
+        delete :destroy, :id => 1
       end
 
       it "redirect to the swarms path" do
-        post :do_spike, :id => 1
+        delete :destroy, :id => 1
         expect(response).to redirect_to swarms_path
       end
     end
@@ -845,54 +702,6 @@ describe SwarmsController do
         post :clone, :id => 1
       end
     end
-
-    describe 'for a user who is logged in and owns the swarm' do
-      let(:swarm) {Factory(:swarm)}
-
-      before do
-        user = Factory(:user)
-        allow(swarm).to receive(:owners).and_return([user])
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should spike the swarm" do
-        expect(swarm).to receive(:destroy)
-        delete :destroy, :id => 1
-      end
-
-      it "redirect to the swarms path" do
-        delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
-      end
-    end
-
-    describe 'for a user who is logged in and is an admin' do
-      let(:swarm) {Factory(:swarm)}
-
-      before do
-        user = Factory(:admin)
-
-        assoc = double("swarms", :find_by => swarm)
-
-        allow(Swarm).to receive(:unspiked).and_return(assoc)
-        session[:user_id] = user.id
-      end
-
-      it "should spike the swarm" do
-        expect(swarm).to receive(:destroy)
-        delete :destroy, :id => 1
-      end
-
-      it "redirect to the swarms path" do
-        delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
-      end
-    end
-
   end
 
   # POST #open

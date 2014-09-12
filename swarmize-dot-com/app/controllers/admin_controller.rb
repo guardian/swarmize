@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   before_filter :check_for_admin
 
   def show
-    @spiked_swarms = Swarm.spiked
+    @deleted_swarms = Swarm.spiked
   end
 
   def dummy_up

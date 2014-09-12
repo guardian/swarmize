@@ -13,7 +13,6 @@ Swarmize::Application.routes.draw do
       get 'preview'
       get 'embed'
       get 'delete'
-      get 'spike'
       get 'csv'
       get 'public_csv'
       get 'code'
@@ -21,7 +20,6 @@ Swarmize::Application.routes.draw do
       post 'open'
       post 'close'
       post 'clone'
-      post 'do_spike'
     end
 
     collection do

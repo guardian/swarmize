@@ -22,7 +22,7 @@
     - if AccessPermission.can_destroy?(@swarm, @current_user)
       %li.divider
       %li
-        %a{:href => spike_swarm_path(@swarm)}
+        %a{:href => delete_swarm_path(@swarm)}
           = glyphicon('remove')
-          Spike
+          Delete
 

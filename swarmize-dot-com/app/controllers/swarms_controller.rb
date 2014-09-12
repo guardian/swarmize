@@ -3,7 +3,7 @@ class SwarmsController < ApplicationController
   before_filter :check_for_user, :except => %w{index live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index draft live closed}
   before_filter :check_user_can_alter_swarm, :only => %w{edit update fields update_fields preview open close code}
-  before_filter :check_user_can_destroy_swarm, :only => %w{spike do_spike delete destroy}
+  before_filter :check_user_can_destroy_swarm, :only => %w{delete destroy}
 
   respond_to :html, :json
 
@@ -69,16 +69,8 @@ class SwarmsController < ApplicationController
   end
 
   def destroy
-    @swarm.destroy
-    redirect_to swarms_path
-  end
-
-  def spike
-  end
-
-  def do_spike
     @swarm.spike!
-    flash[:success] = "'#{@swarm.name}' was spiked, and is no longer visible."
+    flash[:success] = "'#{@swarm.name}' was deleted."
     redirect_to swarms_path
   end
 
