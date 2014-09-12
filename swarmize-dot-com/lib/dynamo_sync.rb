@@ -4,7 +4,7 @@ class DynamoSync
       @@dynamo ||= AWS::DynamoDB.new
       swarms_table = @@dynamo.tables['swarms'].load_schema
 
-      if swarm.is_spiked
+      if swarm.deleted_at
         delete(swarm)
       else
         swarms_table.items.create(token: swarm.token,
