@@ -41,7 +41,7 @@ object StoreInElasticsearchActivity extends Activity with ClassLogger {
     case _ : FreeTextField =>
       Json.obj("type" -> "string", "index" -> "analyzed")
 
-    case _ : FixedTextField =>
+    case _ : TokenField =>
       Json.obj("type" -> "string", "index" -> "not_analyzed")
 
     case _ : NumberField =>

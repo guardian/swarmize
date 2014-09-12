@@ -3,6 +3,19 @@ package swarmize.json
 import org.joda.time.DateTime
 import play.api.libs.json.{JsValue, Json}
 
+
+
+case class JsonSwarmField
+(
+  field_name: String,
+  field_name_code: String,
+  field_type: String,
+  possible_values: Option[Map[String, String]] = None,
+  sample_value: Option[String] = None,
+  compulsory: Boolean
+)
+
+
 case class SwarmDefinition
 (
   name: String,
@@ -13,20 +26,10 @@ case class SwarmDefinition
   closes_at: Option[DateTime]
 ) {
   def toJson = SwarmDefinition toJson this
-
 }
 
 
 
-case class JsonSwarmField
-(
-  field_name: String,
-  field_name_code: String,
-  field_type: String,
-  possible_values: Option[Map[String, String]],
-  sample_value: Option[String],
-  compulsory: Boolean
-)
 
 object SwarmDefinition {
   implicit val dateFormat = PlayJsonIsoDateFormat
