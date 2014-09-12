@@ -79,7 +79,4 @@ Swarmize::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.delivery_method = :ses
-
-  # fonts should only be accessible in production from alpha.swarmize.com
-  config.font_assets.origin = 'http://alpha.swarmize.com'
 end

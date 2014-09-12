@@ -9,10 +9,14 @@
       =yield :pagetitle
       Swarmize
       
-    = stylesheet_link_tag "bootstrap.min"
-    = stylesheet_link_tag "bootstrap-theme.min"
-    = stylesheet_link_tag "c3"
+    - if Rails.env.production?
+      = stylesheet_link_tag "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    - else
+      = stylesheet_link_tag "bootstrap.min"
+      = stylesheet_link_tag "bootstrap-theme.min"
     = stylesheet_link_tag "application"
+    = stylesheet_link_tag "rickshaw.min"
+    = stylesheet_link_tag "c3"
     = javascript_include_tag "application"
   %body
     = render "layouts/nav"

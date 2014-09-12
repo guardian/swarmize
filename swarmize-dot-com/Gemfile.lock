@@ -90,8 +90,6 @@ GEM
     fog-softlayer (0.3.13)
       fog-core
       fog-json
-    font_assets (0.1.11)
-      rack
     formatador (0.2.5)
     guard (2.6.1)
       formatador (>= 0.2.4)
@@ -275,7 +273,6 @@ DEPENDENCIES
   factory_girl_rails
   faker
   fog
-  font_assets
   guard-rspec
   haml
   hashie
