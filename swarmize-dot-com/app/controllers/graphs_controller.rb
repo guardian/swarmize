@@ -1,7 +1,7 @@
 class GraphsController < ApplicationController
+  before_filter :scope_to_swarm
   before_filter :check_for_user, :only => %w{index new create edit update delete destroy}
   before_filter :check_user_has_permissions_on_swarm, :only => %w{index new create edit update delete destroy}
-  before_filter :scope_to_swarm
   before_filter :scope_to_graph, :only => %w{edit update delete destroy}
 
   def index
