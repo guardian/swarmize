@@ -10,8 +10,8 @@ case class JsonSwarmField
   field_name: String,
   field_name_code: String,
   field_type: String,
-  possible_values: Option[Map[String, String]],
-  sample_value: Option[String],
+  possible_values: Option[Map[String, String]] = None,
+  sample_value: Option[String] = None,
   compulsory: Boolean
 )
 

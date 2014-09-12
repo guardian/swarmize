@@ -7,7 +7,7 @@ import swarmize.json.FieldTypeJson
 object FieldTypes {
 
   lazy val json = Json.parse(Resources.toByteArray(Resources.getResource("field_types.json")))
-
-
-  lazy val types = json.as[Map[String, FieldTypeJson]]
+  lazy val types = json.as[Map[String, FieldTypeJson]].withDefault { t =>
+    sys.error("I don't know how to deal with an underlying field type of " + t)
+  }
 }
