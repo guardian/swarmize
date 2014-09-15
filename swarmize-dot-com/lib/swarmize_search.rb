@@ -51,7 +51,7 @@ class SwarmizeSearch
     results = []
     # scan and scroll
     # Open the "view" of the index with the `scan` search_type
-    r = @client.search index: 'rycadjgp', 
+    r = @client.search index: @token,
                       search_type: 'scan', 
                       scroll: '5m', 
                       size: 100
