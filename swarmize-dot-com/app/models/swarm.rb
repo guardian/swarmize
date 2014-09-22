@@ -67,7 +67,8 @@ class Swarm < ActiveRecord::Base
      :description => self.description,
      :fields => self.swarm_fields,
      :opens_at => self.opens_at,
-     :closes_at => self.closes_at
+     :closes_at => self.closes_at,
+     :token => self.token
     }
   end
 
