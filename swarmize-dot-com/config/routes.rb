@@ -63,6 +63,10 @@ Swarmize::Application.routes.draw do
     end
   end
 
+  if Rails.env.development?
+    resources :swarm_imports, :controller => 'swarm_import'
+  end
+
   get '/utils/name_to_code', to: 'utils#name_to_code'
 
   get '/auth/google_oauth2', :as => 'login'

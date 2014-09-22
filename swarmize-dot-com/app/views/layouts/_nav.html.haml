@@ -21,6 +21,8 @@
             - if @current_user
               %li= link_to "My Swarms", mine_swarms_path
               %li= link_to "New Swarm", new_swarm_path
+              - if Rails.env.development?
+                %li= link_to "Import Swarm from JSON", new_swarm_import_path
       %form.navbar-form.navbar-nav{role: 'search', action: results_search_path}
         .form-group
           %input.form-control{placeholder: 'Search', name: 'query'}

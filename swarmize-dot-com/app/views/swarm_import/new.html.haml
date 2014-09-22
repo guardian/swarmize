@@ -1,0 +1,13 @@
+- content_for :pagetitle do
+  Import Swarm :
+
+.page-header.swarmize-header
+  %h1 Import Swarm From JSON
+
+= form_tag swarm_imports_path do 
+  .form-group
+    %label JSON Url
+    = text_field_tag :url, nil, :class => 'form-control'
+    %span.help-block The URL to the swarm, eg <code>http://alpha.swarmize.com/swarms/rycadjgp</code>
+
+  = submit_tag "Import Swarm", :class => "btn btn-default"
