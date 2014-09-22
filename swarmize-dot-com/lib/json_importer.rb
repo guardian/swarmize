@@ -28,7 +28,7 @@ class JSONImporter
       closes_at = nil
     end
 
-    swarm = Swarm.create(:name => json.name,
+    swarm = Swarm.create(:name => json.name + " [IMPORTED]",
                          :description => json.description,
                          :opens_at => opens_at,
                          :closes_at => closes_at,
