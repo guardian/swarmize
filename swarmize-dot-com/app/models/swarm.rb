@@ -177,12 +177,14 @@ class Swarm < ActiveRecord::Base
   end
 
   def setup_token
-    t = generate_token
-    until !Swarm.find_by_token(t)
+    unless self.token
       t = generate_token
-    end
+      until !Swarm.find_by_token(t)
+        t = generate_token
+      end
 
-    self.token = t
+      self.token = t
+    end
   end
 
   def generate_token(len=8)

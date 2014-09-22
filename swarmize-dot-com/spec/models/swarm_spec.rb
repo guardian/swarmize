@@ -234,4 +234,16 @@ RSpec.describe Swarm do
 
     end
   end
+
+  describe "being created" do
+    it "should generate a token when it doesn't have one set" do
+      s = Swarm.create
+      expect(s.token).to_not be_blank
+    end
+
+    it "should not overwrite a token if one is set" do
+      s = Swarm.create(token: 'abcdefgh')
+      expect(s.token).to eq('abcdefgh')
+    end
+  end
 end
