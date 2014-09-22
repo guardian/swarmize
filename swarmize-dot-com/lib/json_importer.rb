@@ -6,16 +6,16 @@ require 'hashie'
 # write specs
 
 class JSONImporter
-  def self.import!(json)
+  def self.import!(json, user=nil)
     json_mash = Hashie::Mash.new(JSON.parse(json))
 
-    swarm = create_swarm(json_mash)
+    swarm = create_swarm(json_mash, user)
     create_fields_for_swarm(json_mash, swarm)
 
     swarm
   end
 
-  def self.create_swarm(json)
+  def self.create_swarm(json, user=nil)
     if json.opens_at
       opens_at = Time.parse(json.opens_at)
     else
@@ -28,10 +28,19 @@ class JSONImporter
       closes_at = nil
     end
 
-    Swarm.create(:name => json.name,
-                 :description => json.description,
-                 :opens_at => opens_at,
-                 :closes_at => closes_at)
+    swarm = Swarm.create(:name => json.name,
+                         :description => json.description,
+                         :opens_at => opens_at,
+                         :closes_at => closes_at)
+
+    if user
+      AccessPermission.create(:swarm => swarm,
+                              :user => user,
+                              :email => user.email,
+                              :is_owner => true)
+    end
+
+    swarm
   end
 
   def self.create_fields_for_swarm(json, swarm)
