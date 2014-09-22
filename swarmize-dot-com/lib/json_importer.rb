@@ -31,7 +31,8 @@ class JSONImporter
     swarm = Swarm.create(:name => json.name,
                          :description => json.description,
                          :opens_at => opens_at,
-                         :closes_at => closes_at)
+                         :closes_at => closes_at,
+                         :token => json.token)
 
     if user
       AccessPermission.create(:swarm => swarm,

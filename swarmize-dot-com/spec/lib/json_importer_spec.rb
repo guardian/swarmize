@@ -22,6 +22,7 @@ RSpec.describe JSONImporter do
     end
     it "should create a swarm with the appropriate fields from the mash" do
       expect(Swarm).to receive(:create).with({:name => '#indyref survey',
+                                              :token => 'jtjsvwdc',
                                               :description => 'Extracting data from the #indyref hashtag on Twitter, capturing numbers of #no, #voteno and #yes, #voteyes votes.',
                                               :opens_at => Time.parse("2014-09-13T19:46:04.575Z"),
                                               :closes_at => nil})
