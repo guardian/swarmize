@@ -1,0 +1,2 @@
+
+{"name":"#indyref survey","description":"Extracting data from the #indyref hashtag on Twitter, capturing numbers of #no, #voteno and #yes, #voteyes votes.","fields":[{"field_type":"yesno","field_name":"Are you for an independent Scotland?","field_name_code":"are_you_for_an_independent_scotland","compulsory":true}],"opens_at":"2014-09-13T19:46:04.575Z","closes_at":null}
