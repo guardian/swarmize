@@ -8,10 +8,10 @@ class SwarmizeGraph
   end
 
   def self.time_series_url(swarm, graph_field)
-    interval = 'day'
-    case (swarm.closes_at - swarm.opens_at)
-    when (1.day)..(1.week)
-      interval = "hour"
+    opens_at = swarm.opens_at
+    closes_at = swarm.closes_at || Time.now
+    interval = 'hour'
+    case (closes_at - opens_at)
     when (1.hour..1.day)
       interval = 'minute'
     when (0..1.hour)
