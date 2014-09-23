@@ -1,9 +1,0 @@
-{
-  "appname": "Swarmize Geocoder",
-  "live_env": "SwarmizeGeocoder-Prod",
-  "aws_region": "eu-west-1",
-  "s3_bucket": "swarmize",
-  "app_dir": "geocoder", 
-  "slack_key": "ysJzWEUc18R2H20e0UWw8qZH",
-  "host": "swarmizegeocoder-prod.elasticbeanstalk.com"
-}

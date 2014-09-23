@@ -1,8 +1,0 @@
-{
-  "appname": "Processor",
-  "live_env": "swarmize-processor-prod",
-  "aws_region": "eu-west-1",
-  "s3_bucket": "swarmize",
-  "slack_key": "ysJzWEUc18R2H20e0UWw8qZH",
-  "host": "swarmize-processor.elasticbeanstalk.com"
-}

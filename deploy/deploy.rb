@@ -10,7 +10,11 @@ require 'aws-sdk'
 
 
 def package(directory, package_filename)
-  system "git archive -o #{package_filename} master:#{directory}"
+  Dir.chdir(directory) do
+    unless system("./package.sh", package_filename, directory)
+      fail "package failed"
+    end
+  end
 end
 
 def notify_slack(version)
@@ -42,7 +46,8 @@ s3bucket = ENV["S3_BUCKET"]
 
 currentrev = `git log --pretty=format:'%h' -n 1`
 
-package_filename = "#{app_dir_name}/rev-#{currentrev}.zip"
+package_name = "rev-#{currentrev}.zip"
+package_path = "#{app_dir_name}/#{package_name}"
 package_version = "rev-#{currentrev}"
 
 puts "deploy #{beanstalk_app_name} #{package_version}"
@@ -59,18 +64,18 @@ if this_version
 else
   puts " packaging..."
 
-  package(app_dir, package_filename)
+  package(app_dir, package_name)
 
   puts " uploading to S3..."
   bucket = s3.buckets[s3bucket]
 
-  bucket.objects[package_filename].write(Pathname.new(package_filename))
+  bucket.objects[package_path].write(Pathname.new(package_path))
 
   puts " creating application version #{package_version}..."
 
   elasticbeanstalk.create_application_version({
           application_name: beanstalk_app_name,
-          source_bundle: { s3_bucket: s3bucket, s3_key: package_filename },
+          source_bundle: { s3_bucket: s3bucket, s3_key: package_path },
           version_label: package_version
   })
 end
