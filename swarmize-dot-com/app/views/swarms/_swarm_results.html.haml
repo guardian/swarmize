@@ -1,10 +1,10 @@
 %p
   %span.huge-number= @total_count
-  submissions to this swarm to date, including:
+  submissions to this swarm to date.
 
-%h3 Sample Results
+%h3 Latest Results
 
-%table.table
+%table.table#results_table
   %thead
     %tr
       %th Timestamp
@@ -13,8 +13,6 @@
         - if field.derived_field_suffixes
           - field.derived_field_suffixes.each do |df|
             %th= "#{field.field_name} [#{df}]"
-          
-
   %tbody
     - for row in @rows
       %tr
@@ -31,3 +29,31 @@
               - field.derived_field_codes.each do |df|
                 %td Redacted
 
+- if @current_user and @swarm.live?
+  :javascript
+    $(document).ready(function() {
+      setInterval(function () {
+        var fieldCodes = #{@swarm.field_codes};
+        $.getJSON('#{latest_swarm_path(@swarm, format:'json')}', function(updateData) {
+          if(_.isEqual(updateData, window.tableCache)) {
+            console.log('no change to live tabledata');
+          } else {
+            console.log("Data in tableCache:", window.tableCache, "is not: ", updateData);
+
+            window.tableCache = updateData;
+
+            $("#results_table tbody tr").remove();
+            $.each(updateData, function(i, item) {
+              var $row = $('<tr>');
+              $.each(fieldCodes, function(j, code) {
+                $row.append(
+                  $('<td>').text(item[code])
+                );
+              });
+              $("#results_table tbody").append($row);
+              window.tempRow = $row;
+            });
+          }
+        });
+      }, 5000);
+    });
