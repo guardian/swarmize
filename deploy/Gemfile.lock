@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-sdk (1.51.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    json (1.8.1)
+    mini_portile (0.6.0)
+    multi_xml (0.5.5)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-sdk (< 2)
+  httparty
