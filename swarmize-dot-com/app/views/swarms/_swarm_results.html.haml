@@ -29,7 +29,7 @@
               - field.derived_field_codes.each do |df|
                 %td Redacted
 
-- if @current_user and @swarm.live?
+- if @current_user && (@swarm.live? || @swarm.draft?)
   :javascript
     $(document).ready(function() {
       setInterval(function () {

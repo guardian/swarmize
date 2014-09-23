@@ -36,6 +36,7 @@
         %a.btn.btn-default{:href => serve_from_cloudfront(public_csv_swarm_path(@swarm)), :style => "float:right"}
           = glyphicon('file')
           CSV
+        = link_to "CSV", serve_from_cloudfront(public_csv_swarm_path(@swarm)), :class => "btn btn-default", :style => 'float: right'
       - else
         %a.btn.btn-default{:href => public_csv_swarm_path(@swarm), :style => "float:right"}
           = glyphicon('file')
