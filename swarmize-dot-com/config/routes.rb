@@ -15,6 +15,7 @@ Swarmize::Application.routes.draw do
       get 'delete'
       get 'csv'
       get 'public_csv'
+      get 'latest'
       get 'code'
       post 'update_fields'
       post 'open'

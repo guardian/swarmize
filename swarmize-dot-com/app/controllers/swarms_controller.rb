@@ -49,6 +49,11 @@ class SwarmsController < ApplicationController
     respond_with @swarm
   end
 
+  def latest
+    @rows, pages = @swarm.search.all(1,10)
+    respond_with @rows
+  end
+
   def csv
     results = @swarm.search.entirety
     formatted_results = SwarmResultsFormatter.new(@swarm,results)
