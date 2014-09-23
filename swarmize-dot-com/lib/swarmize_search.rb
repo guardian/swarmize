@@ -53,9 +53,10 @@ class SwarmizeSearch
     # Open the "view" of the index with the `scan` search_type
     r = @client.search index: @token,
                       search_type: 'scan', 
-                      scroll: '5m', 
-                      size: 100
-    while r = @client.scroll(scroll_id: r['_scroll_id'], scroll: '5m') and not r['hits']['hits'].empty? do
+                      scroll: '1m', 
+                      size: 10000
+
+    while r = @client.scroll(scroll_id: r['_scroll_id'], scroll: '1m') and not r['hits']['hits'].empty? do
       results += r['hits']['hits'].map {|h| Hashie::Mash.new(h['_source'])}
     end
     results
