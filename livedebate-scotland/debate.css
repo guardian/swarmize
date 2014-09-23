@@ -1,0 +1,157 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+body {
+  font: 85% Arial, Helvetica, sans-serif;
+  background: #fff;
+  background: #f0f0f0;
+  color: #0d0d0d;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  background: #eee;
+  margin: 0 0 20px;
+}
+
+form#debate .setup {
+  padding: 10px;
+  height: 100%;
+  font-size: 150%;
+}
+form#debate .setup label {
+  font-weight: bold;
+  display: block;
+}
+form#debate .setup .form-el {
+  margin: 0 0 20px;
+}
+form#debate .setup .form-el input {
+  font-size: 150%;
+  font-family: "Helvetica", sans-serif;
+  padding: 10px;
+  width: 90%;
+}
+
+.next-button {
+  display: block;
+  text-align: center;
+  border: 1px solid #eee;
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 120%;
+}
+.next-button:link, .next-button:visited {
+  text-decoration: none;
+  background: #888;
+  color: white;
+}
+.next-button:hover, .next-button:active {
+  text-decoration: none;
+  background: darkred;
+  color: white;
+}
+
+.feedback-buttons {
+  height: 100%;
+  overflow: hidden;
+}
+.feedback-buttons h2 {
+  font-weight: bold;
+  padding: 5px;
+  background: #eee;
+}
+.feedback-buttons .feedback-button {
+  display: block;
+  text-align: center;
+  border: 1px solid #eee;
+  padding: 60px 0 0;
+  font-weight: bold;
+  font-size: 120%;
+  height: 80px;
+}
+.feedback-buttons .feedback-button span {
+  display: none;
+  font-size: 48px;
+  text-shadow: 2px 2px 1px #000;
+}
+.feedback-buttons .feedback-button#alistair_darling:link, .feedback-buttons .feedback-button#alistair_darling:visited {
+  text-decoration: none;
+  color: white;
+  background-image: url("ad.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center right;
+}
+.feedback-buttons .feedback-button#alec_salmond:link, .feedback-buttons .feedback-button#alec_salmond:visited {
+  text-decoration: none;
+  color: white;
+  background-image: url("as.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tick {
+  position: absolute;
+  font-size: 72px;
+  text-shadow: 2px 2px 1px #000;
+  color: white;
+  display: none;
+  text-align: center;
+  width: 100%;
+}

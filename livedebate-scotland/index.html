@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en-US' xml:lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta content='en' name='lang'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+    <title>Live Debate</title>
+    <link href='debate.css' media='screen' rel='stylesheet' type='text/css'>
+    <script src='jquery.min.js' type='text/javascript'></script>
+    <script src='cookies.js' type='text/javascript'></script>
+    <script src='debate.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <h1>theguardian.com Scottish Indepent Live Debate Clicker</h1>
+    <form action='http://collector.swarmize.com/swarms/zcujlnal' id='debate' method='post'>
+      <div class='setup'>
+        <div class='form-el'>
+          <label>Do you think Scotland should be an independent country?</label>
+          <select name='do_you_think_scotland_should_be_an_independent_country'>
+            <option value='yes'>Yes</option>
+            <option value='no'>No</option>
+          </select>
+        </div>
+        <div class='form-el'>
+          <label>What is your postcode?</label>
+          <input name='what_s_your_postcode'>
+        </div>
+        <a class='next-button' href='#'>GO!</a>
+      </div>
+      <div class='feedback-buttons'>
+        <h2>Tap their face when they say something you agree with.</h2>
+        <input id='feedback' name='who_did_you_just_agree_with' type='hidden'>
+        <a class='feedback-button' href='#' id='alistair_darling'>
+          <span>Alastair Darling</span>
+        </a>
+        <a class='feedback-button' href='#' id='alec_salmond'>
+          <span>Alec Salmond</span>
+        </a>
+      </div>
+       <input id='userkey' name='unique_user_key' type='hidden'>
+    </form>
+    <div class='tick'>&#10003;</div>
+  </body>
+</html>
