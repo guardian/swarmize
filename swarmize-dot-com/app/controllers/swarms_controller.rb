@@ -43,7 +43,7 @@ class SwarmsController < ApplicationController
         @elasticsearch_error = "There was an error connecting to Elasticsearch, and results cannot be shown."
       rescue Elasticsearch::Transport::Transport::Errors::NotFound
         @rows, @total_pages = [], 0
-        @elasticsearch_error = "There are no results in Elasticsearch yet."
+        @total_count = 0
       end
     end
     respond_with @swarm

@@ -46,9 +46,17 @@
             $.each(updateData, function(i, item) {
               var $row = $('<tr>');
               $.each(fieldCodes, function(j, code) {
-                $row.append(
-                  $('<td>').text(item[code])
-                );
+                if(code == 'timestamp') {
+                  var rawTime = item[code];
+                  var formattedTime = formatTimestamp(parseTimestamp(rawTime));
+                  $row.append(
+                    $('<td>').text(formattedTime)
+                  );
+                } else {
+                  $row.append(
+                    $('<td>').text(item[code])
+                  );
+                }
               });
               $("#results_table tbody").append($row);
               window.tempRow = $row;

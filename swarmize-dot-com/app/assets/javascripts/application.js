@@ -31,3 +31,10 @@ $(document).ready(function() {
 
 });
 
+function parseTimestamp(string) {
+  return moment(string);
+}
+
+function formatTimestamp(timestamp) {
+  return moment(timestamp).format('D MMMM YYYY HH:mm:ss');
+}
