@@ -54,6 +54,10 @@ class SwarmsController < ApplicationController
     respond_with @rows
   end
 
+  def entrycount
+    respond_with @swarm.search.count_all
+  end
+
   def csv
     results = @swarm.search.entirety
     formatted_results = SwarmResultsFormatter.new(@swarm,results)

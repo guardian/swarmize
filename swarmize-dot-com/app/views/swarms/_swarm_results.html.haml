@@ -63,5 +63,17 @@
             });
           }
         });
+
+        $.getJSON('#{entrycount_swarm_path(@swarm, format:'json')}', function(updateData) {
+          if(_.isEqual(updateData, window.countCache)) {
+            console.log('no change to countCache');
+          } else {
+            console.log("Data in countCache:", window.countCache, "is not: ", updateData);
+
+            window.countCache = updateData;
+            $("span.huge-number").text(updateData);
+          }
+          
+        });
       }, 5000);
     });
