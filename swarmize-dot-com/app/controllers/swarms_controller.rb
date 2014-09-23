@@ -199,7 +199,6 @@ class SwarmsController < ApplicationController
     end
   end
 
-
   def swarm_params
     params.require(:swarm).permit(:name, :description)
   end

@@ -8,7 +8,7 @@ class SwarmizeGraph
   end
 
   def self.time_series_url(swarm, graph_field)
-    opens_at = swarm.opens_at
+    opens_at = swarm.opens_at || Time.now
     closes_at = swarm.closes_at || Time.now
     interval = 'hour'
     case (closes_at - opens_at)
