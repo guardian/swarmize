@@ -86,6 +86,7 @@ class Swarm < ActiveRecord::Base
 
   def clone_by(user)
     new_swarm = self.dup
+    new_swarm.token = nil
     new_swarm.opens_at = nil
     new_swarm.closes_at = nil
     new_swarm.parent_swarm = self
