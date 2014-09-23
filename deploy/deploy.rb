@@ -97,6 +97,9 @@ else
   request_id = result[:response_metadata][:request_id]
 end
 
+last_status = nil
+seen_events = []
+
 begin
 
   sleep 5
@@ -108,9 +111,19 @@ begin
   this_env = elasticbeanstalk.describe_environments({environment_ids: [ environment_id ] })[:environments]
   status = this_env.first[:status]
 
-  puts ""
-  puts event_strings.join("\n")
-  puts "Status is #{status}"
+
+  if status != last_status
+    puts "Status is #{status}"
+    last_status = status
+  end
+
+  event_strings.each {|e|
+    unless seen_events.include?(e)
+      puts e
+      seen_events << e
+    end
+  }
+
 
 end until status == "Ready"
 
