@@ -1,7 +1,8 @@
 - content_for :pagetitle do
   Log out ? : 
 
-%h1 Log out of Swarmize?
+.page-header.swarmize-header
+  %h1 Log out of Swarmize?
 
 %p
   = button_to "Log out", session_path, :method => :delete, :class => "btn btn-default"
