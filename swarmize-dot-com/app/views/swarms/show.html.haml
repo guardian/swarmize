@@ -28,7 +28,7 @@
     %hr.divider
     Results
     - if @current_user
-      %a.btn.btn-default{:href => csv_swarm_path(@swarm), :style => "float:right"}
+      %a.btn.btn-default{:href => swarm_csv_path(@swarm), :style => "float:right"}
         = glyphicon('file')
         CSV
     - else
