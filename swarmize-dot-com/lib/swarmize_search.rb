@@ -1,6 +1,8 @@
 require 'elasticsearch'
 require 'jbuilder'
 require 'hashie'
+require 'typhoeus'
+require 'typhoeus/adapters/faraday'
 
 class SwarmizeSearch
   include SwarmizeSearch::Queries
@@ -12,10 +14,12 @@ class SwarmizeSearch
   end
 
   def self.client
-    Elasticsearch::Client.new log: true, 
+    #log = Rails.env.development?
+    log = false
+    Elasticsearch::Client.new log: log, 
       host: ENV['ELASTICSEARCH_HOST'],
       transport_options: {
-        request: { timeout: 5 }
+        request: { timeout: 30 }
       }
   end
 
@@ -54,7 +58,7 @@ class SwarmizeSearch
     r = @client.search index: @token,
                       search_type: 'scan', 
                       scroll: '1m', 
-                      size: 10000
+                      size: 5000
 
     while r = @client.scroll(scroll_id: r['_scroll_id'], scroll: '1m') and not r['hits']['hits'].empty? do
       results += r['hits']['hits'].map {|h| Hashie::Mash.new(h['_source'])}
