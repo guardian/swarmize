@@ -8,13 +8,16 @@ Swarmize::Application.routes.draw do
         get 'delete'
       end
     end
-    resource :csv, :controller => 'csv'
+    resource :csv, :controller => 'csv' do
+      collection do
+        get 'public'
+      end
+    end
     member do
       get 'fields'
       get 'preview'
       get 'embed'
       get 'delete'
-      get 'public_csv'
       get 'latest'
       get 'entrycount'
       get 'code'

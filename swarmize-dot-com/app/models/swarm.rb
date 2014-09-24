@@ -160,6 +160,17 @@ class Swarm < ActiveRecord::Base
     output.flatten
   end
 
+  def public_field_codes
+    output = %w{timestamp}
+    swarm_fields.each do |f|
+      unless f.redacted?
+        output << f.field_code
+        output << f.derived_field_codes if f.derived_field_codes
+      end
+    end
+    output.flatten
+  end
+
   private
 
   def confirm_open_time
