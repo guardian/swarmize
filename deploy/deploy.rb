@@ -17,20 +17,12 @@ def package(directory, package_filename)
   end
 end
 
-def notify_slack(version)
-#  slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{config_value('slack_key')}"
-# TODO
-#  host = CONFIG['host']
 
-#  HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed #{CONFIG['appname']} version #{version} to <#{host}>"}.to_json)
-end
 
 def fail(message)
   puts "failed: #{message}"
   exit(status = false)
 end
-
-
 
 if ARGV.size != 1
   apps = Dir["*/eb_name.txt"].map { |path| File.dirname(path) }
@@ -74,13 +66,11 @@ else
   puts " creating application version #{package_version}..."
 
   elasticbeanstalk.create_application_version({
-          application_name: beanstalk_app_name,
-          source_bundle: { s3_bucket: s3bucket, s3_key: package_path },
-          version_label: package_version
+    application_name: beanstalk_app_name,
+    source_bundle: { s3_bucket: s3bucket, s3_key: package_path },
+    version_label: package_version
   })
 end
-
-
 
 envs = elasticbeanstalk.describe_environments({application_name: beanstalk_app_name})[:environments]
 
@@ -106,7 +96,6 @@ last_status = nil
 seen_events = []
 
 begin
-
   sleep 5
 
   events = elasticbeanstalk.describe_events({request_id: request_id})
@@ -116,24 +105,23 @@ begin
   this_env = elasticbeanstalk.describe_environments({environment_ids: [ environment_id ] })[:environments]
   status = this_env.first[:status]
 
-
   if status != last_status
     puts "Status is #{status}"
     last_status = status
   end
 
-  event_strings.each {|e|
+  event_strings.each do |e|
     unless seen_events.include?(e)
       puts e
       seen_events << e
     end
-  }
+  end 
 
 
 end until status == "Ready"
 
+slack_url = "https://swarmize.slack.com/services/hooks/incoming-webhook?token=#{ENV['SLACK_KEY']}"
+#  host = CONFIG['host']
 
-
-
-
+HTTParty.post(slack_url, body: {channel: '#general', username: 'deploybot', text: "Deployed #{beanstalk_app_name} version #{package_version} to #{env[:environment_name]} (#{env[:cname]})"}.to_json)
 
