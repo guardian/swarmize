@@ -42,7 +42,7 @@ class CsvController < ApplicationController
     Enumerator.new do |y|
       y << tool.headers.to_s
       results.each do |result|
-        y << tool.result_to_row(result)
+        y << tool.result_to_row(result).to_s
       end
     end
   end
