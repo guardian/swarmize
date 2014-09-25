@@ -14,6 +14,10 @@
 //= require jquery_ujs
 //= require underscore-min
 //= require backbone-min
+//= require d3.min
+//= require c3.min
+//= require rickshaw.min
+//= require moment.min
 //= require_tree .
 
 $.verify.addRules({

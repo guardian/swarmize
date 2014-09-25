@@ -31,52 +31,25 @@
 
 - if @current_user && (@swarm.live? || @swarm.draft?)
   :javascript
-    $(document).ready(function() {
-      var ResultsData = Backbone.Model.extend();
+    function updateResultsData() {
+      $.getJSON('#{latest_swarm_path(@swarm, format:'json')}', function(updateData) {
+        window.resultsData.set('rows', updateData);
+      });
 
+      $.getJSON('#{entrycount_swarm_path(@swarm, format:'json')}', function(updateData) {
+        window.resultsData.set('count', updateData);
+      });
+      setTimeout(function() {
+        updateResultsData();
+      }, 5000);
+    }
+
+    $(document).ready(function() {
       window.resultsData = new ResultsData;
 
       window.resultsData.set('fieldCodes', #{@swarm.field_codes});
 
-      var ResultsTable = Backbone.View.extend({
-        initialize: function() {
-          this.listenTo(this.model, 'change', this.render);
-        },
-
-        render: function() {
-          console.log('rendering');
-          var that = this;
-          $("#results_table tbody tr").remove();
-          $.each(this.model.get('rows'), function(i,item) {
-            var $row = $('<tr>');
-            $.each(that.model.get('fieldCodes'), function(j, code) {
-              if(code == 'timestamp') {
-                var rawTime = item[code];
-                var formattedTime = formatTimestamp(parseTimestamp(rawTime));
-                $row.append(
-                  $('<td>').text(formattedTime)
-                );
-              } else {
-                $row.append(
-                  $('<td>').text(item[code])
-                );
-              }
-            });
-            $("#results_table tbody").append($row);
-          });
-          $("span.huge-number").text(this.model.get('count'));
-        }
-      });
-
       window.resultsTable = new ResultsTable({model: window.resultsData});
 
-      setInterval(function () {
-        $.getJSON('#{latest_swarm_path(@swarm, format:'json')}', function(updateData) {
-          window.resultsData.set('rows', updateData);
-        });
-
-        $.getJSON('#{entrycount_swarm_path(@swarm, format:'json')}', function(updateData) {
-          window.resultsData.set('count', updateData);
-        });
-      }, 5000);
+      updateResultsData();
     });
