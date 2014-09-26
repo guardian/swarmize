@@ -9,8 +9,8 @@ end
 
 shared_examples_for 'it needs a user with permissions on that swarm' do |method, endpoint, params|
   before do
-    user = Factory(:user)
-    swarm = Factory(:swarm)
+    user = FactoryGirl.create(:user)
+    swarm = FactoryGirl.create(:swarm)
 
     session[:user_id] = user.id
   end
@@ -41,8 +41,8 @@ describe GraphsController do
 
     describe "when logged in as a user with permissions on that swarm" do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(AccessPermission).to receive(:can_alter?).and_return true
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -58,8 +58,8 @@ describe GraphsController do
 
     describe "when logged in as an admin" do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(AccessPermission).to receive(:can_alter?).and_return true
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -91,8 +91,8 @@ describe GraphsController do
 
     describe "when logged in as a user with permissions on that swarm" do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
 
@@ -109,8 +109,8 @@ describe GraphsController do
 
     describe "when logged in as an admin" do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
 
@@ -128,20 +128,20 @@ describe GraphsController do
   #CREATE
   describe "POST #create" do
     describe "when not logged in" do
-      it_should_behave_like "it redirects to the login path", :post, :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      it_should_behave_like "it redirects to the login path", :post, :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
       before do
         allow(AccessPermission).to receive(:can_alter?).and_return false
       end
-      it_should_behave_like "it needs a user with permissions on that swarm", :post, :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      it_should_behave_like "it needs a user with permissions on that swarm", :post, :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
     end
 
     describe "when logged in as a user with permissions on that swarm" do
-      let(:user) { Factory.create(:user) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -158,20 +158,20 @@ describe GraphsController do
       end
 
       it "should redirect to the swarm graphs page" do
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        post :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
         expect(response).to redirect_to swarm_graphs_path(swarm.token)
       end
 
       it "should create the graph" do
         expect(graph).to receive(:save)
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        post :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
       end
     end
 
     describe "when logged in as a an admin" do
-      let(:user) { Factory.create(:admin) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -186,13 +186,13 @@ describe GraphsController do
       end
 
       it "should redirect to the swarm graphs page" do
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        post :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
         expect(response).to redirect_to swarm_graphs_path(swarm.token)
       end
 
       it "should create the graph" do
         expect(graph).to receive(:save)
-        post :create, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        post :create, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
       end
     end
 
@@ -213,9 +213,9 @@ describe GraphsController do
 
     describe "when logged in as a user with permissions on that swarm" do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
+        graph = FactoryGirl.create(:graph)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
 
@@ -236,9 +236,9 @@ describe GraphsController do
 
     describe "when logged in as an admin" do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
+        graph = FactoryGirl.create(:graph)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
 
@@ -260,20 +260,20 @@ describe GraphsController do
   #UPDATE
   describe "PUT #update" do
     describe "when not logged in" do
-      it_should_behave_like "it redirects to the login path", :put, :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      it_should_behave_like "it redirects to the login path", :put, :update, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
     end
 
     describe "when logged in as a user with no permissions on that swarm" do
       before do
         allow(AccessPermission).to receive(:can_alter?).and_return false
       end
-      it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+      it_should_behave_like "it needs a user with permissions on that swarm", :get, :edit, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
     end
 
     describe "when logged in as a user with permissions on that swarm" do
-      let(:user) { Factory.create(:user) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -290,20 +290,20 @@ describe GraphsController do
       end
 
       it "should redirect to the swarm graphs page" do
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        put :update, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
         expect(response).to redirect_to swarm_graphs_path(swarm.token)
       end
 
       it "should create the graph" do
         expect(graph).to receive(:save)
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        put :update, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
       end
     end
 
     describe "when logged in as an admin" do
-      let(:user) { Factory.create(:admin) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -318,13 +318,13 @@ describe GraphsController do
       end
 
       it "should redirect to the swarm graphs page" do
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        put :update, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
         expect(response).to redirect_to swarm_graphs_path(swarm.token)
       end
 
       it "should create the graph" do
         expect(graph).to receive(:save)
-        put :update, :swarm_id => 1, :id => 1, graph: Factory.attributes_for(:graph)
+        put :update, :swarm_id => 1, :id => 1, graph: FactoryGirl.attributes_for(:graph)
       end
     end
 
@@ -345,9 +345,9 @@ describe GraphsController do
 
     describe "when logged in as a user with permissions on that swarm" do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
+        graph = FactoryGirl.create(:graph)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         allow(AccessPermission).to receive(:can_alter?).and_return true
@@ -367,9 +367,9 @@ describe GraphsController do
 
     describe "when logged in as an admin" do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
-        graph = Factory(:graph)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
+        graph = FactoryGirl.create(:graph)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
 
@@ -401,9 +401,9 @@ describe GraphsController do
     end
 
     describe "when logged in as a user with permissions on that swarm" do
-      let(:user) { Factory.create(:user) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -429,9 +429,9 @@ describe GraphsController do
     end
 
     describe "when logged in as an admin" do
-      let(:user) { Factory.create(:admin) }
-      let(:swarm) { Factory.build(:swarm) }
-      let(:graph) { Factory.build(:graph) }
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:swarm) { FactoryGirl.build(:swarm) }
+      let(:graph) { FactoryGirl.build(:graph) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)

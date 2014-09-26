@@ -2,11 +2,11 @@ require 'spec_helper'
 
 RSpec.describe Swarm do
   it "should have a valid factory" do
-    Factory.create(:swarm).should be_valid
+    expect(FactoryGirl.create(:swarm)).to be_valid
   end
 
   describe "that will open in the future" do
-    let(:swarm) { Factory.build(:swarm_opens_in_the_future) }
+    let(:swarm) { FactoryGirl.build(:swarm_opens_in_the_future) }
 
     it "should not describe itself as live" do
       expect(swarm.live?).to be_falsy
@@ -31,7 +31,7 @@ RSpec.describe Swarm do
     end
 
     describe "that has a close date" do
-      let(:swarm) { Factory.build(:swarm_opens_in_the_future, :closes_at => Time.zone.now + 2.days) }
+      let(:swarm) { FactoryGirl.build(:swarm_opens_in_the_future, :closes_at => Time.zone.now + 2.days) }
       it "should a describe itself as scheduled to close" do
         expect(swarm.scheduled_to_close?).to be_truthy
       end
@@ -39,7 +39,7 @@ RSpec.describe Swarm do
   end
 
   describe "that has opened in the past" do
-    let(:swarm) { Factory.build(:swarm_already_opened) }
+    let(:swarm) { FactoryGirl.build(:swarm_already_opened) }
 
     it "should describe itself as having opened" do
       expect(swarm.has_opened?).to be_truthy
@@ -65,7 +65,7 @@ RSpec.describe Swarm do
     end
 
     describe "and that has closed in the past" do
-      let(:swarm) { Factory.build(:swarm_already_opened,
+      let(:swarm) { FactoryGirl.build(:swarm_already_opened,
                                   :closes_at => Time.zone.now - 1.hour) }
 
       it "should not describe itself as live" do
@@ -82,7 +82,7 @@ RSpec.describe Swarm do
     end
 
     describe "and that closes in the future" do
-      let(:swarm) { Factory.build(:swarm_already_opened,
+      let(:swarm) { FactoryGirl.build(:swarm_already_opened,
                                   :closes_at => Time.zone.now + 1.day) }
 
       it "should describe itself as live" do
@@ -100,7 +100,7 @@ RSpec.describe Swarm do
   end
 
   describe "having its open date set" do
-    let(:swarm) { Factory.create(:swarm) }
+    let(:swarm) { FactoryGirl.create(:swarm) }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
       open_time = Time.zone.now + 1.hour
@@ -137,7 +137,7 @@ RSpec.describe Swarm do
   end
 
   describe "having its close date set" do
-    let(:swarm) { Factory.create(:swarm) }
+    let(:swarm) { FactoryGirl.create(:swarm) }
     it "should really be the time it was asked to be set to, if it's set to the future" do
       Timecop.freeze
       close_time = Time.zone.now + 1.hour
@@ -175,7 +175,7 @@ RSpec.describe Swarm do
 
   describe "that has already opened" do
     before  { Timecop.freeze }
-    let(:swarm) { Factory.create(:swarm_already_opened) }
+    let(:swarm) { FactoryGirl.create(:swarm_already_opened) }
 
     describe "having its close date set" do
       it "should not alter the opened at date." do
@@ -188,9 +188,9 @@ RSpec.describe Swarm do
   end
 
   describe "that has been cloned" do
-    let(:alice) { Factory.build(:user)}
-    let(:bob) { Factory.build(:user)}
-    let(:swarm) { Factory.build(:swarm,
+    let(:alice) { FactoryGirl.build(:user)}
+    let(:bob) { FactoryGirl.build(:user)}
+    let(:swarm) { FactoryGirl.build(:swarm,
                                 :opens_at => (Time.zone.now - 1.hour))
     }
 
@@ -225,7 +225,7 @@ RSpec.describe Swarm do
   end
 
   describe "generating its collector url" do
-    let(:swarm) { Factory.build(:swarm,
+    let(:swarm) { FactoryGirl.build(:swarm,
                                 :opens_at => (Time.zone.now - 1.hour))
     }
 

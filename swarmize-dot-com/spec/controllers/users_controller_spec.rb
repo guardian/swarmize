@@ -11,7 +11,7 @@ describe UsersController do
 
     describe "when logged in as a non-admin user" do
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         session[:user_id] = user.id
       end
       it "should redirect the user to the home page" do
@@ -26,7 +26,7 @@ describe UsersController do
 
     describe "when logged in as an admin user" do
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
         session[:user_id] = user.id
       end
       it "should render the index page" do
@@ -46,9 +46,9 @@ describe UsersController do
 
     describe "when logged in as neither the user in question or an admin" do
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         session[:user_id] = user.id
-        allow(User).to receive(:find).with('1').and_return(Factory.build(:user))
+        allow(User).to receive(:find).with('1').and_return(FactoryGirl.build(:user))
         allow(User).to receive(:find).with(user.id).and_return(user)
       end
 
@@ -63,7 +63,7 @@ describe UsersController do
     end
 
     describe "when as the user in question" do
-      let(:user) { Factory(:user) }
+      let(:user) { FactoryGirl.create(:user) }
       before do
         session[:user_id] = user.id
       end
@@ -80,9 +80,9 @@ describe UsersController do
 
     describe "when as an admin" do
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
         session[:user_id] = user.id
-        allow(User).to receive(:find).with('1').and_return(Factory.build(:user))
+        allow(User).to receive(:find).with('1').and_return(FactoryGirl.build(:user))
         allow(User).to receive(:find).with(user.id).and_return(user)
       end
 
@@ -98,7 +98,7 @@ describe UsersController do
   end
 
   describe "GET #delete" do
-    let(:user_to_delete) { Factory.create(:user) }
+    let(:user_to_delete) { FactoryGirl.create(:user) }
 
     describe "when not logged in" do
       it "should redirect the user to the login form" do
@@ -109,7 +109,7 @@ describe UsersController do
 
     describe "when logged in as a non-admin user" do
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         session[:user_id] = user.id
       end
       it "should redirect the user to the home page" do
@@ -124,7 +124,7 @@ describe UsersController do
 
     describe "when logged in as an admin user" do
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
         session[:user_id] = user.id
       end
       it "should render the delete page" do
@@ -146,7 +146,7 @@ describe UsersController do
 
     describe "when logged in as a non-admin user" do
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         session[:user_id] = user.id
       end
       it "should redirect the user to the home page" do
@@ -160,10 +160,10 @@ describe UsersController do
     end
 
     describe "when logged in as an admin user" do
-      let(:user_to_delete) { Factory.build(:user) }
+      let(:user_to_delete) { FactoryGirl.build(:user) }
 
       before do
-        admin = Factory(:admin)
+        admin = FactoryGirl.create(:admin)
         session[:user_id] = admin.id
         allow(User).to receive(:find).with(admin.id).and_return(admin)
         allow(User).to receive(:find).with('1').and_return(user_to_delete)

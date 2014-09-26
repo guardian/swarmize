@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe User do
   it "has a valid factory" do
-    Factory.create(:user).should be_valid
+    FactoryGirl.create(:user).should be_valid
   end
 
   describe "being saved" do
     it "should ensure its email is stored downcase" do
-      user = Factory.build(:user, :email => 'BOB@TEST.com')
+      user = FactoryGirl.build(:user, :email => 'BOB@TEST.com')
       user.save
       expect(user.email).to eq('bob@test.com')
     end

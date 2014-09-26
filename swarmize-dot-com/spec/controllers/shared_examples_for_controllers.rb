@@ -23,7 +23,7 @@ shared_examples_for "it needs login" do |method,endpoint, params|
 
   context "so for a logged-in user" do
     before do
-      user = Factory.build(:user)
+      user = FactoryGirl.build(:user)
       session[:user_id] = 1
       allow(User).to receive(:find).and_return(user)
     end
@@ -49,7 +49,7 @@ shared_examples_for "it needs an admin user" do |method, endpoint, params|
 
   context "so when logged in as a non-admin user" do
     before do
-      user = Factory.build(:user)
+      user = FactoryGirl.build(:user)
       session[:user_id] = 1
       allow(User).to receive(:find).and_return(user)
     end
@@ -65,7 +65,7 @@ shared_examples_for "it needs an admin user" do |method, endpoint, params|
 
   context "so when logged in as an admin user" do
     before do
-      admin = Factory.build(:admin)
+      admin = FactoryGirl.build(:admin)
       session[:user_id] = 1
       allow(User).to receive(:find).and_return(admin)
     end

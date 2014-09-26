@@ -28,7 +28,7 @@ describe SwarmsController do
 
     describe "for a logged-in user" do
       before do
-        user = Factory.build(:user)
+        user = FactoryGirl.build(:user)
         session[:user_id] = 1
         allow(user).to receive(:id).and_return(1)
         allow(User).to receive(:find).and_return(user)
@@ -44,7 +44,7 @@ describe SwarmsController do
   describe "GET #show" do
     describe "for a swarm that isn't draft" do
       before do
-        swarm = Factory(:swarm)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:draft?).and_return(false)
         allow(swarm).to receive(:search)
 
@@ -55,7 +55,7 @@ describe SwarmsController do
 
     describe "for a swarm that is draft" do
       before do
-        swarm = Factory(:swarm)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:draft?).and_return(true)
 
         es_double = double("elasticsearch")
@@ -71,15 +71,6 @@ describe SwarmsController do
 
   describe "GET #new" do
     it_should_behave_like "it needs login", :get, :new
-  end
-
-  describe "GET #csv" do
-    describe 'for a user who is not logged in' do
-      it "should redirect to login" do
-        get :csv, :id => 1
-        expect(response).to redirect_to(login_path)
-      end
-    end
   end
 
   describe "GET #delete" do
@@ -102,8 +93,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -120,10 +111,10 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and owns the swarm' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
 
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         allow(swarm).to receive(:owners).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -142,10 +133,10 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and is an admin' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
 
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -175,8 +166,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -194,8 +185,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and has permission the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -210,8 +201,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and is an admin' do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -236,8 +227,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -254,9 +245,9 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and has permission the swarm' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -275,9 +266,9 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and is an admin' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -307,8 +298,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -326,8 +317,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and has permission the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -342,8 +333,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and is an admin' do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -370,8 +361,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -388,9 +379,9 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and has permission on the swarm' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -446,9 +437,9 @@ describe SwarmsController do
 
 
     describe 'for a user who is logged in and is an admin' do
-      let(:swarm) {Factory(:swarm)}
+      let(:swarm) {FactoryGirl.create(:swarm)}
       before do
-        user = Factory(:admin)
+        user = FactoryGirl.create(:admin)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -513,8 +504,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -532,8 +523,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and has permission the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -548,8 +539,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and is an admin' do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -573,8 +564,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in but not an owner of the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -592,8 +583,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and has permission the swarm' do
       before do
-        user = Factory(:user)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:user)
+        swarm = FactoryGirl.create(:swarm)
         allow(swarm).to receive(:users).and_return([user])
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -608,8 +599,8 @@ describe SwarmsController do
 
     describe 'for a user who is logged in and is an admin' do
       before do
-        user = Factory(:admin)
-        swarm = Factory(:swarm)
+        user = FactoryGirl.create(:admin)
+        swarm = FactoryGirl.create(:swarm)
 
         allow(Swarm).to receive(:find_by).and_return(swarm)
         session[:user_id] = user.id
@@ -632,8 +623,8 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in' do
-      let(:swarm) { Factory(:swarm) }
-      let(:user) { Factory(:user) }
+      let(:swarm) { FactoryGirl.create(:swarm) }
+      let(:user) { FactoryGirl.create(:user) }
       let(:second_swarm) { FactoryGirl.build_stubbed(:swarm) }
 
       before do
@@ -675,8 +666,8 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and has permissions on the swarm' do
-      let(:user) { Factory(:user) }
-      let(:swarm) { Factory(:swarm) }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:swarm) { FactoryGirl.create(:swarm) }
 
       before do
         allow(swarm).to receive(:users).and_return([user])
@@ -697,8 +688,8 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and an admin' do
-      let(:user) { Factory(:admin) }
-      let(:swarm) { Factory(:swarm) }
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:swarm) { FactoryGirl.create(:swarm) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)
@@ -736,8 +727,8 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and has permissions on the swarm' do
-      let(:user) { Factory(:user) }
-      let(:swarm) { Factory(:swarm) }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:swarm) { FactoryGirl.create(:swarm) }
 
       before do
         allow(swarm).to receive(:users).and_return([user])
@@ -766,8 +757,8 @@ describe SwarmsController do
     end
 
     describe 'for a user who is logged in and is an admin ' do
-      let(:user) { Factory(:admin) }
-      let(:swarm) { Factory(:swarm) }
+      let(:user) { FactoryGirl.create(:admin) }
+      let(:swarm) { FactoryGirl.create(:swarm) }
 
       before do
         allow(Swarm).to receive(:find_by).and_return(swarm)

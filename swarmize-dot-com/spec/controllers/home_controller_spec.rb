@@ -19,7 +19,7 @@ describe HomeController do
 
     describe "when logged in" do
       before do
-        user = Factory(:user)
+        user = FactoryGirl.create(:user)
         session[:user_id] = user.id
       end
 
