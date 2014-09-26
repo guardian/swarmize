@@ -33,7 +33,7 @@ gem 'factory_girl_rails'
 gem 'unicorn'
 
 group :development do
-  gem 'puma'
+  gem 'thin'
   gem 'fog'
   gem 'awesome_print'
 end
