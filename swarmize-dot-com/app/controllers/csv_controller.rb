@@ -7,7 +7,7 @@ class CsvController < ApplicationController
 
     #render_csv(results)
     tool = SwarmCSVTool.new(@swarm) 
-    file = Tempfile.open(["#{Rails.root}/tmp/", ".csv"]) do |csv|
+    Tempfile.open(["#{Time.now.to_i}", ".csv"], Rails.root.join('tmp')) do |csv|
       csv << tool.headers.to_s
       results.each do |result|
         csv << tool.result_to_row(result).to_s
@@ -21,8 +21,8 @@ class CsvController < ApplicationController
       results = @swarm.search.entirety
 
       tool = SwarmCSVTool.new(@swarm) 
-      file = Tempfile.open(["#{Rails.root}/tmp/", ".csv"]) do |csv|
-        csv << tool.headers.to_s
+      Tempfile.open(["#{Time.now.to_i}", ".csv"], Rails.root.join('tmp')) do |csv|
+        csv << tool.public_headers.to_s
         results.each do |result|
           csv << tool.result_to_public_row(result).to_s
         end

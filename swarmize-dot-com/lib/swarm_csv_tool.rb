@@ -16,11 +16,24 @@ class SwarmCSVTool
         end
       end
     end
+
+    @public_header_keys = @header_hash.keys.select do |key|
+      @swarm.public_field_codes.include?(key.to_s)
+    end
+
+    @public_header_values = @public_header_keys.map do |key|
+      @header_hash[key]
+    end
   end
 
   def headers
     # true indicates it's a header
     CSV::Row.new(@header_hash.keys, @header_hash.values, true)
+  end
+
+  def public_headers
+    # true indicates it's a header
+    CSV::Row.new(@public_header_keys, @public_header_values, true)
   end
 
   def result_to_row(result)
@@ -31,11 +44,7 @@ class SwarmCSVTool
   end
 
   def result_to_public_row(result)
-    public_safe_keys = @header_hash.keys.select do |key|
-      @swarm.public_field_codes.include?(key.to_s)
-    end
-
-    cols = public_safe_keys.map do |key|
+    cols = @public_header_keys.map do |key|
       result.send(key)
     end
     CSV::Row.new(@header_hash.keys, cols, false)
