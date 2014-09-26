@@ -9,9 +9,14 @@ class CsvController < ApplicationController
   end
 
   def public
-    results = @swarm.search.entirety
+    if @swarm.closed? || @current_user
+      results = @swarm.search.entirety
 
-    render_csv(results, true)
+      render_csv(results, true)
+    else
+      flash[:error] = "You can't download CSV for a Swarm still in progress."
+      redirect_to @swarm
+    end
   end
 
   private
@@ -36,9 +41,9 @@ class CsvController < ApplicationController
     #nginx doc: Setting this to "no" will allow unbuffered responses suitable for Comet and HTTP streaming applications
     headers['X-Accel-Buffering'] = 'no'
 
-    if is_public
-      headers["Cache-Control"] = "max-age=#{1.year.to_i}"
-    end
+    #if is_public
+      #headers["Cache-Control"] = "max-age=#{1.year.to_i}"
+    #end
     headers["Cache-Control"] ||= "no-cache"
     headers.delete("Content-Length")
   end
