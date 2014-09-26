@@ -31,12 +31,12 @@ class SwarmCSVTool
   end
 
   def result_to_public_row(result)
-    cols = @header_hash.keys.map do |key|
-      if @swarm.public_field_codes.include?(key.to_s)
-        result.send(key)
-      else
-        "Redacted"
-      end
+    public_safe_keys = @header_hash.keys.select do |key|
+      @swarm.public_field_codes.include?(key.to_s)
+    end
+
+    cols = public_safe_keys.map do |key|
+      result.send(key)
     end
     CSV::Row.new(@header_hash.keys, cols, false)
   end
