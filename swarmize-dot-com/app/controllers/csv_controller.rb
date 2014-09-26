@@ -18,7 +18,7 @@ class CsvController < ApplicationController
 
   def render_csv(results, is_public=false)
     set_file_headers
-    set_streaming_headers
+    set_streaming_headers(is_public)
 
     response.status = 200
 
@@ -32,10 +32,13 @@ class CsvController < ApplicationController
     headers["Content-disposition"] = "attachment; filename=\"#{file_name}\""
   end
 
-  def set_streaming_headers
+  def set_streaming_headers(is_public)
     #nginx doc: Setting this to "no" will allow unbuffered responses suitable for Comet and HTTP streaming applications
     headers['X-Accel-Buffering'] = 'no'
 
+    if is_public
+      headers["Cache-Control"] = "max-age=#{1.year.to_i}"
+    end
     headers["Cache-Control"] ||= "no-cache"
     headers.delete("Content-Length")
   end
