@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require underscore-min
 //= require backbone-min
+//= require parsley.min
 //= require d3.min
 //= require c3.min
 //= require rickshaw.min
