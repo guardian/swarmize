@@ -231,3 +231,20 @@ table#permissions {
   margin-left: -5px;
   margin-right: -5px;
 }
+
+.embeddable-swarm .result {
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  &.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+  }
+  &.failure {
+    border-color: #a94442;
+    background-color: #f2dede;
+    color: #a94442;
+  }
+}
