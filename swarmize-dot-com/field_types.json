@@ -39,7 +39,6 @@
     "postcode": {
         "display_name": "Postcode",
         "has_sample": true,
-        "validation": "isAPostcode",
         "archetype": "token",
         "process": [
             {

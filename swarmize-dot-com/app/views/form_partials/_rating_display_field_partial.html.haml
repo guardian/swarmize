@@ -1,4 +1,4 @@
-.form_group
+.form_group{:id => "group_#{field.field_code}"}
   %label= field.field_name
   - upper_bound = field.maximum.to_i
   - lower_bound = field.minimum.to_i
@@ -6,5 +6,7 @@
   - range.each do |rating|
     .radio
       %label
-        = radio_button_tag field.field_code, rating
+        = radio_button_tag field.field_code, rating, false, parsley_validations_for_field(field)
         = rating
+
+  .parsley-errors{:id => "errors_#{field.field_code}"}

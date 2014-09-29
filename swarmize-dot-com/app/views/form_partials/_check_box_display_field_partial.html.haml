@@ -1,5 +1,6 @@
-.form_group
+.form_group{:id => "group_#{field.field_code}"}
   .radio
     %label
-      = check_box_tag field.field_code, 1
+      = check_box_tag field.field_code, 1, false, parsley_validations_for_field(field)
       = field.field_name
+  .parsley-errors{:id => "errors_#{field.field_code}"}

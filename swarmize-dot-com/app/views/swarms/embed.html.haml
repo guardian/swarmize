@@ -3,7 +3,7 @@
     %h2= @swarm.name
   - unless params[:nodesc]
     .explanation= simple_format @swarm.description
-  = form_tag @swarm.collector_url do
+  = form_tag @swarm.collector_url, 'data-parsley-validate' => 'true' do
     - if @swarm.swarm_fields
       - @swarm.swarm_fields.each do |swarm_field|
         - if swarm_field.has_custom_display?

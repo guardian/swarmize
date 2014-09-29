@@ -210,3 +210,24 @@ table#permissions {
   margin:0 0 0 10px;
 }
 
+/* Parsley form validation */
+
+.parsley-error, .parsley-error:focus {
+  border-color: #a94442;
+  background-color: #f2dede;
+}
+
+.parsley-errors-list {
+  list-style-position: inside;
+  color: #a94442;
+  padding-left: 0;
+  list-style-type: none;
+  font-weight: bold;
+}
+
+.form_group.parsley-error {
+  padding: 5px;
+  margin-top: -5px;
+  margin-left: -5px;
+  margin-right: -5px;
+}
