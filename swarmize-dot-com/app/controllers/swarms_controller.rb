@@ -9,22 +9,22 @@ class SwarmsController < ApplicationController
 
   def index
     if @current_user
-      @swarms = Swarm.paginate(:page => params[:page])
+      @swarms = Swarm.order("created_at DESC").paginate(:page => params[:page])
     else
-      @swarms = Swarm.publicly_visible.paginate(:page => params[:page])
+      @swarms = Swarm.order("created_at DESC").publicly_visible.paginate(:page => params[:page])
     end
   end
 
   def draft
-    @swarms = Swarm.draft.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").draft.paginate(:page => params[:page])
   end
 
   def live
-    @swarms = Swarm.live.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").live.paginate(:page => params[:page])
   end
   
   def closed
-    @swarms = Swarm.closed.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").closed.paginate(:page => params[:page])
   end
 
   def mine
@@ -76,7 +76,7 @@ class SwarmsController < ApplicationController
   def destroy
     @swarm.spike!
     flash[:success] = "'#{@swarm.name}' was deleted."
-    redirect_to swarms_path
+    redirect_to root_path
   end
 
   def new
