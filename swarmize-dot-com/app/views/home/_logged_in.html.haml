@@ -15,7 +15,7 @@
 
 .tab-content
   #all.tab-pane.active
-    %h2 Swarms In Progress
+    %h2 Latest Swarms In Progress
 
     = render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
 
@@ -27,10 +27,10 @@
 
 
   #mine.tab-pane
-    %h2 My Draft Swarms
+    %h2 My Latest Draft Swarms
     = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_draft}
 
-    %h2 My Swarms In Progress
+    %h2 My Latest Swarms In Progress
     = render :partial => "swarms/swarm_table", :locals => {:swarms => @user_swarms_in_progress}
 
     %h2 My Latest Completed Swarms
