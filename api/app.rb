@@ -40,6 +40,15 @@ class SwarmizeApi < Sinatra::Base
     output.to_json
   end
 
+  get '/swarms/:token/entirety' do
+    content_type :json
+
+    swarm = DynamoSwarm.new(params[:token])
+
+    results = swarm.search.entirety
+    results.to_json
+  end
+
   get '/swarms/:token/counts' do
     # TODO: top-level counts
   end
