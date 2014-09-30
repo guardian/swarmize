@@ -1,8 +1,15 @@
 require './lib/swarmize_search'
 require './lib/dynamo_swarm'
+require './lib/geo_json_formatter'
 require 'json'
 
 class SwarmizeApi < Sinatra::Base
+  before do
+    headers['Access-Control-Allow-Origin'] = "*"
+    headers['Access-Control-Allow-Methods'] = "GET, POST, PUT, DELETE, OPTIONS"
+    headers['Access-Control-Allow-Headers'] ="accept, authorization, origin"
+  end
+
   get '/swarms/:token' do
     content_type :json
 
@@ -46,6 +53,9 @@ class SwarmizeApi < Sinatra::Base
     swarm = DynamoSwarm.new(params[:token])
 
     results = swarm.search.entirety
+    if params[:format] == 'geojson'
+      results = GeoJSONFormatter.format(results, params[:geo_json_point_key])
+    end
     results.to_json
   end
 
