@@ -39,8 +39,23 @@ module FieldsHelper
       validations['data-parsley-class-handler'] = "#group_#{field.field_code}"
     when 'pick_several'
       validations['data-parsley-errors-container'] = "#errors_#{field.field_code}"
-      validations['data-parsley-error-message'] = "Please pick at least one option from the list."
       validations['data-parsley-class-handler'] = "#group_#{field.field_code}"
+      if field.minimum
+        validations['data-parsley-mincheck'] = field.minimum
+      end
+      if field.maximum
+        validations['data-parsley-maxcheck'] = field.maximum
+      end
+      if field.minimum && field.maximum
+        validations['data-parsley-error-message'] = "Please pick between #{field.minimum} and #{field.maximum} options."
+      elsif field.minimum
+        validations['data-parsley-error-message'] = "Please pick at least #{pluralize field.minimum, 'option'}."
+      elsif field.maximum
+        validations['data-parsley-error-message'] = "Please pick no more than #{pluralize field.maximum, 'option'}."
+      elsif field.compulsory
+        validations['data-parsley-error-message'] = "Please pick at least one option."
+      end
+
     when 'check_box'
       validations['data-parsley-errors-container'] = "#errors_#{field.field_code}"
       validations['data-parsley-error-message'] = "Please check the checkbox."
@@ -48,11 +63,18 @@ module FieldsHelper
     end
 
     if field.minimum
-      validations['data-parsley-min'] = field.minimum
+      if field.field_type == 'pick_several'
+      else
+        validations['data-parsley-min'] = field.minimum
+      end
     end
 
     if field.maximum
-      validations['data-parsley-max'] = field.maximum
+      if field.field_type == 'pick_several'
+        validations['data-parsley-maxcheck'] = field.maximum
+      else
+        validations['data-parsley-max'] = field.maximum
+      end
     end
 
     validations

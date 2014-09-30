@@ -82,6 +82,8 @@
     "pick_several": {
         "display_name": "Pick Several",
         "has_possible_values": true,
+        "has_minimum": true,
+        "has_maximum": true,
         "has_custom_display_template": true,
         "archetype": "token"
     },
