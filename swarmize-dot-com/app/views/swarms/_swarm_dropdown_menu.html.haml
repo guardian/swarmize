@@ -11,6 +11,8 @@
         %a{:href => edit_swarm_path(@swarm)}
           = glyphicon('pencil')
           Edit 
+
+    - if AccessPermission.can_alter?(@swarm, @current_user) 
       %li
         %a{:href => code_swarm_path(@swarm)}
           = glyphicon('th-list')
