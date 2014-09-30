@@ -54,7 +54,8 @@ class SwarmizeApi < Sinatra::Base
 
     results = swarm.search.entirety
     if params[:format] == 'geojson'
-      results = GeoJSONFormatter.format(results, params[:geo_json_point_key])
+      results = GeoJSONFormatter.format(results, {coords_key:params[:geo_json_point_key],
+                                       properties_keys:params[:properties_keys]} )
     end
     results.to_json
   end

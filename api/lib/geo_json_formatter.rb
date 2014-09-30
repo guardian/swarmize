@@ -1,15 +1,20 @@
 class GeoJSONFormatter
-  def self.format(results, coords_key)
+  def self.format(results, options={})
     results_with_latlong = results.select do |row|
-      row[coords_key]
+      row[options[:coords_key]]
     end
     features = results_with_latlong.map do |row|
-      properties = row.reject {|k| k == coords_key}
+      if options[:properties_keys]
+        prop_keys = options[:properties_keys].split(",")
+        properties = row.select {|k| prop_keys.include? k }
+      else
+        properties = {}
+      end
       {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: row[coords_key].map {|c| c.to_f}
+          coordinates: row[options[:coords_key]].map {|c| c.to_f}
         },
         properties: properties
       }
