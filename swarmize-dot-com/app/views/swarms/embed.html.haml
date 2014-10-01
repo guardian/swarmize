@@ -13,6 +13,7 @@
       %p.submit
         = submit_tag "Submit", :class => "btn btn-default"
 
+  .feedback
   .small
     Powered by
     %b Swarmize.
@@ -32,7 +33,7 @@
         var resultDiv = $("<div>");
         resultDiv.addClass('result').addClass('success');
         resultDiv.text("Thank you for your submission.");
-        $(".embeddable-swarm").append(resultDiv);
+        $(".embeddable-swarm .feedback").append(resultDiv);
       }).fail(function(data) {
         var resultDiv = $("<div>");
         resultDiv.addClass('result').addClass('failure');
