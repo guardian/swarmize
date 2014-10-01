@@ -173,10 +173,8 @@ class Swarm < ActiveRecord::Base
 
   def api_tokens
     tokens = []
-    APIToken.all.select do |item_data|
-      if item_data.attributes['swarm_token'] == self.token
+    APIToken.all.where(:swarm_token => self.token).select do |item_data|
         tokens << item_data.attributes #=> { 'id' => 'abc', 'category' => 'foo', ... }
-      end
     end
 
     tokens.each do |t|
