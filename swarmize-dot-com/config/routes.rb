@@ -3,6 +3,7 @@ Swarmize::Application.routes.draw do
 
   resources :swarms do
     resources :permissions
+    resources :api_tokens
     resources :graphs do
       member do
         get 'delete'

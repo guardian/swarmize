@@ -17,6 +17,10 @@
         %a{:href => code_swarm_path(@swarm)}
           = glyphicon('th-list')
           Get Code
+      %li
+        %a{:href => swarm_api_tokens_path(@swarm)}
+          = glyphicon('tag')
+          API Tokens
     %li
       %a{:href => swarm_permissions_path(@swarm)}
         = glyphicon('user')

@@ -171,6 +171,21 @@ class Swarm < ActiveRecord::Base
     output.flatten
   end
 
+  def api_tokens
+    tokens = []
+    APIToken.all.select do |item_data|
+      if item_data.attributes['swarm_token'] == self.token
+        tokens << item_data.attributes #=> { 'id' => 'abc', 'category' => 'foo', ... }
+      end
+    end
+
+    tokens.each do |t|
+      t['created_by'] = User.find_by(email: t['created_by'])
+    end
+
+    tokens
+  end
+
   private
 
   def confirm_open_time
