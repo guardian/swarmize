@@ -1,5 +1,6 @@
 class SwarmsController < ApplicationController
-  before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine}
+  before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine embed}
+  before_filter :scope_to_swarm_for_embed, :only => %w{embed}
   before_filter :check_for_user, :except => %w{index live closed show embed public_csv}
   before_filter :count_swarms, :only => %w{index draft live closed}
   before_filter :check_user_can_alter_swarm, :only => %w{edit update fields update_fields preview open close code}
@@ -181,6 +182,10 @@ class SwarmsController < ApplicationController
     if @swarm && @swarm.draft?
       check_for_user
     end
+  end
+
+  def scope_to_swarm_for_embed
+    @swarm = Swarm.find_by(token: params[:id])
   end
 
   def check_user_can_alter_swarm
