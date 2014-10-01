@@ -118,6 +118,8 @@ class SwarmsController < ApplicationController
 
   def embed
     response.headers.delete('X-Frame-Options')
+    expires_in 1.minute, :public => true
+    
     render layout: 'embed'
   end
 
