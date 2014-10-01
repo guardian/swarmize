@@ -1,5 +1,6 @@
 require './lib/swarmize_search'
 require './lib/dynamo_swarm'
+require './lib/api_token'
 require './lib/geo_json_formatter'
 require 'json'
 
@@ -10,7 +11,17 @@ class SwarmizeApi < Sinatra::Base
     headers['Access-Control-Allow-Headers'] ="accept, authorization, origin"
   end
 
+  def check_permissions
+    api_token = params[:api_token]
+    swarm_token = params[:token]
+
+    unless APIToken.exists_for_swarm(api_token, swarm_token)
+      halt 403, "You don't have permission to do that."
+    end
+  end
+
   get '/swarms/:token' do
+    check_permissions
     content_type :json
 
     swarm = DynamoSwarm.new(params[:token])
@@ -18,6 +29,7 @@ class SwarmizeApi < Sinatra::Base
   end
 
   get '/swarms/:token/results' do
+    check_permissions
     # TODO: paginated results
     content_type :json
 
@@ -48,6 +60,7 @@ class SwarmizeApi < Sinatra::Base
   end
 
   get '/swarms/:token/entirety' do
+    check_permissions
     content_type :json
 
     swarm = DynamoSwarm.new(params[:token])
