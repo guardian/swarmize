@@ -73,7 +73,21 @@ class SwarmizeApi < Sinatra::Base
   end
 
   get '/swarms/:token/counts' do
-    # TODO: top-level counts
+    check_permissions
+    content_type :json
+
+    swarm = DynamoSwarm.new(params[:token])
+    
+    countable_fields = %w{pick_one pick_several rating yesno check_box}
+    swarm_countable_fields = swarm.definition['fields'].select {|f| countable_fields.include? f['field_type']}
+
+    results = swarm_countable_fields.each do |field|
+      counts = swarm.search.aggregate_count(field['field_name_code'])
+      field[:counts] = counts
+      field
+    end
+
+    results.to_json
   end
 
   # start the server if ruby file executed directly

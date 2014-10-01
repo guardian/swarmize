@@ -22,6 +22,126 @@ This might not be an issue: many swarms are statistical and entirely anonymous. 
 
 ## Endpoints
 
+### Swarm description
+
+`http://api.swarmize.com/swarms/rycadjgp?api_token=XXXX`
+
+returns a programmatic description of the swarm:
+
+	{
+	  "closes_at": "2014-08-29T13:42:42.697Z",
+	  "opens_at": "2014-08-29T13:41:38.113Z",
+	  "fields": [
+	    {
+	      "compulsory": true,
+	      "field_name_code": "do_you_like_swarmize",
+	      "field_name": "Do you like swarmize?",
+	      "field_type": "yesno"
+	    },
+	    {
+	      "compulsory": true,
+	      "field_name_code": "do_you_think_you_ll_use_swarmize",
+	      "field_name": "Do you think you'll use swarmize?",
+	      "field_type": "yesno"
+	    },
+	    {
+	      "compulsory": false,
+	      "field_name_code": "any_other_comments",
+	      "field_name": "Any other comments?",
+	      "field_type": "bigtext"
+	    },
+	    {
+	      "possible_values": {
+	        "friday": "Friday",
+	        "wednesday": "Wednesday",
+	        "monday": "Monday"
+	      },
+	      "compulsory": false,
+	      "field_name_code": "which_days_of_the_week_are_you_likely_to_use_swarmize",
+	      "field_name": "Which days of the week are you likely to use swarmize?",
+	      "field_type": "pick_several"
+	    },
+	    {
+	      "compulsory": true,
+	      "field_name_code": "what_is_your_postcode",
+	      "field_name": "What is your postcode?",
+	      "field_type": "postcode"
+	    }
+	  ],
+	  "description": "Simple feedback form for swarmize ",
+	  "name": "Do you like swarmize?"
+	}
+
+
+
+
+### Result counts
+
+`http://api.swarmize.com/swarms/rycadjgp/counts?api_token=XXXX`
+
+returns:
+
+	[
+	  {
+	    "counts": [
+	      {
+	        "false": 14
+	      },
+	      {
+	        "true": 13
+	      },
+	      {
+	        "maybe": 1
+	      }
+	    ],
+	    "compulsory": true,
+	    "field_name_code": "do_you_like_swarmize",
+	    "field_name": "Do you like swarmize?",
+	    "field_type": "yesno"
+	  },
+	  {
+	    "counts": [
+	      {
+	        "true": 26
+	      },
+	      {
+	        "false": 1
+	      }
+	    ],
+	    "compulsory": true,
+	    "field_name_code": "do_you_think_you_ll_use_swarmize",
+	    "field_name": "Do you think you'll use swarmize?",
+	    "field_type": "yesno"
+	  },
+	  {
+	    "counts": [
+	      {
+	        "wednesday": 11
+	      },
+	      {
+	        "friday": 2
+	      },
+	      {
+	        "monday": 1
+	      }
+	    ],
+	    "possible_values": {
+	      "friday": "Friday",
+	      "wednesday": "Wednesday",
+	      "monday": "Monday"
+	    },
+	    "compulsory": false,
+	    "field_name_code": "which_days_of_the_week_are_you_likely_to_use_swarmize",
+	    "field_name": "Which days of the week are you likely to use swarmize?",
+	    "field_type": "pick_several"
+	  }
+	]
+	
+Result counts are only returned for the following field types: `pick_one`, `pick_several`, `rating`, `yesno` `check_box`. Field of other types will not be listed at this endpoint.
+
+The `counts` object will list the number of rows in the whole swarm where this field has a particular value. 
+
+
 ### Results (paginated)
 
 `http://api.swarmize.com/swarms/rycadjgp/results?api_token=XXXX`
