@@ -20,6 +20,11 @@ The API endpoint is open to Cross-Origin Requests. As such, you can make request
 
 This might not be an issue: many swarms are statistical and entirely anonymous. But if you've got qualitative text fields that might contain personal data, you almost certainly shouldn't make in-page Javascript calls to the API. Instead, it is recommended you behave as if CORS was disabled: make requests from your front-end to a back-end that you've written yourself, and make calls to the API from your server-side code. This way, your token will be hidden from public view.
 
+There are two examples in the `/examples` directory that should make this clear. 
+
+* `mapdemo-standalone` is a series of points plotted on a map from a Swarm, directly accessing the API. The API token is exposed publicly, and all fields are returned from the swarm.
+* `mapdemo-backend` uses a tiny node.js backend to filter the fields returned to the front-end, and obfuscate the API token.
+
 ## Endpoints
 
 ### Swarm description
