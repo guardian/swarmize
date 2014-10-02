@@ -1,12 +1,12 @@
-# Swarmize API
+# Swarmize Retrieval API
 
-Swarmize's API is a read-only, HTTP-based API that returns JSON. It requires no extra tokens or authentication: knowing a Swarm's token is (currently) enough credentials to request data from it.
+Swarmize's Retrieval API is a read-only, HTTP-based API that returns JSON. It requires no extra tokens or authentication: knowing a Swarm's token is (currently) enough credentials to request data from it.
 
 It currently lives at `http://api.swarmize.com`.
 
 ## Authentication
 
-All Swarmize API calls require an **API Token** to be passed to the API via the query string.
+All Swarmize Retrieval API calls require an **API Token** to be passed to the API via the query string.
 
 API Tokens exist on a *per-swarm* basis. To create an API Token for a swarm, you'll need to have permission to edit it. You'll then be able to create one via the top-right dropdown on a Swarm, choosing "API Tokens", and creating a token to use.
 
@@ -14,15 +14,15 @@ An API Token can be revoked at any point, and doing so will make any code depend
 
 ## API Usage Advice
 
-The API endpoint is open to Cross-Origin Requests. As such, you can make requests directly to the API from in-page Javascript on your site.
+The Retrieval API endpoint is open to Cross-Origin Requests. As such, you can make requests directly to the Retrieval API from in-page Javascript on your site.
 
 **HOWEVER:** note that by doing so, you effectively allow anyone else to do so as well. You'll expose your API token to the world, and given that the names of fields/questions in Swarmize are effectively public knowledge, you should assume that anyone can thus enumerate over the swarm.
 
-This might not be an issue: many swarms are statistical and entirely anonymous. But if you've got qualitative text fields that might contain personal data, you almost certainly shouldn't make in-page Javascript calls to the API. Instead, it is recommended you behave as if CORS was disabled: make requests from your front-end to a back-end that you've written yourself, and make calls to the API from your server-side code. This way, your token will be hidden from public view.
+This might not be an issue: many swarms are statistical and entirely anonymous. But if you've got qualitative text fields that might contain personal data, you almost certainly shouldn't make in-page Javascript calls to the Retrieval API. Instead, it is recommended you behave as if CORS was disabled: make requests from your front-end to a back-end that you've written yourself, and make calls to the Retrieval API from your server-side code. This way, your token will be hidden from public view.
 
 There are two examples in the `/examples` directory that should make this clear. 
 
-* `mapdemo-standalone` is a series of points plotted on a map from a Swarm, directly accessing the API. The API token is exposed publicly, and all fields are returned from the swarm.
+* `mapdemo-standalone` is a series of points plotted on a map from a Swarm, directly accessing the Retrieval API. The API token is exposed publicly, and all fields are returned from the swarm.
 * `mapdemo-backend` uses a tiny node.js backend to filter the fields returned to the front-end, and obfuscate the API token.
 
 ## Endpoints
