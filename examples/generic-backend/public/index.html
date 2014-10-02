@@ -1,0 +1,26 @@
+<!html>
+<html>
+  <head>
+    <title>Generic Swarmize Backend demo</title>
+    <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        $.get("/data/results?page=2&per_page=20", function(data) {
+          $("#data").text(JSON.stringify(data));
+        });
+        $.get("/data/counts", function(data) {
+          $("#counts").text(JSON.stringify(data));
+        });
+      });
+    </script>
+    
+  </head>
+
+  <body>
+    <h1>Generic Swarmize Backend retrieval</h1>
+    <p>The below data is retrieved via JSON - but you won't expose a token in the front-end if you do so.</p>
+    <pre id="data"></pre>
+    <pre id="counts"></pre>
+  </body>
+</html>
+  
