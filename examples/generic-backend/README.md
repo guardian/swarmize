@@ -23,3 +23,5 @@ And then you'll be able to visit the sample index page at:
 `backend.js` is the entirety of the backend code, and the comments within should explain what is happening.
 
 `public/index.html` contains the Javascript making the AJAX call, and you can see how the method name (`results`) and parameters passed to the back-end are defined.
+
+In an ideal world, you probably wouldn't want to forward requests directly: rather, you'd want to configure them on the back-end so they couldn't be enumerated over. But this is a straightforward example that at least stops you exposing your API token to the public.
