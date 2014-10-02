@@ -1,0 +1,17 @@
+{
+  "name": "mapdemo-backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend.js"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.4.5",
+    "request": "~2.36.0",
+    "underscore": "~1.7.0"
+  }
+}

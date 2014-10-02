@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>A simple map</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css' rel='stylesheet' />
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+
+
+</head>
+<body>
+<div id='map'></div>
+<script>
+
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+var mapid = gup( 'mapid' )
+L.mapbox.accessToken = 'pk.eyJ1IjoiZ3VhcmRpYW4iLCJhIjoiNHk1bnF4OCJ9.25tK75EuDdgq5GxQKyD6Fg';
+var map = L.mapbox.map('map', mapid);
+var featureLayer = L.mapbox.featureLayer()
+    .loadURL('/data')
+    .addTo(map);
+
+function howYouVoteString(string) {
+  return dict[string];
+}
+
+featureLayer.on('ready', function() {
+  featureLayer.eachLayer(function(layer) {
+      // here you call `bindPopup` with a string of HTML you create - the feature
+      // properties declared above are available under `layer.feature.properties`
+      var content = '<p><b>How you plan to vote:<\/b> ' + layer.feature.properties.how_do_you_plan_to_vote_at_the_next_general_election + '<\/p>' + 
+        '<p><b>Your postcode:<\/b> ' + layer.feature.properties.what_s_your_postcode + '<\/p>';
+      layer.bindPopup(content);
+  });
+});
+</script>
+</body>
+</html>
