@@ -14,10 +14,9 @@ var lookupDict = {'conservative': 'Conservative',
                   'other': 'Labour'}
 
 app.get("/data", function(req,res) {
-
   request('http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_token=663e3710c9081919', function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      // Filter the response to only return the fields we want to the font end
+      // Filter the response to only return the fields we want to the front end
       var json = JSON.parse(body);
       json.features = _.map(json.features,function(feature) {
         feature.properties = _.pick(feature.properties, 'what_s_your_postcode', 'what_s_your_postcode_lonlat', 'how_do_you_plan_to_vote_at_the_next_general_election');
@@ -29,8 +28,6 @@ app.get("/data", function(req,res) {
       });
 
       res.json(json);
-    } else {
-      res.send(204);
     }
   })
 });
