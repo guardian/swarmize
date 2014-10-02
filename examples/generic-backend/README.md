@@ -1,4 +1,4 @@
-# Swawrmize Retrieval API Generic Backend
+# Swarmize Retrieval API Generic Backend
 
 If you've read the documentation, and looked at both the `mapdemo-standaone` and `mapdemo-backend`, you'll realise that having some kind of back-end for retrieving any remotely sensitive data from a Swarm is a good idea. 
 
