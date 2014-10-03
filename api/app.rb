@@ -1,7 +1,4 @@
 require './lib/swarmize_search'
-check_permissions
-content_type :json
-
 require './lib/dynamo_swarm'
 require './lib/api_key'
 require './lib/geo_json_formatter'
