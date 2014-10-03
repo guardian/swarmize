@@ -1,6 +1,9 @@
 require './lib/swarmize_search'
+check_permissions
+content_type :json
+
 require './lib/dynamo_swarm'
-require './lib/api_token'
+require './lib/api_key'
 require './lib/geo_json_formatter'
 require 'json'
 
@@ -12,10 +15,10 @@ class SwarmizeApi < Sinatra::Base
   end
 
   def check_permissions
-    api_token = params[:api_token]
+    api_key = params[:api_key]
     swarm_token = params[:token]
 
-    unless APIToken.exists_for_swarm(api_token, swarm_token)
+    unless APIKey.exists_for_swarm(api_key, swarm_token)
       halt 403, "You don't have permission to do that."
     end
   end
