@@ -1,4 +1,4 @@
-class ApiTokensController < ApplicationController
+class ApiKeysController < ApplicationController
   before_filter :scope_to_swarm
   before_filter :check_user_has_permissions_on_swarm
 
@@ -9,15 +9,15 @@ class ApiTokensController < ApplicationController
   end
 
   def create
-    APIToken.create(@swarm.token, @current_user.email)
-    flash[:success] = "Token created."
-    redirect_to swarm_api_tokens_path(@swarm)
+    APIKey.create(@swarm.token, @current_user.email)
+    flash[:success] = "Key created."
+    redirect_to swarm_api_keys_path(@swarm)
   end
 
   def destroy
-    APIToken.delete(params[:id])
-    flash[:success] = "Token deleted."
-    redirect_to swarm_api_tokens_path(@swarm)
+    APIKey.delete(params[:id])
+    flash[:success] = "Key deleted."
+    redirect_to swarm_api_keys_path(@swarm)
   end
 
   private

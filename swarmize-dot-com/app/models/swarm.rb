@@ -171,17 +171,17 @@ class Swarm < ActiveRecord::Base
     output.flatten
   end
 
-  def api_tokens
-    tokens = []
-    APIToken.all.where(:swarm_token => self.token).select do |item_data|
-        tokens << item_data.attributes #=> { 'id' => 'abc', 'category' => 'foo', ... }
+  def api_keys
+    keys = []
+    APIKey.all.where(:swarm_token => self.token).select do |item_data|
+        keys << item_data.attributes #=> { 'id' => 'abc', 'category' => 'foo', ... }
     end
 
-    tokens.each do |t|
+    keys.each do |t|
       t['created_by'] = User.find_by(email: t['created_by'])
     end
 
-    tokens
+    keys
   end
 
   private

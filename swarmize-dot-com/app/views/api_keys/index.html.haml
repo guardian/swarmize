@@ -1,0 +1,23 @@
+- content_for :pagetitle do
+  API Keys for #{@swarm.name} : 
+
+.page-header.swarmize-header
+  %h1 API Keys for #{@swarm.name}
+
+%table.table
+  %thead
+    %tr
+      %th Key
+      %th Created By
+      %th Created At
+      %th Action
+  %tbody
+    - if @swarm.api_keys
+      - @swarm.api_keys.each do |key|
+        %tr
+          %td= key['api_key']
+          %td= key['created_by'].name
+          %td= key['created_at']
+          %td= link_to 'Revoke access', swarm_api_keys_path(@swarm, key['api_key']), :confirm => 'Are you sure?', :method => :delete
+
+%p= button_to "Create Key", swarm_api_keys_path(@swarm), :class => "btn btn-default"
