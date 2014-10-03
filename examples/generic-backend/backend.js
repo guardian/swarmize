@@ -7,7 +7,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 // the API Key is, effectively, a global.
-var apiKey = '663e3710c9081919';
+var apiKey = '35c58cae15301cfa';
 
 app.get("/data/:method", function(req,res) {
   // take the original query and merge in the API Token
