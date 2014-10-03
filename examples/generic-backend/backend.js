@@ -6,13 +6,13 @@ var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-// the API Token is, effectively, a global.
-var apiToken = '663e3710c9081919';
+// the API Key is, effectively, a global.
+var apiKey = '663e3710c9081919';
 
 app.get("/data/:method", function(req,res) {
   // take the original query and merge in the API Token
   var query = req.query
-  query.api_token = apiToken;
+  query.api_key = apiKey;
 
   // hit the requested method on the Swarmize API with the new querystring...
   var newQueryString = 'http://api.swarmize.com/swarms/rycadjgp/' + req.params.method + "?" + querystring.stringify(query);

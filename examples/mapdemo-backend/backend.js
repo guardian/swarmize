@@ -14,7 +14,7 @@ var lookupDict = {'conservative': 'Conservative',
                   'other': 'Labour'}
 
 app.get("/data", function(req,res) {
-  request('http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_token=663e3710c9081919', function (error, response, body) {
+  request('http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_key=35c58cae15301cfa', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       // Filter the response to only return the fields we want to the front end
       var json = JSON.parse(body);

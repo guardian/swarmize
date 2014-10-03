@@ -8,7 +8,7 @@ It currently lives at `http://api.swarmize.com`.
 
 All Swarmize Retrieval API calls require an **API Key** to be passed to the API via the query string.
 
-API keys exist on a *per-swarm* basis. To create an API Key for a swarm, you'll need to have permission to edit it. You'll then be able to create one via the top-right dropdown on a Swarm, choosing "API Keys", and creating a token to use.
+API keys exist on a *per-swarm* basis. To create an API Key for a swarm, you'll need to have permission to edit it. You'll then be able to create one via the top-right dropdown on a Swarm, choosing "API Keys", and creating a key to use.
 
 An API Key can be revoked at any point, and doing so will make any code dependent on it fail.
 
@@ -18,7 +18,7 @@ The Retrieval API endpoint is open to Cross-Origin Requests. As such, you can ma
 
 **HOWEVER:** note that by doing so, you effectively allow anyone else to do so as well. You'll expose your API key to the world, and given that the names of fields/questions in Swarmize are effectively public knowledge, you should assume that anyone can thus enumerate over the swarm.
 
-This might not be an issue: many swarms are statistical and entirely anonymous. But if you've got qualitative text fields that might contain personal data, you almost certainly shouldn't make in-page Javascript calls to the Retrieval API. Instead, it is recommended you behave as if CORS was disabled: make requests from your front-end to a back-end that you've written yourself, and make calls to the Retrieval API from your server-side code. This way, your token will be hidden from public view.
+This might not be an issue: many swarms are statistical and entirely anonymous. But if you've got qualitative text fields that might contain personal data, you almost certainly shouldn't make in-page Javascript calls to the Retrieval API. Instead, it is recommended you behave as if CORS was disabled: make requests from your front-end to a back-end that you've written yourself, and make calls to the Retrieval API from your server-side code. This way, your key will be hidden from public view.
 
 There are two examples in the `/examples` directory that should make this clear. 
 
@@ -29,7 +29,7 @@ There are two examples in the `/examples` directory that should make this clear.
 
 ### Swarm description
 
-`http://api.swarmize.com/swarms/rycadjgp?api_token=XXXX`
+`http://api.swarmize.com/swarms/rycadjgp?api_key=XXXX`
 
 returns a programmatic description of the swarm:
 
@@ -82,7 +82,7 @@ returns a programmatic description of the swarm:
 
 ### Result counts
 
-`http://api.swarmize.com/swarms/rycadjgp/counts?api_token=XXXX`
+`http://api.swarmize.com/swarms/rycadjgp/counts?api_key=XXXX`
 
 returns:
 
@@ -149,7 +149,7 @@ The `counts` object will list the number of rows in the whole swarm where this f
 
 ### Results (paginated)
 
-`http://api.swarmize.com/swarms/rycadjgp/results?api_token=XXXX`
+`http://api.swarmize.com/swarms/rycadjgp/results?api_key=XXXX`
 
 returns:
 
@@ -267,7 +267,7 @@ returns:
 
 The responses is separated into a `results` object and a `query_details` object. The `query_details` object also returns how many pages of results there will be at the current per_page setting. It's possible to one or both of these via the query string:
 
-`http://api.swarmize.com/swarms/rycadjgp/results?api_token=XXXX&per_page=50&page=3`
+`http://api.swarmize.com/swarms/rycadjgp/results?api_key=XXXX&per_page=50&page=3`
 
 The default is `page=1&per_page=10`.
 
@@ -275,7 +275,7 @@ The default is `page=1&per_page=10`.
 
 The `#entirety` endpoint will return the entire dataset. *Warning:* this could be really, really big. And slow.
 
-`http://api.swarmize.com/swarms/rycadjgp/entirety?api_token=XXXX`
+`http://api.swarmize.com/swarms/rycadjgp/entirety?api_key=XXXX`
 
 Note that there is no `query_details` object: just a single array representing all the objects in the search.
 
@@ -285,7 +285,7 @@ It's possible to specify a GeoJSON format for the big-bucket-of-results. To do s
 
 For instance:
 
-`http://api.swarmize.com/swarms/rycadjgp/entirety?api_token=XXXX&format=geojson&geo_json_point_key=what_s_your_postcode_lonlat`
+`http://api.swarmize.com/swarms/rycadjgp/entirety?api_key=XXXX&format=geojson&geo_json_point_key=what_s_your_postcode_lonlat`
 
 returns
 	

@@ -1,6 +1,6 @@
-# Swarmize API access demo: standalone access
+# Swarmize Retrieval API demo: standalone access
 
-This demonstration shows how simple access to the Swarmize API can be. Because we have no cross-origin protection, you can simply make requests directly from a front-end.
+This demonstration shows how simple access to the Swarmize Retrieval API can be. Because we have no cross-origin protection, you can simply make requests directly from a front-end.
 
 ## Running
 
@@ -26,6 +26,6 @@ And then you'll be able to visit the map at:
 	
 If you'd like to see the returned JSON, you can do so at
 
-	http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_token=663e3710c9081919
+	http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&ap_key=35c58cae15301cfa
 
-As you can see, *all* fields from the Swarm are returned in full - and your API token is exposed in public. This may not be an issue depending on your dataset, but the deliberate insecurity of this should be encouragement to use a straightforward backend where appropraite.
+As you can see, *all* fields from the Swarm are returned in full - and your API key is exposed in public. This may not be an issue depending on your dataset, but the deliberate insecurity of this should be encouragement to use a straightforward backend where appropraite.

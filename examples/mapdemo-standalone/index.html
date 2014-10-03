@@ -34,7 +34,7 @@ var mapid = gup( 'mapid' )
 L.mapbox.accessToken = 'pk.eyJ1IjoiZ3VhcmRpYW4iLCJhIjoiNHk1bnF4OCJ9.25tK75EuDdgq5GxQKyD6Fg';
 var map = L.mapbox.map('map', mapid);
 var featureLayer = L.mapbox.featureLayer()
-    .loadURL('http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_token=663e3710c9081919')
+    .loadURL('http://api.swarmize.com/swarms/rycadjgp/entirety?format=geojson&geo_json_point_key=what_s_your_postcode_lonlat&api_key=35c58cae15301cfa')
     .addTo(map);
 
 function howYouVoteString(string) {

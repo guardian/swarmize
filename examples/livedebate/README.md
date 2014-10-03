@@ -21,7 +21,7 @@ And then you'll be able to visit the clicker at:
 	
 ##  Notes
 
-You'll note you don't need an API token to send data to the Collector API: all valid requests to swarms that aren't closed are accepted; you just need to know the field names, swarm token, and ensure your data submitted is valid.
+You'll note you don't need an API key to send data to the Collector API: all valid requests to swarms that aren't closed are accepted; you just need to know the field names, swarm token, and ensure your data submitted is valid.
 
 So as to be able to filter all results by individual users, each user gets a unique token which is set as a cookie, and injected into their submission to the collector API. Using the backend code, it'd also be possible to inject other data into the request, if you need to.
 
