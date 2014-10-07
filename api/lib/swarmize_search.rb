@@ -57,7 +57,9 @@ class SwarmizeSearch
     query = latest_query
     search_results_hash = search(token,query)
     rows = search_results_hash.hits.hits.map {|h| h._source}
-    rows.first
+    if rows.any?
+      rows.first
+    end
   end
 
   def entirety
