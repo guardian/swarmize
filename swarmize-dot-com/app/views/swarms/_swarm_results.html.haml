@@ -14,20 +14,21 @@
           - field.derived_field_suffixes.each do |df|
             %th= "#{field.field_name} [#{df}]"
   %tbody
-    - for row in @rows
-      %tr
-        %td= format_timestamp(row.timestamp)
-        - for field in @swarm.swarm_fields
-          - if @current_user || !field.redacted?
-            %td= row.send field.field_code
-            - if field.derived_field_codes
-              - field.derived_field_codes.each do |df|
-                %td= row.send df
-          - else
-            %td Redacted
-            - if field.derived_field_codes
-              - field.derived_field_codes.each do |df|
-                %td Redacted
+    - if @rows
+      - for row in @rows
+        %tr
+          %td= format_timestamp(row.timestamp)
+          - for field in @swarm.swarm_fields
+            - if @current_user || !field.redacted?
+              %td= row.send field.field_code
+              - if field.derived_field_codes
+                - field.derived_field_codes.each do |df|
+                  %td= row.send df
+            - else
+              %td Redacted
+              - if field.derived_field_codes
+                - field.derived_field_codes.each do |df|
+                  %td Redacted
 
 - if @current_user && (@swarm.live? || @swarm.draft?)
   :javascript
