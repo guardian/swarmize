@@ -18,6 +18,7 @@ class SwarmizeSearch
     log = false
     Elasticsearch::Client.new log: log, 
       host: ENV['ELASTICSEARCH_HOST'],
+      region: 'eu-west-1',
       transport_options: {
         request: { timeout: 30 }
       }
@@ -49,6 +50,13 @@ class SwarmizeSearch
     total_pages = total_pages_for_results(search_results_hash, per_page)
 
     [rows, total_pages]
+  end
+
+  def latest
+    query = latest_query
+    search_results_hash = search(token,query)
+    rows = search_results_hash.hits.hits.map {|h| h._source}
+    rows.first
   end
 
   def entirety

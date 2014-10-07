@@ -12,6 +12,15 @@ class SwarmizeSearch
       end
     end
 
+    def latest_query
+      Jbuilder.encode do |json|
+        json.size 1
+        json.sort do
+          json.timestamp "desc"
+        end
+      end
+    end
+
     def aggregate_count_query(field)
       Jbuilder.encode do |json|
         json.aggs do
