@@ -51,7 +51,10 @@
                   %option{:value => n, :selected => (true if n == Time.zone.now.day)}= n
             = link_to "Set to now", "#", :id => "set-open-date-to-now", :class => "btn btn-primary btn-sm"
 
-        %p <b>Once your swarm has opened it cannot be closed and re-opened at a later date</b> - so make sure you're happy with your fields!
+        %p
+          %i All times are London time (ie GMT/BST dependent on time of year).
+        %p 
+          %b Once your swarm has opened it cannot be closed and re-opened at a later date.
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => 'modal'} Cancel
         %button#open-submit.btn.btn-primary Save changes
