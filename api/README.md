@@ -271,6 +271,26 @@ The responses is separated into a `results` object and a `query_details` object.
 
 The default is `page=1&per_page=10`.
 
+### Latest result
+
+	http://api.swarmize.com/swarms/rycadjgp/latest?api_key=XXXX
+
+will return the JSON for the most recent result. For instance:
+
+	{
+	  "what_s_your_postcode_lonlat": [
+	    -2.11886756,
+	    57.08312836
+	  ],
+	  "timestamp": "2014-10-01T10:45:02.153Z",
+	  "unique_user_key": "1411481620126",
+	  "who_did_you_just_agree_with": "alistair_darling",
+	  "do_you_think_scotland_should_be_an_independent_country": true,
+	  "what_s_your_postcode": "AB12"
+	}
+
+One use case for this might be building a Twitter scraper: every time you query Twitter, you need to know what the startpoint for your query should be; asking for the most recently stored tweet would let you tell Twitter where to start its search.
+
 ### Results (all)
 
 The `#entirety` endpoint will return the entire dataset. *Warning:* this could be really, really big. And slow.

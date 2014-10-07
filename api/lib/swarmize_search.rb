@@ -53,6 +53,13 @@ class SwarmizeSearch
     [rows, total_pages]
   end
 
+  def latest
+    query = latest_query
+    search_results_hash = search(token,query)
+    rows = search_results_hash.hits.hits.map {|h| h._source}
+    rows.first
+  end
+
   def entirety
     results = []
     # scan and scroll

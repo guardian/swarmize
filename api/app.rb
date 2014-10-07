@@ -59,6 +59,16 @@ class SwarmizeApi < Sinatra::Base
     output.to_json
   end
 
+  get '/swarms/:token/latest' do
+    check_permissions
+    content_type :json
+
+    swarm = DynamoSwarm.new(params[:token])
+
+    latest = swarm.search.latest
+    latest.to_json
+  end
+
   get '/swarms/:token/entirety' do
     check_permissions
     content_type :json
