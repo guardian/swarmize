@@ -6,3 +6,4 @@ stasher/logs
 logs
 *.zip
 credentials.csv
+.rakeTasks

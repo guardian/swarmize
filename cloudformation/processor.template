@@ -40,15 +40,11 @@
                         {
                             "Action": [
                                 "swf:*",
-                                "ec2:DescribeInstances"
+                                "ec2:DescribeInstances",
+                                "dynamodb:*"
                             ],
                             "Effect": "Allow",
                             "Resource":"*"
-                        },
-                        {
-                            "Action": ["dynamodb:*"],
-                            "Effect": "Allow",
-                            "Resource":"arn:aws:dynamodb:eu-west-1:788412539275:table/swarms"
                         }
                     ]
                 },
