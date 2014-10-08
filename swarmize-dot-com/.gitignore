@@ -23,3 +23,6 @@ deploy.json
 
 # Ignore simplecov output
 coverage
+
+# Ignore database config
+config/database.yml
