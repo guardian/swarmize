@@ -185,7 +185,7 @@ class Swarm < ActiveRecord::Base
   end
 
   def estimate_form_height
-    height = 185
+    height = 210
 
     if swarm_fields.any?
       fields_height = swarm_fields.map do |field|
@@ -198,6 +198,8 @@ class Swarm < ActiveRecord::Base
           end
 
           field_height
+        when 'bigtext'
+          220
         else
           80
         end

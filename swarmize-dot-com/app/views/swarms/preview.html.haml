@@ -19,7 +19,8 @@
       = glyphicon('list-alt')
       Preview Swarm
 
-%iframe{:src => embed_swarm_path(@swarm), :width => 400, :height => 400}
+%iframe{:src => embed_swarm_path(@swarm), :width => 460, :height => @swarm.estimate_form_height, 'frameBorder' => 0, :seamless => 'seamless', :style => 'border: 1px solid #ddd;'}
+  
 
 %p
   = link_to "&larr; Alter fields".html_safe, fields_swarm_path(@swarm), :class => "btn btn-default"
