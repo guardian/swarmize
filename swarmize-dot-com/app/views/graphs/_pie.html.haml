@@ -10,7 +10,7 @@
   $(document).ready(function() {
     window.graphData#{count+1} = new GraphData({url: '#{graph.data_url(graph.field, {filter_field: graph.options[:filter_field]})}',
                                                 graphType: 'pie',
-                                                title: '#{graph.title}',
+                                                title: '#{escape_apostrophe(graph.title)}',
                                                 index: #{count+1}});
 
 

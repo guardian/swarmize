@@ -12,7 +12,7 @@
     window.graphData#{count+1} = new GraphData({
                                     url: '#{graph.data_url(graph.field)}',
                                     graphType: 'timeseries',
-                                    title: '#{graph.title}',
+                                    title: '#{escape_apostrophe(graph.title)}',
                                     index: #{count+1}});
 
     window.graph#{count+1} = new SwarmizeTimeSeriesGraph({model: window.graphData#{count+1}});

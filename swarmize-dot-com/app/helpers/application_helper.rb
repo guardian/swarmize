@@ -45,6 +45,10 @@ module ApplicationHelper
     time.strftime("%H:%M%P")
   end
 
+  def escape_apostrophe(string)
+    string.gsub(/'/) {|s| "\\'"}
+  end
+
 
   # this comes from the old Sinatra app
   def format_timestamp(ts)
