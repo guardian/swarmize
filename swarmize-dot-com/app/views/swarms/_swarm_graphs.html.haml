@@ -1,7 +1,7 @@
 %h2 Graphs
 
 - @swarm.graphs.each_with_index do |graph, i|
-  = render :partial => "graphs/#{graph.viz_type}", :locals => {:graph => graph, :count => i}
+  = render :partial => "graphs/#{graph.graph_type}", :locals => {:graph => graph, :count => i}
 
 #graphs
 

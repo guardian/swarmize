@@ -28,11 +28,6 @@
         = select_tag :filter_field, options_for_select(@filter_fields), :include_blank => true, :class => 'form-control'
 
     .form-group
-      %label.col-sm-3.control-label Viz type
-      .col-sm-6
-        = f.select :viz_type, @graph_types, {}, {:class => 'form-control'}
-
-    .form-group
       .col-sm-offset-3
         %p= f.submit "Update graph", :class => "btn btn-default"
         %p= link_to "Back to graphs for '#{@swarm.name}'", swarm_graphs_path(@swarm)

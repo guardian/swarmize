@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912101553) do
+ActiveRecord::Schema.define(version: 20141010094402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20140912101553) do
     t.string   "title"
     t.string   "graph_type"
     t.string   "field"
-    t.string   "viz_type"
     t.text     "options"
     t.integer  "swarm_id"
     t.datetime "created_at"

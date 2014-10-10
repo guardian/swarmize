@@ -6,7 +6,7 @@ class Graph < ActiveRecord::Base
                  timeseries: "Time Series"}
                  
   def data_url(field, opts={})
-    case viz_type
+    case graph_type
     when 'pie'
       count_url(field,opts)
     when 'timeseries'
