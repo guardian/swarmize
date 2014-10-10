@@ -114,7 +114,7 @@ class GraphsController < ApplicationController
      @filter_fields = @swarm.swarm_fields.map do |f|
         [f.field_name, f.field_code]
       end
-      @graph_types = [['Pie', 'pie'], ['Time Series', 'timeseries']]
+      @graph_types = Graph::GRAPH_TYPES
     end
   end
 
