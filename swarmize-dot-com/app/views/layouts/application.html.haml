@@ -9,6 +9,7 @@
       =yield :pagetitle
       Swarmize
       
+    = yield :oembed_discovery
     - if Rails.env.production?
       = stylesheet_link_tag "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
     - else

@@ -1,6 +1,9 @@
 - content_for :pagetitle do
   '#{@swarm.name}' : Swarms : 
 
+- content_for :oembed_discovery do
+  %link{rel: 'alternate', type: 'application/json+oembed', title: "#{@swarm.name} embeddable form", href: oembed_url(url: swarm_url(@swarm))}
+
 = render :partial => "swarms/swarm_page_js"
 
 = render :partial => "swarms/swarm_header"
