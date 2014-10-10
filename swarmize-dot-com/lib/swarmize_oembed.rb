@@ -20,7 +20,7 @@ class SwarmizeOembed
     if options[:maxheight]
       height = options[:maxheight].to_i
     else
-      height = 400
+      height = swarm.estimate_form_height
     end
 
     html = open("http://alpha.swarmize.com/swarms/#{swarm.token}/embed").read
@@ -32,6 +32,7 @@ class SwarmizeOembed
       provider_name: "Swarmize",
       provider_url: "http://alpha.swarmize.com", 
       width: width,
+      height: height,
       html: html
     }.to_json
   end

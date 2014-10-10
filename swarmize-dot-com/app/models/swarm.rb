@@ -184,6 +184,17 @@ class Swarm < ActiveRecord::Base
     keys
   end
 
+  def estimate_form_height
+    swarm_fields.map do |field|
+      case field.field_type
+      when 'pick_one', 'pick_several'
+        30 + (30 * possible_values.size)
+      else
+        80
+      end
+    end.sum + 125
+  end
+
   private
 
   def confirm_open_time
