@@ -185,14 +185,28 @@ class Swarm < ActiveRecord::Base
   end
 
   def estimate_form_height
-    swarm_fields.map do |field|
-      case field.field_type
-      when 'pick_one', 'pick_several'
-        30 + (30 * possible_values.size)
-      else
-        80
-      end
-    end.sum + 125
+    height = 125
+
+    if swarm_fields.any?
+      fields_height = swarm_fields.map do |field|
+        case field.field_type
+        when 'pick_one', 'pick_several'
+          field_height = 30
+
+          if field.possible_values.any?
+            field_height = field_height + (30 * field.possible_values.size)
+          end
+
+          field_height
+        else
+          80
+        end
+      end.sum 
+
+      height = height + fields_height
+    end
+
+    height
   end
 
   private
