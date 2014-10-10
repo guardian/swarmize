@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET        /                     controllers.Application.index
+
+GET        /swarms/:token           controllers.Swarms.show(token)
+GET        /swarms/:token/results   controllers.Swarms.results(token)
+GET        /swarms/:token/latest   controllers.Swarms.latest(token)
+
+
+GET        /health-check         controllers.Management.healthCheck

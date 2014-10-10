@@ -1,12 +1,14 @@
 package lib
 
 import com.amazonaws.services.ec2.model.{DescribeInstancesRequest, Filter}
+import org.elasticsearch.action.{ActionListener, ListenableActionFuture}
 import org.elasticsearch.client.transport.TransportClient
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.transport.InetSocketTransportAddress
 import play.api.Logger
 import swarmize.aws.AWS
 
+import scala.concurrent.{Future, Promise}
 object Elasticsearch {
 
   lazy val discoveredElasticsearchHosts = {
@@ -35,4 +37,22 @@ object Elasticsearch {
   }
 
 
+}
+
+
+
+
+object ElasticsearchPromise {
+  def apply[A](esResult: ListenableActionFuture[A]): Promise[A] = {
+    val promise = Promise[A]()
+    esResult.addListener(new ActionListener[A] {
+      def onFailure(e: Throwable) { promise.failure(e) }
+      def onResponse(response: A) { promise.success(response) }
+    })
+    promise
+  }
+
+  implicit class ListenableActionFuturePimps[A](f: ListenableActionFuture[A]) {
+    def future: Future[A] = apply(f).future
+  }
 }
