@@ -1,5 +1,5 @@
 Swarmize::Application.routes.draw do
-  root "home#show"
+  root to: "home#show"
 
   resources :swarms do
     resources :permissions
@@ -62,6 +62,8 @@ Swarmize::Application.routes.draw do
       post 'regenerate_tokens'
     end
   end
+
+  resource :oembed, :controller => "oembed"
 
   resource :session do
     collection do
