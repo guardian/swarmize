@@ -23,7 +23,8 @@ class SwarmizeOembed
       height = swarm.estimate_form_height
     end
 
-    html = open("http://alpha.swarmize.com/swarms/#{swarm.token}/embed").read
+    src = "http://alpha.swarmize.com/swarms/#{swarm.token}/embed"
+    html = "<iframe src='#{src}' width='#{width}' height='#{height}' frameBorder='0' seamless='seamless'></iframe>"
 
     {
       type: "rich",
