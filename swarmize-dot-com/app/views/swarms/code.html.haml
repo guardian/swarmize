@@ -19,7 +19,7 @@
 
   %dt Embed code
   %dd
-    %input{:value => "<iframe src='#{serve_from_cloudfront(embed_swarm_path(@swarm))}' width='400' height='400'></iframe>", :style => "width: 300px"}
+    %input{:value => "<iframe src='#{serve_from_cloudfront(embed_swarm_path(@swarm))}' width='400' height='#{@swarm.estimate_form_height}' frameBorder='0' seamless='seamless'></iframe>", :style => "width: 300px"}
 
 %table.table
   %thead
