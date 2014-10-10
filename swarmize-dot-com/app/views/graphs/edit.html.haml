@@ -15,17 +15,17 @@
     .form-group
       %label.col-sm-3.control-label Graph type
       .col-sm-6
-        = f.select :graph_type, [['Count', 'count'], ['Count Over Time', 'count_over_time']], {}, {:class => 'form-control'}
+        = f.select :graph_type, @graph_types, {}, {:class => 'form-control'}
 
     .form-group
       %label.col-sm-3.control-label Field to graph
       .col-sm-6
         = f.select :field, @graphable_fields, {}, {:class => 'form-control'}
 
-    .form-group
+    .form-group.pie-only
       %label.col-sm-3.control-label Field to filter by (optional)
       .col-sm-6
-        = select_tag :filter_field, options_for_select(@filter_fields), :include_blank => true, :class => 'form-control'
+        = select_tag :filter_field, options_for_select(@filter_fields, @graph.options[:filter_field]), :include_blank => true, :class => 'form-control'
 
     .form-group
       .col-sm-offset-3
@@ -35,3 +35,19 @@
 - else
   %p There are no graphable fields in this swarm.
 
+:javascript
+  function updateGraphFields() {
+    var graphType = $("#graph_graph_type").val();
+    if(graphType == 'pie') {
+      $(".pie-only").show();
+    } else {
+      $(".pie-only").hide();
+    }
+  }
+
+  $(document).ready(function() {
+    updateGraphFields();
+    $("#graph_graph_type").on('change', function() {
+      updateGraphFields();
+    });
+  });
