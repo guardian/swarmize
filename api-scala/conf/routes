@@ -6,7 +6,7 @@
 GET        /                             controllers.Application.index
 
 GET        /swarms/:token                controllers.Swarms.show(token)
-GET        /swarms/:token/results        controllers.Swarms.results(token, page: Int ?= 1, per_page: Int ?= 10)
+GET        /swarms/:token/results        controllers.Swarms.results(token, page: Int ?= 1, per_page: Int ?= 10, format: Option[String], geo_json_point_key: Option[String])
 GET        /swarms/:token/latest         controllers.Swarms.latest(token)
 GET        /swarms/:token/counts        controllers.Swarms.counts(token)
 

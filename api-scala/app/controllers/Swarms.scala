@@ -1,8 +1,9 @@
 package controllers
 
-import lib.Elasticsearch
+import lib.{GeoJsonFormatter, Elasticsearch}
 import lib.ElasticsearchPromise._
-import org.elasticsearch.index.query.QueryBuilders
+import org.elasticsearch.index.query.FilterBuilders
+import org.elasticsearch.index.query.QueryBuilders._
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.sort.SortOrder
@@ -17,7 +18,8 @@ import scala.concurrent.Future
 object Swarms extends Controller {
 
   private def swarmAction(token: String)(block: Swarm => Future[Result]) = Action.async { req =>
-    Swarm.findByToken(token).map(block)
+    Swarm.findByToken(token)
+      .map(block)
       .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
   }
 
@@ -25,31 +27,48 @@ object Swarms extends Controller {
     Future.successful(Ok(swarm.definition.toJson))
   }
 
-  def results(token: String, page: Int, pageSize: Int) = swarmAction(token) { swarm =>
-    Elasticsearch.client.prepareSearch(swarm.token)
-      .setSize(pageSize)
-      .setFrom((page - 1) * pageSize)
-      .setQuery(QueryBuilders.matchAllQuery())
-      .execute().future map { results =>
+  def results(token: String, page: Int, pageSize: Int, format: Option[String], geo_json_point_key: Option[String]) =
+    swarmAction(token) { swarm =>
 
-      val srcDocs = results.getHits.hits().map(_.getSourceAsString).map(Json.parse)
+      val geojson = format contains "geojson"
 
-      val result = Json.obj(
-        "query_details" -> Json.obj(
-          "per_page" -> pageSize,
-          "page" -> page,
-          "total_pages" -> ((results.getHits.getTotalHits / pageSize) + 1)
-        ),
-        "results" -> JsArray(srcDocs)
-      )
-      Ok(result)
+      if (geojson && geo_json_point_key.isEmpty)
+        sys.error("geo_json_point_key required for geojson format")
+
+      val query =
+        if (geojson)
+          filteredQuery(matchAllQuery(), FilterBuilders.existsFilter(geo_json_point_key.get))
+        else
+          matchAllQuery()
+
+      Elasticsearch.client.prepareSearch(swarm.token)
+        .setSize(pageSize)
+        .setFrom((page - 1) * pageSize)
+        .setQuery(query)
+        .execute().future map { results =>
+
+        val srcDocs = results.getHits.hits().map(_.getSourceAsString).map(Json.parse)
+
+
+        val result = if (geojson)
+          GeoJsonFormatter.format(srcDocs.toList, geo_json_point_key.get)
+        else
+          Json.obj(
+          "query_details" -> Json.obj(
+            "per_page" -> pageSize,
+            "page" -> page,
+            "total_pages" -> ((results.getHits.getTotalHits / pageSize) + 1)
+          ),
+          "results" -> JsArray(srcDocs)
+        )
+        Ok(result)
+      }
     }
-  }
 
   def latest(token: String) = swarmAction(token) { swarm =>
     Elasticsearch.client.prepareSearch(swarm.token)
       .setSize(1)
-      .setQuery(QueryBuilders.matchAllQuery())
+      .setQuery(matchAllQuery())
       .addSort("timestamp", SortOrder.DESC)
       .execute().future map { results =>
 
@@ -69,7 +88,7 @@ object Swarms extends Controller {
 
     val req = Elasticsearch.client.prepareSearch(swarm.token)
       .setSize(0)
-      .setQuery(QueryBuilders.matchAllQuery())
+      .setQuery(matchAllQuery())
 
     countableFields.foreach { f =>
       req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
