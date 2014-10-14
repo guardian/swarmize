@@ -1,6 +1,8 @@
 %p
   %span.huge-number= @total_count
   submissions to this swarm to date.
+  - if @swarm..draft?
+    %i (This swarm is currently in draft; all results will be discarded when it is opened and set live)
 
 %h3 Latest Results
 
