@@ -106,7 +106,7 @@ class GraphsController < ApplicationController
   end
 
   def setup_graphable_fields
-    graphable_fields = @swarm.swarm_fields.where(:field_type => %w{pick_one yesno})
+    graphable_fields = @swarm.swarm_fields.where(:field_type => SwarmField.graphable)
     if graphable_fields.any?
       @graphable_fields = graphable_fields.map do |f|
         [f.field_name, f.field_code]

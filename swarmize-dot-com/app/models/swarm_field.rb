@@ -70,6 +70,10 @@ class SwarmField < ActiveRecord::Base
     name.to_s.strip.parameterize.underscore
   end
 
+  def self.graphable
+    %w{pick_one pick_several yesno}
+  end
+
   private
 
   def set_code
