@@ -3,13 +3,16 @@ package controllers
 import lib.Elasticsearch
 import lib.ElasticsearchPromise._
 import org.elasticsearch.index.query.QueryBuilders
+import org.elasticsearch.search.aggregations.AggregationBuilders
+import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.sort.SortOrder
 import play.api.libs.json._
 import play.api.mvc._
-import swarmize.Swarm
+import swarmize._
 
-import scala.concurrent.Future
+import scala.collection.convert.wrapAll._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object Swarms extends Controller {
 
@@ -70,5 +73,47 @@ object Swarms extends Controller {
     } getOrElse {
       Future.successful(NotFound(s"Unknown swarm: $token"))
     }
+  }
+
+
+  def counts(token: String) = Action.async {
+
+    val maybeSwarm = Swarm.findByToken(token)
+
+    maybeSwarm.map { swarm =>
+
+      val countableFields = swarm.allFields.collect {
+        case b: BooleanField => b
+        case pick: PickField => pick
+      }
+
+
+      val req = Elasticsearch.client.prepareSearch(swarm.token)
+        .setSize(0)
+        .setQuery(QueryBuilders.matchAllQuery())
+
+      countableFields.foreach { f =>
+        req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
+      }
+
+      req.execute().future map { results =>
+        val objs = results.getAggregations.asList zip countableFields map { case (agg, field) =>
+          Json.obj(
+            "field_name" -> field.fullName,
+            "field_name_code" -> field.codeName,
+            "counts" -> JsArray(
+              agg.asInstanceOf[Terms].getBuckets.toSeq.map(b =>
+                Json.obj(b.getKey -> b.getDocCount)
+              )
+            )
+          )
+        }
+
+        Ok(JsArray(objs))
+      }
+    } getOrElse {
+      Future.successful(NotFound(s"Unknown swarm: $token"))
+    }
+
   }
 }

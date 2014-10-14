@@ -3,11 +3,12 @@
 # ~~~~
 
 # Home page
-GET        /                     controllers.Application.index
+GET        /                             controllers.Application.index
 
-GET        /swarms/:token           controllers.Swarms.show(token)
-GET        /swarms/:token/results   controllers.Swarms.results(token)
-GET        /swarms/:token/latest   controllers.Swarms.latest(token)
+GET        /swarms/:token                controllers.Swarms.show(token)
+GET        /swarms/:token/results        controllers.Swarms.results(token)
+GET        /swarms/:token/latest         controllers.Swarms.latest(token)
+GET        /swarms/:token/counts        controllers.Swarms.counts(token)
 
 
-GET        /health-check         controllers.Management.healthCheck
+GET        /health-check                 controllers.Management.healthCheck
