@@ -16,104 +16,79 @@ import scala.concurrent.Future
 
 object Swarms extends Controller {
 
-  def show(token: String) = Action {
-    val maybeSwarm = Swarm.findByToken(token)
+  private def swarmAction(token: String)(block: Swarm => Future[Result]) = Action.async { req =>
+    Swarm.findByToken(token).map(block)
+      .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+  }
 
-    maybeSwarm.map { swarm =>
-      Ok(swarm.definition.toJson)
-    } getOrElse {
-      NotFound(s"Unknown swarm: $token")
+  def show(token: String) = swarmAction(token) { swarm =>
+    Future.successful(Ok(swarm.definition.toJson))
+  }
+
+  def results(token: String, page: Int, pageSize: Int) = swarmAction(token) { swarm =>
+    Elasticsearch.client.prepareSearch(swarm.token)
+      .setSize(pageSize)
+      .setFrom((page - 1) * pageSize)
+      .setQuery(QueryBuilders.matchAllQuery())
+      .execute().future map { results =>
+
+      val srcDocs = results.getHits.hits().map(_.getSourceAsString).map(Json.parse)
+
+      val result = Json.obj(
+        "query_details" -> Json.obj(
+          "per_page" -> pageSize,
+          "page" -> page,
+          "total_pages" -> ((results.getHits.getTotalHits / pageSize) + 1)
+        ),
+        "results" -> JsArray(srcDocs)
+      )
+      Ok(result)
     }
   }
 
-  def results(token: String) = Action.async { req =>
-    val maybeSwarm = Swarm.findByToken(token)
+  def latest(token: String) = swarmAction(token) { swarm =>
+    Elasticsearch.client.prepareSearch(swarm.token)
+      .setSize(1)
+      .setQuery(QueryBuilders.matchAllQuery())
+      .addSort("timestamp", SortOrder.DESC)
+      .execute().future map { results =>
 
-    val page = req.getQueryString("page").map(_.toInt).getOrElse(1)
-    val pageSize = req.getQueryString("per_page").map(_.toInt).getOrElse(10)
+      val srcDoc = results.getHits.hits().headOption.map(_.getSourceAsString).map(Json.parse)
 
-    maybeSwarm.map { swarm =>
-      Elasticsearch.client.prepareSearch(swarm.token)
-        .setSize(pageSize)
-        .setFrom((page - 1) * pageSize)
-        .setQuery(QueryBuilders.matchAllQuery())
-        .execute().future map { results =>
-
-        val srcDocs = results.getHits.hits().map(_.getSourceAsString).map(Json.parse)
-
-        val result = Json.obj(
-          "query_details" -> Json.obj(
-            "per_page" -> pageSize,
-            "page" -> page,
-            "total_pages" -> ((results.getHits.getTotalHits / pageSize) + 1)
-          ),
-          "results" -> JsArray(srcDocs)
-        )
-        Ok(result)
-      }
-    } getOrElse {
-      Future.successful(NotFound(s"Unknown swarm: $token"))
-    }
-  }
-
-  def latest(token: String) = Action.async {
-    val maybeSwarm = Swarm.findByToken(token)
-
-    maybeSwarm.map { swarm =>
-      Elasticsearch.client.prepareSearch(swarm.token)
-        .setSize(1)
-        .setQuery(QueryBuilders.matchAllQuery())
-        .addSort("timestamp", SortOrder.DESC)
-        .execute().future map { results =>
-
-        val srcDoc = results.getHits.hits().headOption.map(_.getSourceAsString).map(Json.parse)
-
-        Ok(srcDoc getOrElse Json.obj())
-      }
-    } getOrElse {
-      Future.successful(NotFound(s"Unknown swarm: $token"))
+      Ok(srcDoc getOrElse Json.obj())
     }
   }
 
 
-  def counts(token: String) = Action.async {
+  def counts(token: String) = swarmAction(token) { swarm =>
 
-    val maybeSwarm = Swarm.findByToken(token)
+    val countableFields = swarm.allFields.collect {
+      case b: BooleanField => b
+      case pick: PickField => pick
+    }
 
-    maybeSwarm.map { swarm =>
+    val req = Elasticsearch.client.prepareSearch(swarm.token)
+      .setSize(0)
+      .setQuery(QueryBuilders.matchAllQuery())
 
-      val countableFields = swarm.allFields.collect {
-        case b: BooleanField => b
-        case pick: PickField => pick
-      }
+    countableFields.foreach { f =>
+      req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
+    }
 
-
-      val req = Elasticsearch.client.prepareSearch(swarm.token)
-        .setSize(0)
-        .setQuery(QueryBuilders.matchAllQuery())
-
-      countableFields.foreach { f =>
-        req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
-      }
-
-      req.execute().future map { results =>
-        val objs = results.getAggregations.asList zip countableFields map { case (agg, field) =>
-          Json.obj(
-            "field_name" -> field.fullName,
-            "field_name_code" -> field.codeName,
-            "counts" -> JsArray(
-              agg.asInstanceOf[Terms].getBuckets.toSeq.map(b =>
-                Json.obj(b.getKey -> b.getDocCount)
-              )
+    req.execute().future map { results =>
+      val objs = results.getAggregations.asList zip countableFields map { case (agg, field) =>
+        Json.obj(
+          "field_name" -> field.fullName,
+          "field_name_code" -> field.codeName,
+          "counts" -> JsArray(
+            agg.asInstanceOf[Terms].getBuckets.toSeq.map(b =>
+              Json.obj(b.getKey -> b.getDocCount)
             )
           )
-        }
-
-        Ok(JsArray(objs))
+        )
       }
-    } getOrElse {
-      Future.successful(NotFound(s"Unknown swarm: $token"))
-    }
 
+      Ok(JsArray(objs))
+    }
   }
 }
