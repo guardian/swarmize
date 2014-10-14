@@ -9,6 +9,10 @@
       = glyphicon('circle-arrow-left')
       Back to swarm
 %dl
+  %dt Embed code
+  %dd
+    %input{:value => "<iframe src='#{serve_from_cloudfront(embed_swarm_path(@swarm))}' width='460' height='#{@swarm.estimate_form_height}' frameBorder='0' seamless='seamless'></iframe>", :style => "width: 300px"}
+
   %dt Token
   %dd
     %code= @swarm.token
@@ -16,10 +20,6 @@
   %dt Collector URL
   %dd
     %code= @swarm.collector_url
-
-  %dt Embed code
-  %dd
-    %input{:value => "<iframe src='#{serve_from_cloudfront(embed_swarm_path(@swarm))}' width='460' height='#{@swarm.estimate_form_height}' frameBorder='0' seamless='seamless'></iframe>", :style => "width: 300px"}
 
 %table.table
   %thead
