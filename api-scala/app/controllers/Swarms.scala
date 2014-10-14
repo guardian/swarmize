@@ -17,14 +17,31 @@ import scala.concurrent.Future
 
 object Swarms extends Controller {
 
-  private def swarmAction(token: String)(block: Swarm => Future[Result]) = Action.async { req =>
-    Swarm.findByToken(token)
-      .map(block)
-      .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+
+  private val corsHeaders = List(
+    ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
+    ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, PUT, DELETE, OPTIONS",
+    ACCESS_CONTROL_ALLOW_HEADERS -> "accept, authorization, origin"
+  )
+
+  private def swarmAction(token: String)(block: Swarm => Future[JsValue]) = Action.async { req =>
+    val maybeApiKey = req.getQueryString("api_key")
+
+    if (maybeApiKey.isEmpty) {
+      Future.successful(Forbidden("api_key parameter required"))
+    } else if (!SwarmApiKeys.isValid(token, maybeApiKey.get)) {
+      Future.successful(Forbidden("this combination of api key and swarm token is not valid"))
+    } else {
+      Swarm.findByToken(token)
+        .map(swarm =>
+          block(swarm).map(json => Ok(json).withHeaders(corsHeaders: _*))
+        )
+        .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+    }
   }
 
   def show(token: String) = swarmAction(token) { swarm =>
-    Future.successful(Ok(swarm.definition.toJson))
+    Future.successful(swarm.definition.toJson)
   }
 
   def results(token: String, page: Int, pageSize: Int, format: Option[String], geo_json_point_key: Option[String]) =
@@ -61,7 +78,7 @@ object Swarms extends Controller {
           ),
           "results" -> JsArray(srcDocs)
         )
-        Ok(result)
+        result
       }
     }
 
@@ -74,7 +91,7 @@ object Swarms extends Controller {
 
       val srcDoc = results.getHits.hits().headOption.map(_.getSourceAsString).map(Json.parse)
 
-      Ok(srcDoc getOrElse Json.obj())
+      srcDoc getOrElse Json.obj()
     }
   }
 
@@ -107,7 +124,7 @@ object Swarms extends Controller {
         )
       }
 
-      Ok(JsArray(objs))
+      JsArray(objs)
     }
   }
 }
