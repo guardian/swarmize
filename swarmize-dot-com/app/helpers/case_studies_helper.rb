@@ -1,0 +1,2 @@
+module CaseStudiesHelper
+end
