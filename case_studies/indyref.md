@@ -1,4 +1,4 @@
-# #indyref swarm
+# Real world use: the #indyref swarm
 
 In the run up to the Scottish referendum, we decided to survey the mood of Twitter users tweeting about the referendum. Discussion around the referendum was focusing around the hashtag **#indyref**, and the hashtags **#voteyes** and **#voteno** were often used in conjunction with it.
 
