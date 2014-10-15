@@ -18,6 +18,6 @@
           %td= key['api_key']
           %td= key['created_by'].name
           %td= key['created_at']
-          %td= link_to 'Revoke access', swarm_api_keys_path(@swarm, key['api_key']), :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Revoke access', swarm_api_key_path(@swarm, key['api_key']), :confirm => 'Are you sure?', :method => :delete
 
 %p= button_to "Create Key", swarm_api_keys_path(@swarm), :class => "btn btn-default"
