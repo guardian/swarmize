@@ -253,3 +253,14 @@ table#permissions {
   color: #888;
   font-style: italic;
 }
+
+.case_study {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 5px 1px rgba(0,0,0,0.5);
+  }
+}
