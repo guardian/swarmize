@@ -10,7 +10,7 @@ We'll use it as a model for a **Swarm:** an online survey that runs for a period
 
 ## Creating the Swarm
 
-First, we'll need to create a swarm. We can log in to [http://alpha.swarmize.com] using our Guardian Google Apps account.
+First, we'll need to create a swarm. We can log in to [alpha.swarmize.com](http://alpha.swarmize.com) using our Guardian Google Apps account.
 
 ![Log into Swarmize](broadband_survey/login.gif)
 
