@@ -5,7 +5,7 @@
       %label
         = radio_button_tag field.field_code, value.parameterize.underscore, false, parsley_validations_for_field(field)
         = value
-  - if field.other
+  - if field.allow_other
     .radio
       %label.other
         = radio_button_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))

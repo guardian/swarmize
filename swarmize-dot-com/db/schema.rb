@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017131200) do
+ActiveRecord::Schema.define(version: 20141017150238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20141017131200) do
     t.integer  "swarm_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "other",           default: false
+    t.boolean  "allow_other",     default: false
   end
 
   create_table "swarms", force: true do |t|

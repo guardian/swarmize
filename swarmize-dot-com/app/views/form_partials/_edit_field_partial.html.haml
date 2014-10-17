@@ -50,7 +50,7 @@
     .form-group
       %label.col-sm-3.control-label Add 'other' option?
       .col-sm-9
-        = check_box_tag "fields[][other]",  true, field.other, :class => 'form-control check'
+        = check_box_tag "fields[][allow_other]",  true, field.allow_other, :class => 'form-control check'
 
   - if field_description.has_minimum
     .form-group

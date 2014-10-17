@@ -19,8 +19,8 @@ class SwarmField < ActiveRecord::Base
       json_fields[:minimum] = self.minimum 
     end
 
-    if description.has_other_field && self.other
-      json_fields[:allow_other] = self.other 
+    if description.has_other_field && self.allow_other
+      json_fields[:allow_other] = self.allow_other 
     end
 
     if possible_values && possible_values.any?

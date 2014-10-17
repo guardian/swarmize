@@ -5,7 +5,7 @@
       %label
         = check_box_tag field.field_code, value.parameterize.underscore, false,parsley_validations_for_field(field)
         = value
-  - if field.other
+  - if field.allow_other
     .checkbox
       %label.other
         = check_box_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))
