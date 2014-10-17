@@ -210,6 +210,19 @@ table#permissions {
   margin:0 0 0 10px;
 }
 
+/* inline textfield for others */
+
+label.other {
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+input.other-inline-input {
+  display: inline;
+  width: inherit;
+  min-width: 300px;
+}
+
 /* Parsley form validation */
 
 .parsley-error, .parsley-error:focus {

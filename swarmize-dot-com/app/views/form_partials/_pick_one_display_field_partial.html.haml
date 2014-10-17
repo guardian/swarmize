@@ -7,9 +7,9 @@
         = value
   - if field.other
     .radio
-      %label
+      %label.other
         = radio_button_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))
         Other:
-        = text_field_tag "#{field.field_code}_other", nil, {'data-parsley-conditionalother' => field.field_code, 'data-parsley-validate-if-empty' => true, 'data-parsley-trim-value' => true}
+        = text_field_tag "#{field.field_code}_other", nil, {'data-parsley-conditionalother' => field.field_code, 'data-parsley-validate-if-empty' => true, 'data-parsley-trim-value' => true, :class => 'other-inline-input form-control'}
   .parsley-errors{:id => "errors_#{field.field_code}"}
 
