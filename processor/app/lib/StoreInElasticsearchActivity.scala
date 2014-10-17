@@ -7,7 +7,7 @@ import swarmize.json.SubmittedData
 
 import scala.concurrent.Future
 
-object StoreInElasticsearchActivity extends Activity with ClassLogger {
+object  StoreInElasticsearchActivity extends Activity with ClassLogger {
   val name = "StoreInElasticsearch"
   val version = "1"
 

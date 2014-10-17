@@ -7,7 +7,7 @@ import NativePackagerKeys._
 
 object SwarmizeBuild extends Build {
   lazy val root = sbt.Project("root", file("."))
-    .aggregate(collector, processor, sharedLib)
+    .aggregate(collector, processor, api, sharedLib)
     .settings(scalaVersion := scalaLibraryVersion)
 
   val scalaLibraryVersion = "2.11.2"
@@ -75,5 +75,20 @@ object SwarmizeBuild extends Build {
       ),
 
       name in Universal := "swarmize-processor"
+    )
+
+
+  lazy val api = Project("api", file("api-scala")).enablePlugins(play.PlayScala)
+    .dependsOn(sharedLib)
+    .settings(standardSettings: _*)
+    .settings(
+
+      libraryDependencies ++= Seq(
+        ws,
+        aws,
+        "org.elasticsearch" % "elasticsearch" % "1.2.1"
+      ),
+
+      name in Universal := "swarmize-api"
     )
 }

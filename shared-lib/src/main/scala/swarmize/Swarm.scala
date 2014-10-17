@@ -19,6 +19,8 @@ case class Swarm
 
   lazy val derivedFields: List[SwarmField] = fields.flatMap(_.derivedFields)
 
+  lazy val allFields = fields ::: derivedFields
+
   lazy val processors: List[String] = fields.flatMap(_.processors.map(_.id))
 
 
