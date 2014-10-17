@@ -78,7 +78,7 @@ object SwarmizeBuild extends Build {
     )
 
 
-  lazy val api = Project("api", file("api-scala")).enablePlugins(play.PlayScala)
+  lazy val api = Project("api", file("api")).enablePlugins(play.PlayScala)
     .dependsOn(sharedLib)
     .settings(standardSettings: _*)
     .settings(

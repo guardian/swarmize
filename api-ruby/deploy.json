@@ -1,9 +1,0 @@
-{
-  "appname": "Swarmize API",
-  "live_env": "swarmize-api-prod",
-  "aws_region": "eu-west-1",
-  "s3_bucket": "swarmize",
-  "app_dir": "api", 
-  "slack_key": "ysJzWEUc18R2H20e0UWw8qZH",
-  "host": "api.swarmize.com"
-}
