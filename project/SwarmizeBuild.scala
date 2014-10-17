@@ -10,9 +10,9 @@ object SwarmizeBuild extends Build {
     .aggregate(collector, processor, api, sharedLib)
     .settings(scalaVersion := scalaLibraryVersion)
 
-  val scalaLibraryVersion = "2.11.2"
+  val scalaLibraryVersion = "2.11.3"
 
-  val aws = "com.amazonaws" % "aws-java-sdk" % "1.8.7"
+  val aws = "com.amazonaws" % "aws-java-sdk" % "1.9.1"
 
   val standardSettings = Seq[Setting[_]](
     scalaVersion := scalaLibraryVersion,
@@ -25,7 +25,7 @@ object SwarmizeBuild extends Build {
 
       // and joda we need everywhere!
       "org.joda" % "joda-convert" % "1.7" % "provided",
-      "joda-time" % "joda-time" % "2.4"
+      "joda-time" % "joda-time" % "2.5"
     ),
 
     resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",

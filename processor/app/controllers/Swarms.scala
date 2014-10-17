@@ -15,27 +15,10 @@ object Swarms extends Controller {
     Ok(JsArray(urls))
   }
 
-  def addNew() = add(UniqueId.generateSwarmToken)
-
   def get(token: String) = Action { request =>
     val defn = SwarmTable.get(token)
 
     defn.map(c => Ok(Json.toJson(c.definition))) getOrElse NotFound(s"No swarm with token $token found")
   }
 
-  def add(token: String) = Action(parse.tolerantJson) { request =>
-    try {
-      val defn = request.body.as[SwarmDefinition]
-
-      SwarmTable.write(token, Json.stringify(request.body))
-
-      Created(token)
-    } catch {
-      case e: JsResultException =>
-        BadRequest(s"Bad json supplied: $e")
-
-      case e: ConditionalCheckFailedException =>
-        BadRequest(s"Already got a swarm with token $token")
-    }
-  }
 }

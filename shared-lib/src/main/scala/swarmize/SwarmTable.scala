@@ -1,40 +1,29 @@
 package swarmize
 
+import com.amazonaws.services.dynamodbv2.document.spec.ScanSpec
 import play.api.libs.json.Json
 import swarmize.aws.AWS
-import swarmize.aws.dynamodb.DynamoDBTable
 import swarmize.json.SwarmDefinition
 
-object SwarmTable extends DynamoDBTable {
-  val client = AWS.dynamodb
-  val tableName = "swarms"
+import scala.collection.convert.wrapAll._
 
-  def write(token: String, definition: String): Unit = {
-   putWithoutOverwrite {
-     Map(
-      "token" -> S(token),
-      "definition" -> S(definition)
-     )
-   }
-  }
+object SwarmTable {
+  private val table = AWS.dynamodb.getTable("swarms")
 
   def get(token: String): Option[Swarm] = {
     for {
-      r <- get(Map("token" -> S(token)))
-      definition <- r.get("definition")
+      r <- Option(table.getItem("token", token))
+      definition <- Option(r.getString("definition"))
     } yield {
-      val defn = Json.parse(definition.getS).as[SwarmDefinition]
+      val defn = Json.parse(definition).as[SwarmDefinition]
       Swarm(token, defn)
     }
+
   }
 
   def readAllTokens(): List[String] = {
-    scan.toList.flatMap { r =>
-      for {
-        token <- r.get("token")
-      } yield {
-        token.getS
-      }
-    }
+    table.scan(new ScanSpec().withAttributesToGet("token"))
+      .map(_.getString("token"))
+      .toList
   }
 }

@@ -5,6 +5,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.handlers.AsyncHandler
 import com.amazonaws.regions.{Region, Regions}
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClient
+import com.amazonaws.services.dynamodbv2.document.DynamoDB
 import com.amazonaws.services.ec2.AmazonEC2Client
 import com.amazonaws.services.kinesis.AmazonKinesisClient
 import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflowAsyncClient
@@ -32,7 +33,7 @@ object AWS {
 
   lazy val EC2 = createClient[AmazonEC2Client]
 
-  lazy val dynamodb = createClient[AmazonDynamoDBAsyncClient]
+  lazy val dynamodb = new DynamoDB(createClient[AmazonDynamoDBAsyncClient])
 
 // for local testing:
 //  lazy val dynamodb = {

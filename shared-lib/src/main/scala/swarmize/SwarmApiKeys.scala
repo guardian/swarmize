@@ -4,19 +4,17 @@ import java.util.concurrent.TimeUnit
 
 import com.google.common.cache.{CacheBuilder, CacheLoader}
 import swarmize.aws.AWS
-import swarmize.aws.dynamodb.DynamoDBTable
 
 object SwarmApiKeys {
 
-  private object SwarmApiKeyTable extends DynamoDBTable {
-    val client = AWS.dynamodb
-    val tableName = "api_keys"
+  private object SwarmApiKeyTable {
+    private val table = AWS.dynamodb.getTable("api_keys")
 
     def swarmTokenForApiKey(apiKey: String): Option[String] = {
       for {
-        r <- get(Map("api_key" -> S(apiKey)))
-        s <- r.get("swarm_token")
-      } yield s.getS
+        row <- Option(table.getItem("api_key", apiKey))
+        s <- Option(row.getString("swarm_token"))
+      } yield s
     }
   }
 
