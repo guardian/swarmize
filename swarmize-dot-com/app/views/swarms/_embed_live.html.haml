@@ -36,7 +36,9 @@
         resultDiv.text("Thank you for your submission.");
         $(".embeddable-swarm .feedback").append(resultDiv);
         window.scrollTo(0,0);
+        parent.scrollTo(0,0);
       }).fail(function(data) {
+        $("div.failure").remove();
         var resultDiv = $("<div>");
         resultDiv.addClass('result').addClass('failure');
         resultDiv.text("We're sorry: there was an error, and your results could not be submitted.");
