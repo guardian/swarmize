@@ -14,7 +14,12 @@ window.ParsleyConfig = {
     },
     conditionalother: {
       fn: function (value, requirement) {
-        if(($("input[name='" + requirement + "']:checked").val() == 'other') && value == '') {
+        var vals = $('input[name="'+requirement+'"]:checked').map(function() {
+          return this.value;
+        });
+
+        $.inArray('other', vals)
+        if(($.inArray('other', vals) > -1) && value == '') {
           return false;
         } else {
           return true;

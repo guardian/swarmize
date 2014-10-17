@@ -5,4 +5,10 @@
       %label
         = check_box_tag field.field_code, value.parameterize.underscore, false,parsley_validations_for_field(field)
         = value
+  - if field.other
+    .checkbox
+      %label
+        = check_box_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))
+        Other:
+        = text_field_tag "#{field.field_code}_other", nil, {'data-parsley-conditionalother' => field.field_code, 'data-parsley-validate-if-empty' => true, 'data-parsley-trim-value' => true}
   .parsley-errors{:id => "errors_#{field.field_code}"}
