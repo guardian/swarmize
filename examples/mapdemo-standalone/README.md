@@ -12,13 +12,9 @@ or using node's `http-server`
 
 	http-server
 
-From the application directory:
-
-	npm start
-	
 And then you'll be able to visit the map at:
 
-	http://localhost:8000/?mapid=guardian.jl1hn9jp
+	http://localhost:8000/index.html?mapid=guardian.jl1hn9jp
 	
 (or whatever port the server is running on).
 
