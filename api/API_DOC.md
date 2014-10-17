@@ -271,41 +271,17 @@ The responses is separated into a `results` object and a `query_details` object.
 
 The default is `page=1&per_page=10`.
 
-### Latest result
 
-	http://api.swarmize.com/swarms/rycadjgp/latest?api_key=XXXX
+#### Results (paginated) as GeoJSON
 
-will return the JSON for the most recent result. For instance:
+It's possible to specify a GeoJSON format for the paged resuls. To do so requires passing two details into the query string: the fact you want GeoJSON results, and the field you wish to use as the latlon field for points. (There may be several latlon objects in a Swarm, hence specifying them is important).
 
-	{
-	  "what_s_your_postcode_lonlat": [
-	    -2.11886756,
-	    57.08312836
-	  ],
-	  "timestamp": "2014-10-01T10:45:02.153Z",
-	  "unique_user_key": "1411481620126",
-	  "who_did_you_just_agree_with": "alistair_darling",
-	  "do_you_think_scotland_should_be_an_independent_country": true,
-	  "what_s_your_postcode": "AB12"
-	}
+You'll probably want to specify a large "per_page" parameter when you call this. Set this to the largest size that your mapping tool can deal with, typically values around 5000 are reasonable.
 
-One use case for this might be building a Twitter scraper: every time you query Twitter, you need to know what the startpoint for your query should be; asking for the most recently stored tweet would let you tell Twitter where to start its search.
-
-### Results (all)
-
-The `#entirety` endpoint will return the entire dataset. *Warning:* this could be really, really big. And slow.
-
-`http://api.swarmize.com/swarms/rycadjgp/entirety?api_key=XXXX`
-
-Note that there is no `query_details` object: just a single array representing all the objects in the search.
-
-#### Results (all) as GeoJSON
-
-It's possible to specify a GeoJSON format for the big-bucket-of-results. To do so requires passing two details into the query string: the fact you want GeoJSON results, and the field you wish to use as the latlon field for points. (There may be several latlon objects in a Swarm, hence specifying them is important).
 
 For instance:
 
-`http://api.swarmize.com/swarms/rycadjgp/entirety?api_key=XXXX&format=geojson&geo_json_point_key=what_s_your_postcode_lonlat`
+`http://api.swarmize.com/swarms/rycadjgp/results?api_key=XXXX&per_page=5000&format=geojson&geo_json_point_key=what_s_your_postcode_lonlat`
 
 returns
 	
@@ -366,3 +342,25 @@ returns
 	    ...
 	  ]
 	}
+
+
+### Latest result
+
+	http://api.swarmize.com/swarms/rycadjgp/latest?api_key=XXXX
+
+will return the JSON for the most recent result. For instance:
+
+	{
+	  "what_s_your_postcode_lonlat": [
+	    -2.11886756,
+	    57.08312836
+	  ],
+	  "timestamp": "2014-10-01T10:45:02.153Z",
+	  "unique_user_key": "1411481620126",
+	  "who_did_you_just_agree_with": "alistair_darling",
+	  "do_you_think_scotland_should_be_an_independent_country": true,
+	  "what_s_your_postcode": "AB12"
+	}
+
+One use case for this might be building a Twitter scraper: every time you query Twitter, you need to know what the startpoint for your query should be; asking for the most recently stored tweet would let you tell Twitter where to start its search.
+

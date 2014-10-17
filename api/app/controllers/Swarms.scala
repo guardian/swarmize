@@ -25,18 +25,23 @@ object Swarms extends Controller {
   )
 
   private def swarmAction(token: String)(block: Swarm => Future[JsValue]) = Action.async { req =>
-    val maybeApiKey = req.getQueryString("api_key")
+    try {
+      val maybeApiKey = req.getQueryString("api_key")
 
-    if (maybeApiKey.isEmpty) {
-      Future.successful(Forbidden("api_key parameter required"))
-    } else if (!SwarmApiKeys.isValid(token, maybeApiKey.get)) {
-      Future.successful(Forbidden("this combination of api key and swarm token is not valid"))
-    } else {
-      Swarm.findByToken(token)
-        .map(swarm =>
+      if (maybeApiKey.isEmpty) {
+        Future.successful(Forbidden("api_key parameter required"))
+      } else if (!SwarmApiKeys.isValid(token, maybeApiKey.get)) {
+        Future.successful(Forbidden("this combination of api key and swarm token is not valid"))
+      } else {
+        Swarm.findByToken(token)
+          .map(swarm =>
           block(swarm).map(json => Ok(json).withHeaders(corsHeaders: _*))
-        )
-        .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+          )
+          .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+      }
+    } catch {
+      case e: RuntimeException =>
+        Future.successful(InternalServerError(e.getMessage))
     }
   }
 
