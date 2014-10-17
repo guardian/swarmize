@@ -76,6 +76,7 @@
         "display_name": "Pick One",
         "has_possible_values": true,
         "has_custom_display_template": true,
+        "has_other_field": true,
         "archetype": "token",
         "max_values": 1
     },
@@ -84,6 +85,7 @@
         "has_possible_values": true,
         "has_minimum": true,
         "has_maximum": true,
+        "has_other_field": true,
         "has_custom_display_template": true,
         "archetype": "token"
     },
