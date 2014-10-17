@@ -35,6 +35,7 @@
         resultDiv.addClass('result').addClass('success');
         resultDiv.text("Thank you for your submission.");
         $(".embeddable-swarm .feedback").append(resultDiv);
+        window.scrollTo(0,0);
       }).fail(function(data) {
         var resultDiv = $("<div>");
         resultDiv.addClass('result').addClass('failure');
