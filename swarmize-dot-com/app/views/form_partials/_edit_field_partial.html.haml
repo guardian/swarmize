@@ -46,6 +46,12 @@
               = text_field_tag "fields[]possible_values[]", nil, :class => 'form-control'
         %p= link_to "Add another", "#", :class => "add-option"
 
+  - if field_description.has_other_field
+    .form-group
+      %label.col-sm-3.control-label Add 'other' option?
+      .col-sm-9
+        = check_box_tag "fields[][other]",  true, field.other, :class => 'form-control'
+
   - if field_description.has_minimum
     .form-group
       %label.col-sm-3.control-label Minimum
