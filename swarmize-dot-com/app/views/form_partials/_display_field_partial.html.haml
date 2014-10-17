@@ -3,7 +3,7 @@
   - if field_description.input_type
     %input.form-control{parsley_validations_for_field(field), :name => field.field_code, :type => field_description.input_type, :placeholder => field.sample_value}
   - else
-    = text_field_tag "#{field.field_code}", nil, {:class => 'form-control', :placeholder => field.sample_value}.merge(parsley_validations_for_field(field))
+    = text_field_tag field.field_code, nil, {:class => 'form-control', :placeholder => field.sample_value}.merge(parsley_validations_for_field(field))
   - if field.hint
     %span.help-block= field.hint
 
