@@ -4,6 +4,7 @@ import lib.{GeoJsonFormatter, Elasticsearch}
 import lib.ElasticsearchPromise._
 import org.elasticsearch.index.query.FilterBuilders
 import org.elasticsearch.index.query.QueryBuilders._
+import org.elasticsearch.indices.IndexMissingException
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.sort.SortOrder
@@ -14,6 +15,7 @@ import swarmize._
 import scala.collection.convert.wrapAll._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 object Swarms extends Controller {
 
@@ -24,7 +26,20 @@ object Swarms extends Controller {
     ACCESS_CONTROL_ALLOW_HEADERS -> "accept, authorization, origin"
   )
 
-  private def swarmAction(token: String)(block: Swarm => Future[JsValue]) = Action.async { req =>
+  private def executeBlock(swarm: Swarm, emptyResponse: JsValue, block: Swarm => Future[JsValue]): Future[Result] = {
+    block(swarm)
+      .map(json => Ok(json).withHeaders(corsHeaders: _*))
+      .recover {
+        case e: IndexMissingException =>
+          Ok(emptyResponse).withHeaders(corsHeaders: _*)
+            .withHeaders("X-No-Data-Reason" -> e.getMessage)
+
+        case NonFatal(e) => InternalServerError("got an error " + e)
+      }
+
+  }
+
+  private def swarmAction(token: String, emptyResponse: JsValue = Json.obj())(block: Swarm => Future[JsValue]) = Action.async { req =>
     try {
       val maybeApiKey = req.getQueryString("api_key")
 
@@ -33,11 +48,8 @@ object Swarms extends Controller {
       } else if (!SwarmApiKeys.isValid(token, maybeApiKey.get)) {
         Future.successful(Forbidden("this combination of api key and swarm token is not valid"))
       } else {
-        Swarm.findByToken(token)
-          .map(swarm =>
-          block(swarm).map(json => Ok(json).withHeaders(corsHeaders: _*))
-          )
-          .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+        Swarm.findByToken(token).map(swarm => executeBlock(swarm, emptyResponse, block))
+        .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
       }
     } catch {
       case e: RuntimeException =>
@@ -63,7 +75,7 @@ object Swarms extends Controller {
         else
           matchAllQuery()
 
-      Elasticsearch.client.prepareSearch(swarm.token)
+      Elasticsearch.client.prepareSearch(swarm.indexName)
         .setSize(pageSize)
         .setFrom((page - 1) * pageSize)
         .setQuery(query)
@@ -88,7 +100,7 @@ object Swarms extends Controller {
     }
 
   def latest(token: String) = swarmAction(token) { swarm =>
-    Elasticsearch.client.prepareSearch(swarm.token)
+    Elasticsearch.client.prepareSearch(swarm.indexName)
       .setSize(1)
       .setQuery(matchAllQuery())
       .addSort("timestamp", SortOrder.DESC)
@@ -101,35 +113,40 @@ object Swarms extends Controller {
   }
 
 
-  def counts(token: String) = swarmAction(token) { swarm =>
+  def counts(token: String) = swarmAction(token, emptyResponse = Json.arr()) { swarm =>
 
     val countableFields = swarm.allFields.collect {
       case b: BooleanField => b
       case pick: PickField => pick
     }
 
-    val req = Elasticsearch.client.prepareSearch(swarm.token)
-      .setSize(0)
-      .setQuery(matchAllQuery())
+    if (countableFields.isEmpty)
+      Future.successful(Json.arr())
+    else {
 
-    countableFields.foreach { f =>
-      req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
-    }
+      val req = Elasticsearch.client.prepareSearch(swarm.indexName)
+        .setSize(0)
+        .setQuery(matchAllQuery())
 
-    req.execute().future map { results =>
-      val objs = results.getAggregations.asList zip countableFields map { case (agg, field) =>
-        Json.obj(
-          "field_name" -> field.fullName,
-          "field_name_code" -> field.codeName,
-          "counts" -> JsArray(
-            agg.asInstanceOf[Terms].getBuckets.toSeq.map(b =>
-              Json.obj(b.getKey -> b.getDocCount)
-            )
-          )
-        )
+      countableFields.foreach { f =>
+        req.addAggregation(AggregationBuilders.terms(f.codeName).field(f.codeName))
       }
 
-      JsArray(objs)
+      req.execute().future map { results =>
+        val objs = results.getAggregations.asList zip countableFields map { case (agg, field) =>
+          Json.obj(
+            "field_name" -> field.fullName,
+            "field_name_code" -> field.codeName,
+            "counts" -> JsArray(
+              agg.asInstanceOf[Terms].getBuckets.toSeq.map(b =>
+                Json.obj(b.getKey -> b.getDocCount)
+              )
+            )
+          )
+        }
+
+        JsArray(objs)
+      }
     }
   }
 }

@@ -23,7 +23,6 @@ object SwarmApiKeys {
 
   private object loader extends CacheLoader[String, Option[String]] {
     override def load(apiKey: String): Option[String] = {
-      println("lookup: " + apiKey)
       SwarmApiKeyTable.swarmTokenForApiKey(apiKey)
     }
   }

@@ -31,6 +31,8 @@ case class Swarm
 
   def isClosed = status == Closed
 
+  def indexName = if (status == Draft) token + "_draft" else token
+
 }
 
 
