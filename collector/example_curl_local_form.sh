@@ -1,6 +1,8 @@
 #!/bin/sh
 
-curl -XPOST "http://localhost:9000/swarms/cpvywzme" \
-    -d do_you_think_you_ll_use_swarmize=yes \
-    -d do_you_like_swarmize=0 \
-    -d what_is_your_postcode="TN15 7LE"
+http :9000/swarms/kwkwafkk \
+    do_you_have_internet_at_home=no \
+    can_you_get_broadband_where_you_live=yes \
+    who_is_your_broadband_provider=other \
+    who_is_your_broadband_provider_other=Pidgeon \
+    what_s_your_postcode="SW19 1HN"

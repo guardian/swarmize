@@ -38,7 +38,18 @@ class SwarmSubmissionValidatorTest extends FlatSpec with Matchers with OptionVal
     val thrown = the [RuntimeException] thrownBy
       SwarmSubmissionValidator.validated(swarm, input)
 
-    thrown.getMessage shouldBe "Your submission is invalid:\n * what_is_your_age: expecting one of young, not_sure, old"
+    thrown.getMessage shouldBe "Your submission is invalid:\n * what_is_your_age: expecting one of young, not_sure, old, other"
+  }
+
+  it should "allow other though on fields that allow other" in {
+    val input = Json.obj(
+      "what_is_your_name" -> "Graham",
+      "what_is_your_age" -> "other",
+      "what_is_your_age_other" -> "very very old")
+
+    SwarmSubmissionValidator.validated(swarm, input).keys shouldBe
+      Set("what_is_your_name", "what_is_your_age", "what_is_your_age_other")
+
   }
 
   it should "fail if pick one fields contain multiple values" in {
@@ -47,7 +58,7 @@ class SwarmSubmissionValidatorTest extends FlatSpec with Matchers with OptionVal
     val thrown = the [RuntimeException] thrownBy
       SwarmSubmissionValidator.validated(swarm, input)
 
-    thrown.getMessage shouldBe "Your submission is invalid:\n * what_is_your_age: expecting one of young, not_sure, old"
+    thrown.getMessage shouldBe "Your submission is invalid:\n * what_is_your_age: expecting one of young, not_sure, old, other"
   }
 
   it should "pass if pick one field contains the value expected" in {

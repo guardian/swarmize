@@ -14,7 +14,7 @@ object SwarmSubmissionValidator {
 
     val suppliedFields = jsObject.fields.toMap
 
-    val validatedFields: Seq[(String, JsResult[JsValue])] = swarm.fields.map { f =>
+    val validatedFields: Seq[(String, JsResult[JsValue])] = swarm.allFields.map { f =>
       f.codeName -> f.validate(suppliedFields.get(f.codeName))
     }
 

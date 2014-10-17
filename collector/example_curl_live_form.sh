@@ -1,11 +1,11 @@
 #!/bin/sh
 
 
-curl -XPOST "http://collector.swarmize.com/swarms/moqxjfwr" \
-    -d do_you_like_swarmize=yes \
-    -d do_you_think_you_ll_use_swarmize=yes \
-    -d any_other_comments="automated curl at $(date)" \
-    -d which_days_of_the_week_are_you_likely_to_use_swarmize="wednesday" \
-    -d which_days_of_the_week_are_you_likely_to_use_swarmize="monday" \
-    -d what_is_your_postcode="N1 9GU"
+http collector.swarmize.com/swarms/kwkwafkk \
+    do_you_have_internet_at_home=no \
+    can_you_get_broadband_where_you_live=yes \
+    who_is_your_broadband_provider=other \
+    who_is_your_broadband_provider_other=Pidgeon \
+    what_s_your_postcode="SW19 1HN"
+
 

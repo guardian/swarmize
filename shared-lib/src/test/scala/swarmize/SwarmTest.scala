@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import org.scalatest._
 import swarmize.json.SwarmDefinition
 
-class SwarmTest extends FlatSpec with Matchers {
+class SwarmTest extends FlatSpec with Matchers with OptionValues {
 
   import Swarm._
 
@@ -43,6 +43,14 @@ class SwarmTest extends FlatSpec with Matchers {
     TestSwarms.broadbandSurvey.fields.map(_.codeName) should contain ("what_is_your_postcode")
 
     TestSwarms.broadbandSurvey.derivedFields.map(_.codeName) should contain ("what_is_your_postcode_lonlat")
+  }
+
+
+  it should "report allow_other fields" in {
+    val f = TestSwarms.broadbandSurvey.fields.find(_.codeName == "who_is_your_broadband_provider").value
+
+    f.allowOther shouldBe true
+    f.derivedFields.map(_.codeName) should contain ("who_is_your_broadband_provider_other")
   }
 
 }

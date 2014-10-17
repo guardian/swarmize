@@ -26,7 +26,7 @@ object SwarmApiKeys {
   }
 
   private val cache = CacheBuilder.newBuilder()
-    .expireAfterWrite(5, TimeUnit.SECONDS)
+    .expireAfterWrite(30, TimeUnit.SECONDS)
     .build[String, Option[String]](loader)
 
 

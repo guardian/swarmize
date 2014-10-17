@@ -99,7 +99,7 @@ object Swarms extends Controller {
       )
 
       Logger.info(msg)
-      Ok(msg)
+      Ok(fullObject.toJson)
     }
   } catch {
     case NonFatal(e) =>

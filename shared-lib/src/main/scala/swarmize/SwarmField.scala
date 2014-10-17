@@ -16,9 +16,11 @@ sealed trait SwarmField {
 
   def isCompulsory = underlyingDefinition.compulsory
 
+  def allowOther = underlyingDefinition.allow_other contains true
+
   lazy val fieldType = FieldTypes(underlyingDefinition.field_type)
 
-  lazy val derivedFields: List[SwarmField] = {
+  private def fieldsDerviedByProcessingSteps: List[SwarmField] =
     fieldType.processingSteps
       .flatMap(_.derives)
       .map { case (suffix, derivedFieldType) =>
@@ -30,7 +32,17 @@ sealed trait SwarmField {
         )
       }
       .map(SwarmField.apply)
-  }
+
+  private def fieldDerivedByOther: Option[SwarmField] = if (!allowOther) None
+    else Some(SwarmField(json.JsonSwarmField(
+      field_name = fullName + " (other)",
+      field_name_code = codeName + "_other",
+      field_type = "text",
+      compulsory = false
+    )))
+
+
+  lazy val derivedFields: List[SwarmField] = fieldsDerviedByProcessingSteps ++ fieldDerivedByOther
 
   def processors: List[ProcessingStepJson] = fieldType.processingSteps
 
@@ -56,7 +68,8 @@ case class PickField
   many: Boolean
 ) extends TokenField {
 
-  def allowedValues = underlyingDefinition.possible_values.getOrElse(Map.empty).keys.toList
+  def maybeOtherValue = if (allowOther) Some("other") else None
+  def allowedValues = underlyingDefinition.possible_values.getOrElse(Map.empty).keys.toList ++ maybeOtherValue
 
   def err = JsError(s"expecting ${if (many) "some" else "one"} of ${allowedValues.mkString(", ")}")
 

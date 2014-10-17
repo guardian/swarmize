@@ -35,6 +35,7 @@ object TestSwarms {
       |            "field_name": "Who is your broadband provider?",
       |            "field_name_code": "who_is_your_broadband_provider",
       |            "field_type": "pick_one",
+      |            "allow_other": true,
       |            "possible_values": {
       |                "bt": "BT",
       |                "i_have_no_connection": "I have no connection",
@@ -135,6 +136,7 @@ object TestSwarms {
       |            "field_name": "What is your age?",
       |            "field_name_code": "what_is_your_age",
       |            "field_type": "pick_one",
+      |            "allow_other": true,
       |            "possible_values": {
       |                "young": "Young",
       |                "not_sure": "Not sure",

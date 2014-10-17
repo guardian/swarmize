@@ -12,7 +12,8 @@ case class JsonSwarmField
   field_type: String,
   possible_values: Option[Map[String, String]] = None,
   sample_value: Option[String] = None,
-  compulsory: Boolean
+  compulsory: Boolean,
+  allow_other: Option[Boolean] = None
 )
 
 
