@@ -22,18 +22,6 @@
 //= require moment.min
 //= require_tree .
 
-//$.verify.addRules({
-  //isAPostcode: function(field) {
-    //var fullPostcodeRegex = /^([A-Z][A-Z0-9]?[A-Z0-9]?[A-Z0-9]? {1,2}[0-9][A-Z0-9]{2})$/;
-    //var halfPostcodeRegex = /^(([A-Z][0-9])|([A-Z][A-Z0-9][A-Z])|([A-Z][A-Z][0-9][A-Z0-9]?))$/;
-    //if(field.val().trim().match(fullPostcodeRegex) || field.val().trim().match(halfPostcodeRegex)) {
-      //return true
-    //} else {
-      //return "Sorry, that doesn't look like a real UK postcode.";
-    //}
-  //}
-//});
-
 $(document).ready(function() {
   $('.disabled a').click(function(e) { e.preventDefault(); return false });
 
