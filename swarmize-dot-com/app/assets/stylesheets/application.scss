@@ -245,26 +245,32 @@ input.other-inline-input {
   margin-right: -5px;
 }
 
-.embeddable-swarm .result {
-  font-weight: bold;
-  padding: 5px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  &.success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
+.embeddable-swarm  {
+  .result {
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    &.success {
+      color: #3c763d;
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+    }
+    &.failure {
+      border-color: #a94442;
+      background-color: #f2dede;
+      color: #a94442;
+    }
   }
-  &.failure {
-    border-color: #a94442;
-    background-color: #f2dede;
-    color: #a94442;
+  .small {
+    color: #888;
+    font-style: italic;
   }
-}
-
-.embeddable-swarm .small {
-  color: #888;
-  font-style: italic;
+  .closed {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #333;
+  }
 }
 
 .case_study {

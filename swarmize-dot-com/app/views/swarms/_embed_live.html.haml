@@ -1,0 +1,45 @@
+.embeddable-swarm
+  - unless params[:notitle]
+    %h2= @swarm.name
+  - unless params[:nodesc]
+    .explanation= simple_format @swarm.description
+  = form_tag @swarm.collector_url, 'data-parsley-validate' => 'true' do
+    - if @swarm.swarm_fields
+      - @swarm.swarm_fields.each do |swarm_field|
+        - if swarm_field.has_custom_display?
+          = render "form_partials/#{swarm_field.field_type}_display_field_partial", field: swarm_field, field_description: swarm_field.description
+        - else
+          = render "form_partials/display_field_partial", field: swarm_field, field_description: swarm_field.description
+      %p.submit
+        = submit_tag "Submit", :class => "btn btn-default"
+
+  .feedback
+  .small
+    Powered by
+    %b Swarmize.
+
+:javascript
+  $(document).ready(function() {
+    $( "form" ).on( "submit", function( event ) {
+      var form = this;
+      event.preventDefault();
+      console.log( $( this ).serialize() );
+      console.log( $( this ).attr('action'));
+      $.ajax({
+        url: $(form).attr('action'),
+        data: $(form).serialize(),
+        type: 'POST'
+      }).done(function(data) {
+        $(".embeddable-swarm form").remove();
+        var resultDiv = $("<div>");
+        resultDiv.addClass('result').addClass('success');
+        resultDiv.text("Thank you for your submission.");
+        $(".embeddable-swarm .feedback").append(resultDiv);
+      }).fail(function(data) {
+        var resultDiv = $("<div>");
+        resultDiv.addClass('result').addClass('failure');
+        resultDiv.text("We're sorry: there was an error, and your results could not be submitted.");
+        $(".embeddable-swarm form p.submit").prepend(resultDiv);
+      });
+    });
+  });

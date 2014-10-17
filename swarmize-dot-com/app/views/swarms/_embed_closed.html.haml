@@ -1,0 +1,12 @@
+.embeddable-swarm
+  - unless params[:notitle]
+    %h2= @swarm.name
+  - unless params[:nodesc]
+    .explanation= simple_format @swarm.description
+  .closed
+    This swarm is now closed, and is no longer accepting responses.
+
+  .small
+    Powered by
+    %b Swarmize.
+
