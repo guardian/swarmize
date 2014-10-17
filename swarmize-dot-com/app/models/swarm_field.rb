@@ -11,9 +11,16 @@ class SwarmField < ActiveRecord::Base
          :field_name_code => self.field_code,
          :compulsory => self.compulsory}
 
-    if field_type == 'rating'
+    if description.has_maximum && self.maximum
       json_fields[:maximum] = self.maximum
-      json_fields[:minimum] = self.minimum
+    end
+
+    if description.has_minimum && self.minimum
+      json_fields[:minimum] = self.minimum 
+    end
+
+    if description.has_other_field && self.other
+      json_fields[:allow_other] = self.other 
     end
 
     if possible_values && possible_values.any?
