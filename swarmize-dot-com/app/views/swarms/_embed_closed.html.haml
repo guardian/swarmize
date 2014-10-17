@@ -1,7 +1,7 @@
 .embeddable-swarm
-  - unless params[:notitle]
+  - if @swarm.display_title
     %h2= @swarm.name
-  - unless params[:nodesc]
+  - if @swarm.display_description
     .explanation= simple_format @swarm.description
   .closed
     This swarm is now closed, and is no longer accepting responses.

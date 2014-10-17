@@ -223,6 +223,12 @@ input.other-inline-input {
   min-width: 300px;
 }
 
+input.form-control.check {
+  border-top: 0;
+  margin-top: 0;
+  box-shadow: none;
+}
+
 /* Parsley form validation */
 
 .parsley-error, .parsley-error:focus {

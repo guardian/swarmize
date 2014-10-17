@@ -33,6 +33,16 @@
       %span.help-block A short description of your Swarm. This will be used across Swarmize.com, even if you don't display it with the input for your Swarm.
 
   .form-group
+    %label.col-sm-3.control-label Display title on embedded form?
+    .col-sm-9
+      = f.check_box :display_title, :class => 'form-control check'
+
+  .form-group
+    %label.col-sm-3.control-label Display description on embedded form?
+    .col-sm-9
+      = f.check_box :display_description, :class => 'form-control check'
+
+  .form-group
     .col-sm-offset-3
       %p= f.submit "Edit fields &rarr;".html_safe, :class => "btn btn-default", :name => "update_and_next"
       %p= link_to "Back to swarm", @swarm

@@ -203,7 +203,7 @@ class SwarmsController < ApplicationController
   end
 
   def swarm_params
-    params.require(:swarm).permit(:name, :description)
+    params.require(:swarm).permit(:name, :description, :display_title, :display_description)
   end
 
   def count_swarms

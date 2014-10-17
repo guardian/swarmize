@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017093840) do
+ActiveRecord::Schema.define(version: 20141017131200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,8 +63,10 @@ ActiveRecord::Schema.define(version: 20141017093840) do
     t.datetime "opens_at"
     t.datetime "closes_at"
     t.integer  "cloned_from"
-    t.string   "token",       limit: 8
+    t.string   "token",               limit: 8
     t.datetime "deleted_at"
+    t.boolean  "display_title",                 default: true
+    t.boolean  "display_description",           default: true
   end
 
   add_index "swarms", ["deleted_at"], name: "index_swarms_on_deleted_at", using: :btree

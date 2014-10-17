@@ -1,7 +1,7 @@
 .embeddable-swarm
-  - unless params[:notitle]
+  - if @swarm.display_title
     %h2= @swarm.name
-  - unless params[:nodesc]
+  - if @swarm.display_description
     .explanation= simple_format @swarm.description
   = form_tag @swarm.collector_url, 'data-parsley-validate' => 'true' do
     - if @swarm.swarm_fields
