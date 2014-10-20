@@ -5,6 +5,7 @@
 window.onload = function() {
   // find the div
   var embedDiv = document.getElementById('swarmize-embedded-form');
+  var iframe = embedDiv.getElementsByTagName('iframe')[0];
 
   var token = embedDiv.dataset.swarmizeToken;
 
@@ -15,9 +16,13 @@ window.onload = function() {
     var chunks = e.data.split("|");
     if(chunks[0] == 'setHeight') {
       var height = chunks[1];
-      var iframe = embedDiv.getElementsByTagName('iframe')[0];
       iframe.setAttribute('height', height);
     }
+
+    if(chunks[0] == 'formsuccess') {
+      window.scrollTo(0,iframe.offsetTop);
+    }
+
     // e.data is the string sent by the origin with postMessage.
     console.log(e);
   }
