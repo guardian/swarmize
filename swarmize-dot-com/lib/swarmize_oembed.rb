@@ -1,7 +1,11 @@
 require 'open-uri'
 
 class SwarmizeOembed
-  
+  class << self
+    include Rails.application.routes.url_helpers
+    include ActionView::Helpers::AssetUrlHelper
+  end
+
   def self.matches_scheme(url)
     url =~ /http:\/\/alpha\.swarmize\.com\/swarms\/(\w{8})\/?/
   end
@@ -11,20 +15,19 @@ class SwarmizeOembed
   end
 
   def self.for(swarm, options={})
-    if options[:maxwidth]
-      width = options[:maxwidth].to_i
-    else
-      width = 400
-    end
+    #if options[:maxwidth]
+      #width = options[:maxwidth].to_i
+    #else
+      #width = 400
+    #end
 
-    if options[:maxheight]
-      height = options[:maxheight].to_i
-    else
-      height = swarm.estimate_form_height
-    end
+    #if options[:maxheight]
+      #height = options[:maxheight].to_i
+    #else
+      #height = swarm.estimate_form_height
+    #end
 
-    src = "http://alpha.swarmize.com/swarms/#{swarm.token}/embed"
-    html = "<iframe src='#{src}' width='#{width}' height='#{height}' frameBorder='0' seamless='seamless'></iframe>"
+    html = "<script type='text/javascript' src='#{asset_url('swarmize-embed.js')}'></script><div id='swarmize-embedded-form' data-swarmize-token='#{swarm.token}'><a href='#{embed_swarm_url(swarm, :host => 'http://cdn.swarmize.com')}'>Fill out your answers on swarmize.com</a></div>"
 
     {
       type: "rich",
