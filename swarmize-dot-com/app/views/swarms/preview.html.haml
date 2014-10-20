@@ -19,8 +19,9 @@
       = glyphicon('list-alt')
       Preview Swarm
 
-%iframe{:src => embed_swarm_path(@swarm), :width => 460, :height => @swarm.estimate_form_height, 'frameBorder' => 0, :seamless => 'seamless', :style => 'border: 1px solid #ddd;'}
-  
+%script{type: 'text/javascript', src: asset_url('swarmize-embed.js')}
+#swarmize-embedded-form{"data-swarmize-token" => @swarm.token}
+  = link_to "Fill out your answers on swarmize.com", embed_swarm_path(@swarm)
 
 %p
   = link_to "&larr; Alter fields".html_safe, fields_swarm_path(@swarm), :class => "btn btn-default"

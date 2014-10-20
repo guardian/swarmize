@@ -10,7 +10,12 @@ window.onload = function() {
   var token = embedDiv.dataset.swarmizeToken;
 
   // insert an iFrame containing the embed
-  embedDiv.innerHTML = "<iframe src='http://cdn.swarmize.com/swarms/"+token+"/embed' width='460' height='400' frameBorder='0' seamless='seamless'></iframe>";
+  if(window.location.hostname == 'localhost') {
+    var origin = window.location.origin
+  } else {
+    var origin = 'http://cdn.swarmize.com';
+  }
+  embedDiv.innerHTML = "<iframe src='" + origin + "/swarms/"+token+"/embed' width='460' height='400' frameBorder='0' seamless='seamless'></iframe>";
 
   var iframe = embedDiv.getElementsByTagName('iframe')[0];
   
