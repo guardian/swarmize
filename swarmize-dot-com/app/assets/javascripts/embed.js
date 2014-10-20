@@ -3,7 +3,9 @@
 //= require parsley-config
 //= require parsley.min
 
-var messageOrigin = window.location.protocol + "//" + window.location.host;
+//var messageOrigin = window.location.protocol + "//" + window.location.host;
+var messageOrigin = 'http://cdn.swarmize.com';
+
 function emitHeight() {
   // get the height of this, and send it to the parent + 300 or something.
   var thisHeight = $(".container").height();
