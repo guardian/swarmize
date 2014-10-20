@@ -3,10 +3,12 @@
 //= require parsley-config
 //= require parsley.min
 
+var messageOrigin = window.location.protocol + "//" + window.location.host;
 function emitHeight() {
   // get the height of this, and send it to the parent + 300 or something.
   var thisHeight = $(".container").height();
-  parent.postMessage('setHeight|'+thisHeight, 'http://cdn.swarmize.com');
+
+  parent.postMessage('setHeight|'+thisHeight, messageOrigin);
 }
 
 $(document).ready(function() {
@@ -32,7 +34,7 @@ $(document).ready(function() {
       resultDiv.text("Thank you for your submission.");
       $(".embeddable-swarm .feedback").append(resultDiv);
       emitHeight();
-      parent.postMessage('formsuccess', 'http://cdn.swarmize.com'); 
+      parent.postMessage('formsuccess', messageOrigin); 
     }).fail(function(data) {
       $("div.failure").remove();
       var resultDiv = $("<div>");
