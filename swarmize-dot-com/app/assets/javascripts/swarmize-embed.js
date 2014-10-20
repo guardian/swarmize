@@ -5,12 +5,13 @@
 window.onload = function() {
   // find the div
   var embedDiv = document.getElementById('swarmize-embedded-form');
-  var iframe = embedDiv.getElementsByTagName('iframe')[0];
 
   var token = embedDiv.dataset.swarmizeToken;
 
   // insert an iFrame
   embedDiv.innerHTML = "<iframe src='http://cdn.swarmize.com/swarms/"+token+"/embed' width='460' height='400' frameBorder='0' seamless='seamless'></iframe>";
+
+  var iframe = embedDiv.getElementsByTagName('iframe')[0];
   
   respondToMessage = function(e) {
     var chunks = e.data.split("|");
