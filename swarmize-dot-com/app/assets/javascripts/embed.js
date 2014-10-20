@@ -7,6 +7,8 @@ function emitHeight() {
   // get the height of this, and send it to the parent + 300 or something.
   var thisHeight = $(".container").height();
 
+  // pipe-delimted data:
+  // yes, it's horrid but it's IE8/9 compatible.
   parent.postMessage('setHeight|'+thisHeight, '*');
 }
 
