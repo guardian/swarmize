@@ -6,7 +6,7 @@
 function emitHeight() {
   // get the height of this, and send it to the parent + 300 or something.
   var thisHeight = $(".container").height();
-  parent.postMessage('setHeight|'+thisHeight, '*');
+  parent.postMessage('setHeight|'+thisHeight, 'http://cdn.swarmize.com');
 }
 
 $(document).ready(function() {
@@ -32,7 +32,7 @@ $(document).ready(function() {
       resultDiv.text("Thank you for your submission.");
       $(".embeddable-swarm .feedback").append(resultDiv);
       emitHeight();
-      parent.postMessage('formsuccess', '*');
+      parent.postMessage('formsuccess', 'http://cdn.swarmize.com'); 
     }).fail(function(data) {
       $("div.failure").remove();
       var resultDiv = $("<div>");
