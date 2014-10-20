@@ -23,9 +23,6 @@ window.onload = function() {
     if(chunks[0] == 'formsuccess') {
       window.scrollTo(0,iframe.offsetTop);
     }
-
-    // e.data is the string sent by the origin with postMessage.
-    console.log(e);
   }
   // we have to listen for 'message'
   window.addEventListener('message', respondToMessage, false);
