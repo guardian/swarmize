@@ -15,17 +15,17 @@ class SwarmizeOembed
   end
 
   def self.for(swarm, options={})
-    #if options[:maxwidth]
-      #width = options[:maxwidth].to_i
-    #else
-      #width = 400
-    #end
+    if options[:maxwidth]
+      width = options[:maxwidth].to_i
+    else
+      width = 460
+    end
 
-    #if options[:maxheight]
-      #height = options[:maxheight].to_i
-    #else
-      #height = swarm.estimate_form_height
-    #end
+    if options[:maxheight]
+      height = options[:maxheight].to_i
+    else
+      height = swarm.estimate_form_height
+    end
 
     html = "<script type='text/javascript' src='#{asset_url('swarmize-embed.js')}'></script><div id='swarmize-embedded-form' data-swarmize-token='#{swarm.token}'><a href='#{embed_swarm_url(swarm, :host => 'http://cdn.swarmize.com')}'>Fill out your answers on swarmize.com</a></div>"
 
