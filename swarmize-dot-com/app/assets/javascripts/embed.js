@@ -3,17 +3,18 @@
 //= require parsley-config
 //= require parsley.min
 
-var messageOrigin = parent.location.origin;
 //var messageOrigin = 'http://cdn.swarmize.com';
 
 function emitHeight() {
   // get the height of this, and send it to the parent + 300 or something.
+  var messageOrigin = parent.location.origin;
   var thisHeight = $(".container").height();
 
   parent.postMessage('setHeight|'+thisHeight, messageOrigin);
 }
 
 $(document).ready(function() {
+  var messageOrigin = parent.location.origin;
   emitHeight();
 
   $.listen('parsley:form:validated', function() {
@@ -23,8 +24,6 @@ $(document).ready(function() {
   $( "form" ).on( "submit", function( event ) {
     var form = this;
     event.preventDefault();
-    console.log( $( this ).serialize() );
-    console.log( $( this ).attr('action'));
     $.ajax({
       url: $(form).attr('action'),
       data: $(form).serialize(),
