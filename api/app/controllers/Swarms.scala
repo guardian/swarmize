@@ -10,6 +10,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms
 import org.elasticsearch.search.sort.SortOrder
 import play.api.libs.json._
 import play.api.mvc._
+import swarmize.Swarm.{Closed, Open, Draft}
 import swarmize._
 
 import scala.collection.convert.wrapAll._
@@ -22,19 +23,35 @@ object Swarms extends Controller {
 
   private val corsHeaders = List(
     ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
-    ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, PUT, DELETE, OPTIONS",
-    ACCESS_CONTROL_ALLOW_HEADERS -> "accept, authorization, origin"
+    ACCESS_CONTROL_ALLOW_METHODS -> "GET"
   )
+
+  private def cacheTimeSecsFor(swarm: Swarm): Int = {
+    swarm.status match {
+      case Draft => 5
+      case Open => 10
+      case Closed => 60 * 60
+    }
+  }
+
+  private def maxAgeSecs(secs: Int) = CACHE_CONTROL -> s"max-age=$secs"
 
   private def executeBlock(swarm: Swarm, emptyResponse: JsValue, block: Swarm => Future[JsValue]): Future[Result] = {
     block(swarm)
-      .map(json => Ok(json).withHeaders(corsHeaders: _*))
+      .map { json => Ok(json)
+        .withHeaders(corsHeaders: _*)
+        .withHeaders(maxAgeSecs(cacheTimeSecsFor(swarm)))
+        .withHeaders("X-Swarm-State" -> swarm.status.toString)
+      }
       .recover {
         case e: IndexMissingException =>
-          Ok(emptyResponse).withHeaders(corsHeaders: _*)
+          Ok(emptyResponse)
+            .withHeaders(corsHeaders: _*)
             .withHeaders("X-No-Data-Reason" -> e.getMessage)
+            .withHeaders(maxAgeSecs(cacheTimeSecsFor(swarm)))
 
-        case NonFatal(e) => InternalServerError("got an error " + e)
+        case NonFatal(e) =>
+          InternalServerError("got an error " + e)
       }
 
   }
@@ -48,8 +65,9 @@ object Swarms extends Controller {
       } else if (!SwarmApiKeys.isValid(token, maybeApiKey.get)) {
         Future.successful(Forbidden("this combination of api key and swarm token is not valid"))
       } else {
-        Swarm.findByToken(token).map(swarm => executeBlock(swarm, emptyResponse, block))
-        .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
+        Swarm.findByToken(token)
+          .map(swarm => executeBlock(swarm, emptyResponse, block))
+          .getOrElse(Future.successful(NotFound(s"Unknown swarm: $token")))
       }
     } catch {
       case e: RuntimeException =>
