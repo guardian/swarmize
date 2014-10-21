@@ -128,7 +128,7 @@ describe SwarmsController do
 
       it "redirect to the swarms path" do
         delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -149,7 +149,7 @@ describe SwarmsController do
 
       it "redirect to the swarms path" do
         delete :destroy, :id => 1
-        expect(response).to redirect_to swarms_path
+        expect(response).to redirect_to root_path
       end
     end
 
