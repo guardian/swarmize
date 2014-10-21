@@ -9,6 +9,10 @@
       #{link_to "Graham Tackley", "mailto:graham.tackley@theguardian.com"}, and
       #{link_to "Tom Armitage", "mailto:tom@tomarmitage.com"}.
 
+%a.btn.btn-default{href: new_swarm_path, style: 'float:right;'}
+  = glyphicon('plus')
+  Create A Swarm
+
 %ul.nav.nav-tabs{:role => 'tablist'}
   %li.active= link_to "All Swarms", "#all", "data-toggle" => 'tab'
   %li= link_to "My Swarms", "#mine", "data-toggle" => 'tab'
