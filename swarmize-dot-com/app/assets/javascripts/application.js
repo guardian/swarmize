@@ -20,6 +20,7 @@
 //= require c3.min
 //= require rickshaw.min
 //= require moment.min
+//= stub swarmize-embed
 //= require_tree .
 
 $(document).ready(function() {

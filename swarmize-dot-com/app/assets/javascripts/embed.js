@@ -19,7 +19,7 @@ $(document).ready(function() {
     emitHeight();
   });
 
-  $( "form" ).on( "submit", function( event ) {
+  $(".embeddable-swarm form").on( "submit", function( event ) {
     var form = this;
     event.preventDefault();
 
