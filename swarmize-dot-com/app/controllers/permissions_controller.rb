@@ -1,5 +1,6 @@
 class PermissionsController < ApplicationController
   before_filter :scope_to_swarm
+  before_filter :check_for_user, :only => :index
   before_filter :check_user_can_alter_permissions, :except => :index
   before_filter :scope_to_permission, :only => %w{destroy}
 
