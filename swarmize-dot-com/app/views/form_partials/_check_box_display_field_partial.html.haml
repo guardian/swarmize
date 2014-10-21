@@ -1,5 +1,5 @@
 .form_group{:id => "group_#{field.field_code}"}
-  .radio
+  .check
     %label
       = check_box_tag field.field_code, 1, false, parsley_validations_for_field(field)
       = field.field_name
