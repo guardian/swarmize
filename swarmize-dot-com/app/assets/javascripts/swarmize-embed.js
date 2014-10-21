@@ -18,6 +18,8 @@ window.onload = function() {
   embedDiv.innerHTML = "<iframe src='" + origin + "/swarms/"+token+"/embed' width='460' height='400' frameBorder='0' seamless='seamless'></iframe>";
 
   var iframe = embedDiv.getElementsByTagName('iframe')[0];
+
+  iframe.setAttribute('width', '100%');
   
   respondToMessage = function(e) {
     var chunks = e.data.split("|");
