@@ -157,7 +157,7 @@ class Swarm < ActiveRecord::Base
     output = %w{timestamp}
     swarm_fields.each do |f|
       output << f.field_code
-      output << f.derived_field_codes if f.derived_field_codes
+      output << f.derived_field_codes if f.derived_field_codes.any?
     end
     output.flatten
   end
@@ -167,7 +167,7 @@ class Swarm < ActiveRecord::Base
     swarm_fields.each do |f|
       unless f.redacted?
         output << f.field_code
-        output << f.derived_field_codes if f.derived_field_codes
+        output << f.derived_field_codes if f.derived_field_codes.any?
       end
     end
     output.flatten

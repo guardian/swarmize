@@ -10,7 +10,7 @@ class SwarmCSVTool
     @header_hash = {timestamp: 'Timestamp'}
     @swarm.swarm_fields.each do |f|
       @header_hash[f.field_code.to_sym] = f.field_name
-      if f.derived_field_suffixes
+      if f.derived_field_suffixes.any?
         f.derived_field_suffixes.each do |df|
           @header_hash["#{f.field_code}#{df}"] = "#{f.field_name} [#{df}]"
         end

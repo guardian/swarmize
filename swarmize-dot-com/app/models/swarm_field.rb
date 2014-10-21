@@ -37,25 +37,26 @@ class SwarmField < ActiveRecord::Base
   end
 
   def derived_field_suffixes
+    suffixes = []
     if description.process 
       # You could do something clever with a map...
       # ...but one process might have many derives
       # ...so let's do something simple
-      suffixes = []
       description.process.each do |prc|
         prc.derives.each do |suffix,archetype|
           suffixes << suffix
         end
       end
-      suffixes
     end
+    if description.has_other_field
+      suffixes << '_other'
+    end
+    suffixes
   end
 
   def derived_field_codes
-    if derived_field_suffixes
-      derived_field_suffixes.map do |suffix|
-        field_code + suffix
-      end
+    derived_field_suffixes.map do |suffix|
+      field_code + suffix
     end
   end
 

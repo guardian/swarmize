@@ -19,7 +19,7 @@ class SwarmResultsFormatter
       @swarm.swarm_fields.each do |f|
         headers << f.field_name
         field_codes << f.field_code
-        if f.derived_field_suffixes
+        if f.derived_field_suffixes.any?
           f.derived_field_suffixes.each do |df|
             headers << "#{f.field_name} [#{df}]"
             field_codes << "#{f.field_code}#{df}"
@@ -35,7 +35,7 @@ class SwarmResultsFormatter
         row << format_timestamp(r.timestamp)
         @swarm.swarm_fields.each do |field|
           row << r.send(field.field_code)
-          if field.derived_field_codes
+          if field.derived_field_codes.any?
             field.derived_field_codes.each do |df|
               row << r.send(df)
             end
@@ -58,7 +58,7 @@ class SwarmResultsFormatter
 
       @swarm.swarm_fields.each do |f|
         headers << f.field_name
-        if f.derived_field_suffixes
+        if f.derived_field_suffixes.any?
           f.derived_field_suffixes.each do |df|
             headers << "#{f.field_name} [#{df}]"
             field_codes << "#{f.field_code}#{df}"
@@ -79,7 +79,7 @@ class SwarmResultsFormatter
             row << r.send(field.field_code)
           end
 
-          if field.derived_field_codes
+          if field.derived_field_codes.any?
             field.derived_field_codes.each do |df|
               if field.redacted?
                 row << 'Redacted'
