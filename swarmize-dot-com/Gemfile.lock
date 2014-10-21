@@ -240,9 +240,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    sprockets-redirect (0.2.0)
-      activesupport (>= 3.1.0)
-      rack
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -301,7 +298,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   simplecov
-  sprockets-redirect
   therubyracer
   thin
   timecop
