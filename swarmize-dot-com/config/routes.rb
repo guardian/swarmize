@@ -52,6 +52,7 @@ Swarmize::Application.routes.draw do
   end
 
   resources :case_studies
+  resources :documentation, :controller => 'documentation'
 
   resource :home, :controller => "home"
 
