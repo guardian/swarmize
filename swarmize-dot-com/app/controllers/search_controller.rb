@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  before_filter :check_for_user
+
   def results
     @query = params[:query]
     if @current_user
