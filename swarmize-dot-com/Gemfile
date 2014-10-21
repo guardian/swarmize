@@ -21,6 +21,7 @@ gem 'will_paginate-bootstrap'
 gem "paranoia", "~> 2.0"
 gem 'aws-ses', '~> 0.5.0', require: 'aws/ses'
 gem 'kramdown'
+gem "non-stupid-digest-assets"
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -44,4 +45,3 @@ group :test do
   gem 'guard-rspec'
   gem 'simplecov'
 end
-
