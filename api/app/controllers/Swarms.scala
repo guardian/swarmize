@@ -79,7 +79,7 @@ object Swarms extends Controller {
     Future.successful(swarm.definition.toJson)
   }
 
-  def results(token: String, page: Int, pageSize: Int, format: Option[String], geo_json_point_key: Option[String]) =
+  def results(token: String, page: Int, pageSize: Int, format: Option[String], geo_json_point_key: Option[String], order_by: String) =
     swarmAction(token) { swarm =>
 
       val geojson = format contains "geojson"
@@ -93,9 +93,15 @@ object Swarms extends Controller {
         else
           matchAllQuery()
 
+      val ordering = order_by.toLowerCase match {
+        case "newest" => SortOrder.DESC
+        case _ => SortOrder.ASC
+      }
+
       Elasticsearch.client.prepareSearch(swarm.indexName)
         .setSize(pageSize)
         .setFrom((page - 1) * pageSize)
+        .addSort("timestamp", ordering)
         .setQuery(query)
         .execute().future map { results =>
 
