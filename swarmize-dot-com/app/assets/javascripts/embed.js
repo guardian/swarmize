@@ -9,7 +9,7 @@ function emitHeight() {
 
   // pipe-delimted data:
   // yes, it's horrid but it's IE8/9 compatible.
-  parent.postMessage('setHeight|'+thisHeight, '*');
+  parent.postMessage('swarmizeSetHeight|'+thisHeight, '*');
 }
 
 $(document).ready(function() {
@@ -36,7 +36,7 @@ $(document).ready(function() {
       $(".embeddable-swarm .feedback").append(resultDiv);
 
       emitHeight();
-      parent.postMessage('formsuccess', '*'); 
+      parent.postMessage('swarmizeFormSuccess', '*'); 
     }).fail(function(data) {
       $("div.failure").remove();
 

@@ -23,13 +23,13 @@ window.onload = function() {
     var chunks = e.data.split("|");
 
     // when the form changes size, update the height of the iFrame
-    if(chunks[0] == 'setHeight') {
+    if(chunks[0] == 'swarmizeSetHeight') {
       var height = chunks[1];
       iframe.setAttribute('height', height);
     }
 
     // when the form is submitted, scroll top the top of the iFrame
-    if(chunks[0] == 'formsuccess') {
+    if(chunks[0] == 'swarmizeFormSuccess') {
       window.scrollTo(0,iframe.offsetTop);
     }
   }
