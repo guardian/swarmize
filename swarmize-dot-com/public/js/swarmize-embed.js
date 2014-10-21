@@ -19,7 +19,7 @@ window.onload = function() {
 
   var iframe = embedDiv.getElementsByTagName('iframe')[0];
 
-  iframe.setAttribute('width', '100%');
+  iframe.style.width = '100%';
   
   respondToMessage = function(e) {
     var chunks = e.data.split("|");
