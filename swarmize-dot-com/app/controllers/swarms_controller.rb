@@ -1,7 +1,7 @@
 class SwarmsController < ApplicationController
   before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine embed}
   before_filter :scope_to_swarm_for_embed, :only => %w{embed}
-  before_filter :check_for_user, :except => %w{index live closed show embed public_csv}
+  before_filter :check_for_user, :except => %w{embed}
   before_filter :count_swarms, :only => %w{index draft live closed}
   before_filter :check_user_can_alter_swarm, :only => %w{edit update fields update_fields preview open close code}
   before_filter :check_user_can_destroy_swarm, :only => %w{delete destroy}
@@ -62,14 +62,14 @@ class SwarmsController < ApplicationController
   def csv
   end
 
-  def public_csv
-    results = @swarm.search.entirety
-    formatted_results = SwarmResultsFormatter.new(@swarm,results)
+  #def public_csv
+    #results = @swarm.search.entirety
+    #formatted_results = SwarmResultsFormatter.new(@swarm,results)
 
-    expires_in 1.year, :public => true # we need to set this to be public
-    send_data formatted_results.to_public_csv, 
-              filename: "#{@swarm.token}.csv"
-  end
+    #expires_in 1.year, :public => true # we need to set this to be public
+    #send_data formatted_results.to_public_csv, 
+              #filename: "#{@swarm.token}.csv"
+  #end
 
   def delete
   end

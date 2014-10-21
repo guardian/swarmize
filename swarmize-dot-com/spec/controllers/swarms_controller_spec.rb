@@ -3,7 +3,7 @@ require 'controllers/shared_examples_for_controllers'
 
 describe SwarmsController do
   describe "GET #index" do
-    it_should_behave_like "it works for any user", :get, :index
+    it_should_behave_like "it needs login", :get, :index
   end
 
   describe "GET #draft" do
@@ -11,11 +11,11 @@ describe SwarmsController do
   end
 
   describe "GET #live" do
-    it_should_behave_like "it works for any user", :get, :live
+    it_should_behave_like "it needs login", :get, :live
   end
 
   describe "GET #closed" do
-    it_should_behave_like "it works for any user", :get, :closed
+    it_should_behave_like "it needs login", :get, :closed
   end
 
   describe "GET #mine" do
@@ -48,9 +48,14 @@ describe SwarmsController do
         allow(swarm).to receive(:draft?).and_return(false)
         allow(swarm).to receive(:search)
 
+        es_double = double("elasticsearch")
+        allow(es_double).to receive(:all)
+        allow(es_double).to receive(:count_all)
+        allow(swarm).to receive(:search).and_return(es_double)
+
         allow(Swarm).to receive(:find_by).and_return(swarm)
       end
-      it_should_behave_like "it works for any user", :get, :show, :id => 1
+      it_should_behave_like "it needs login", :get, :show, :id => 1
     end
 
     describe "for a swarm that is draft" do
@@ -66,6 +71,34 @@ describe SwarmsController do
         allow(Swarm).to receive(:find_by).and_return(swarm)
       end
       it_should_behave_like "it needs login", :get, :show, :id => 1
+    end
+  end
+
+  describe "GET #embed" do
+    describe "for a swarm that isn't draft" do
+      before do
+        swarm = FactoryGirl.create(:swarm)
+        allow(swarm).to receive(:draft?).and_return(false)
+        allow(swarm).to receive(:search)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+      end
+      it_should_behave_like "it works for any user", :get, :embed, :id => 1
+    end
+
+    describe "for a swarm that is draft" do
+      before do
+        swarm = FactoryGirl.create(:swarm)
+        allow(swarm).to receive(:draft?).and_return(true)
+
+        es_double = double("elasticsearch")
+        allow(es_double).to receive(:all)
+        allow(es_double).to receive(:count_all)
+        allow(swarm).to receive(:search).and_return(es_double)
+
+        allow(Swarm).to receive(:find_by).and_return(swarm)
+      end
+      it_should_behave_like "it works for any user", :get, :embed, :id => 1
     end
   end
 
@@ -655,7 +688,7 @@ describe SwarmsController do
        'open_day' => '29',
        'open_hour' => '17',
        'open_minute' => '32'
-    }
+      }
     }
 
     describe 'for a user who is not logged in' do
@@ -716,7 +749,7 @@ describe SwarmsController do
        'close_day' => '29',
        'close_hour' => '17',
        'close_minute' => '32'
-    }
+      }
     }
 
     describe 'for a user who is not logged in' do
@@ -783,7 +816,6 @@ describe SwarmsController do
         end
       end
     end
-
   end
 
 

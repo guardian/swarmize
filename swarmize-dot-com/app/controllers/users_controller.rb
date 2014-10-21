@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :check_for_user, :only => :draft
+  before_filter :check_for_user, :only => %w{show live closed draft}
   before_filter :check_for_admin, :except => %w{show live closed draft}
   before_filter :scope_to_user, :except => %w{index new create}
   before_filter :check_can_see_drafts, :only => :draft

@@ -16,23 +16,23 @@ class CsvController < ApplicationController
     end
   end
 
-  def public
-    if @swarm.closed? || @current_user
-      results = @swarm.search.entirety
+  #def public
+    #if @swarm.closed? || @current_user
+      #results = @swarm.search.entirety
 
-      tool = SwarmCSVTool.new(@swarm) 
-      Tempfile.open(["#{Time.now.to_i}", ".csv"], Rails.root.join('tmp')) do |csv|
-        csv << tool.public_headers.to_s
-        results.each do |result|
-          csv << tool.result_to_public_row(result).to_s
-        end
-        send_file csv, :filename => "#{@swarm.token}.csv"
-      end
-    else
-      flash[:error] = "You can't download CSV for a Swarm still in progress."
-      redirect_to @swarm
-    end
-  end
+      #tool = SwarmCSVTool.new(@swarm) 
+      #Tempfile.open(["#{Time.now.to_i}", ".csv"], Rails.root.join('tmp')) do |csv|
+        #csv << tool.public_headers.to_s
+        #results.each do |result|
+          #csv << tool.result_to_public_row(result).to_s
+        #end
+        #send_file csv, :filename => "#{@swarm.token}.csv"
+      #end
+    #else
+      #flash[:error] = "You can't download CSV for a Swarm still in progress."
+      #redirect_to @swarm
+    #end
+  #end
 
   private
 

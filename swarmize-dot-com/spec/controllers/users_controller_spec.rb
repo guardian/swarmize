@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'controllers/shared_examples_for_controllers'
 
 describe UsersController do
   describe "GET #index" do
@@ -179,5 +180,21 @@ describe UsersController do
         expect(response).to redirect_to users_path
       end
     end
+  end
+
+  describe "GET #show" do
+    it_should_behave_like "it needs login", :get, :show, :id => 1
+  end
+
+  describe "GET #live" do
+    it_should_behave_like "it needs login", :get, :live, :id => 1
+  end
+
+  describe "GET #closed" do
+    it_should_behave_like "it needs login", :get, :closed, :id => 1
+  end
+
+  describe "GET #draft" do
+    it_should_behave_like "it needs login", :get, :draft, :id => 1
   end
 end

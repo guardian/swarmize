@@ -22,12 +22,16 @@
 
 %hr
 
-%h2 Swarms In Progress
+%h2 Case studies
 
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @swarms_in_progress}
+%ul
+  %li
+    %h3= link_to "Making a simple survey: the Guardian Broadband survey", case_study_path('broadband_survey')
+    %p At its most basic, Swarmize can be used to generate embeddable forms and analyse data. This case study serves as a basic tutorial for Swarmize.
+  %li
+    %h3= link_to "Realtime data, and going beyond embeds: using Swarmize’s Collector and Retrieval APIs to build a live ‘clicker’ for a TV debate", case_study_path('realtime_clicker')
+    %p Swarmize isn't just about embeddable forms. Here, we use the Collector and Retrieval APIs (for input and output) to build a realtime 'clicker' for feedback during a TV debate.
+  %li
+    %h3= link_to "Real world use: the #indyref swarm", case_study_path('indyref')
+    %p Finally, a real swarm commissioned by a Guardian editor at short notice: to watch how sentiment on Twitter was leaning in the run up to the Scottish Independence Referendum.
 
-%h2 Latest complete swarms
-
-= render :partial => "swarms/swarm_table", :locals => {:swarms => @latest_complete_swarms}
-
-%p= link_to "Explore all swarms", swarms_path

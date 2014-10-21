@@ -10,9 +10,9 @@ Swarmize::Application.routes.draw do
       end
     end
     resource :csv, :controller => 'csv' do
-      collection do
-        get 'public'
-      end
+      #collection do
+        #get 'public'
+      #end
     end
     member do
       get 'fields'
