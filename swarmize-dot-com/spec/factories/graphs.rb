@@ -1,9 +1,8 @@
 FactoryGirl.define do
   factory :graph do 
     title "Graph Title"
-    graph_type "count"
+    graph_type "pie"
     field "postcode"
-    viz_type "pie"
     swarm
   end
 end
