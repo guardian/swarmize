@@ -271,6 +271,10 @@ The responses is separated into a `results` object and a `query_details` object.
 
 The default is `page=1&per_page=10`.
 
+By default, results are sorted chronologically. You can specify ordering with the `order_by` query parameter, eg:
+
+`http://api.swarmize.com/swarms/rycadjgp/results?api_key=XXXX&per_page=50&page=3&order_by=newest`
+
 
 #### Results (paginated) as GeoJSON
 
