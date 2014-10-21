@@ -44,3 +44,7 @@ group :test do
   gem 'guard-rspec'
   gem 'simplecov'
 end
+
+group :production do
+  gem 'sprockets-redirect'
+end
