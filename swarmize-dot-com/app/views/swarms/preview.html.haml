@@ -19,7 +19,7 @@
       = glyphicon('list-alt')
       Preview Swarm
 
-%script{type: 'text/javascript', src: asset_url('swarmize-embed.js')}
+%script{type: 'text/javascript', src: '/js/swarmize-embed.js'}
 #swarmize-embedded-form{"data-swarmize-token" => @swarm.token}
   = link_to "Fill out your answers on swarmize.com", embed_swarm_path(@swarm)
 
