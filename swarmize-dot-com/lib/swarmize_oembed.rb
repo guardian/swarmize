@@ -27,7 +27,7 @@ class SwarmizeOembed
       height = swarm.estimate_form_height
     end
 
-    html = "<script type='text/javascript' src='#{asset_url('swarmize-embed.js')}'></script><div id='swarmize-embedded-form' data-swarmize-token='#{swarm.token}'><a href='#{embed_swarm_url(swarm, :host => 'http://cdn.swarmize.com')}'>Fill out your answers on swarmize.com</a></div>"
+    html = "<script type='text/javascript' src='//cdn.swarmize.com/assets/swarmize-embed.js'></script><div id='swarmize-embedded-form' data-swarmize-token='#{swarm.token}'><a href='#{embed_swarm_url(swarm, :host => 'http://cdn.swarmize.com')}'>Fill out your answers on swarmize.com</a></div>"
 
     {
       type: "rich",

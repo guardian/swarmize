@@ -11,8 +11,7 @@
 %dl
   %dt Embed code
   %dd
-    -#%input{:value => "<iframe src='#{serve_from_cloudfront(embed_swarm_path(@swarm))}' width='460' height='#{@swarm.estimate_form_height}' frameBorder='0' seamless='seamless'></iframe>", :style => "width: 300px"}
-    %input{:value => "<script type='text/javascript' src='#{asset_url('swarmize-embed.js')}'></script><div id='swarmize-embedded-form' data-swarmize-token='#{@swarm.token}'><a href='#{embed_swarm_url(@swarm)}'>Fill out your answers on swarmize.com</a></div>", :style => "width: 300px"}
+    %input{:value => "<script type='text/javascript' src='//cdn.swarmize.com/assets/swarmize-embed.js'></script><div id='swarmize-embedded-form' data-swarmize-token='#{@swarm.token}'><a href='#{embed_swarm_url(@swarm)}'>Fill out your answers on swarmize.com</a></div>", :style => "width: 300px"}
 
   %dt Token
   %dd
