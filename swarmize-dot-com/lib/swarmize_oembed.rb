@@ -7,11 +7,11 @@ class SwarmizeOembed
   end
 
   def self.matches_scheme(url)
-    url =~ /http:\/\/alpha\.swarmize\.com\/swarms\/(\w{8})\/?/
+    url =~ /http:\/\/www\.swarmize\.com\/swarms\/(\w{8})\/?/
   end
 
   def self.extract_token(url)
-    url.gsub("http://alpha.swarmize.com/swarms/", "").split("/").first
+    url.gsub("http://www.swarmize.com/swarms/", "").split("/").first
   end
 
   def self.for(swarm, options={})
@@ -34,7 +34,7 @@ class SwarmizeOembed
       version: "1.0",
       title: swarm.name,
       provider_name: "Swarmize",
-      provider_url: "http://alpha.swarmize.com", 
+      provider_url: "http://www.swarmize.com", 
       width: width,
       height: height,
       html: html
