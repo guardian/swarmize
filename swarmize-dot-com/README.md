@@ -66,3 +66,36 @@ If no swarm with that token exists locally, it'll be created, with all fields an
 ## Deployment
 
 swarmize.com is deployed through the standard Swarmize deployment tool. `package.sh` is the packaging command specific to the application, and `eb_name.txt` is the name of the application on ElasticBeanstalk.
+
+## Notes
+
+### What's in `lib`
+
+As with most Rails apps, `lib` is a grab-bag of bits and bobs. Namely:
+
+* `dummy.rb` - a useful class for making dummy swarms, users, and the like.
+* `dynamo_sync.rb` - the class that does all the heavy lifting of syncing a swarm to DynamoDB
+* `email_validator.rb` - a tiny class for ensuring that email addresses used to login are allowed access to Swarmize
+* `json_importer.rb` - a class for importing a swarm to your local dev environment from the production environment. Useful for copying something on live to your developer setup to explore/debug it.
+* `swarm_csv_tool.rb` - important, this: this is an object for generating CSV, a line at a time, from a swarm
+* `swarmize_oembed.rb` - a class to handle everything to do with oembed: generating it, validating the request
+* `swarmize_search.rb` - probably the most important class here. This deals with making requests for a swarm to Elasticsearch, and returning the results as a `Hashie::Mash` (because dot-notation object access seems more sensible than key-based access). This class contains one method per request you might make - eg `all`, `latest`. These methods deal with making the query, getting the data back, and structuring it into an object for the Rails app. However, the queries themselves are contained in:
+* `swarmize_search/queries.rb` - this file, which contains the various JSON queries for each search request, defined as `Jbuilder` objects. It seemed sensible to keep them nice and tidy.
+
+### What's in `application_controller.rb`
+
+* utilities to redirect after authentication
+* methods to check for a user or an admin
+* method to set up the current user based on the session.
+
+### Templates
+
+Are written in [HAML.](http://haml.info/)
+
+### Tests / Specs
+
+There are specs written in [RSpec](http://rspec.info/). They are not entirely comprehensive, but focus on particularly critical areas: authentication; confirming who's allowed to access Swarmize; confirming when a Swarm is considered open/closed; and, most importantly, what parts of the site are public and what require authentication (as a user and/or as an admin). They are also not particularly fast, but they do the job. More specs are always welcome.
+
+### Authentication
+
+Is done through Omniauth, and, specifically, the [`google-oauth2`](https://github.com/zquestz/omniauth-google-oauth2) strategy for it.
