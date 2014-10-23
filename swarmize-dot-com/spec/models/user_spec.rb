@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   it "has a valid factory" do
-    FactoryGirl.create(:user).should be_valid
+    expect(FactoryGirl.create(:user)).to be_valid
   end
 
   describe "being saved" do
