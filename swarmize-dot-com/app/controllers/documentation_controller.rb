@@ -1,4 +1,6 @@
 class DocumentationController < ApplicationController
+  before_filter :check_for_user
+
   def show
     # find file
     filename = File.join(Rails.root, 'public', 'documentation', "#{params[:id]}.md")
