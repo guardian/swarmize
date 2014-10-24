@@ -1,9 +1,9 @@
 class AccessPermission < ActiveRecord::Base
   belongs_to :swarm
   belongs_to :user
-  belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
+  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
 
-  before_save :downcase_email
+  before_save :downcase_email!
 
   validates :email, uniqueness: { scope: :swarm,
     message: "can only be given permission on a swarm once" }
@@ -41,7 +41,7 @@ class AccessPermission < ActiveRecord::Base
   end
   private
 
-  def downcase_email
+  def downcase_email!
     self.email = self.email.downcase
   end
 
