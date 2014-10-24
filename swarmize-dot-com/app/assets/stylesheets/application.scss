@@ -294,4 +294,10 @@ ul#case_studies {
   list-style: none;
   /*margin-left: 0;*/
   padding-left: 0;
+  li {
+    img {
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+  }
 }
