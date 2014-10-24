@@ -1,18 +1,4 @@
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title Alpha Feedback
-  .panel-body
-    %p 
-      %b Swarmize is currently in alpha. 
-      The platform is accessible for use by theguardian.com only, but the code is available for download and reuse with an open license on 
-      #{link_to "GitHub", "https://github.com/guardian/swarmize"}.
-    %p 
-      The project was funded by a grant from the Knight New Challenge and also supported by The Guardian. The developers are 
-      #{link_to "Tom Armitage", "mailto:tom@tomarmitage.com"}
-      and 
-      #{link_to "Graham Tackley", "mailto:graham.tackley@theguardian.com"}.
-      If you would like to discuss working on the project together please contact 
-      #{link_to "Matt McAlister", "mailto:matt.mcalister@theguardian.com"}.
+= render :partial => 'home/project_status'
 
 %a.btn.btn-default{href: new_swarm_path, style: 'float:right;'}
   = glyphicon('plus')
