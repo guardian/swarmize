@@ -14,27 +14,17 @@
         %p 
           %b Swarmize is currently in alpha. 
           The platform is accessible for use by theguardian.com only, but the code is available for download and reuse with an open license on 
-          #{link_to "GitHub", "https://github.com/guardian/swarmize"}
-          . 
-        %p The project was funded by a grant from the Knight New Challenge and also supported by The Guardian. The developers are 
+          #{link_to "GitHub", "https://github.com/guardian/swarmize"}.
+        %p 
+          The project was funded by a grant from the Knight New Challenge and also supported by The Guardian. The developers are 
           #{link_to "Tom Armitage", "mailto:tom@tomarmitage.com"}
           and 
-          #{link_to "Graham Tackley", "mailto:graham.tackley@theguardian.com"}
-          . If you would like to discuss working on the project together please contact 
-          #{link_to "Matt McAlister", "mailto:matt.mcalister@theguardian.com"}
-          .
+          #{link_to "Graham Tackley", "mailto:graham.tackley@theguardian.com"}.
+          If you would like to discuss working on the project together please contact 
+          #{link_to "Matt McAlister", "mailto:matt.mcalister@theguardian.com"}.
 %hr
 
 %h2 Case studies
 
-%ul
-  %li
-    %h3= link_to "Making a simple survey: the Guardian Broadband survey", case_study_path('broadband_survey')
-    %p At its most basic, Swarmize can be used to generate embeddable forms and analyse data. This case study serves as a basic tutorial for Swarmize.
-  %li
-    %h3= link_to "Realtime data, and going beyond embeds: using Swarmize’s Collector and Retrieval APIs to build a live ‘clicker’ for a TV debate", case_study_path('realtime_clicker')
-    %p Swarmize isn't just about embeddable forms. Here, we use the Collector and Retrieval APIs (for input and output) to build a realtime 'clicker' for feedback during a TV debate.
-  %li
-    %h3= link_to "Real world use: the #indyref swarm", case_study_path('indyref')
-    %p Finally, a real swarm commissioned by a Guardian editor at short notice: to watch how sentiment on Twitter was leaning in the run up to the Scottish Independence Referendum.
+= render :partial => "case_studies/list"
 
