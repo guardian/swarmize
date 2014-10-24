@@ -5,16 +5,16 @@ class Swarm < ActiveRecord::Base
 
   acts_as_paranoid
 
-  belongs_to :parent_swarm, :class_name => 'Swarm', :foreign_key => 'cloned_from'
+  belongs_to :parent_swarm, class_name: 'Swarm', foreign_key: 'cloned_from'
 
-  has_many :swarm_fields, -> { order('field_index ASC') }, :dependent => :destroy
+  has_many :swarm_fields, -> { order('field_index ASC') }, dependent: :destroy
   has_many :graphs
-  has_many :clones, :class_name => 'Swarm', :foreign_key => 'cloned_from'
+  has_many :clones, class_name: 'Swarm', foreign_key: 'cloned_from'
 
   has_many :access_permissions
   has_many :unassigned_access_permissions, -> { where('user_id IS NULL') }, :class_name => 'AccessPermission'
-  has_many :users, :through => :access_permissions
-  has_many :owners, -> { where('access_permissions.is_owner' => true) }, :through => :access_permissions, :source => :user
+  has_many :users, through: :access_permissions
+  has_many :owners, -> { where('access_permissions.is_owner' => true) }, through: :access_permissions, source: :user
 
   before_create :setup_token
 
@@ -44,7 +44,7 @@ class Swarm < ActiveRecord::Base
     where("opens_at <= ?", Time.zone.now).where("closes_at IS NULL or closes_at > ?", Time.zone.now).order('opens_at DESC')
   }
 
-  pg_search_scope :search_by_name_and_description, :against => {
+  pg_search_scope :search_by_name_and_description, against: {
     :name => 'A', 
     :description => 'B'
   }
@@ -175,7 +175,7 @@ class Swarm < ActiveRecord::Base
 
   def api_keys
     keys = []
-    APIKey.all.where(:swarm_token => self.token).select do |item_data|
+    APIKey.all.where(swarm_token: self.token).select do |item_data|
         keys << item_data.attributes #=> { 'id' => 'abc', 'category' => 'foo', ... }
     end
 

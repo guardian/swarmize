@@ -6,10 +6,10 @@ class SwarmField < ActiveRecord::Base
   before_create :set_code 
 
   def as_json(options={})
-    json_fields = {:field_type => self.field_type,
-         :field_name => self.field_name,
-         :field_name_code => self.field_code,
-         :compulsory => self.compulsory}
+    json_fields = {field_type: self.field_type,
+         field_name: self.field_name,
+         field_name_code: self.field_code,
+         compulsory: self.compulsory}
 
     if description.has_maximum && self.maximum
       json_fields[:maximum] = self.maximum
