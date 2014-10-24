@@ -27,7 +27,7 @@ The swarm was opened immediately, and not given a close time: we'd close it in d
 
 ## Implementation
 
-To input data into the Swarm, Graham wrote a small Scala tool to hit the Twitter streaming search API, looking for all tweets containing '#indyref'. Then, we counted any also hashtagged as #yes or #voteyes as "Yes" tweets, and those tagged #no or #voteno as "No tweets". 
+To input data into the Swarm, Graham wrote [a small Scala tool](https://github.com/tackley/swarmize-indyref) to hit the Twitter streaming search API, looking for all tweets containing '#indyref'. Then, we counted any also hashtagged as #yes or #voteyes as "Yes" tweets, and those tagged #no or #voteno as "No tweets". 
 
 The boolean state of their vote, the full content of the tweet, and the tweet's username were all passed to the Collector API as JSON - and if the tweet was geolocated, we added the latlon, to be stored as a Geolocation field. The Scala tool was the matter of an hour or two's work.
 
