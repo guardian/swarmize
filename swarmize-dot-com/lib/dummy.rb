@@ -40,7 +40,7 @@ class Dummy
   end
 
   def self.destroy_fake_data
-    fake_users = User.where(:is_fake => true)
+    fake_users = User.where(is_fake: true)
     fake_users.each do |u|
       u.swarms.destroy_all
     end
