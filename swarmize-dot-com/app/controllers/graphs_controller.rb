@@ -1,8 +1,8 @@
 class GraphsController < ApplicationController
   before_filter :scope_to_swarm
   before_filter :check_for_user, :only => %w{index new create edit update delete destroy}
-  before_filter :check_user_has_permissions_on_swarm, :only => %w{index new create edit update delete destroy}
-  before_filter :scope_to_graph, :only => %w{edit update delete destroy}
+  before_filter :check_user_has_permissions_on_swarm, only: %w{index new create edit update delete destroy}
+  before_filter :scope_to_graph, only: %w{edit update delete destroy}
 
   def index
     @graphs = @swarm.graphs
@@ -54,7 +54,7 @@ class GraphsController < ApplicationController
       results[hash.keys.first] = hash.values.first
     end
     
-    render :json => results
+    render json: results
   end
 
   def cardinal_count
@@ -63,7 +63,7 @@ class GraphsController < ApplicationController
       results[hash.keys.first] = hash.values.first
     end
 
-    render :json => results
+    render json: results
   end
 
   def count_over_time
@@ -78,7 +78,7 @@ class GraphsController < ApplicationController
        data: data}
     end
 
-    render :json => results
+    render json: results
   end
 
   private
@@ -106,7 +106,7 @@ class GraphsController < ApplicationController
   end
 
   def setup_graphable_fields
-    graphable_fields = @swarm.swarm_fields.where(:field_type => SwarmField.graphable)
+    graphable_fields = @swarm.swarm_fields.where(field_type: SwarmField.graphable)
     if graphable_fields.any?
       @graphable_fields = graphable_fields.map do |f|
         [f.field_name, f.field_code]

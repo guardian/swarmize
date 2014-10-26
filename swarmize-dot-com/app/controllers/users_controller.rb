@@ -1,28 +1,28 @@
 class UsersController < ApplicationController
-  before_filter :check_for_user, :only => %w{show live closed draft}
-  before_filter :check_for_admin, :except => %w{show live closed draft}
-  before_filter :scope_to_user, :except => %w{index new create}
-  before_filter :check_can_see_drafts, :only => :draft
-  before_filter :count_swarms, :only => %w{show draft live closed}
+  before_filter :check_for_user, only: %w{show live closed draft}
+  before_filter :check_for_admin, except: %w{show live closed draft}
+  before_filter :scope_to_user, except: %w{index new create}
+  before_filter :check_can_see_drafts, only: :draft
+  before_filter :count_swarms, only: %w{show draft live closed}
 
   def index
-    @users = User.paginate(:page => params[:page])
+    @users = User.paginate(page: params[:page])
   end
 
   def show
-    @swarms = @user.swarms.paginate(:page => params[:page])
+    @swarms = @user.swarms.paginate(page: params[:page])
   end
 
   def draft
-    @swarms = @user.swarms.draft.paginate(:page => params[:page])
+    @swarms = @user.swarms.draft.paginate(page: params[:page])
   end
 
   def live
-    @swarms = @user.swarms.live.paginate(:page => params[:page])
+    @swarms = @user.swarms.live.paginate(page: params[:page])
   end
   
   def closed
-    @swarms = @user.swarms.closed.paginate(:page => params[:page])
+    @swarms = @user.swarms.closed.paginate(page: params[:page])
   end
 
   def delete

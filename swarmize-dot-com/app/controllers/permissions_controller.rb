@@ -1,8 +1,8 @@
 class PermissionsController < ApplicationController
   before_filter :scope_to_swarm
-  before_filter :check_for_user, :only => :index
-  before_filter :check_user_can_alter_permissions, :except => :index
-  before_filter :scope_to_permission, :only => %w{destroy}
+  before_filter :check_for_user, only: :index
+  before_filter :check_user_can_alter_permissions, except: :index
+  before_filter :scope_to_permission, only: %w{destroy}
 
   def index
     @access_permissions = @swarm.access_permissions 
@@ -22,15 +22,15 @@ class PermissionsController < ApplicationController
     email = EmailValidator.normalize_email(params[:email])
 
     @user = User.find_by email: email
-    ap = AccessPermission.where(:swarm => @swarm, :email => email)
+    ap = AccessPermission.where(swarm: @swarm, email: email)
     if(!ap.empty?)
       flash[:error] = "That user already has permissions on this swarm."
       redirect_to swarm_permissions_path(@swarm) and return
     else
-      @access_permission = AccessPermission.create(:swarm => @swarm,
-                                                   :user => @user,
-                                                   :creator => @current_user,
-                                                   :email => email)
+      @access_permission = AccessPermission.create(swarm: @swarm,
+                                                   user: @user,
+                                                   creator: @current_user,
+                                                   email: email)
       PermissionMailer.permission_email(email, @swarm).deliver
       flash[:success] = "#{email} has been given permission to alter this swarm. They've been sent an email notifying them of this fact!"
       redirect_to swarm_permissions_path(@swarm) and return

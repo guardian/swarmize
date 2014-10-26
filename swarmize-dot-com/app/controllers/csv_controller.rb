@@ -12,7 +12,7 @@ class CsvController < ApplicationController
       results.each do |result|
         csv << tool.result_to_row(result).to_s
       end
-      send_file csv, :filename => "#{@swarm.token}.csv"
+      send_file csv, filename: "#{@swarm.token}.csv"
     end
   end
 

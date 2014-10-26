@@ -12,7 +12,7 @@ class Swarm < ActiveRecord::Base
   has_many :clones, class_name: 'Swarm', foreign_key: 'cloned_from'
 
   has_many :access_permissions
-  has_many :unassigned_access_permissions, -> { where('user_id IS NULL') }, :class_name => 'AccessPermission'
+  has_many :unassigned_access_permissions, -> { where('user_id IS NULL') }, class_name: 'AccessPermission'
   has_many :users, through: :access_permissions
   has_many :owners, -> { where('access_permissions.is_owner' => true) }, through: :access_permissions, source: :user
 
@@ -45,8 +45,8 @@ class Swarm < ActiveRecord::Base
   }
 
   pg_search_scope :search_by_name_and_description, against: {
-    :name => 'A', 
-    :description => 'B'
+    name: 'A', 
+    description: 'B'
   }
 
   def creator
@@ -63,14 +63,14 @@ class Swarm < ActiveRecord::Base
   end
 
   def as_json(options={})
-    {:name => self.name,
-     :description => self.description,
-     :fields => self.swarm_fields,
-     :opens_at => self.opens_at,
-     :closes_at => self.closes_at,
-     :token => self.token,
-     :display_title => self.display_title,
-     :display_description => self.display_description
+    {name: self.name,
+     description: self.description,
+     fields: self.swarm_fields,
+     opens_at: self.opens_at,
+     closes_at: self.closes_at,
+     token: self.token,
+     display_title: self.display_title,
+     display_description: self.display_description
     }
   end
 
@@ -97,10 +97,10 @@ class Swarm < ActiveRecord::Base
 
     new_swarm.save
 
-    AccessPermission.create(:swarm => new_swarm,
-                            :user => user,
-                            :email => user.email,
-                            :is_owner => true)
+    AccessPermission.create(swarm: new_swarm,
+                            user: user,
+                            email: user.email,
+                            is_owner: true)
 
     self.swarm_fields.each do |f|
       new_f = f.dup

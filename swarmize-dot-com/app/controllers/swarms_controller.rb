@@ -1,31 +1,31 @@
 class SwarmsController < ApplicationController
-  before_filter :scope_to_swarm, :except => %w{index draft live closed new create mine embed}
-  before_filter :scope_to_swarm_for_embed, :only => %w{embed}
-  before_filter :check_for_user, :except => %w{embed}
-  before_filter :count_swarms, :only => %w{index draft live closed}
-  before_filter :check_user_can_alter_swarm, :only => %w{edit update fields update_fields preview open close code}
-  before_filter :check_user_can_destroy_swarm, :only => %w{delete destroy}
+  before_filter :scope_to_swarm, except: %w{index draft live closed new create mine embed}
+  before_filter :scope_to_swarm_for_embed, only: %w{embed}
+  before_filter :check_for_user, except: %w{embed}
+  before_filter :count_swarms, only: %w{index draft live closed}
+  before_filter :check_user_can_alter_swarm, only: %w{edit update fields update_fields preview open close code}
+  before_filter :check_user_can_destroy_swarm, only: %w{delete destroy}
 
   respond_to :html, :json
 
   def index
     if @current_user
-      @swarms = Swarm.order("created_at DESC").paginate(:page => params[:page])
+      @swarms = Swarm.order("created_at DESC").paginate(page: params[:page])
     else
-      @swarms = Swarm.order("created_at DESC").publicly_visible.paginate(:page => params[:page])
+      @swarms = Swarm.order("created_at DESC").publicly_visible.paginate(page: params[:page])
     end
   end
 
   def draft
-    @swarms = Swarm.order("created_at DESC").draft.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").draft.paginate(page: params[:page])
   end
 
   def live
-    @swarms = Swarm.order("created_at DESC").live.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").live.paginate(page: params[:page])
   end
   
   def closed
-    @swarms = Swarm.order("created_at DESC").closed.paginate(:page => params[:page])
+    @swarms = Swarm.order("created_at DESC").closed.paginate(page: params[:page])
   end
 
   def mine
@@ -107,7 +107,7 @@ class SwarmsController < ApplicationController
 
   def embed
     response.headers.delete('X-Frame-Options')
-    expires_in 1.minute, :public => true
+    expires_in 1.minute, public: true
     
     render layout: 'embed'
   end
@@ -116,10 +116,10 @@ class SwarmsController < ApplicationController
     swarm = Swarm.new(swarm_params)
     swarm.save
 
-    AccessPermission.create(:swarm => swarm,
-                            :user => @current_user,
-                            :email => @current_user.email,
-                            :is_owner => true)
+    AccessPermission.create(swarm: swarm,
+                            user: @current_user,
+                            email: @current_user.email,
+                            is_owner: true)
 
     redirect_to fields_swarm_path(swarm)
   end
@@ -138,7 +138,7 @@ class SwarmsController < ApplicationController
                                 params['open_day'],
                                 params['open_hour'],
                                 params['open_minute'])
-    @swarm.update(:opens_at => open_time)
+    @swarm.update(opens_at: open_time)
     redirect_to @swarm
   end
 
@@ -150,7 +150,7 @@ class SwarmsController < ApplicationController
                                  params['close_minute'])
 
     begin
-      @swarm.update(:closes_at => close_time)
+      @swarm.update(closes_at: close_time)
     rescue TimeParadoxError
       flash[:error] = "Swarm cannot close before it has opened!"
     end

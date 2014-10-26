@@ -1,7 +1,7 @@
 class OembedController < ApplicationController
   def show
     if params[:format] == 'xml'
-      render :status => 501, :text => 'Format not supported'
+      render :status => 501, text: 'Format not supported'
       return
     end
 

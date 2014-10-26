@@ -46,17 +46,17 @@ class AdminController < ApplicationController
 
   def do_create_dummy_swarms
     5.times do |n|
-      user = User.where(:is_fake => true).order("RANDOM()").first
+      user = User.where(is_fake: true).order("RANDOM()").first
       Dummy.create_dummy_preopen_swarm(user, n)
     end
 
     5.times do |n|
-      user = User.where(:is_fake => true).order("RANDOM()").first
+      user = User.where(is_fake: true).order("RANDOM()").first
       Dummy.create_dummy_live_swarm(user, n)
     end
 
     5.times do |n|
-      user = User.where(:is_fake => true).order("RANDOM()").first
+      user = User.where(is_fake: true).order("RANDOM()").first
       Dummy.create_dummy_closed_swarm(user, n)
     end
   end
