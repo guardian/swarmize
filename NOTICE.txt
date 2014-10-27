@@ -1,0 +1,10 @@
+   Swarmize
+   Copyright 2014 Guardian Media Group
+
+   Swarmize was created by Tom Armitage, Graham Tackley, Sean Clarke and Matt McAlister.
+
+   Swarmize was initially funded by a grant from the Knight News Challenge with support from Guardian Media Group.
+   
+   http://www.swarmize.com/
+
+
