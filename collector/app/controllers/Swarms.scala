@@ -6,10 +6,12 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
+import play.core.parsers.FormUrlEncodedParser
 import swarmize.{Swarm, SwarmSubmissionValidator}
 import swarmize.aws.{AWS, SimpleWorkflowConfig}
 import swarmize.json.SubmittedData
 
+import scala.util.Try
 import scala.util.control.NonFatal
 
 object Swarms extends Controller {
@@ -53,9 +55,10 @@ object Swarms extends Controller {
     JsObject(jsonValues.toSeq)
   }
 
-  def submit(token: String) = Action { request =>
+  def submit(token: String) = Action(parse.tolerantText) { request =>
     Swarm.findByToken(token).map { config =>
-      val json = request.body.asJson orElse request.body.asFormUrlEncoded.map(formFieldsToJson)
+      val json = Try(Json.parse(request.body))
+        .orElse(Try(FormUrlEncodedParser.parse(request.body)).map(formFieldsToJson))
 
       json.map(doSubmitJson(config, _)) getOrElse
         BadRequest("Either submit text/json, application/json or application/x-www-form-urlencoded")
