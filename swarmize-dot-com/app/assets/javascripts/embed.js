@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery.iecors
 //= require underscore-min
 //= require parsley-config
 //= require parsley.min
