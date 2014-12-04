@@ -1,15 +1,28 @@
 .form_group{:id => "group_#{field.field_code}"}
   %label= field.field_name
-  - field.possible_values.each_with_index do |value, index|
-    .radio
-      %label
-        = radio_button_tag field.field_code, value.parameterize.underscore, false, parsley_validations_for_field(field)
-        = value
-  - if field.allow_other
-    .radio
-      %label.other
-        = radio_button_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))
-        Other:
+  - if field.display_as_select
+    %select.form-control{parsley_validations_for_field(field), name: field.field_code, onchange: "if(this.value == 'other') { $(this).siblings('.allow_other').show(); emitHeight(); } else { $(this).siblings('.allow_other').hide(); emitHeight(); }"}
+      %option
+      - field.possible_values.each_with_index do |value, index|
+        %option{value: value.parameterize.underscore}= value
+      - if field.allow_other
+        %option{value: 'other'} Other
+    - if field.allow_other
+      .allow_other{style: 'display: none'}
+        %label Other:
         = text_field_tag "#{field.field_code}_other", nil, {'data-parsley-conditionalother' => field.field_code, 'data-parsley-validate-if-empty' => true, 'data-parsley-trim-value' => true, :class => 'other-inline-input form-control'}
-  .parsley-errors{:id => "errors_#{field.field_code}"}
+    .parsley-errors{:id => "errors_#{field.field_code}"}
+  - else
+    - field.possible_values.each_with_index do |value, index|
+      .radio
+        %label
+          = radio_button_tag field.field_code, value.parameterize.underscore, false, parsley_validations_for_field(field)
+          = value
+    - if field.allow_other
+      .radio
+        %label.other
+          = radio_button_tag field.field_code, 'other', false, {:class => 'other_field'}.merge(parsley_validations_for_field(field))
+          Other:
+          = text_field_tag "#{field.field_code}_other", nil, {'data-parsley-conditionalother' => field.field_code, 'data-parsley-validate-if-empty' => true, 'data-parsley-trim-value' => true, :class => 'other-inline-input form-control'}
+    .parsley-errors{:id => "errors_#{field.field_code}"}
 

@@ -14,7 +14,7 @@ window.ParsleyConfig = {
     },
     conditionalother: {
       fn: function (value, requirement) {
-        var vals = $('input[name="'+requirement+'"]:checked').map(function() {
+        var vals = $('input[name="'+requirement+'"]:checked, select[name="'+requirement+'"] option:selected').map(function() {
           return this.value;
         });
 
