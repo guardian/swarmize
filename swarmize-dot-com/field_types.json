@@ -77,7 +77,7 @@
         "has_possible_values": true,
         "has_custom_display_template": true,
         "has_other_field": true,
-        "display_as_select": true,
+        "can_display_as_select": true,
         "archetype": "token",
         "max_values": 1
     },
