@@ -10,7 +10,7 @@ window.onload = function() {
   var token = embedDiv.dataset.swarmizeToken;
 
   // insert an iFrame containing the embed
-  if(window.location.hostname == 'alpha.swarmize.com') {
+  if((window.location.hostname == 'alpha.swarmize.com') || (window.location.hostname == 'www.swarmize.com')) {
     var origin = window.location.origin;
   } else {
     var origin = 'http://cdn.swarmize.com';
