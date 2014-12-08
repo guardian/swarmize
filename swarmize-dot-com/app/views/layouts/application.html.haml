@@ -3,7 +3,6 @@
   %head
     = csrf_meta_tag
     %meta{:'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
-    %meta{:name => "lang", :content => "en"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
     = favicon_link_tag
     %title 
@@ -12,7 +11,7 @@
       
     = yield :oembed_discovery
     - if Rails.env.production?
-      = stylesheet_link_tag "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+      = stylesheet_link_tag "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
     - else
       = stylesheet_link_tag "bootstrap.min"
       = stylesheet_link_tag "bootstrap-theme.min"
