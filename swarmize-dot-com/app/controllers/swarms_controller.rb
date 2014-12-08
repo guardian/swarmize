@@ -76,8 +76,24 @@ class SwarmsController < ApplicationController
   end
 
   def update_fields
+    # because of the dance we've done
+    # around rails' standard form elements
+    # to make it possible to have many pairs of
+    # display_as_select boxes
+    # we now need to make the has look like rails expects.
+    manipulated_fields = params[:fields].map do |field|
+      if field.keys.detect {|f| f =~ /display_as_select/}
+        das_key = field.keys.detect {|f| f =~ /display_as_select/}
+        field["display_as_select"] = field[das_key]
+        field.delete(das_key)
+        field
+      else
+        field
+      end
+    end
+
     if @swarm.has_opened?
-      params[:fields].each do |f|
+      manipulated_fields.each do |f|
         if f[:id]
           field = @swarm.swarm_fields.find(f[:id])
           field.update(f)
@@ -86,7 +102,7 @@ class SwarmsController < ApplicationController
     else
       @swarm.swarm_fields.destroy_all
 
-      params[:fields].each do |f|
+      manipulated_fields.each do |f|
         f['id'] = nil # unset any previously set id
         @swarm.swarm_fields.create(f)
       end

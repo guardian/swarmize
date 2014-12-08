@@ -138,7 +138,7 @@ var FieldWorkspace = {
 
   reindexFormElements: function() {
     $("#workspace .form-element").each(function(i, el) {
-      $(el).find("input#index").val(i);
+      $(el).find("input.field_index").val(i);
     });
   },
 
