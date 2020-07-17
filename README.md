@@ -1,3 +1,6 @@
+THIS PROJECT IS NOW DEPRECATED
+
+
 # Swarmize
 
 Swarmize is a stack of tools to make crowd-powered number-gathering a lot easier.
